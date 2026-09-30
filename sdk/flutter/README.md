@@ -69,8 +69,7 @@ See [Project configuration](../../getting-started/configuration.md).
 
 ## API key / DSN / environment variables
 
-> [!WARNING]
-> Never commit `tal_live_` keys.
+`tal_live_…` keys are **public client ingest credentials**. Pass them with `--dart-define` (or your flavor config):
 
 ```bash
 flutter run \

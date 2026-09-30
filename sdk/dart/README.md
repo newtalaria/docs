@@ -44,8 +44,7 @@ Init: DSN, API key, environment, release, minLevel. Tracing/analytics: [Project 
 
 ## API key / DSN / environment variables
 
-> [!WARNING]
-> Never commit `tal_live_` keys. Prefer `--dart-define=TALARIA_API_KEY=…`.
+`tal_live_…` keys are **public client ingest credentials**. Prefer `--dart-define=TALARIA_API_KEY=…` for local runs and CI.
 
 ## Optional features
 

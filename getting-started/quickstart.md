@@ -16,7 +16,7 @@ tags: [getting-started, quickstart]
 1. Sign in to the [dashboard](https://one.newtalaria.com).
 2. Create an organization (if needed) and a **project**.
 3. Open the project → **API keys** → create a key with ingest scopes (default includes events and spans).
-4. Copy the raw `tal_live_…` value **once**. Store it in a secret store or local env — never commit it.
+4. Copy the raw `tal_live_…` value **once** (shown only at creation). It is a **public client ingest credential** — pass it via env / `--dart-define` / `.env` as you prefer.
 
 ## Pick an SDK
 
@@ -30,7 +30,7 @@ Use the cloud ingest URL as `dsn` unless you self-host:
 https://ingest.newtalaria.com
 ```
 
-Pass the API key from environment / `--dart-define` / `.env` — never hardcode.
+Pass the API key from environment / `--dart-define` / `.env`, or embed it in the client — `tal_live_…` keys are designed to be public.
 
 ## Enable optional features
 

@@ -17,7 +17,7 @@ Then:
 1. Detect the stack from the local repo (`pubspec.yaml`, `package.json`, `composer.json`).
 2. `docs_search` with an `sdk` filter (for example `flutter`) and query `install` or `init`.
 3. `docs_get` the stack hub and configuration page.
-4. Wire DSN + API key from env / dart-define — never commit `tal_live_` keys.
+4. Wire DSN + API key (`tal_live_…` keys are public client ingest credentials — env / dart-define are fine).
 5. Tell the human which **Project settings** to enable (or use MCP `get_project` / `update_project_settings` when authorized).
 6. Verify with `search_events` / `get_project_stats` / `search_errors`.
 

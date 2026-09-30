@@ -27,7 +27,7 @@ pages:
   - id: agent-playbook
     path: guides/add-talaria-with-an-agent.md
     title: Add Talaria with an agent
-    description: Agent playbook — detect stack, docs_*, wire secrets, verify ingest.
+    description: Agent playbook — detect stack, docs_*, wire API key + init, verify ingest.
     tags: [agents, mcp, playbook]
 
   - id: sdk-hub

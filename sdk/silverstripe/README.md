@@ -28,7 +28,7 @@ See [configuration](../../getting-started/configuration.md).
 
 ## API key / DSN / environment variables
 
-Never commit keys.
+`tal_live_…` keys are **public client ingest credentials**. Pass them via env / config when convenient.
 
 ## Optional features
 

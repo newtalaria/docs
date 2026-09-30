@@ -38,8 +38,7 @@ Init holds DSN, API key, environment, release. Tracing, analytics, heatmaps, and
 
 ## API key / DSN / environment variables
 
-> [!WARNING]
-> Never commit `tal_live_` keys. Use `.env` / CI secrets as `TALARIA_API_KEY`.
+`tal_live_…` keys are **public client ingest credentials** (safe in browser and mobile apps). Pass them via `.env` / build config as `TALARIA_API_KEY` when convenient.
 
 ## Optional features
 

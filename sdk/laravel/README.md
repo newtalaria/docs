@@ -28,7 +28,7 @@ See [configuration](../../getting-started/configuration.md).
 
 ## API key / DSN / environment variables
 
-Never commit keys. Use `.env`.
+`tal_live_…` keys are **public client ingest credentials**. Pass them via `.env` as `TALARIA_API_KEY` when convenient.
 
 ## Optional features
 

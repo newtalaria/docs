@@ -33,7 +33,7 @@ DSN/API key in init; tracing sample rates in Project settings.
 
 ## API key / DSN / environment variables
 
-Use env / dart-define for `TALARIA_API_KEY`. Never commit keys.
+`tal_live_…` keys are **public client ingest credentials**. Pass them via env / `--dart-define` as `TALARIA_API_KEY`.
 
 ## Optional features
 

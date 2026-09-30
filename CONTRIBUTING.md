@@ -23,7 +23,7 @@ SDK install / overview pages must include these headings (agents skim them):
 2. Package name + install command
 3. Initialization (copy-pasteable)
 4. What belongs in **app init** vs **Project settings**
-5. API key / DSN / environment variables — never commit secrets
+5. API key / DSN / environment variables (`tal_live_…` keys are public client ingest credentials)
 6. Optional features (tracing, analytics, heatmaps, replay) and stack limits
 7. Verification steps (run app → expect issue / event; dashboard + MCP checks)
 8. Troubleshooting / common mistakes
@@ -37,8 +37,8 @@ Use GitHub admonitions:
 > [!NOTE]
 > Helpful context.
 
-> [!WARNING]
-> Never commit `tal_live_` ingest keys.
+> [!NOTE]
+> `tal_live_…` keys are public client ingest credentials (browser/mobile safe).
 ```
 
 ## Links

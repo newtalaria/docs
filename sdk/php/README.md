@@ -38,8 +38,7 @@ Init: DSN, API key, environment, release. Tracing via Project settings / `getCon
 
 ## API key / DSN / environment variables
 
-> [!WARNING]
-> Never commit `tal_live_` keys.
+`tal_live_…` keys are **public client ingest credentials**. Pass them via environment variables when convenient.
 
 ## Optional features
 

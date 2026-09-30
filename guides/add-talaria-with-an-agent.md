@@ -1,6 +1,6 @@
 ---
 title: Add Talaria with an agent
-description: Agent playbook — detect stack, use docs_*, wire secrets safely, enable settings, verify ingest.
+description: Agent playbook — detect stack, use docs_*, wire API key + init, enable settings, verify ingest.
 tags: [agents, mcp, playbook]
 ---
 
@@ -37,14 +37,14 @@ Use IDE tools. Detect stack from:
 - Copy initialization from the docs (env / dart-define for the key).
 - Add framework hooks (Flutter navigator observer, middleware, etc.) from the docs.
 
-> [!WARNING]
-> Never invent or commit ingest secrets. Never paste `tal_live_…` into source control.
+> [!NOTE]
+> Never invent API keys. Use the dashboard or `create_api_key`. `tal_live_…` keys are **public client ingest credentials**.
 
 ## 4. Project and API key
 
 1. `get_projects` (requires MCP auth) — pick or ask which project.
 2. Prefer: human creates a key in the dashboard and pastes into local env.
-3. If the grant has `mcp:keys`, `create_api_key` returns the raw key **once**. Put it in env / CI secrets only.
+3. If the grant has `mcp:keys`, `create_api_key` returns the raw key **once**. Put it where the app reads config (env / dart-define / `.env`).
 
 ## 5. App init vs Project settings
 
