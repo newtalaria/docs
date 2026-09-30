@@ -2,8 +2,8 @@
 title: Browser SDK
 description: Install @newtalaria/browser and capture errors with Talaria.
 sdk: javascript
-package: @newtalaria/browser
-tags: [javascript, javascript, install]
+package: "@newtalaria/browser
+"tags: [javascript, javascript, install]
 ---
 
 # Browser SDK
