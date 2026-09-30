@@ -1,0 +1,107 @@
+revision: "0.1.0"
+pages:
+  - id: hub
+    path: README.md
+    title: Talaria docs
+    description: Canonical Markdown docs for humans and coding agents.
+    tags: [hub, agents]
+
+  - id: getting-started
+    path: getting-started/README.md
+    title: Getting started
+    description: Quickstart and project configuration.
+    tags: [getting-started]
+
+  - id: quickstart
+    path: getting-started/quickstart.md
+    title: Quickstart
+    description: Create an account, project, and API key — send your first event.
+    tags: [getting-started, quickstart]
+
+  - id: configuration
+    path: getting-started/configuration.md
+    title: Project configuration
+    description: App init vs Project settings — how SDKs load tracing, analytics, heatmaps, and replay.
+    tags: [configuration, getConfig, remote-config]
+
+  - id: agent-playbook
+    path: guides/add-talaria-with-an-agent.md
+    title: Add Talaria with an agent
+    description: Agent playbook — detect stack, docs_*, wire secrets, verify ingest.
+    tags: [agents, mcp, playbook]
+
+  - id: sdk-hub
+    path: sdk/README.md
+    title: SDKs
+    description: Stack picker for official Talaria SDKs.
+    tags: [sdk]
+
+  - id: flutter
+    path: sdk/flutter/README.md
+    title: Flutter SDK
+    description: Install talaria_flutter, bootstrap with runZonedApp, capture errors and routes.
+    sdk: flutter
+    package: talaria_flutter
+    tags: [flutter, dart, install, errors]
+
+  - id: flutter-errors
+    path: sdk/flutter/errors.md
+    title: Flutter error hooks
+    description: FlutterError, platform, zone, and ErrorWidget capture.
+    sdk: flutter
+    package: talaria_flutter
+    tags: [flutter, errors]
+
+  - id: flutter-navigation
+    path: sdk/flutter/navigation.md
+    title: Navigation and screens
+    description: TalariaNavigatorObserver, setScreen, and short screen transactions.
+    sdk: flutter
+    package: talaria_flutter
+    tags: [flutter, navigation, tracing]
+
+  - id: flutter-tracing
+    path: sdk/flutter/tracing.md
+    title: Flutter tracing
+    description: HTTP wrapping, flavors, and Serverpod trace continuity.
+    sdk: flutter
+    package: talaria_flutter
+    tags: [flutter, tracing, http]
+
+  - id: flutter-troubleshooting
+    path: sdk/flutter/troubleshooting.md
+    title: Flutter troubleshooting
+    description: Common Flutter integration mistakes and how to verify.
+    sdk: flutter
+    package: talaria_flutter
+    tags: [flutter, troubleshooting]
+
+  - id: mcp
+    path: mcp/README.md
+    title: MCP
+    description: Hosted Talaria MCP — docs tools, investigation, and integration scopes.
+    tags: [mcp, agents]
+
+  - id: mcp-cursor
+    path: mcp/cursor.md
+    title: Cursor
+    description: Add the Talaria MCP server in Cursor and use it for install and production investigation.
+    tags: [mcp, cursor]
+
+  - id: analytics-setup
+    path: analytics/setup.md
+    title: Product analytics setup
+    description: Enable analytics, then send track, page, screen, and identify events.
+    tags: [analytics]
+
+  - id: api-overview
+    path: api/overview.md
+    title: API overview
+    description: Ingest auth, event shape, environments and releases.
+    tags: [api, ingest]
+
+  - id: migration
+    path: migration/README.md
+    title: Migration
+    description: Guides when APIs or SDK majors break.
+    tags: [migration]
