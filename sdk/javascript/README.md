@@ -6,7 +6,7 @@ package: "@newtalaria/browser"
 tags: [javascript, install]
 ---
 
-# Browser SDK
+# JavaScript SDK
 
 ## Prerequisites / supported versions
 
