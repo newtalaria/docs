@@ -2,8 +2,8 @@
 title: React SDK
 description: Install @newtalaria/react and capture errors with Talaria.
 sdk: react
-package: "@newtalaria/react
-"tags: [react, javascript, install]
+package: "@newtalaria/react"
+tags: [react, javascript, install]
 ---
 
 # React SDK

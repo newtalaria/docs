@@ -2,8 +2,8 @@
 title: Next.js SDK
 description: Install @newtalaria/nextjs and capture errors with Talaria.
 sdk: nextjs
-package: "@newtalaria/nextjs
-"tags: [nextjs, javascript, install]
+package: "@newtalaria/nextjs"
+tags: [nextjs, javascript, install]
 ---
 
 # Next.js SDK

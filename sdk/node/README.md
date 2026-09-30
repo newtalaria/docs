@@ -2,8 +2,8 @@
 title: Node.js SDK
 description: Install @newtalaria/node and capture errors with Talaria.
 sdk: node
-package: "@newtalaria/node
-"tags: [node, javascript, install]
+package: "@newtalaria/node"
+tags: [node, javascript, install]
 ---
 
 # Node.js SDK
