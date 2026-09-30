@@ -14,16 +14,16 @@ Use IDE tools. Detect stack from:
 
 | Signal | Likely SDK |
 | ------ | ---------- |
-| `pubspec.yaml` + Flutter SDK | `talaria_flutter` → [sdk/flutter](../sdk/flutter/README.md) |
-| `pubspec.yaml` Dart only | `talaria` → Dart docs under `/docs/sdk/dart` (migrate into this repo next) |
-| `serverpod.yaml` / Relic | `talaria_serverpod` |
-| `package.json` + Next | `@newtalaria/nextjs` |
-| `package.json` + React | `@newtalaria/react` |
-| Node service | `@newtalaria/node` |
-| Browser only | `@newtalaria/browser` |
-| `composer.json` + Laravel | `talaria/laravel` |
-| `composer.json` + Silverstripe | `talaria/silverstripe` |
-| PHP | `talaria/talaria` |
+| Flutter | `talaria_flutter` → [sdk/flutter](../sdk/flutter/README.md) |
+| Dart | `talaria` → [sdk/dart](../sdk/dart/README.md) |
+| Serverpod | `talaria_serverpod` → [sdk/serverpod](../sdk/serverpod/README.md) |
+| Next.js | `@newtalaria/nextjs` → [sdk/nextjs](../sdk/nextjs/README.md) |
+| React | `@newtalaria/react` → [sdk/react](../sdk/react/README.md) |
+| Node | `@newtalaria/node` → [sdk/node](../sdk/node/README.md) |
+| Browser | `@newtalaria/browser` → [sdk/javascript](../sdk/javascript/README.md) |
+| Laravel | `talaria/laravel` → [sdk/laravel](../sdk/laravel/README.md) |
+| Silverstripe | `talaria/silverstripe` → [sdk/silverstripe](../sdk/silverstripe/README.md) |
+| PHP | `talaria/talaria` → [sdk/php](../sdk/php/README.md) |
 
 ## 2. Load canonical docs
 
