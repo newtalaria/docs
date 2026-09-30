@@ -1,4 +1,4 @@
-revision: "0.1.0"
+revision: "0.2.0"
 pages:
   - id: hub
     path: README.md
@@ -75,6 +75,78 @@ pages:
     sdk: flutter
     package: talaria_flutter
     tags: [flutter, troubleshooting]
+
+  - id: dart
+    path: sdk/dart/README.md
+    title: Dart SDK
+    description: Install talaria — exceptions, scoped logging, breadcrumbs, and optional APM spans.
+    sdk: dart
+    package: talaria
+    tags: [dart, install]
+
+  - id: serverpod
+    path: sdk/serverpod/README.md
+    title: Serverpod SDK
+    description: Wire talaria_serverpod — Relic SERVER spans, Postgres CLIENT spans, FutureCall CONSUMER roots.
+    sdk: serverpod
+    package: talaria_serverpod
+    tags: [serverpod, dart, install]
+
+  - id: javascript
+    path: sdk/javascript/README.md
+    title: JavaScript SDK
+    description: Install @newtalaria/browser and capture errors with Talaria.
+    sdk: javascript
+    package: "@newtalaria/browser"
+    tags: [javascript, install]
+
+  - id: react
+    path: sdk/react/README.md
+    title: React SDK
+    description: Install @newtalaria/react and capture errors with Talaria.
+    sdk: react
+    package: "@newtalaria/react"
+    tags: [react, javascript, install]
+
+  - id: nextjs
+    path: sdk/nextjs/README.md
+    title: Next.js SDK
+    description: Install @newtalaria/nextjs and capture errors with Talaria.
+    sdk: nextjs
+    package: "@newtalaria/nextjs"
+    tags: [nextjs, javascript, install]
+
+  - id: node
+    path: sdk/node/README.md
+    title: Node.js SDK
+    description: Install @newtalaria/node and capture errors with Talaria.
+    sdk: node
+    package: "@newtalaria/node"
+    tags: [node, javascript, install]
+
+  - id: php
+    path: sdk/php/README.md
+    title: PHP SDK
+    description: Install talaria/talaria — initialize with a project API key and capture exceptions.
+    sdk: php
+    package: talaria/talaria
+    tags: [php, install]
+
+  - id: laravel
+    path: sdk/laravel/README.md
+    title: Laravel SDK
+    description: Install talaria/laravel — Laravel integration for Talaria ingest.
+    sdk: laravel
+    package: talaria/laravel
+    tags: [laravel, php, install]
+
+  - id: silverstripe
+    path: sdk/silverstripe/README.md
+    title: Silverstripe SDK
+    description: Install talaria/silverstripe — Silverstripe CMS integration for Talaria.
+    sdk: silverstripe
+    package: talaria/silverstripe
+    tags: [silverstripe, php, install]
 
   - id: mcp
     path: mcp/README.md

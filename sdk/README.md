@@ -11,14 +11,14 @@ Official guides for install, configure, and capture.
 | Stack | Package | Hub |
 | ----- | ------- | --- |
 | Flutter | `talaria_flutter` | [sdk/flutter](flutter/README.md) |
-| Dart | `talaria` | Site `/docs/sdk/dart` (Markdown migration in progress) |
-| Serverpod | `talaria_serverpod` | Site `/docs/sdk/serverpod` |
-| JavaScript | `@newtalaria/browser` | Site `/docs/sdk/javascript` |
-| React | `@newtalaria/react` | Site `/docs/sdk/react` |
-| Next.js | `@newtalaria/nextjs` | Site `/docs/sdk/nextjs` |
-| Node.js | `@newtalaria/node` | Site `/docs/sdk/node` |
-| PHP | `talaria/talaria` | Site `/docs/sdk/php` |
-| Laravel | `talaria/laravel` | Site `/docs/sdk/laravel` |
-| Silverstripe | `talaria/silverstripe` | Site `/docs/sdk/silverstripe` |
+| Dart | `talaria` | [sdk/dart](dart/README.md) |
+| Serverpod | `talaria_serverpod` | [sdk/serverpod](serverpod/README.md) |
+| JavaScript | `@newtalaria/browser` | [sdk/javascript](javascript/README.md) |
+| React | `@newtalaria/react` | [sdk/react](react/README.md) |
+| Next.js | `@newtalaria/nextjs` | [sdk/nextjs](nextjs/README.md) |
+| Node.js | `@newtalaria/node` | [sdk/node](node/README.md) |
+| PHP | `talaria/talaria` | [sdk/php](php/README.md) |
+| Laravel | `talaria/laravel` | [sdk/laravel](laravel/README.md) |
+| Silverstripe | `talaria/silverstripe` | [sdk/silverstripe](silverstripe/README.md) |
 
-Agents: filter `docs_search` / `docs_list` with `sdk: flutter` (and other sdk values as pages land here).
+Agents: filter `docs_search` / `docs_list` with an `sdk` value matching the table.
