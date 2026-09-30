@@ -22,7 +22,7 @@ Session replay and Web Vitals are browser-SDK features — Flutter does not reco
 
 ```yaml
 dependencies:
-  talaria_flutter: ^0.1.3
+  talaria_flutter: ^0.2.5
 ```
 
 Then `flutter pub get`.
@@ -54,6 +54,19 @@ Future<void> main() async {
 
 Pass `TalariaNavigatorObserver` on `MaterialApp` / `CupertinoApp` either way. Map flavors and `--dart-define` into `environment` and `release`.
 
+## Verify ingest
+
+Agents should prefer MCP `send_test_event` after `setup_project`. From the app, use an **error-level** capture so Issues and `search_errors` see it (`minLevel: warning` drops default info messages):
+
+```dart
+await Talaria.captureException(
+  Exception('talaria hello'),
+  stackTrace: StackTrace.current,
+);
+await Talaria.flush();
+```
+
+Or `Talaria.captureMessage('talaria hello', level: SeverityLevel.error)`.
 ## App init vs Project settings
 
 | App init (`TalariaOptions`) | Project settings (remote config) |

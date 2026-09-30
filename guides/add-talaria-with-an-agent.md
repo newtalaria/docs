@@ -1,6 +1,6 @@
 ---
 title: Add Talaria with an agent
-description: Agent playbook — detect stack, use docs_*, wire API key + init, enable settings, verify ingest.
+description: Agent playbook — identity first, confirm before create, bootstrap key + first event, verify ingest.
 tags: [agents, mcp, playbook]
 ---
 
@@ -8,9 +8,12 @@ tags: [agents, mcp, playbook]
 
 Design centre: a developer connects Talaria MCP and says **“Add Talaria to this project.”** You combine local project context + these docs + live Talaria tools.
 
-## 1. Inspect the local project
+## Conversation script (follow in order)
 
-Use IDE tools. Detect stack from:
+### 1. Load this playbook and detect the stack
+
+1. `docs_get` path `guides/add-talaria-with-an-agent` (public).
+2. Inspect the local repo with IDE tools. Map the stack:
 
 | Signal | Likely SDK |
 | ------ | ---------- |
@@ -25,28 +28,42 @@ Use IDE tools. Detect stack from:
 | Silverstripe | `talaria/silverstripe` → [sdk/silverstripe](../sdk/silverstripe/README.md) |
 | PHP | `talaria/talaria` → [sdk/php](../sdk/php/README.md) |
 
-## 2. Load canonical docs
+3. `docs_search` with `sdk` filter and query `install` / `init` / `bootstrap`, then `docs_get` the stack README and [configuration](../getting-started/configuration.md).
 
-1. `docs_search` with `sdk` filter and query `install` / `init` / `bootstrap`.
-2. `docs_get` the stack README and [configuration](../getting-started/configuration.md).
-3. Prefer this playbook (`guides/add-talaria-with-an-agent`) when the user asks to integrate.
+### 2. Authenticate and announce identity
 
-## 3. Edit the application
+1. If org tools fail with Unauthorized, run MCP auth / reconnect with install scopes (`mcp:read mcp:write mcp:keys`).
+2. Call **`get_connection`** immediately after auth.
+3. **Announce to the user** (mandatory, before any mutate):
 
-- Add the package dependency and run the package manager.
-- Copy initialization from the docs (env / dart-define for the key).
-- Add framework hooks (Flutter navigator observer, middleware, etc.) from the docs.
+> You’re connected as **{name}** (`{email}`) under organization **{orgName}**.  
+> This connection can {install capabilities}.  
+> You also belong to {otherOrganizations}. Wrong org? Say which to switch to. Wrong account? Disconnect Talaria MCP and sign in as the other user.
 
-> [!NOTE]
-> Never invent API keys. Use the dashboard or `create_api_key`. `tal_live_…` keys are **public client ingest credentials**.
+4. Wrong org → **`switch_organization`** with that `organizationId` → call `get_connection` again → re-announce.
+5. Wrong account → stop mutating; tell them to reconnect MCP as the other Talaria user.
 
-## 4. Project and API key
+### 3. Ask before creating
 
-1. `get_projects` (requires MCP auth) — pick or ask which project.
-2. Prefer: human creates a key in the dashboard and pastes into local env.
-3. If the grant has `mcp:keys`, `create_api_key` returns the raw key **once**. Put it where the app reads config (env / dart-define / `.env`).
+1. Suggest a project name from the local app (e.g. package name / folder).
+2. List existing projects from `get_connection.projects` or `get_projects`.
+3. **Ask** (never auto-create):
 
-## 5. App init vs Project settings
+> Create a new Talaria project named **{suggested}** in **{orgName}**, wire the SDK, mint an ingest key, and send a first test event?  
+> Or reuse an existing project?
+
+### 4. Bootstrap only after yes
+
+1. On yes / reuse → **`setup_project`** with `confirmed: true` and either `name` or `projectId`. Prefer this over separate `create_project` + `create_api_key`.
+2. Put the one-time `apiKey` only in env / `--dart-define` / ignored local config. Never commit `tal_live_…`. Do not echo the key later.
+3. Edit the app from the SDK docs (dependency, init, framework hooks).
+4. Call **`send_test_event`** on the real `projectId`.
+5. Verify with `search_events` / `search_errors` / `get_project_stats`.
+6. Close with the `dashboardUrl` and how to run the app with the key.
+
+Do **not** claim “Talaria is wired” until step 5 returns the test event.
+
+## App init vs Project settings
 
 | In app init | In Project settings (remote `getConfig`) |
 | ----------- | ---------------------------------------- |
@@ -55,16 +72,11 @@ Use IDE tools. Detect stack from:
 | environment / release | Heatmaps on/off |
 | minLevel, beforeSend, tags | Session replay on/off + rates |
 
-Until remote config arrives, SDKs send **errors only**. Use `get_project` to read safe settings; `update_project_settings` (scope `mcp:write`) to enable features — and respect consent for analytics/heatmaps/replay.
+`setup_project` enables tracing by default. Leave analytics / heatmaps / replay alone unless the user opts in with consent guidance.
 
-## 6. Verify
+Until remote config arrives, SDKs send **errors only**. Flutter does not support browser session replay.
 
-1. Run the app / analyse / tests.
-2. Trigger a known error or event.
-3. MCP: `search_events`, `search_errors`, or `get_project_stats` on the real `projectId`.
-4. Explain what changed and which settings remain human/consent decisions.
-
-## 7. Production loop (after install)
+## Production loop (after install)
 
 1. `search_errors` → `get_error` → optional `get_trace` / `search_sessions`.
 2. Fix code locally.
@@ -75,5 +87,7 @@ Until remote config arrives, SDKs send **errors only**. Use `get_project` to rea
 
 - Creating billing orgs / paying plans
 - Committing ingest keys
+- Creating projects or minting keys without announcing identity and asking first
 - Enabling replay/analytics without consent guidance
 - Claiming features the stack does not support (e.g. browser session replay on Flutter)
+- Switching Talaria **accounts** via tools (reconnect MCP instead)
