@@ -166,6 +166,12 @@ pages:
     description: Enable analytics, then send track, page, screen, and identify events.
     tags: [analytics]
 
+  - id: analytics-consent
+    path: analytics/consent.md
+    title: Cookie banners
+    description: How the browser SDK follows CookieYes, Cookiebot, and Google Consent Mode.
+    tags: [analytics, consent, javascript]
+
   - id: api-overview
     path: api/overview.md
     title: API overview

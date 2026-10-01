@@ -77,9 +77,11 @@ Test, staging, and production use the plan meters, including pay-as-you-go. Deve
 
 ## Consent
 
-Analytics and heatmaps in Project settings allow the product to collect them. **Visitor consent is separate.** Call `analytics.optIn()` after the visitor agrees, and `analytics.optOut()` to stop. A public page can set `publicAnalytics: true` so the browser opts in when the project allows analytics.
+Analytics and heatmaps in Project settings allow the product to collect them. **Visitor consent is separate.** The browser SDK follows CookieYes, Cookiebot, and Google Consent Mode `analytics_storage` without extra code. That choice also holds or starts session replay. Error capture does not wait.
 
-See [Product analytics setup](../analytics/setup.md).
+For any other banner, call `analytics.optIn()` after the visitor agrees, and `analytics.optOut()` to stop. A page with no banner can set `publicAnalytics: true` so the browser opts in when the project allows analytics. Leave that unset when a banner Talaria reads is on the page.
+
+See [Cookie banners](../analytics/consent.md) and [Product analytics setup](../analytics/setup.md).
 
 ## Related
 
