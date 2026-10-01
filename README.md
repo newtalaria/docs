@@ -6,7 +6,7 @@ tags: [hub, agents]
 
 # Talaria docs
 
-Canonical integration knowledge for Talaria. Humans read this on [newtalaria.com/next-docs](https://newtalaria.com/next-docs). Coding agents read the same pages via MCP `docs_list`, `docs_search`, and `docs_get`.
+Canonical integration knowledge for Talaria. Humans read this on [www.newtalaria.com/docs](https://www.newtalaria.com/docs). Coding agents read the same pages via MCP `docs_list`, `docs_search`, and `docs_get`.
 
 ## For agents
 
