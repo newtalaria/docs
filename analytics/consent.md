@@ -34,6 +34,8 @@ If the page has no banner Talaria recognizes, analytics stays off until `analyti
 
 Leave `publicAnalytics` unset when a banner is in charge. A detected banner that has not granted analytics keeps analytics, heatmaps, and replay off for that page.
 
+The SDK does not detect the visitor's country, and it does not use locale, timezone, or a geolocation call to start analytics. Country and region on an analytics event are added on the server from the request IP after that event is allowed through. The IP is not stored. An application that already knows the country, and has decided that visit does not need a banner, calls `analytics.optIn()` itself. `publicAnalytics: true` is the switch for a whole surface that does not use a banner.
+
 Talaria does not store a second consent cookie. The banner remains the source of truth. `optIn()` still lasts only for the current page; a banner Talaria reads will apply its stored choice again on the next load.
 
 ## Banners Talaria reads
