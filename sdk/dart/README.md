@@ -18,7 +18,7 @@ Use `talaria` for CLI tools, VM services, and shared Dart libraries. Flutter app
 
 ```yaml
 dependencies:
-  talaria: ^0.2.3
+  talaria: ^0.3.7
 ```
 
 Then `dart pub get`.
@@ -32,7 +32,7 @@ Future<void> main() async {
   await Talaria.init(TalariaOptions(
     dsn: 'https://ingest.newtalaria.com',
     apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
-    environment: 'development',
+    release: const String.fromEnvironment('APP_RELEASE'),
     minLevel: SeverityLevel.warning,
   ));
 }
@@ -40,11 +40,11 @@ Future<void> main() async {
 
 ## App init vs Project settings
 
-Init: DSN, API key, environment, release, minLevel. Tracing/analytics: [Project configuration](../../getting-started/configuration.md). Dart always fetches remote config.
+Init: DSN, API key, release, minLevel. The API key decides the environment. Tracing/analytics: [Project configuration](../../getting-started/configuration.md). Dart always fetches remote config.
 
 ## API key / DSN / environment variables
 
-`tal_live_…` keys are **public client ingest credentials**. Prefer `--dart-define=TALARIA_API_KEY=…` for local runs and CI.
+`tal_live_…` keys are **public client ingest credentials**. The key decides the environment. Each key is bound to development, test, staging, or production, and the prefix stays `tal_live_`. The server stamps that value on ingest. A deployed app that should report production uses a production key. Local install uses a development key. Prefer `--dart-define=TALARIA_API_KEY=…` for local runs and CI, and send `release` as a version or SHA.
 
 ## Optional features
 

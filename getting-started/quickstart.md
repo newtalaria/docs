@@ -15,8 +15,8 @@ tags: [getting-started, quickstart]
 
 1. Sign in to the [dashboard](https://one.newtalaria.com).
 2. Create an organization (if needed) and a **project**.
-3. Open the project → **API keys** → create a key with ingest scopes (default includes events and spans).
-4. Copy the raw `tal_live_…` value **once** (shown only at creation). It is a **public client ingest credential** — pass it via env / `--dart-define` / `.env` as you prefer.
+3. Open the project → **API keys** → create a key with ingest scopes (default includes events and spans). Each key is bound to one environment: development, test, staging, or production. The prefix stays `tal_live_`. Existing keys default to development. A deployed app that should report production needs a production key. MCP `setup_project` uses a development key. Production shipping is a second key.
+4. Copy the raw `tal_live_…` value **once** (shown only at creation). It is a **public client ingest credential** — pass it via env / `--dart-define` / `.env` as you prefer. The key decides the environment. SDKs do not send it.
 
 ## Pick an SDK
 
@@ -39,7 +39,7 @@ Tracing, analytics, heatmaps, and session replay are controlled in **Project set
 ## Verify
 
 1. Trigger an error or send a test event from the app.
-2. Open **Issues** in the dashboard, or use MCP `search_errors` / `search_events` / `get_project_stats`.
+2. Open **Issues** in the dashboard on the key's environment, or use MCP `search_errors` / `search_events` / `get_project_stats`. After a local install, pass `environment: development`.
 
 ## Related
 

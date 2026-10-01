@@ -54,12 +54,12 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 
 ### 4. Bootstrap only after yes
 
-1. On yes / reuse → **`setup_project`** with `confirmed: true` and either `name` or `projectId`. Prefer this over separate `create_project` + `create_api_key`.
-2. Put the one-time `apiKey` only in env / `--dart-define` / ignored local config. Never commit `tal_live_…`. Do not echo the key later.
-3. Edit the app from the SDK docs (dependency, init, framework hooks).
+1. On yes / reuse → **`setup_project`** with `confirmed: true` and either `name` or `projectId`. Prefer this over separate `create_project` + `create_api_key`. This mints a **development** key. Production shipping is a second key, created when someone is actually shipping.
+2. Put the one-time `apiKey` only in env / `--dart-define` / ignored local config. Never commit `tal_live_…`. Do not echo the key later. The key decides the environment. Do not pass `environment` in SDK init.
+3. Edit the app from the SDK docs (dependency, init, framework hooks). Local runs still send a version or SHA as `release`.
 4. Call **`send_test_event`** on the real `projectId`.
-5. Verify with `search_events` / `search_errors` / `get_project_stats`.
-6. Close with the `dashboardUrl` and how to run the app with the key.
+5. Verify with `search_events` / `search_errors`, passing `environment: development`. A just-installed project has no production key, and these tools default to development in that case; pass `development` anyway so a later production key does not hide the local traffic. Install success is `search_errors` or `search_events` on development. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
+6. Close with the `dashboardUrl` and how to run the app with the key. The dashboard shell reads one environment at a time and defaults to production when a production key exists, otherwise development. Switch to Development to see this install.
 
 Do **not** claim “Talaria is wired” until step 5 returns the test event.
 
@@ -68,8 +68,8 @@ Do **not** claim “Talaria is wired” until step 5 returns the test event.
 | In app init | In Project settings (remote `getConfig`) |
 | ----------- | ---------------------------------------- |
 | DSN / base URL | Tracing on/off + sample rate |
-| API key | Analytics on/off |
-| environment / release | Heatmaps on/off |
+| API key (this chooses the environment) | Analytics on/off |
+| release (version or SHA) | Heatmaps on/off |
 | minLevel, beforeSend, tags | Session replay on/off + rates |
 
 `setup_project` enables tracing by default. Leave analytics / heatmaps / replay alone unless the user opts in with consent guidance.
@@ -78,7 +78,7 @@ Until remote config arrives, SDKs send **errors only**. Flutter does not support
 
 ## Production loop (after install)
 
-1. `search_errors` → `get_error` → optional `get_trace` / `search_sessions`.
+1. `search_errors` with `environment: production` (the default once a production key exists) → `get_error` → optional `get_trace` / `search_sessions` in that same environment.
 2. Fix code locally.
 3. Instrument more using docs (`docs_search` for tracing/HTTP/analytics).
 4. Re-verify with stats and search tools.

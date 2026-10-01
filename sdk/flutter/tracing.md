@@ -14,7 +14,6 @@ Turn tracing on under [Project settings](../../getting-started/configuration.md)
 await TalariaFlutter.init(TalariaOptions(
   dsn: 'https://ingest.newtalaria.com',
   apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
-  environment: const String.fromEnvironment('APP_ENV', defaultValue: 'production'),
   release: const String.fromEnvironment('APP_RELEASE'),
 ));
 ```
@@ -36,11 +35,10 @@ Do not wrap Talaria’s ingest client. There is no `talaria_dio` package — wra
 ```bash
 flutter run \
   --dart-define=TALARIA_API_KEY=tal_live_… \
-  --dart-define=APP_ENV=staging \
   --dart-define=APP_RELEASE=1.4.2+42
 ```
 
-Map each flavor to `environment` so staging issues do not mix with production. Set `release` from the build number for release health.
+The API key decides the environment. Give each flavor its own key — a staging build uses a staging key, a production build uses a production key — so those issues stay separate. Set `release` from the build number or commit SHA for release health. A local run still sends a version or SHA as `release`.
 
 ## Continue into Serverpod
 

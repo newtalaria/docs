@@ -6,7 +6,7 @@ tags: [configuration, getConfig, remote-config]
 
 # Project configuration
 
-Official SDKs load tracing, analytics, heatmaps, and session replay from the project. You change those switches in the dashboard (or via MCP `update_project_settings` when authorized). **Init** keeps the API key, environment, and release.
+Official SDKs load tracing, analytics, heatmaps, and session replay from the project. You change those switches in the dashboard (or via MCP `update_project_settings` when authorized). **Init** keeps the API key and release. The API key decides the environment.
 
 > [!WARNING]
 > An agent that only edits app code cannot fully “turn on” tracing/analytics/replay. Project settings (remote config) must allow those features.
@@ -55,7 +55,6 @@ Talaria Cloud ingest is `https://ingest.newtalaria.com`. Pass that URL as `dsn` 
 Init still takes:
 
 - API key
-- environment
 - release / commit SHA
 - tags
 - minimum log level
@@ -63,6 +62,18 @@ Init still takes:
 - `beforeSend`
 
 Browser privacy options such as `blockSelector` and `maskAllInputs` stay on the client.
+
+## Environment
+
+The API key decides the environment. See [API overview](../api/overview.md).
+
+The dashboard reads one environment at a time: Production, Staging, Test, Development, or All. The shell defaults to production when the project has a production key, otherwise development. All is an explicit choice.
+
+Alerts with no environment evaluate as production. An alert that should cover every environment names that scope explicitly.
+
+Feature flags stay one definition per project. Evaluation uses the key's environment. Rules can target development, test, staging, or production.
+
+Test, staging, and production use the plan meters, including pay-as-you-go. Development has its own included cap equal to that signal's plan inclusion, hard-stops, and does not create overage.
 
 ## Consent
 

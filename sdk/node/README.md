@@ -26,7 +26,6 @@ import { Talaria } from '@newtalaria/node';
 Talaria.init({
   dsn: 'https://ingest.newtalaria.com',
   apiKey: process.env.TALARIA_API_KEY,
-  environment: 'production',
   release: '1.0.0',
   minLevel: 'warning',
 });
@@ -34,11 +33,11 @@ Talaria.init({
 
 ## App init vs Project settings
 
-Init holds DSN, API key, environment, release. Tracing, analytics, heatmaps, and session replay follow [Project configuration](../../getting-started/configuration.md). Set `remoteConfig: false` only when you intentionally want errors-only without fetching policy.
+Init holds DSN, API key, and release. The API key decides the environment. Tracing, analytics, heatmaps, and session replay follow [Project configuration](../../getting-started/configuration.md). Set `remoteConfig: false` only when you intentionally want errors-only without fetching policy.
 
 ## API key / DSN / environment variables
 
-`tal_live_…` keys are **public client ingest credentials** (safe in browser and mobile apps). Pass them via `.env` / build config as `TALARIA_API_KEY` when convenient.
+`tal_live_…` keys are **public client ingest credentials**. The key decides the environment. Each key is bound to development, test, staging, or production, and the prefix stays `tal_live_`. The server stamps that value on ingest. A deployed app that should report production uses a production key. Local install uses a development key. Pass the key via `.env` / build config as `TALARIA_API_KEY`, and send `release` as a version or SHA.
 
 ## Optional features
 

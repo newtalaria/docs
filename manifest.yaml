@@ -169,7 +169,7 @@ pages:
   - id: api-overview
     path: api/overview.md
     title: API overview
-    description: Ingest auth, event shape, environments and releases.
+    description: Ingest auth, event shape, and how the API key sets environment and release.
     tags: [api, ingest]
 
   - id: migration

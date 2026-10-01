@@ -26,7 +26,6 @@ use Talaria\Talaria;
 Talaria::init([
     'dsn' => 'https://ingest.newtalaria.com',
     'apiKey' => getenv('TALARIA_API_KEY'),
-    'environment' => getenv('TALARIA_ENVIRONMENT') ?: 'production',
     'release' => getenv('TALARIA_RELEASE') ?: null,
     'minLevel' => 'warning',
 ]);
@@ -34,11 +33,11 @@ Talaria::init([
 
 ## App init vs Project settings
 
-Init: DSN, API key, environment, release. Tracing via Project settings / `getConfig`. Set `remoteConfig => false` for errors-only without remote policy.
+Init: DSN, API key, and release. The API key decides the environment. Tracing via Project settings / `getConfig`. Set `remoteConfig => false` for errors-only without remote policy.
 
 ## API key / DSN / environment variables
 
-`tal_live_…` keys are **public client ingest credentials**. Pass them via environment variables when convenient.
+`tal_live_…` keys are **public client ingest credentials**. The key decides the environment. Each key is bound to development, test, staging, or production, and the prefix stays `tal_live_`. The server stamps that value on ingest. A deployed app that should report production uses a production key. Local install uses a development key. Pass the key via environment variables when convenient, and send `release` as a version or SHA.
 
 ## Optional features
 

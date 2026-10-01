@@ -18,8 +18,8 @@ Add both `talaria` and `talaria_serverpod`. Turn tracing on under [Project setti
 
 ```yaml
 dependencies:
-  talaria: ^0.2.3
-  talaria_serverpod: ^0.1.3
+  talaria: ^0.3.7
+  talaria_serverpod: ^0.2.4
   serverpod: ^4.0.0
 ```
 
@@ -29,11 +29,11 @@ Pass `databaseInterceptor` to the `Serverpod` constructor — it cannot be swapp
 
 ## App init vs Project settings
 
-DSN/API key in init; tracing sample rates in Project settings.
+DSN, API key, and release in init. The API key decides the environment. Tracing sample rates live in Project settings.
 
 ## API key / DSN / environment variables
 
-`tal_live_…` keys are **public client ingest credentials**. Pass them via env / `--dart-define` as `TALARIA_API_KEY`.
+`tal_live_…` keys are **public client ingest credentials**. The key decides the environment. Each key is bound to development, test, staging, or production, and the prefix stays `tal_live_`. The server stamps that value on ingest. A deployed app that should report production uses a production key. Local install uses a development key. Pass the key via env / `--dart-define` as `TALARIA_API_KEY`, and send `release` as a version or SHA.
 
 ## Optional features
 

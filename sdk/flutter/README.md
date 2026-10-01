@@ -22,7 +22,7 @@ Session replay and Web Vitals are browser-SDK features — Flutter does not reco
 
 ```yaml
 dependencies:
-  talaria_flutter: ^0.2.5
+  talaria_flutter: ^0.2.6
 ```
 
 Then `flutter pub get`.
@@ -40,10 +40,6 @@ Future<void> main() async {
     TalariaOptions(
       dsn: 'https://ingest.newtalaria.com',
       apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
-      environment: const String.fromEnvironment(
-        'APP_ENV',
-        defaultValue: 'production',
-      ),
       release: const String.fromEnvironment('APP_RELEASE'),
       minLevel: SeverityLevel.warning,
     ),
@@ -52,7 +48,7 @@ Future<void> main() async {
 }
 ```
 
-Pass `TalariaNavigatorObserver` on `MaterialApp` / `CupertinoApp` either way. Map flavors and `--dart-define` into `environment` and `release`.
+Pass `TalariaNavigatorObserver` on `MaterialApp` / `CupertinoApp` either way. Map flavors and `--dart-define` into the API key and `release`. A staging flavor uses a staging key. A production flavor uses a production key. Local runs use a development key and still send a version or SHA as `release`.
 
 ## Verify ingest
 
@@ -71,7 +67,7 @@ Or `Talaria.captureMessage('talaria hello', level: SeverityLevel.error)`.
 
 | App init (`TalariaOptions`) | Project settings (remote config) |
 | --------------------------- | -------------------------------- |
-| `dsn`, `apiKey`, `environment`, `release`, `minLevel` | Tracing enabled + traces sample rate |
+| `dsn`, `apiKey`, `release`, `minLevel` | Tracing enabled + traces sample rate |
 | Tags, `beforeSend` | Analytics / heatmaps enabled |
 | | Session replay (N/A for Flutter) |
 
@@ -82,12 +78,11 @@ See [Project configuration](../../getting-started/configuration.md).
 
 ## API key / DSN / environment variables
 
-`tal_live_…` keys are **public client ingest credentials**. Pass them with `--dart-define` (or your flavor config):
+`tal_live_…` keys are **public client ingest credentials**. The key decides the environment. Each key is bound to development, test, staging, or production, and the prefix stays `tal_live_`. The server stamps that value onto events, spans, analytics, replays, and heatmaps. A deployed app that should report production uses a production key. Local install, including `setup_project`, uses a development key. Pass the key with `--dart-define` (or your flavor config):
 
 ```bash
 flutter run \
   --dart-define=TALARIA_API_KEY=tal_live_… \
-  --dart-define=APP_ENV=staging \
   --dart-define=APP_RELEASE=1.4.2+42
 ```
 
