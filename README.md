@@ -32,6 +32,7 @@ Then:
 | MCP | [mcp/README.md](mcp/README.md) |
 | Agent playbook | [guides/add-talaria-with-an-agent.md](guides/add-talaria-with-an-agent.md) |
 | Analytics setup | [analytics/setup.md](analytics/setup.md) |
+| Cookie banners | [analytics/consent.md](analytics/consent.md) |
 | API overview | [api/overview.md](api/overview.md) |
 
 Learn guides and product narrative stay on the marketing site (`/learn`, `/product`). This repo is install and how-to only.

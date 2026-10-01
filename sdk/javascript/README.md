@@ -41,7 +41,7 @@ Init holds DSN, API key, and release. The API key decides the environment. Traci
 
 ## Optional features
 
-Enable tracing / analytics / heatmaps / replay in Project settings. Wire `analytics.optIn()` after consent where required. Browser packages support session replay and Web Vitals; Node does not.
+Enable tracing / analytics / heatmaps / replay in Project settings. The browser SDK follows CookieYes, Cookiebot, and Google Consent Mode when that banner is on the page. For any other banner, call `analytics.optIn()` after consent. See [Cookie banners](../../analytics/consent.md). Browser packages support session replay and Web Vitals; Node does not.
 
 ## Verification
 
