@@ -21,6 +21,8 @@ Official guides for install, configure, and capture.
 | Laravel | `talaria/laravel` | [sdk/laravel](laravel/README.md) |
 | Silverstripe | `talaria/silverstripe` | [sdk/silverstripe](silverstripe/README.md) |
 
+Each guide opens with a quick setup and a short map of what that package can do. The next pages in the same folder are the instrumentation guide, errors and logs, and best practices.
+
 JavaScript, React, and Next.js source maps: [Upload JavaScript source maps](../guides/upload-javascript-source-maps.md).
 
-Agents: filter `docs_search` / `docs_list` with an `sdk` value matching the table.
+Agents: filter `docs_search` / `docs_list` with an `sdk` value matching the table. After the hub, `docs_get` `sdk/<id>/instrumentation` and `sdk/<id>/errors`. Search `analytics` or `feature flags` for [best practices](javascript/best-practices.md) on that sdk.

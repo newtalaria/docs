@@ -50,10 +50,10 @@ That applies the same tags and the same short INTERNAL span as the navigator obs
 - Pass `TalariaNavigatorObserver` into the navigator observers list those packages expose.
 - If a custom shell never notifies `NavigatorObserver`, call `setScreen` on destination change.
 
-Manual transactions for a user flow (checkout, onboarding) still use `startTransaction` from the Dart tracing API.
+Manual transactions for a user flow (checkout, onboarding) still use `startTransaction` from the Dart tracing API. Call `finish()` when the flow ends. See [Instrumentation and tracing](instrumentation.md).
 
 ## Related
 
 - [Flutter hub](README.md)
-- [Tracing](tracing.md)
+- [Instrumentation and tracing](instrumentation.md)
 - [Configuration](../../getting-started/configuration.md)

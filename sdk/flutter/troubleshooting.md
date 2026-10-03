@@ -20,20 +20,18 @@ tags: [flutter, troubleshooting]
 1. Enable tracing in **Project settings** (remote config). Init alone is not enough.
 2. Wait for `getConfig` refresh (up to `ttlSeconds`, default ~5 minutes) or restart the app after saving settings.
 3. Confirm you are not wrapping the Talaria ingest client.
-4. Screen spans finish on idle — they are short by design.
+4. Screen spans finish on idle. They are short by design. See [Instrumentation and tracing](instrumentation.md).
 
 ## Analytics / heatmaps not firing
 
 1. Enable analytics (and heatmaps) in Project settings.
-2. Wire consent (`optIn` / project public analytics policy) as documented.
-3. Heatmaps need `TalariaScreenCapture` in the widget tree.
-
-## Claiming unsupported features
-
-Do not enable or document browser **session replay** or **Web Vitals** as Flutter features.
+2. Call `Talaria.analytics.optIn()` after the person agrees. This package does not read a web cookie banner.
+3. Heatmaps need `TalariaScreenCapture` in the widget tree. See [Navigation and screens](navigation.md).
 
 ## Related
 
 - [Flutter hub](README.md)
+- [Instrumentation and tracing](instrumentation.md)
+- [Best practices](best-practices.md)
 - [Configuration](../../getting-started/configuration.md)
 - [Agent playbook](../../guides/add-talaria-with-an-agent.md)

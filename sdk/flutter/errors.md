@@ -1,12 +1,12 @@
 ---
-title: Flutter error hooks
-description: How talaria_flutter captures framework, platform, zone, and widget-build failures.
+title: Flutter errors, logs, and breadcrumbs
+description: FlutterError, platform, zone, and ErrorWidget capture, plus logs, breadcrumbs, and setUser on talaria_flutter.
 sdk: flutter
 package: talaria_flutter
-tags: [flutter, errors]
+tags: [flutter, errors, logs, breadcrumbs, identity]
 ---
 
-# Flutter error hooks
+# Flutter errors, logs, and breadcrumbs
 
 `TalariaFlutter.init` installs `FlutterError.onError` and `PlatformDispatcher.onError` unless you pass `installHooks: false`. `runZonedApp` also wraps the zone and installs `ErrorWidget.builder`.
 
@@ -33,17 +33,16 @@ Future<void> main() async {
 
 ## What each hook captures
 
-- `FlutterError.onError` — framework assertions and build/layout failures that Flutter reports.
-- `PlatformDispatcher.onError` — uncaught platform / async errors that miss the framework.
-- Zone (via `runZonedApp`) — errors thrown outside the framework binding.
-- `talariaErrorWidgetBuilder` — widget build failures, once per error (`error_widget`). `runZonedApp` installs this for you.
+- `FlutterError.onError` captures framework assertions and build or layout failures that Flutter reports.
+- `PlatformDispatcher.onError` captures uncaught platform and async errors that miss the framework.
+- The zone from `runZonedApp` captures errors thrown outside the framework binding.
+- `talariaErrorWidgetBuilder` captures a widget build failure once per error (`error_widget`). `runZonedApp` installs this for you.
 
-> [!NOTE]
-> `TalariaFlutter.isWidgetBuildError` is the predicate used to de-dupe widget-library failures so a broken build does not flood ingest.
+`TalariaFlutter.isWidgetBuildError` is the predicate that keeps a broken build from sending the same widget failure on every frame.
 
 ## Manual capture
 
-Hooks do not replace `try / catch` around recoverable work. Prefer a scoped logger:
+Hooks do not replace `try / catch` around recoverable work.
 
 ```dart
 try {
@@ -58,12 +57,47 @@ try {
 }
 ```
 
-## Platform tag and extras
+## Logs
 
-Init sets `platform: flutter` and a `flutter: true` tag. Runtime extras include locale, OS, and on web the renderer / user agent. Lifecycle updates `app.state` (resumed, paused, detached).
+Logs are the `talaria` methods this package re-exports.
+
+```dart
+final log = Talaria.logger(name: 'checkout', tags: {'screen': 'checkout'});
+await log.warning('Payment method missing');
+await Talaria.captureMessage(
+  'Checkout failed closed',
+  level: SeverityLevel.error,
+);
+```
+
+## Breadcrumbs
+
+Navigation crumbs come from `TalariaNavigatorObserver`. Add your own before a step that might fail:
+
+```dart
+Talaria.addBreadcrumb(Breadcrumb(
+  type: 'user',
+  category: 'checkout',
+  message: 'Opened payment step',
+  level: 'info',
+));
+```
+
+The lifecycle observer updates the `app.state` tag (`resumed`, `paused`, `detached`).
+
+## Identity and context
+
+```dart
+Talaria.setUser('user_42');
+Talaria.getClient()?.setTags({'area': 'billing'});
+Talaria.getClient()?.setExtra({'plan': 'pro'});
+```
+
+Init sets `platform: flutter` and a `flutter: true` tag. Runtime extras include locale, OS, and on web the renderer and user agent. Set `release` in `TalariaOptions`. Fingerprints are computed on the server.
 
 ## Related
 
-- [Flutter hub](README.md)
-- [Navigation](navigation.md)
-- [Tracing](tracing.md)
+- [Flutter SDK](README.md)
+- [Navigation and screens](navigation.md)
+- [Instrumentation and tracing](instrumentation.md)
+- [Best practices](best-practices.md)

@@ -28,7 +28,7 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 | Silverstripe | `talaria/silverstripe` → [sdk/silverstripe](../sdk/silverstripe/README.md) |
 | PHP | `talaria/talaria` → [sdk/php](../sdk/php/README.md) |
 
-3. `docs_search` with `sdk` filter and query `install` / `init` / `bootstrap`, then `docs_get` the stack README and [configuration](../getting-started/configuration.md).
+3. `docs_search` with `sdk` filter and query `install` / `init` / `bootstrap`, then `docs_get` the stack README and [configuration](../getting-started/configuration.md). Also `docs_get` `sdk/<id>/instrumentation` and `sdk/<id>/errors` for that stack (`javascript`, `react`, `nextjs`, `node`, `php`, `laravel`, `silverstripe`, `dart`, `flutter`, `serverpod`).
 
 ### 2. Authenticate and announce identity
 
@@ -90,7 +90,7 @@ Until remote config arrives, SDKs send **errors only**. Flutter does not support
 
 1. `search_errors` with `environment: production` (the default once a production key exists) → `get_error` → optional `get_trace` / `search_sessions` in that same environment.
 2. Fix code locally.
-3. Instrument more using docs (`docs_search` for tracing/HTTP/analytics).
+3. Instrument more using docs. `docs_search` with the stack `sdk` filter for `instrumentation`, `tracing`, `errors`, or `analytics`, then `docs_get` the top hit. Analytics and feature flags are on `sdk/<id>/best-practices`.
 4. Re-verify with stats and search tools.
 
 ## Do not automate blindly

@@ -15,19 +15,31 @@ tags: [flutter, dart, install]
 ---
 ```
 
-## Integration page checklist
+## SDK guide shape
 
-SDK install / overview pages must include these headings (agents skim them):
+Every public SDK folder (`sdk/<id>/`) has these pages:
 
-1. Prerequisites / supported versions
-2. Package name + install command
-3. Initialization (copy-pasteable)
-4. What belongs in **app init** vs **Project settings**
-5. API key / DSN / environment variables (`tal_live_…` keys are public client ingest credentials)
-6. Optional features (tracing, analytics, heatmaps, replay) and stack limits
-7. Verification steps (run app → expect issue / event; dashboard + MCP checks)
-8. Troubleshooting / common mistakes
-9. Related docs
+| File | Opens with | Search words in the title, tags, and h2s |
+| --- | --- | --- |
+| `README.md` | Quick setup, then What you can do | `install`, `init` |
+| `instrumentation.md` | What Project settings turns on, then each automatic integration | `instrumentation`, `tracing` |
+| `errors.md` | capture, logs, breadcrumbs, user | `errors`, `logs`, `breadcrumbs` |
+| `best-practices.md` | release, sampling, then Analytics and Feature flags | `analytics`, `feature-flags` |
+
+Browser packages also use h2s for Session replay, Heatmaps, Web Vitals, and Consent on `best-practices.md`, with a `replay` tag. Laravel and Silverstripe document the injected `@newtalaria/browser` script there.
+
+The hub keeps these headings so `docs_search` for `install` and `init` still lands on the README:
+
+1. Quick setup
+2. What you can do
+3. Install
+4. Initialization
+5. App init vs Project settings
+6. API key
+7. Verification
+8. Related docs
+
+Put the words an agent types in the title, the manifest `tags`, and an h2. Body text alone ranks last. Set manifest `sdk` to the filter value (`javascript`, `react`, `nextjs`, `node`, `php`, `laravel`, `silverstripe`, `dart`, `flutter`, `serverpod`). Write calls from that package's public API.
 
 ## Callouts
 
