@@ -22,7 +22,15 @@ Every API key is bound to exactly one environment: development, test, staging, o
 
 Existing keys default to development. A deployed app that should report production needs a production key. MCP `setup_project` and other local agent installs use a development key. Production shipping is a second key.
 
-Send `release` as a version or commit SHA. A local run still sends a version or SHA as release.
+Send `release` as a version or commit SHA. A local run still sends a version or SHA as release. JavaScript source-map upload uses that same string.
+
+## Source maps
+
+`POST /sourceMaps/upload` on the API base URL. Send `X-API-Key` from a key with `releases:write`. The browser ingest key stays on the ingest scopes.
+
+The body is Serverpod `UploadSourceMapInput`: `release`, `fileName` (minified basename), optional `debugId`, and `gzipBytes` (standard base64 of the gzip JSON). `UploadSourceMapResponse` returns `id`, `release`, `fileName`, and `sizeBytes`.
+
+The local and CI walkthrough is [Upload JavaScript source maps](../guides/upload-javascript-source-maps.md).
 
 Issues stay separate per environment because the fingerprint includes environment. Each issue stores that environment. A sibling key links the same failure across environments, and issue detail lists those other environments. Clients never send a fingerprint.
 
@@ -39,3 +47,4 @@ Test, staging, and production use the plan meters, including pay-as-you-go. Deve
 - [Quickstart](../getting-started/quickstart.md)
 - [Configuration](../getting-started/configuration.md)
 - [SDK hub](../sdk/README.md)
+- [Upload JavaScript source maps](../guides/upload-javascript-source-maps.md)

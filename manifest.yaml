@@ -30,6 +30,14 @@ pages:
     description: Agent playbook — detect stack, docs_*, wire API key + init, verify ingest.
     tags: [agents, mcp, playbook]
 
+  - id: upload-javascript-source-maps
+    path: guides/upload-javascript-source-maps.md
+    title: Upload JavaScript source maps
+    description: Local and CI upload so a minified browser stack shows the original file.
+    sdk: javascript
+    package: "@newtalaria/cli"
+    tags: [javascript, source-maps, release, cli, guide]
+
   - id: sdk-hub
     path: sdk/README.md
     title: SDKs
@@ -99,6 +107,14 @@ pages:
     sdk: javascript
     package: "@newtalaria/browser"
     tags: [javascript, install]
+
+  - id: javascript-source-maps
+    path: sdk/javascript/source-maps.md
+    title: JavaScript source maps
+    description: Upload minified bundle maps for a release so stack frames show original files.
+    sdk: javascript
+    package: "@newtalaria/cli"
+    tags: [javascript, source-maps, release, cli]
 
   - id: react
     path: sdk/react/README.md

@@ -31,7 +31,8 @@ For install tasks, start with `docs_get` on `guides/add-talaria-with-an-agent`.
 | `get_projects` | List org projects |
 | `get_project` | Safe project settings (tracing/analytics/replay/heatmaps/sample rates) — no webhook secrets |
 | `search_errors` / `get_error` | Grouped issues and detail. `search_errors` takes `environment` |
-| `search_events` / `get_event` | Event instances. `search_events` takes `environment` |
+| `search_events` / `get_event` | Event instances. `search_events` takes `environment`. `get_event` returns the rewritten JavaScript frame when a source map matches |
+| `get_source_map` | Original source window for one stored frame (`eventId`, `frameIndex`). `mapped: false` includes the `fileName` still to upload |
 | `search_traces` / `get_trace` | Transactions / waterfalls. `search_traces` takes `environment` |
 | `search_sessions` | Product sessions. Takes `environment` |
 | `get_project_stats` | Health snapshot for one environment, plus per-environment counts. Takes `environment` |
@@ -42,7 +43,7 @@ For install tasks, start with `docs_get` on `guides/add-talaria-with-an-agent`.
 | Tool | Scope | Purpose |
 | ---- | ----- | ------- |
 | `update_project_settings` / `create_project` / `send_test_event` | `mcp:write` | Safe settings, create project, ingest a test event |
-| `create_api_key` / `setup_project` | `mcp:keys` | Mint ingest key once; never log or commit |
+| `create_api_key` / `setup_project` | `mcp:keys` | Mint a key once; never log or commit. Omit `scopes` for the ingest key. `scopes: ["releases:write"]` is a second key for source-map upload. `setup_project` stays on the ingest key |
 
 ## Integration workflow
 
@@ -58,5 +59,6 @@ See [Add Talaria with an agent](../guides/add-talaria-with-an-agent.md) and [Cur
 
 1. `get_projects` → real `projectId`
 2. `search_errors` (pass `environment`; use `development` right after install, `production` for a live failure) → `get_error`
-3. Optional `get_trace` / `search_sessions` in the same environment
-4. Fix locally → verify with `search_events` / `search_errors` on `development`
+3. A JavaScript frame that is still a hashed `*.js` file needs a source map for that release. Follow [Upload JavaScript source maps](../guides/upload-javascript-source-maps.md), then `get_event` or `get_source_map`.
+4. Optional `get_trace` / `search_sessions` in the same environment
+5. Fix locally → verify with `search_events` / `search_errors` on `development`

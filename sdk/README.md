@@ -21,4 +21,6 @@ Official guides for install, configure, and capture.
 | Laravel | `talaria/laravel` | [sdk/laravel](laravel/README.md) |
 | Silverstripe | `talaria/silverstripe` | [sdk/silverstripe](silverstripe/README.md) |
 
+JavaScript, React, and Next.js source maps: [Upload JavaScript source maps](../guides/upload-javascript-source-maps.md).
+
 Agents: filter `docs_search` / `docs_list` with an `sdk` value matching the table.

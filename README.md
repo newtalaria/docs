@@ -31,6 +31,7 @@ Then:
 | Flutter | [sdk/flutter/README.md](sdk/flutter/README.md) |
 | MCP | [mcp/README.md](mcp/README.md) |
 | Agent playbook | [guides/add-talaria-with-an-agent.md](guides/add-talaria-with-an-agent.md) |
+| JavaScript source maps | [guides/upload-javascript-source-maps.md](guides/upload-javascript-source-maps.md) |
 | Analytics setup | [analytics/setup.md](analytics/setup.md) |
 | Cookie banners | [analytics/consent.md](analytics/consent.md) |
 | API overview | [api/overview.md](api/overview.md) |

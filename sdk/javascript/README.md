@@ -51,8 +51,14 @@ Capture a test exception; dashboard Issues or MCP `search_errors` / `get_project
 
 Rejected keys cache ~24h. Confirm Project settings before expecting spans or replay.
 
+## Source maps
+
+A minified stack stays minified until maps are uploaded for the same `release`. Follow [Upload JavaScript source maps](../../guides/upload-javascript-source-maps.md). The command is `@newtalaria/cli`, with a `releases:write` key kept out of the browser bundle.
+
 ## Related docs
 
+- [Source maps](source-maps.md)
+- [Upload guide](../../guides/upload-javascript-source-maps.md)
 - [Configuration](../../getting-started/configuration.md)
 - [Agent playbook](../../guides/add-talaria-with-an-agent.md)
 - [SDK hub](../README.md)

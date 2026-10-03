@@ -51,8 +51,14 @@ Capture a test exception; dashboard Issues or MCP `search_errors` / `get_project
 
 Rejected keys cache ~24h. Confirm Project settings before expecting spans or replay.
 
+## Source maps
+
+Upload the built browser maps for the same `release` as `Talaria.init`. Follow [Upload JavaScript source maps](../../guides/upload-javascript-source-maps.md).
+
 ## Related docs
 
+- [Source maps](../javascript/source-maps.md)
+- [Upload guide](../../guides/upload-javascript-source-maps.md)
 - [Configuration](../../getting-started/configuration.md)
 - [Agent playbook](../../guides/add-talaria-with-an-agent.md)
 - [SDK hub](../README.md)

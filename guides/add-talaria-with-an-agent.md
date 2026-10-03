@@ -63,6 +63,16 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 
 Do **not** claim “Talaria is wired” until step 5 returns the test event.
 
+### 5. Source maps for browser, React, and Next
+
+After init, a minified stack stays minified until maps are uploaded for the same release.
+
+1. `docs_get` path `guides/upload-javascript-source-maps` (command reference: `sdk/javascript/source-maps`).
+2. Set `Talaria.init({ release: 'local' })` for a local run, or the git SHA in CI. The release string on events must match the upload.
+3. Ask before minting a second key. Call `create_api_key` with `scopes: ["releases:write"]` and a name like `source maps`. Do not add that scope to the browser key from `setup_project`.
+4. Put the raw key only in `TALARIA_RELEASE_KEY`. Then run `npx talaria sourcemaps upload ./dist` (local default is `http://localhost:8080` and release `local`).
+5. Open the event with `get_event`. If a frame is still a hashed `*.js` file, call `get_source_map` and upload the `fileName` it returns.
+
 ## App init vs Project settings
 
 | In app init | In Project settings (remote `getConfig`) |
