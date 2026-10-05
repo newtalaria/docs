@@ -33,7 +33,9 @@ For install tasks, start with `docs_get` on `guides/add-talaria-with-an-agent`.
 | `search_errors` / `get_error` | Grouped issues and detail. `search_errors` takes `environment` |
 | `search_events` / `get_event` | Event instances. `search_events` takes `environment`. `get_event` returns the rewritten JavaScript frame when a source map matches |
 | `get_source_map` | Original source window for one stored frame (`eventId`, `frameIndex`). `mapped: false` includes the `fileName` still to upload |
-| `search_traces` / `get_trace` | Transactions / waterfalls. `search_traces` takes `environment` |
+| `search_traces` / `get_trace` | Transactions / waterfalls. `search_traces` takes `environment`. Set `grouped: true` and `sort` (`count`, `p95`, `impact`, `errorRate`) for one row per transaction name with count, error count, p50, and p95 |
+| `list_suspect_spans` | Child spans with the highest p95 in the window. Takes `environment` |
+| `list_database_queries` | Database statements grouped by text: calls, total time, p95, errors, and N+1 trace count. `nPlusOneOnly` keeps N+1 statements. Takes `environment` |
 | `search_sessions` | Product sessions. Takes `environment` |
 | `get_project_stats` | Health snapshot for one environment, plus per-environment counts. Takes `environment` |
 | Feature flag tools | List / get / kill-switch / percent rollout. One flag definition per project; evaluation uses the ingest key's environment |
@@ -51,7 +53,7 @@ See [Add Talaria with an agent](../guides/add-talaria-with-an-agent.md) and [Cur
 
 ## Environment on read tools
 
-`search_errors`, `search_events`, `search_traces`, `search_sessions`, and `get_project_stats` take `environment`: `development`, `test`, `staging`, or `production`. The default is production when the project has a production key, otherwise development. An agent that just installed should query development. `get_project_stats` `countsByEnvironment` is analytics volume for each environment and stays 0 when analytics is off. Install success is `search_errors` or `search_events`.
+`search_errors`, `search_events`, `search_traces`, `list_suspect_spans`, `list_database_queries`, `search_sessions`, and `get_project_stats` take `environment`: `development`, `test`, `staging`, or `production`. The default is production when the project has a production key, otherwise development. An agent that just installed should query development. `get_project_stats` `countsByEnvironment` is analytics volume for each environment and stays 0 when analytics is off. Install success is `search_errors` or `search_events`.
 
 `setup_project` mints a development key. Production shipping is a second key.
 
