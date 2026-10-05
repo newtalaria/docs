@@ -37,7 +37,7 @@ The key decides the environment. Do not pass `environment`. A local `setup_proje
 | Capability | Where |
 | --- | --- |
 | Process errors, `captureMessage`, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
-| Incoming HTTP, outgoing HTTP, `pg`, `mysql2`, and Redis | [Instrumentation and tracing](instrumentation.md) |
+| Incoming HTTP, outgoing HTTP, `pg`, `mysql2`, Redis, and DuckDB | [Instrumentation and tracing](instrumentation.md) |
 | Analytics and feature flags | [Best practices](best-practices.md) |
 
 `logger()` is the browser API. On Node, record a message with `captureMessage`. Tracing and analytics follow [Project configuration](../../getting-started/configuration.md).
@@ -65,7 +65,42 @@ Talaria.init({
 });
 ```
 
-Init installs outgoing HTTP instrumentation that waits until project config enables tracing. Call `handleHttpRequest` on each incoming request. See [Instrumentation and tracing](instrumentation.md).
+Init installs outgoing HTTP instrumentation that waits until project config enables tracing. Call `handleHttpRequest` on each incoming request. If the process imports `pg`, `mysql2`, `ioredis`, `@duckdb/node-api`, Prisma, Drizzle, Kysely, Knex, or Sequelize, wrap the client that runs the SQL after it is created. See [Instrumentation and tracing](instrumentation.md).
+
+## DuckDB
+
+`@duckdb/node-api` stays in your app. Wrap the connection from `instance.connect()`:
+
+```javascript
+import { DuckDBInstance } from '@duckdb/node-api';
+import { Talaria, getNodeClient, wrapDuckDB } from '@newtalaria/node';
+
+Talaria.init({
+  dsn: 'https://ingest.newtalaria.com',
+  apiKey: process.env.TALARIA_API_KEY,
+  release: process.env.TALARIA_RELEASE,
+});
+
+const instance = await DuckDBInstance.create('analytics.duckdb');
+const connection = wrapDuckDB(getNodeClient(), await instance.connect());
+const reader = await connection.runAndReadAll(
+  'SELECT region, count(*) FROM events GROUP BY 1',
+);
+```
+
+`run`, `stream`, `prepare`, and `runAndRead*` become CLIENT spans. Bound parameter values and result rows stay in the app. The full request example is on [Instrumentation and tracing](instrumentation.md).
+
+## Other database libraries
+
+`wrapPg` and `wrapMysql2` patch `query` on a pool you already built. Prisma records the statement when that pool is wrapped first and passed to a driver adapter (`@prisma/adapter-pg`, or the mysql2 adapter with `wrapMysql2`). A default `PrismaClient` does not call `query`, so `findMany` needs a span around the call if you are not using an adapter.
+
+Drizzle (`drizzle-orm/node-postgres` or `drizzle-orm/mysql2`) and Kysely (`PostgresDialect`, `MysqlDialect`) run SQL through the pool you pass in. Wrap that pool.
+
+Knex and Sequelize open their own connections. A second pool wrapped with `wrapPg` does not see those queries. Record the span from Knex `query` / `query-response` / `query-error`, or from Sequelize `beforeQuery` / `afterQuery`.
+
+MongoDB, `better-sqlite3`, and `node:sqlite` have no wrapper. Open a CLIENT span around the call and set `db.system.name`. Leave filters, documents, bound values, and result rows off the span.
+
+Each snippet is on [Instrumentation and tracing](instrumentation.md).
 
 ## App init vs Project settings
 

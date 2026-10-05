@@ -45,7 +45,7 @@ const on = await Talaria.flags.boolVariation('new-checkout', false);
 
 ## Privacy in events
 
-Do not put tokens or raw SQL parameters into `extra` or breadcrumb `data`. Database wrappers store a query string on the span. Prefer parameterized queries so values stay out of that string.
+Do not put tokens or raw SQL parameters into `extra` or breadcrumb `data`. Database wrappers, including `wrapDuckDB`, store the statement with literals removed. Bound values and result rows stay in the app. Prefer parameterized queries so values stay out of the SQL string.
 
 ## Verify
 

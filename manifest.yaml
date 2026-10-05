@@ -271,10 +271,10 @@ pages:
   - id: node-instrumentation
     path: sdk/node/instrumentation.md
     title: Node.js instrumentation and tracing
-    description: Incoming and outgoing HTTP, W3C traceparent, and optional pg, mysql2, and Redis wrappers.
+    description: Incoming and outgoing HTTP, W3C traceparent, and how to wrap pg, mysql2, Redis, DuckDB, Prisma, Drizzle, Kysely, Knex, and Sequelize.
     sdk: node
     package: "@newtalaria/node"
-    tags: [node, instrumentation, tracing, spans, http, pg, mysql, redis]
+    tags: [node, instrumentation, tracing, spans, http, pg, mysql, redis, duckdb, prisma, drizzle, knex, kysely, sequelize]
 
   - id: node-errors
     path: sdk/node/errors.md

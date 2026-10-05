@@ -40,7 +40,7 @@ export const GET = withRouteHandler('GET /api/health', async () => {
 
 Manual spans use `Talaria.startSpan` from `@newtalaria/nextjs/server`.
 
-Database wrappers (`wrapPg`, `wrapMysql2`, `wrapRedis`) live on `@newtalaria/node`. You can use them from server code with `getNodeClient()` after `initServer`. See [Node instrumentation](../node/instrumentation.md).
+Database wrappers (`wrapDuckDB`, `wrapPg`, `wrapMysql2`, `wrapRedis`) live on `@newtalaria/node`. After `initServer`, pass `getNodeClient()` into the wrapper. When server code imports `@duckdb/node-api`, wrap the connection from `instance.connect()`. See [Node instrumentation](../node/instrumentation.md).
 
 ## Edge
 
