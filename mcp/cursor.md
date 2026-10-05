@@ -9,7 +9,7 @@ tags: [mcp, cursor]
 ## Add the server
 
 1. Open **Cursor Settings → MCP**.
-2. Add Talaria at `https://api.newtalaria.com/mcp` (Streamable HTTP), or paste this into `~/.cursor/mcp.json`:
+2. Add Talaria at `https://api.newtalaria.com/mcp` (Streamable HTTP), or paste this into `~/.cursor/mcp.json`. This shape is Cursor's. Claude Code, VS Code, Codex, Gemini CLI, and Windsurf each use a different key — see [MCP](README.md).
 
    ```json
    {
@@ -24,14 +24,14 @@ tags: [mcp, cursor]
 3. Cursor requests `tools/list`, receives HTTP 401, and opens consent. Sign in to Talaria if needed, then **Allow** install scopes (`mcp:read mcp:write mcp:keys`).
 4. After approve you should see the full tool catalogue (not only `docs_*`). Call `get_connection` and announce identity before creating projects or minting keys.
 
-You can also copy the same mcp.json from the dashboard: **Settings → Integrations → Copy mcp.json (OAuth)**.
+You can also copy the same file from the dashboard: **Settings → Integrations → Copy Cursor mcp.json (OAuth)**.
 
 Local API: `http://localhost:8082/mcp`.
 
 ## Personal token (if OAuth stalls)
 
 1. Dashboard **Settings → Integrations → Create personal MCP token**.
-2. Prefer **Copy mcp.json (with token)** (shown once; expires in about one hour). Or paste Bearer yourself:
+2. Prefer **Copy Cursor mcp.json** (shown once). Choose 30 days, 90 days, or until you revoke it. Or paste Bearer yourself:
 
    ```json
    {
@@ -65,6 +65,7 @@ Harness path for local Flutter install tests: `harnesses/mcp_flutter`.
 2. `search_errors` with `environment: production` (the default once a production key exists) → `get_error`
 3. Follow `traceId` / `sessionId` when present
 4. Include `dashboardUrl` from tool results when citing an issue
+5. When the failure is already fixed, follow [Triage issues with an agent](../guides/triage-issues-with-an-agent.md): `update_issue_status` with a note
 
 ## Related
 

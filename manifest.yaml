@@ -30,6 +30,12 @@ pages:
     description: Agent playbook — detect stack, docs_*, wire API key + init, verify ingest.
     tags: [agents, mcp, playbook]
 
+  - id: triage-issues-with-an-agent
+    path: guides/triage-issues-with-an-agent.md
+    title: Triage issues with an agent
+    description: Check an open issue, then resolve or ignore it with a note.
+    tags: [agents, mcp, issues, playbook]
+
   - id: upload-javascript-source-maps
     path: guides/upload-javascript-source-maps.md
     title: Upload JavaScript source maps
@@ -399,6 +405,36 @@ pages:
     title: Cursor
     description: Add the Talaria MCP server in Cursor and use it for install and production investigation.
     tags: [mcp, cursor]
+
+  - id: mcp-claude-code
+    path: mcp/claude-code.md
+    title: Claude Code
+    description: Add the Talaria MCP server in Claude Code with type http.
+    tags: [mcp, claude-code]
+
+  - id: mcp-vscode
+    path: mcp/vscode.md
+    title: VS Code
+    description: Add the Talaria MCP server in VS Code mcp.json with type http.
+    tags: [mcp, vscode]
+
+  - id: mcp-codex
+    path: mcp/codex.md
+    title: Codex
+    description: Add the Talaria MCP server in Codex config.toml.
+    tags: [mcp, codex]
+
+  - id: mcp-gemini-cli
+    path: mcp/gemini-cli.md
+    title: Gemini CLI
+    description: Add the Talaria MCP server in Gemini CLI with httpUrl.
+    tags: [mcp, gemini-cli]
+
+  - id: mcp-windsurf
+    path: mcp/windsurf.md
+    title: Windsurf
+    description: Add the Talaria MCP server in Windsurf with serverUrl.
+    tags: [mcp, windsurf]
 
   - id: analytics-setup
     path: analytics/setup.md
