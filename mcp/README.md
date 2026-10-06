@@ -43,7 +43,9 @@ For install tasks, start with `docs_get` on `guides/add-talaria-with-an-agent`.
 | `switch_organization` | Move the grant to another org you belong to |
 | `get_projects` | List org projects |
 | `get_project` | Safe project settings (tracing/analytics/replay/heatmaps/sample rates) — no webhook secrets |
-| `search_errors` / `get_error` | Grouped issues and detail, including comments on `get_error`. `search_errors` takes `environment` |
+| `search_errors` / `get_error` | Grouped issues and detail, including comments on `get_error`. `get_error` also returns `investigation`: issue, latest event, trace summary, replay summary, source slice, and breadcrumbs. `search_errors` takes `environment` |
+| `get_replay` | Replay summary (url, duration, status, dashboard URL). No recording bytes |
+| `get_source_context` | Commit-exact GitHub source for one stack frame (`projectId`, `eventId`, `frameIndex`) |
 | `search_events` / `get_event` | Event instances. `search_events` takes `environment` and `issueId`. `get_event` returns the rewritten JavaScript frame when a source map matches |
 | `get_source_map` | Original source window for one stored frame (`eventId`, `frameIndex`). `mapped: false` includes the `fileName` still to upload |
 | `search_traces` / `get_trace` | Transactions / waterfalls. `search_traces` takes `environment`. Set `grouped: true` and `sort` (`count`, `p95`, `impact`, `errorRate`) for one row per transaction name with count, error count, p50, and p95 |

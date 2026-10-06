@@ -16,6 +16,20 @@ Import `@newtalaria/node` (not `@newtalaria/node/api`) so HTTP is patched.
 
 `Talaria.init` installs a patch on `http`, `https`, and `fetch`. The patch waits until the tracer is enabled, so a process that starts before `getConfig` returns still continues `traceparent` on the next outbound call. Requests to Talaria's own base URL are skipped. Do not wrap the SDK's transport yourself.
 
+## Model APIs
+
+Tracing turned on by project setup is enough for the global `fetch` and `http` patches. A `POST` to `api.openai.com` on `/v1/chat/completions`, `/v1/responses`, `/v1/completions`, or `/v1/embeddings`, or a `POST` to `api.anthropic.com` on `/v1/messages`, is one client span. The span name is `{operation} {model}`. Attributes use the OpenTelemetry GenAI names: operation, provider, request model, response model, and input and output token counts when a non-streaming JSON response includes usage. A streaming response records the operation, model, provider, and HTTP status, and leaves the token counts unset. Prompt and completion text are not span attributes.
+
+The span is recorded only while a transaction is already open, such as an incoming request, `handleHttpRequest`, or a Next.js server route. A model call does not start its own transaction.
+
+When a client takes its own `fetch` instead of the global one, wrap that function:
+
+```javascript
+import { wrapModelFetch } from '@newtalaria/node';
+
+const client = new OpenAI({ fetch: wrapModelFetch(fetch) });
+```
+
 ## Incoming HTTP
 
 Call `handleHttpRequest` at the start of each request. It reads an inbound `traceparent`, opens a SERVER span, and finishes that span when the response ends.
