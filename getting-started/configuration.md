@@ -55,7 +55,7 @@ Talaria Cloud ingest is `https://ingest.newtalaria.com`. Pass that URL as `dsn` 
 Init still takes:
 
 - API key
-- release / commit SHA
+- [release / commit SHA](../guides/releases.md)
 - tags
 - minimum log level
 - ignore lists

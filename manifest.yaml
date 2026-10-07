@@ -44,6 +44,12 @@ pages:
     package: "@newtalaria/cli"
     tags: [javascript, source-maps, release, cli, guide]
 
+  - id: releases
+    path: guides/releases.md
+    title: Releases
+    description: Stamp every event with the git ref and commit that produced the deploy.
+    tags: [release, ci, github-actions, guide]
+
   - id: sdk-hub
     path: sdk/README.md
     title: SDKs

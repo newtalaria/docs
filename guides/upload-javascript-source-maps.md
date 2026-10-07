@@ -24,7 +24,7 @@ Talaria.init({
 })
 ```
 
-Local development uses the stable release `local`. CI uses one release per deploy, usually the git SHA. The SDK reads `release` only from init.
+Local development uses the stable release `local`. A deploy uses `<ref>@<shortsha>`, the same string as the event. See [Releases](releases.md). The SDK reads `release` only from init.
 
 The value in `apiKey` is the ingest key. The upload uses a second key, below.
 
@@ -72,10 +72,11 @@ The command prints the URL, the release, and each `fileName`, then the stored id
 
 ## 4. Upload from CI
 
-Pass the API, the key, and the release on the command. Set the app's release to that same SHA.
+Pass the API, the key, and the release on the command. The upload string is the same `TALARIA_RELEASE` the app was built with. The [releases guide](releases.md) has the GitHub Actions workflow.
 
 ```sh
-export TALARIA_RELEASE="$(git rev-parse HEAD)"
+export TALARIA_RELEASE="${GITHUB_REF_NAME}@${GITHUB_SHA::7}"
+export TALARIA_COMMIT_SHA="${GITHUB_SHA}"
 npx talaria sourcemaps upload \
   --url "$TALARIA_BASE_URL" \
   --api-key "$TALARIA_RELEASE_KEY" \
