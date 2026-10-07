@@ -127,7 +127,7 @@ X-API-Key: tal_live_…
     "__className__": "UploadSourceMapInput",
     "release": "local",
     "fileName": "main.a1b2c3.js",
-    "gzipBytes": "<standard base64 of the gzip bytes>"
+    "gzipBytes": "decode('<base64 of the gzip bytes>', 'base64')"
   }
 }
 ```

@@ -28,7 +28,7 @@ Send `release` as a version or commit SHA. A local run still sends a version or 
 
 `POST /sourceMaps/upload` on the API base URL. Send `X-API-Key` from a key with `releases:write`. The browser ingest key stays on the ingest scopes.
 
-The body is Serverpod `UploadSourceMapInput`: `release`, `fileName` (minified basename), optional `debugId`, and `gzipBytes` (standard base64 of the gzip JSON). `UploadSourceMapResponse` returns `id`, `release`, `fileName`, and `sizeBytes`.
+The body is Serverpod `UploadSourceMapInput`: `release`, `fileName` (minified basename), optional `debugId`, and `gzipBytes` (the Serverpod `ByteData` string `decode('<base64 of the gzip bytes>', 'base64')`). `UploadSourceMapResponse` returns `id`, `release`, `fileName`, and `sizeBytes`.
 
 The local and CI walkthrough is [Upload JavaScript source maps](../guides/upload-javascript-source-maps.md).
 
