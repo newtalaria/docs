@@ -46,6 +46,7 @@ The key decides the environment. Do not pass `environment`. Confirm with MCP `se
 | Exceptions, PSR-3 logs, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
 | Incoming HTTP, PSR-15, Guzzle, PDO, mysqli, and Redis | [Instrumentation and tracing](instrumentation.md) |
 | Analytics and feature flags | [Best practices](best-practices.md) |
+| Move between package versions | [Upgrade](upgrade.md) |
 
 Tracing and analytics follow [Project configuration](../../getting-started/configuration.md). Framework wiring lives in [Laravel](../laravel/README.md) and [Silverstripe](../silverstripe/README.md).
 
@@ -93,6 +94,7 @@ Confirm the env vars are loaded in the SAPI you are running (FPM and CLI do not 
 - [Instrumentation and tracing](instrumentation.md)
 - [Errors, logs, and breadcrumbs](errors.md)
 - [Best practices](best-practices.md)
+- [Upgrade](upgrade.md)
 - [Laravel](../laravel/README.md)
 - [Silverstripe](../silverstripe/README.md)
 - [Configuration](../../getting-started/configuration.md)

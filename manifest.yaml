@@ -336,6 +336,14 @@ pages:
     package: talaria/talaria
     tags: [php, analytics, feature-flags, sampling, release]
 
+  - id: php-upgrade
+    path: sdk/php/upgrade.md
+    title: PHP upgrade
+    description: Upgrade talaria/talaria with Composer, commit the lock file, and apply the 1.2 and 2.0 config changes. Silverstripe and Laravel upgrade with the core they require.
+    sdk: php
+    package: talaria/talaria
+    tags: [php, upgrade, composer, silverstripe, laravel]
+
   - id: laravel
     path: sdk/laravel/README.md
     title: Laravel SDK
@@ -400,6 +408,14 @@ pages:
     package: talaria/silverstripe
     tags: [silverstripe, analytics, feature-flags, replay, heatmaps, consent, sampling, release]
 
+  - id: silverstripe-upgrade
+    path: sdk/silverstripe/upgrade.md
+    title: Silverstripe upgrade
+    description: Upgrade talaria/silverstripe and talaria/talaria together, flush with sake, and apply the 1.x and 2.0 module changes.
+    sdk: silverstripe
+    package: talaria/silverstripe
+    tags: [silverstripe, php, upgrade, composer, flush]
+
   - id: mcp
     path: mcp/README.md
     title: MCP
@@ -463,5 +479,5 @@ pages:
   - id: migration
     path: migration/README.md
     title: Migration
-    description: Guides when APIs or SDK majors break.
-    tags: [migration]
+    description: Upgrade guides when an SDK major breaks, including PHP and Silverstripe.
+    tags: [migration, upgrade, php, silverstripe]

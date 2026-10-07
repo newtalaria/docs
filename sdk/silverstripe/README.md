@@ -30,6 +30,7 @@ The DSN defaults to `https://ingest.newtalaria.com`. Set `Talaria\SilverStripe\C
 | Monolog errors and logs, breadcrumbs, and the current Member | [Errors, logs, and breadcrumbs](errors.md) |
 | HTTP middleware, MySQL, Guzzle, and queued jobs | [Instrumentation and tracing](instrumentation.md) |
 | PHP analytics, feature flags, and the injected browser script | [Best practices](best-practices.md) |
+| Move between module versions | [Upgrade](upgrade.md) |
 
 CMS and public pages load `@newtalaria/browser`. Replay, heatmaps, web vitals, and consent run in that script. Public pages can send browser analytics. The CMS is not opted into analytics. There is no Redis wrapper. Silverstripe has no core Redis usage this module instruments. Use the [PHP Redis proxy](../php/instrumentation.md) if you added Redis yourself.
 
@@ -75,5 +76,6 @@ A rejected key is cached for about 24 hours. Restart PHP-FPM after rotating it. 
 - [Instrumentation and tracing](instrumentation.md)
 - [Errors, logs, and breadcrumbs](errors.md)
 - [Best practices](best-practices.md)
+- [Upgrade](upgrade.md)
 - [PHP SDK](../php/README.md)
 - [Configuration](../../getting-started/configuration.md)
