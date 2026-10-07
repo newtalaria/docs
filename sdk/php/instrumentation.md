@@ -71,6 +71,8 @@ $http = new Client(['handler' => $stack]);
 
 Each request becomes a CLIENT span and a breadcrumb. Ingest paths are skipped. The request gets a `traceparent` header while the span is recording.
 
+A Guzzle client that already uses this middleware records OpenAI and Anthropic the same way. `POST` to `api.openai.com` on `/v1/chat/completions`, `/v1/responses`, `/v1/completions`, or `/v1/embeddings`, and `POST` to `api.anthropic.com` on `/v1/messages`, become one client span named `{operation} {model}`. The attributes are the OpenTelemetry GenAI names for operation, provider, model, and token counts. A streaming response leaves the token counts unset. Prompt and completion text are not span attributes. The span is recorded only when a transaction is already open.
+
 ## PDO
 
 `TracingPdo` wraps an existing connection. It does not extend PDO.
