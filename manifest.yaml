@@ -50,6 +50,30 @@ pages:
     description: Stamp every event with the git ref and commit that produced the deploy.
     tags: [release, ci, github-actions, guide]
 
+  - id: monitors
+    path: guides/monitors.md
+    title: Job monitors
+    description: Check in from cron or PHP so a job that never starts opens an issue.
+    tags: [monitors, cron, check-in, guide]
+
+  - id: runtime
+    path: guides/runtime.md
+    title: Runtime
+    description: Service, environment, and deployment health from check-ins, logs, and gauges.
+    tags: [runtime, logs, metrics, kubernetes, guide]
+
+  - id: collector-kubernetes
+    path: sdk/collector/kubernetes.md
+    title: Kubernetes Collector
+    description: Helm values and a CronJob check-in for the OpenTelemetry Collector.
+    tags: [collector, kubernetes, otlp, logs, metrics]
+
+  - id: collector-sitehost
+    path: sdk/collector/sitehost.md
+    title: SiteHost logs
+    description: Tail /container/logs and run the supervisord probe inside the container.
+    tags: [collector, sitehost, logs, probe]
+
   - id: sdk-hub
     path: sdk/README.md
     title: SDKs
