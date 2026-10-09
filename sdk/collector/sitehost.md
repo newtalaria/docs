@@ -1,6 +1,6 @@
 # SiteHost logs
 
-A SiteHost web container has no Docker socket and no host root. `vendor/bin/talaria-sitehost install` in `talaria/silverstripe` 2.1.2 downloads otelcol-contrib 0.162.0 into the application directory and writes `/container/config/talaria-otelcol.yaml`. The SiteHost deploy action runs that command when `talaria/sitehost/monitors.json` is present. An image replacement removes `supervisord.conf` and this file. The next deploy writes them again. The binary stays under the application directory and is reused when the version matches.
+A SiteHost web container has no Docker socket and no host root. `vendor/bin/talaria-sitehost install` in `talaria/silverstripe` 2.1.3 downloads otelcol-contrib 0.162.0 into the application directory and writes `/container/config/talaria-otelcol.yaml`. The SiteHost deploy action runs that command when `talaria/sitehost/monitors.json` is present. An image replacement removes `supervisord.conf` and this file. The next deploy writes them again. The binary stays under the application directory and is reused when the version matches.
 
 The exporter address is the project DSN with `/otlp` on the end. The collector appends `/v1/logs`, so the request is `POST /otlp/v1/logs`. `X-API-Key` is `${env:TALARIA_API_KEY}`. The key is not written into the file. It needs `logs:write`.
 
@@ -27,14 +27,14 @@ receivers:
       - type: regex_parser
         parse_from: body
         regex: '\[(?:[^\]]*:)?(?P<level>notice|info|warn|warning|error|crit|alert|emerg|critical|debug)\]'
-        on_error: send
+        on_error: send_quiet
       - type: regex_parser
         parse_from: body
         regex: '(?i)(?:^|\s)(?P<level>NOTICE|INFO|WARNING|WARN|ERROR|CRITICAL|CRIT|ALERT|EMERG|DEBUG)\s*:'
-        on_error: send
+        on_error: send_quiet
       - type: severity_parser
         parse_from: attributes.level
-        on_error: send
+        on_error: send_quiet
         mapping:
           info:
             - notice
