@@ -72,6 +72,7 @@ Hosted API: `https://ingest.newtalaria.com`.
 | API URL | `--url` | `TALARIA_BASE_URL` | `http://localhost:8080` |
 | Release | `--release` | `TALARIA_RELEASE` | `local` |
 | Key | `--api-key` | `TALARIA_RELEASE_KEY`, then `TALARIA_API_KEY` | required |
+| Silverstripe combine | `--silverstripe-combine-files` | | off |
 
 `main.a1b2c3.js.map` is sent as `fileName` `main.a1b2c3.js`. CSS maps are skipped. A basename outside `^[A-Za-z0-9._~+-]+$` fails locally. The same release and file name replaces the previous map. Caps are source map version 3, 2 MiB gzip, and 4 MiB JSON.
 

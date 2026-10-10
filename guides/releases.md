@@ -63,16 +63,14 @@ jobs:
             --dart-define=TALARIA_COMMIT_SHA="$TALARIA_COMMIT_SHA"
 
       - name: Upload source maps
+        id: maps
+        uses: newtalaria/source-maps@v1
+        with:
+          path: dist
         env:
           TALARIA_RELEASE_KEY: ${{ secrets.TALARIA_RELEASE_KEY }}
-        run: |
-          npx talaria sourcemaps upload \
-            --url https://ingest.newtalaria.com \
-            --api-key "$TALARIA_RELEASE_KEY" \
-            --release "$TALARIA_RELEASE" \
-            ./dist
 ```
 
-`NEXT_PUBLIC_TALARIA_RELEASE` is what the Next.js client bundle inlines. Flutter reads `TALARIA_RELEASE` and `TALARIA_COMMIT_SHA` from `--dart-define`. The source-map upload uses that same `TALARIA_RELEASE`, so the map and the event name the same deploy.
+`NEXT_PUBLIC_TALARIA_RELEASE` is what the Next.js client bundle inlines. Flutter reads `TALARIA_RELEASE` and `TALARIA_COMMIT_SHA` from `--dart-define`. The source-map action reads that same `TALARIA_RELEASE`, so the map and the event name the same deploy. `steps.maps.outputs.release` is that string.
 
 GitLab is the same idea: `CI_COMMIT_REF_NAME`, `CI_COMMIT_SHA`, and `CI_COMMIT_TAG` when the pipeline is a tag. Set `TALARIA_RELEASE` yourself when you want a different string.

@@ -6,7 +6,7 @@ tags: [javascript, source-maps, release, cli, guide]
 
 # Upload JavaScript source maps
 
-Opening an event rewrites a minified JavaScript frame to the original file, line, column, and function when a source map for that release and bundle is stored. The browser reports the minified basename, such as `main.a1b2c3.js`. Upload the built `*.js.map` under that name, for the same release the app sends.
+Opening an event rewrites a minified JavaScript frame to the original file, line, column, and function. Talaria matches a debug id first, when the event and an uploaded map share one. Otherwise it matches the release plus the served artifact path, such as `assets/app.js` or `main.a1b2c3.js`. A stored name with no slash still matches that basename.
 
 Hidden source maps work. Talaria reads the copy you upload when the event is opened.
 
@@ -69,22 +69,22 @@ The command prints the URL, the release, and each `fileName`, then the stored id
 | API URL | `--url` | `TALARIA_BASE_URL` | `http://localhost:8080` |
 | Release | `--release` | `TALARIA_RELEASE` | `local` |
 | Key | `--api-key` | `TALARIA_RELEASE_KEY`, then `TALARIA_API_KEY` | required |
+| Silverstripe combine | `--silverstripe-combine-files` | | off |
 
 ## 4. Upload from CI
 
-Pass the API, the key, and the release on the command. The upload string is the same `TALARIA_RELEASE` the app was built with. The [releases guide](releases.md) has the GitHub Actions workflow.
+On GitHub Actions, upload the directory the build already wrote. Keep `TALARIA_RELEASE_KEY` in the environment. When `TALARIA_RELEASE` is set, the action uses that string, so the maps match the app build. The [releases guide](releases.md) shows the release step next to the build.
 
-```sh
-export TALARIA_RELEASE="${GITHUB_REF_NAME}@${GITHUB_SHA::7}"
-export TALARIA_COMMIT_SHA="${GITHUB_SHA}"
-npx talaria sourcemaps upload \
-  --url "$TALARIA_BASE_URL" \
-  --api-key "$TALARIA_RELEASE_KEY" \
-  --release "$TALARIA_RELEASE" \
-  ./dist
+```yaml
+- uses: newtalaria/source-maps@v1
+  id: maps
+  with:
+    path: dist
+  env:
+    TALARIA_RELEASE_KEY: ${{ secrets.TALARIA_RELEASE_KEY }}
 ```
 
-Hosted API base URL: `https://ingest.newtalaria.com`.
+`steps.maps.outputs.release` is the release sent with each map. The hosted API base URL is `https://ingest.newtalaria.com`.
 
 ## 5. Confirm the original frame
 
@@ -98,9 +98,9 @@ For a wider excerpt, call MCP `get_source_map` (dashboard AI uses `getSourceMaps
 
 The result includes `path`, `line`, `column`, `functionName`, `contextLine`, `preContext`, and `postContext`.
 
-When `mapped` is false, `release` and `fileName` are the pair still to upload. Upload that basename for the event's release, then open the event again.
+When `mapped` is false, `release` and `fileName` are the pair still to upload. Upload that artifact for the event's release, or upload a map with the same debug id, then open the event again.
 
-A frame that is still a hashed `*.js` name means that pair is missing.
+A frame that is still a hashed `*.js` name means that pair is missing. The hash is the artifact name. Talaria does not treat it as another file.
 
 The stored event and the issue fingerprint stay as captured. The rewrite happens when the event is read.
 
@@ -108,11 +108,9 @@ The stored event and the issue fingerprint stay as captured. The rewrite happens
 
 It walks the directory for `*.js.map`, skipping `node_modules` and `.git`. Other maps, such as `styles.css.map`, are left in place.
 
-`fileName` is the map basename with `.map` removed. `dist/assets/main.a1b2c3.js.map` uploads as `main.a1b2c3.js`, which is the name the browser reports. Bundlers often set the map's `file` field to `main.js`. The CLI uses the filename on disk.
+When a `.js` file sits beside a `.js.map`, the command writes one debug id into both files and uploads the JavaScript path relative to the directory. `dist/assets/app.js.map` uploads as `assets/app.js`. Deploy those rewritten `.js` files. The browser SDK sends the id from `globalThis.__talariaDebugIds`, which that snippet fills from `document.currentScript` or the stack URL. A map with no sibling uploads as its basename. A path segment outside `^[A-Za-z0-9._~+-]+$`, a `..` segment, or a name longer than 200 characters fails before the request.
 
-A name outside `^[A-Za-z0-9._~+-]+$`, or longer than 200 characters, fails before the request.
-
-The body is gzip of the raw JSON, including `sourcesContent`. A string `debugId` in that JSON is stored on the artifact. Lookup uses the release and `fileName`.
+The body is gzip of the source map JSON, including `sourcesContent`. The debug id is stored on the artifact. Lookup uses that id, then the release and `fileName`.
 
 Uploading the same release and `fileName` again replaces that map. One request per file.
 
@@ -133,6 +131,33 @@ X-API-Key: tal_live_…
 ```
 
 `UploadSourceMapResponse` returns `id`, `release`, `fileName`, and `sizeBytes` (uncompressed JSON length).
+
+## Silverstripe combined JavaScript
+
+`Requirements::combine_files` writes one header line, then the first file:
+
+```
+/****** FILE: themes/default/javascript/scripts.js *****/
+```
+
+Files later in that same call sit after this one, so their bytes do not move its lines. The uploaded script is that first path.
+
+`--silverstripe-combine-files` writes the debug id into the sibling `.js` and uploads the map with one empty generated line in front, matching the header. Deploy the rewritten `.js` as the file the combiner reads. The page still serves `assets/_combinedfiles/scripts-<hash>.js`. That combined script contains the debug id, and the browser reports its URL. Talaria matches the debug id and reads the line from the shifted map.
+
+```sh
+npx talaria sourcemaps upload ./source-maps --silverstripe-combine-files
+```
+
+On GitHub Actions:
+
+```yaml
+- uses: newtalaria/source-maps@v1
+  with:
+    path: source-maps
+    silverstripe-combine-files: true
+```
+
+`Talaria.init({ release })` stays the release the action prints. A script the browser loads directly is uploaded without this flag.
 
 ## Related
 
