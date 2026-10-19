@@ -26,4 +26,4 @@ A gauge alert uses kind `gauge` and a query such as `metric:container.filesystem
 
 `k8s.job.failed_pods` above zero opens an issue. A rising `k8s.container.restarts` opens one issue. Filesystem usage at or above 90% of the limit opens a disk issue and resolves below 85%.
 
-Log bytes and metric points are metered separately from events. Enforcement stays off until `TALARIA_ENFORCE_TELEMETRY_QUOTA` is set.
+Logs are metered separately from events, per organization billing period, by decompressed OTLP bytes, and log billing is on by default. Each plan includes a monthly amount (Developer 1 GB, Team 5 GB, Business 20 GB, Enterprise 100 GB), then $0.50 per GB. Developer and the no-card trial get a 402 on `/otlp/v1/logs` once the include is used. Team and Business pay overage up to their log spending cap (by default $10 on Team and $25 on Business), which you can change under **Billing > Limits**, with warning emails at 80% and 100%. Metric points are not billed.
