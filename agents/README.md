@@ -42,10 +42,10 @@ Each skill focuses on one phase, hands off to the next when appropriate, and con
 
 | Skill | Purpose | Core tools | Existing playbook |
 | ----- | ------- | ---------- | ----------------- |
-| `talaria-get-started` | Connect MCP, confirm org/project, first smoke read | `get_connection`, `get_projects`, `docs_*`, `search_errors` | *Orientation only — no dedicated playbook* |
+| `talaria-get-started` | Connect MCP, confirm org/project, first smoke read | `get_connection`, `list_projects`, `docs_*`, `search_issues` | *Orientation only — no dedicated playbook* |
 | `talaria-instrument` | SDK install, create project/key, send test event | `setup_project`, `send_test_event`, `search_events`, `docs_get` | [Add Talaria with an agent](add-talaria.md) |
 | `talaria-observe-performance` | Health, traces, spans, queries, sessions, monitors | `get_project_stats`, `search_traces`, `list_suspect_spans`, `list_database_queries` | *Read-only stats — extends playbook tools* |
-| `talaria-triage-issue` | Investigate one issue: pack → trace/replay → optional GitHub | `get_error`, `get_trace`, `get_replay`, `get_suspect_commits`, `create_github_issue`, `update_issue_status` | [Triage issues with an agent](triage-issues.md) |
+| `talaria-triage-issue` | Investigate one issue: pack → trace/replay → optional GitHub | `get_issue`, `get_trace`, `get_replay`, `list_suspect_commits`, `create_github_issue`, `update_issue_status` | [Triage issues with an agent](triage-issues.md) |
 | `talaria-verify-fix` | After release: verdict + optional status update | `verify_fix`, `list_releases`, `get_release`, `wait_for_event`, `update_issue_status` | *Extends triage with release verification — see `verify_fix` tool in [MCP](mcp/README.md)* |
 
 ---
@@ -56,7 +56,7 @@ Each skill focuses on one phase, hands off to the next when appropriate, and con
 
 Install the **Talaria** plugin in Cursor Marketplace or Grok Bot (handle `talaria` once approved). The plugin includes:
 
-- `mcp.json` pointing at `https://api.newtalaria.com/mcp`
+- `mcp.json` pointing at `https://ingest.newtalaria.com/otlp/mcp`
 - Five skill `SKILL.md` files in `skills/` with YAML frontmatter
 
 Agents that load the plugin automatically discover and apply these skills when relevant.
@@ -78,7 +78,7 @@ The playbooks are the **detailed how-to**; the skills are **workflow guardrails*
 
 | Scope | Includes |
 | ----- | -------- |
-| `mcp:read` | `get_connection`, `get_projects`, `get_project`, `search_errors`, `get_error`, `search_events`, `get_event`, `search_traces`, `get_trace`, `get_replay`, `get_suspect_commits`, `get_source_context`, `get_source_map`, `list_suspect_spans`, `list_database_queries`, `search_sessions`, `get_project_stats`, feature flag reads, `list_releases`, `get_release`, `wait_for_event`, `verify_fix` |
+| `mcp:read` | `get_connection`, `list_projects`, `get_project`, `search_issues`, `get_issue`, `search_events`, `get_event`, `search_traces`, `get_trace`, `get_replay`, `list_suspect_commits`, `get_source_context`, `get_source_map`, `list_suspect_spans`, `list_database_queries`, `search_sessions`, `get_project_stats`, feature flag reads, `list_releases`, `get_release`, `wait_for_event`, `verify_fix` |
 | `mcp:write` | All read tools plus `update_project_settings`, `create_project`, `send_test_event`, `update_issue_status`, `add_issue_comment`, `create_github_issue`, `link_github_issue`, `unlink_github_issue`, feature flag writes |
 | `mcp:keys` | All write tools plus `create_api_key`, `setup_project` |
 
@@ -101,7 +101,7 @@ Install scopes are `mcp:read mcp:write mcp:keys`. Skills ask before using write 
 **User:** "What's failing in production?" or paste a Talaria issue URL
 
 1. `talaria-get-started` → confirm connection (may skip if already connected)
-2. `talaria-triage-issue` → `get_error` with `issueId`, read pack (latest instance, breadcrumbs, release, suspects), optional `get_trace` / `get_replay`, state hypothesis, optional GitHub create/link
+2. `talaria-triage-issue` → `get_issue` with `issueId`, read pack (latest instance, breadcrumbs, release, suspects), optional `get_trace` / `get_replay`, state hypothesis, optional GitHub create/link
 
 ### Post-release verification
 

@@ -26,7 +26,7 @@ Codex reads Streamable HTTP MCP servers from `~/.codex/config.toml`. The field i
 
 ```toml
 [mcp_servers.Talaria]
-url = "https://api.newtalaria.com/mcp"
+url = "https://ingest.newtalaria.com/otlp/mcp"
 ```
 
 Local API: `http://{{mcpUrl}}/mcp`.
@@ -44,7 +44,7 @@ export TALARIA_MCP_TOKEN='YOUR_TOKEN'
 
 ```toml
 [mcp_servers.Talaria]
-url = "https://api.newtalaria.com/mcp"
+url = "https://ingest.newtalaria.com/otlp/mcp"
 bearer_token_env_var = "TALARIA_MCP_TOKEN"
 ```
 

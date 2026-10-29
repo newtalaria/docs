@@ -66,7 +66,7 @@ Do not put tokens or card numbers in breadcrumb `data` or capture `extra`. Query
 
 ## Verify
 
-`search_errors` with the environment of the key this process used. Analytics counts on `get_project_stats` stay at 0 while analytics is off.
+`search_issues` with the environment of the key this process used. Analytics counts on `get_project_stats` stay at 0 while analytics is off.
 
 ## Related
 

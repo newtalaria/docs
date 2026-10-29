@@ -83,7 +83,7 @@ export default withTalariaConfig({
 });
 ```
 
-Send a client exception and confirm with `search_errors` and `environment: development`.
+Send a client exception and confirm with `search_issues` and `environment: development`.
 
 ## What you can do
 
@@ -118,7 +118,7 @@ Do not pass `environment` in init. A local `setup_project` key is a development 
 
 ## Verification
 
-Throw in a client component and in a server action you wrapped with `withServerAction`. `search_errors` with `environment: development` should show both.
+Throw in a client component and in a server action you wrapped with `withServerAction`. `search_issues` with `environment: development` should show both.
 
 ## Troubleshooting
 

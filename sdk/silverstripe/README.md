@@ -36,7 +36,7 @@ TALARIA_API_KEY=tal_prod_…
 TALARIA_RELEASE=1.4.2
 ```
 
-The DSN defaults to `https://ingest.newtalaria.com`. Set `Talaria\SilverStripe\Config.dsn` in YAML only when the API is somewhere else. Flush the manifest after install (`vendor/bin/sake dev/build flush=1`, or your usual flush). Log an error or throw. Confirm with MCP `search_errors` and `environment: development`.
+The URL defaults to `https://ingest.newtalaria.com`. Set `Talaria\SilverStripe\Config.dsn` in YAML only when the API is somewhere else. Flush the manifest after install (`vendor/bin/sake dev/build flush=1`, or your usual flush). Log an error or throw. Confirm with MCP `search_issues` and `environment: development`.
 
 ## What you can do
 
@@ -64,7 +64,7 @@ YAML and environment are the setup. The module reads:
 | `TALARIA_API_KEY` | Ingest key. Chooses the environment |
 | `TALARIA_RELEASE` | Version or SHA |
 | `TALARIA_URL` | Optional. Default `https://ingest.newtalaria.com` |
-| `TALARIA_BROWSER_DSN` | Browser script only, when the PHP DSN is not reachable from the browser |
+| `TALARIA_BROWSER_API_KEY` | Browser script only, when the PHP URL is not reachable from the browser |
 | `TALARIA_BROWSER_API_KEY` | Browser script only. PHP keeps `apiKey` |
 | `enableBrowserCms` / `enableBrowserFrontend` | Default true |
 
@@ -80,7 +80,7 @@ Use a development key locally and a production key on the live site. The prefix 
 
 ## Verification
 
-Trigger a logged error. `search_errors` with `environment: development`. Flush caches so the new module config is loaded.
+Trigger a logged error. `search_issues` with `environment: development`. Flush caches so the new module config is loaded.
 
 ## Troubleshooting
 

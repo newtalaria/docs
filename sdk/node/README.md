@@ -45,7 +45,7 @@ await Talaria.captureException(new Error('talaria hello'));
 await Talaria.flush();
 ```
 
-The key decides the environment. Do not pass `environment`. A local `setup_project` key is a development key. Confirm with `search_errors` and `environment: development`.
+The key decides the environment. Do not pass `environment`. A local `setup_project` key is a development key. Confirm with `search_issues` and `environment: development`.
 
 ## What you can do
 
@@ -119,7 +119,7 @@ Each snippet is on [Instrumentation and tracing](tracing.md).
 
 ## App init vs Project settings
 
-Init holds the DSN, API key, release, and tags. Tracing and analytics turn on from Project settings. Set `remoteConfig: false` only for an errors-only process that should not fetch policy.
+Init holds the URL, API key, release, and tags. Tracing and analytics turn on from Project settings. Set `remoteConfig: false` only for an errors-only process that should not fetch policy.
 
 ## API key
 
@@ -127,7 +127,7 @@ Store `TALARIA_API_KEY` in the environment. The prefix stays `tal_prod_`. The se
 
 ## Verification
 
-`await Talaria.captureException(new Error('talaria hello'))`, then `await Talaria.flush()` in a short-lived script. MCP `search_errors` with `environment: development`.
+`await Talaria.captureException(new Error('talaria hello'))`, then `await Talaria.flush()` in a short-lived script. MCP `search_issues` with `environment: development`.
 
 ## Troubleshooting
 

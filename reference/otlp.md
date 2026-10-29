@@ -1,7 +1,22 @@
 ---
 id: otlp-endpoint
 title: OTLP Endpoint
-path: reference/otlp.md
+description: >-
+  Send traces, logs, and metrics via OpenTelemetry Protocol (OTLP) over HTTP
+  to ingest.newtalaria.com/otlp. HTTP/protobuf recommended, gRPC not supported.
+tags:
+  - otlp
+  - opentelemetry
+  - ingest
+  - collector
+navTitle: OTLP Endpoint
+type: reference
+section: reference
+platform: []
+order: 10
+feature: []
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # OTLP Endpoint
@@ -66,7 +81,7 @@ Bodies over 6 MiB (before compression) will receive a 413 response.
 
 ## Environment Variables
 
-See the [OTLP environment snippet](#) for the complete configuration.
+See the [OpenTelemetry SDK Configuration](../sdk/README.md) for complete setup details.
 
 ```bash
 export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingest.newtalaria.com/otlp"
@@ -115,6 +130,5 @@ service:
 
 ## Related
 
-- [Resource Attributes](#) (Semantic Conventions v1.44.0)
-- [Kubernetes Integration](#)
-- [OpenTelemetry SDKs](#)
+- [Kubernetes Integration](../deploy/hosts/kubernetes.md)
+- [OpenTelemetry SDKs](../sdk/README.md)

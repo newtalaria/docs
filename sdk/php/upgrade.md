@@ -95,7 +95,7 @@ Restart PHP after the new code is on disk so OPcache loads it. A rejected API ke
 2.0.0 removes the `environment` init option. The API key decides the environment. Events, spans, and analytics no longer send an environment string.
 
 - Delete `environment` from `Talaria::init([...])`.
-- Delete `TALARIA_ENVIRONMENT` from the environment.
+- Delete `TALARIA_API_KEY` from the environment.
 - On Silverstripe, delete the `environment` key under `Talaria\SilverStripe\Config`. Details are on the [Silverstripe upgrade](../silverstripe/upgrade.md) page.
 - On Laravel, delete the `environment` key from a published `config/talaria.php` and run `php artisan config:clear`. `APP_ENV` is not a substitute.
 

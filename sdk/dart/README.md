@@ -57,7 +57,7 @@ dart run \
   --dart-define=APP_RELEASE=dev
 ```
 
-The key decides the environment. Do not pass `environment`. Confirm with `search_errors` and `environment: development`.
+The key decides the environment. Do not pass `environment`. Confirm with `search_issues` and `environment: development`.
 
 ## What you can do
 
@@ -95,7 +95,7 @@ A second `init` is ignored.
 
 ## App init vs Project settings
 
-Init holds the DSN, API key, release, minimum level, and tags. Tracing and analytics turn on from Project settings. There is no `remoteConfig: false` on Dart.
+Init holds the URL, API key, release, minimum level, and tags. Tracing and analytics turn on from Project settings. There is no `remoteConfig: false` on Dart.
 
 ## API key
 
@@ -103,7 +103,7 @@ Pass `TALARIA_API_KEY` with `--dart-define` or from the environment your process
 
 ## Verification
 
-`captureException` then `flush`. MCP `search_errors` with `environment: development`.
+`captureException` then `flush`. MCP `search_issues` with `environment: development`.
 
 ## Troubleshooting
 

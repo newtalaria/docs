@@ -29,7 +29,7 @@ presets:
 config:
   exporters:
     otlphttp:
-      endpoint: https://api.newtalaria.com
+      endpoint: https://ingest.newtalaria.com/otlp
       headers:
         X-API-Key: ${env:TALARIA_API_KEY}
       compression: gzip
@@ -72,9 +72,9 @@ spec:
             - name: import
               image: example/import:1
               env:
-                - name: TALARIA_DSN
-                  value: https://api.newtalaria.com
-                - name: TALARIA_PING_TOKEN
+                - name: TALARIA_URL
+                  value: https://ingest.newtalaria.com/otlp
+                - name: TALARIA_MONITOR_TOKEN
                   valueFrom:
                     secretKeyRef:
                       name: talaria-import
@@ -83,20 +83,20 @@ spec:
                 - /bin/sh
                 - -c
                 - |
-                  curl -fsS -X POST "$TALARIA_DSN/monitors/ping" \
-                    -H "X-Monitor-Token: $TALARIA_PING_TOKEN" \
+                  curl -fsS -X POST "$TALARIA_URL/v1/check-ins" \
+                    -H "X-Talaria-Monitor-Token: $TALARIA_MONITOR_TOKEN" \
                     -H "Content-Type: application/json" \
                     -d '{"status":"in_progress"}'
                   /app/import
                   status=$?
                   if [ "$status" -eq 0 ]; then
-                    curl -fsS -X POST "$TALARIA_DSN/monitors/ping" \
-                      -H "X-Monitor-Token: $TALARIA_PING_TOKEN" \
+                    curl -fsS -X POST "$TALARIA_URL/v1/check-ins" \
+                      -H "X-Talaria-Monitor-Token: $TALARIA_MONITOR_TOKEN" \
                       -H "Content-Type: application/json" \
                       -d '{"status":"ok"}'
                   else
-                    curl -fsS -X POST "$TALARIA_DSN/monitors/ping" \
-                      -H "X-Monitor-Token: $TALARIA_PING_TOKEN" \
+                    curl -fsS -X POST "$TALARIA_URL/v1/check-ins" \
+                      -H "X-Talaria-Monitor-Token: $TALARIA_MONITOR_TOKEN" \
                       -H "Content-Type: application/json" \
                       -d '{"status":"error"}'
                   fi

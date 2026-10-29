@@ -25,7 +25,7 @@ owner: docs
 
 Custom MCP chat prompt lets you register Talaria before the marketplace handle is approved:
 
-1. In Grok Bot chat, say: **Add a custom MCP server named Talaria at https://api.newtalaria.com/mcp**
+1. In Grok Bot chat, say: **Add a custom MCP server named Talaria at https://ingest.newtalaria.com/otlp/mcp**
 2. Grok Bot prompts you to approve → complete OAuth in the browser → choose your organisation.
 3. Confirm with `get_connection` to see your identity, org, and scopes (`mcp:read mcp:write mcp:keys`).
 4. Try: *"What are the top open errors in production?"* or *"Get started with Talaria"*

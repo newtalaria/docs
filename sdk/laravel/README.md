@@ -36,13 +36,13 @@ TALARIA_API_KEY=tal_prod_…
 TALARIA_RELEASE=1.4.2
 ```
 
-The published config defaults the DSN to `https://ingest.newtalaria.com`. Publish it if you need to change that:
+The published config defaults the URL to `https://ingest.newtalaria.com`. Publish it if you need to change that:
 
 ```bash
 php artisan vendor:publish --tag=talaria-config
 ```
 
-Throw in a route. The exception handler's `reportable` hook calls `captureException`. Confirm with MCP `search_errors` and `environment: development`. Run `php artisan config:clear` after changing `.env`.
+Throw in a route. The exception handler's `reportable` hook calls `captureException`. Confirm with MCP `search_issues` and `environment: development`. Run `php artisan config:clear` after changing `.env`.
 
 ## What you can do
 
@@ -84,7 +84,7 @@ A development key is what local install should use. Production uses a production
 
 ## Verification
 
-Hit a route that throws. `search_errors` with `environment: development`. The dashboard shell defaults to production when a production key exists, so switch it to Development for this install.
+Hit a route that throws. `search_issues` with `environment: development`. The dashboard shell defaults to production when a production key exists, so switch it to Development for this install.
 
 ## Troubleshooting
 

@@ -71,7 +71,7 @@ void run(List<String> args) async {
 }
 ```
 
-`interceptDatabase` no-ops until init has run and tracing is on. The key decides the environment. Confirm a thrown endpoint error with `search_errors` and `environment: development`. On shutdown, `await Talaria.flush()` and `await Talaria.close()`.
+`interceptDatabase` no-ops until init has run and tracing is on. The key decides the environment. Confirm a thrown endpoint error with `search_issues` and `environment: development`. On shutdown, `await Talaria.flush()` and `await Talaria.close()`.
 
 ## What you can do
 
@@ -102,7 +102,7 @@ Register `handleExceptionEvent` on `experimentalFeatures.diagnosticEventHandlers
 
 ## App init vs Project settings
 
-DSN, API key, release, and tags belong in `TalariaOptions`. Tracing sample rates and analytics come from Project settings. Dart always fetches `sdk/getConfig`.
+URL, API key, release, and tags belong in `TalariaOptions`. Tracing sample rates and analytics come from Project settings. Dart always fetches `sdk/getConfig`.
 
 ## API key
 
@@ -110,7 +110,7 @@ Load `TALARIA_API_KEY` from the server environment. The prefix stays `tal_prod_`
 
 ## Verification
 
-Throw from an endpoint method. `search_errors` with `environment: development`. After you enable tracing, a request span should show under Performance for that same environment.
+Throw from an endpoint method. `search_issues` with `environment: development`. After you enable tracing, a request span should show under Performance for that same environment.
 
 ## Troubleshooting
 

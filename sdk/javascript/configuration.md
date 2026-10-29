@@ -96,7 +96,7 @@ Do not put tokens, passwords, or raw card numbers in `extra`, tags, or breadcrum
 
 ## Verify
 
-After a change, `search_errors` or `search_events` with the environment of the key you used. `get_project_stats` counts analytics volume and stays at 0 for that environment while analytics is off.
+After a change, `search_issues` or `search_events` with the environment of the key you used. `get_project_stats` counts analytics volume and stays at 0 for that environment while analytics is off.
 
 ## Related
 

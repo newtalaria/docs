@@ -51,7 +51,7 @@ try {
 Talaria::flush();
 ```
 
-The key decides the environment. Do not pass `environment`. Confirm with MCP `search_errors` and `environment: development`. `flush()` matters in a short-lived CLI process. A web SAPI flushes on shutdown.
+The key decides the environment. Do not pass `environment`. Confirm with MCP `search_issues` and `environment: development`. `flush()` matters in a short-lived CLI process. A web SAPI flushes on shutdown.
 
 ## What you can do
 
@@ -89,7 +89,7 @@ A second `init` is ignored. Uncaught errors are captured while default integrati
 
 ## App init vs Project settings
 
-Init holds the DSN, API key, release, minimum level, and tags. Tracing, analytics, and feature flags turn on from Project settings after `sdk/getConfig`. Init values for those switches are not what the process uses. Set `'remoteConfig' => false` only when this process should send errors and skip that fetch.
+Init holds the URL, API key, release, minimum level, and tags. Tracing, analytics, and feature flags turn on from Project settings after `sdk/getConfig`. Init values for those switches are not what the process uses. Set `'remoteConfig' => false` only when this process should send errors and skip that fetch.
 
 ## API key
 
@@ -97,7 +97,7 @@ Init holds the DSN, API key, release, minimum level, and tags. Tracing, analytic
 
 ## Verification
 
-`Talaria::captureException($e)` then `Talaria::flush()`. MCP `search_errors` with `environment: development`.
+`Talaria::captureException($e)` then `Talaria::flush()`. MCP `search_issues` with `environment: development`.
 
 ## Troubleshooting
 

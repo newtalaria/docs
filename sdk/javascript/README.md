@@ -29,7 +29,7 @@ owner: docs
 
 1. Install the package and init once, before the rest of the app runs.
 2. Send one exception.
-3. Confirm it with MCP `search_errors` and `environment: development`, or open Issues in the dashboard.
+3. Confirm it with MCP `search_issues` and `environment: development`, or open Issues in the dashboard.
 
 ```bash
 npm install @newtalaria/browser
@@ -107,7 +107,7 @@ The key decides the environment. Each key is bound to development, test, staging
 
 1. Run the page with a development key.
 2. Call `Talaria.captureException` (or throw from `window`).
-3. MCP `search_errors` with `environment: development`, or open Issues and switch the shell to Development.
+3. MCP `search_issues` with `environment: development`, or open Issues and switch the shell to Development.
 
 ## Troubleshooting
 

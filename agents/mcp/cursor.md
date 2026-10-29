@@ -23,13 +23,13 @@ owner: docs
 ## Add the server
 
 1. Open **Cursor Settings → MCP**.
-2. Add Talaria at `https://api.newtalaria.com/mcp` (Streamable HTTP), or paste this into `~/.cursor/mcp.json`. This shape is Cursor's. Claude Code, VS Code, Codex, Gemini CLI, and Windsurf each use a different key — see [MCP](README.md).
+2. Add Talaria at `https://ingest.newtalaria.com/otlp/mcp` (Streamable HTTP), or paste this into `~/.cursor/mcp.json`. This shape is Cursor's. Claude Code, VS Code, Codex, Gemini CLI, and Windsurf each use a different key — see [MCP](README.md).
 
    ```json
    {
      "mcpServers": {
        "Talaria": {
-         "url": "https://api.newtalaria.com/mcp"
+         "url": "https://ingest.newtalaria.com/otlp/mcp"
        }
      }
    }
@@ -51,7 +51,7 @@ Local API: `http://{{mcpUrl}}/mcp`.
    {
      "mcpServers": {
        "Talaria": {
-         "url": "https://api.newtalaria.com/mcp",
+         "url": "https://ingest.newtalaria.com/otlp/mcp",
          "headers": {
            "Authorization": "Bearer YOUR_TOKEN"
          }
@@ -69,14 +69,14 @@ Local API: `http://{{mcpUrl}}/mcp`.
 3. `get_connection` → announce user + org; ask before create
 4. On yes: `setup_project` with `confirmed: true` (tracing + one-time key)
 5. Wire SDK from docs (`talaria_flutter`, `runZonedApp`, `--dart-define=TALARIA_API_KEY`). The key decides the environment. Do not pass `environment` in init. `setup_project` returns a development key.
-6. `send_test_event` → verify with `search_events` / `search_errors` and `environment: development`. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
+6. `send_test_event` → verify with `search_events` / `search_issues` and `environment: development`. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
 
 Harness path for local Flutter install tests: `
 
 ## Investigate production
 
-1. `get_projects`
-2. `search_errors` with `environment: production` (the default once a production key exists) → `get_error`
+1. `list_projects`
+2. `search_issues` with `environment: production` (the default once a production key exists) → `get_issue`
 3. Follow `traceId` / `sessionId` when present
 4. Include `dashboardUrl` from tool results when citing an issue
 5. When the failure is already fixed, follow [Triage issues with an agent](../triage-issues.md): `update_issue_status` with a note

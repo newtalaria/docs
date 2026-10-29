@@ -20,7 +20,7 @@ owner: docs
 
 # VS Code
 
-VS Code and GitHub Copilot read MCP servers from `mcp.json`. The Talaria URL is `https://api.newtalaria.com/mcp`. The top-level key in the VS Code file is `servers`, and each HTTP server needs `"type": "http"`.
+VS Code and GitHub Copilot read MCP servers from `mcp.json`. The Talaria URL is `https://ingest.newtalaria.com/otlp/mcp`. The top-level key in the VS Code file is `servers`, and each HTTP server needs `"type": "http"`.
 
 ## Add the server
 
@@ -32,7 +32,7 @@ VS Code and GitHub Copilot read MCP servers from `mcp.json`. The Talaria URL is 
   "servers": {
     "Talaria": {
       "type": "http",
-      "url": "https://api.newtalaria.com/mcp"
+      "url": "https://ingest.newtalaria.com/otlp/mcp"
     }
   }
 }
@@ -56,7 +56,7 @@ Local API: `http://{{mcpUrl}}/mcp`.
   "servers": {
     "Talaria": {
       "type": "http",
-      "url": "https://api.newtalaria.com/mcp",
+      "url": "https://ingest.newtalaria.com/otlp/mcp",
       "headers": {
         "Authorization": "Bearer ${input:talaria-mcp-token}"
       }

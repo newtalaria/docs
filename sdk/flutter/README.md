@@ -78,7 +78,7 @@ await Talaria.captureException(
 await Talaria.flush();
 ```
 
-The key decides the environment. A local run uses a development key. Confirm with `search_errors` and `environment: development`. `minLevel: warning` drops info messages. `captureException` is an error, so Issues still shows it.
+The key decides the environment. A local run uses a development key. Confirm with `search_issues` and `environment: development`. `minLevel: warning` drops info messages. `captureException` is an error, so Issues still shows it.
 
 ## What you can do
 
@@ -117,13 +117,13 @@ See [Project configuration](../../get-started/project-settings.md).
 
 ## API key
 
-`tal_prod_…` keys are public client ingest credentials. Pass the key with `--dart-define`. The server stamps the key's environment on events, spans, analytics, and heatmaps. DSN for Talaria Cloud is `https://ingest.newtalaria.com`.
+`tal_prod_…` keys are public client ingest credentials. Pass the key with `--dart-define`. The server stamps the key's environment on events, spans, analytics, and heatmaps. URL for Talaria Cloud is `https://ingest.newtalaria.com`.
 
 ## Verification
 
 1. Run with a valid development key.
 2. Trigger a framework error or call `Talaria.captureException`.
-3. Dashboard Issues (switch the shell to Development) or MCP `search_errors` / `search_events`.
+3. Dashboard Issues (switch the shell to Development) or MCP `search_issues` / `search_events`.
 
 ## Troubleshooting
 

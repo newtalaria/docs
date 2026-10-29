@@ -1,6 +1,5 @@
 ---
 title: Upload JavaScript source maps
-path: guides/upload-javascript-source-maps.md
 description: >-
   Upload minified bundle source maps in local dev and CI so stack frames show
   original files and line numbers.
@@ -138,7 +137,7 @@ Uploading the same release and `fileName` again replaces that map. One request p
 Limits: source map version 3, at most 2 MiB gzipped and 4 MiB of JSON.
 
 ```json
-POST {baseUrl}/v1/source-maps
+POST {url}/v1/source-maps
 X-API-Key: tal_prod_…
 
 {

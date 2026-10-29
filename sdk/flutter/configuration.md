@@ -85,7 +85,7 @@ Prefer an opaque user id in `setUser`. Do not put tokens into `setExtra` or brea
 
 ## Verify
 
-`search_errors` with `environment: development` after a local run. Switch the dashboard shell to Development when the project also has a production key.
+`search_issues` with `environment: development` after a local run. Switch the dashboard shell to Development when the project also has a production key.
 
 ## Related
 

@@ -2,7 +2,6 @@
 id: monitors
 title: Cron and job monitors
 navTitle: Cron monitors
-path: features/monitors.md
 description: >-
   Check in from cron or scheduled jobs so a missed run opens an issue
   automatically.

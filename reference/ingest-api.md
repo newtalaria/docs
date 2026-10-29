@@ -1,6 +1,5 @@
 ---
 title: Ingest API reference
-path: reference/ingest-api.md
 description: >-
   Ingest authentication, event shape, and how the API key sets environment and
   release.

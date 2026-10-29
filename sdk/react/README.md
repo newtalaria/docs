@@ -54,7 +54,7 @@ import { ErrorBoundary } from '@newtalaria/react';
 </ErrorBoundary>
 ```
 
-Confirm with MCP `search_errors` and `environment: development`.
+Confirm with MCP `search_issues` and `environment: development`.
 
 ## What you can do
 
@@ -96,7 +96,7 @@ Pass the key from the build, not from a Node `process.env` read at runtime in th
 
 ## Verification
 
-Trigger a render error inside `ErrorBoundary`, or call `Talaria.captureException`. Look in Issues, or call `search_errors` with `environment: development`.
+Trigger a render error inside `ErrorBoundary`, or call `Talaria.captureException`. Look in Issues, or call `search_issues` with `environment: development`.
 
 ## Troubleshooting
 

@@ -65,7 +65,7 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 ### 3. Ask before creating
 
 1. Suggest a project name from the local app (e.g. package name / folder).
-2. List existing projects from `get_connection.projects` or `get_projects`.
+2. List existing projects from `get_connection.projects` or `list_projects`.
 3. **Ask** (never auto-create):
 
 > Create a new Talaria project named **{suggested}** in **{orgName}**, wire the SDK, mint an ingest key, and send a first test event?  
@@ -87,7 +87,7 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
    - MongoDB, `better-sqlite3`, and `node:sqlite` have no wrapper. Open a CLIENT span around the call.
    Leave bound values, documents, and result rows in the app.
 5. Call **`send_test_event`** on the real `projectId`.
-6. Verify with `search_events` / `search_errors`, passing `environment: development`. A just-installed project has no production key, and these tools default to development in that case; pass `development` anyway so a later production key does not hide the local traffic. Install success is `search_errors` or `search_events` on development. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
+6. Verify with `search_events` / `search_issues`, passing `environment: development`. A just-installed project has no production key, and these tools default to development in that case; pass `development` anyway so a later production key does not hide the local traffic. Install success is `search_issues` or `search_events` on development. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
 7. Close with the `dashboardUrl` and how to run the app with the key. The dashboard shell reads one environment at a time and defaults to production when a production key exists, otherwise development. Switch to Development to see this install.
 
 Do **not** claim “Talaria is wired” until step 6 returns the test event.
@@ -106,7 +106,7 @@ After init, a minified stack stays minified until maps are uploaded for the same
 
 | In app init | In Project settings (remote `getConfig`) |
 | ----------- | ---------------------------------------- |
-| DSN / base URL | Tracing on/off + sample rate |
+| URL / base URL | Tracing on/off + sample rate |
 | API key (this chooses the environment) | Analytics on/off |
 | release (version or SHA) | Heatmaps on/off |
 | minLevel, beforeSend, tags | Session replay on/off + rates |
@@ -117,7 +117,7 @@ Until remote config arrives, SDKs send **errors only**. Flutter does not support
 
 ## Production loop (after install)
 
-1. `search_errors` with `environment: production` (the default once a production key exists) → `get_error` → optional `get_trace` / `search_sessions` in that same environment.
+1. `search_issues` with `environment: production` (the default once a production key exists) → `get_issue` → optional `get_trace` / `search_sessions` in that same environment.
 2. Fix code locally.
 3. Instrument more using docs. `docs_search` with the stack `sdk` filter for `instrumentation`, `tracing`, `errors`, or `analytics`, then `docs_get` the top hit. Analytics and feature flags are on `sdk/<id>/best-practices`.
 4. Re-verify with stats and search tools.

@@ -69,7 +69,7 @@ final on = await Talaria.flags.boolVariation('new-checkout', false);
 
 ## Verify
 
-`search_errors` with `environment: development` for a local key. `get_project_stats` analytics counts stay at 0 while analytics is off.
+`search_issues` with `environment: development` for a local key. `get_project_stats` analytics counts stay at 0 while analytics is off.
 
 ## Related
 
