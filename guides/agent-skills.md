@@ -8,7 +8,7 @@ tags: [agents, skills, mcp, playbook]
 
 The **Talaria** plugin for Cursor and Grok Bot includes five closed-loop skills that guide agents from initial connection through fix verification. These skills wrap the [hosted MCP](../mcp/README.md) tools and reference the detailed playbooks in this docs repo.
 
-**Plugin:** [github.com/newtalaria/talaria-grok-plugin](https://github.com/newtalaria/talaria-grok-plugin)  
+**Plugin:** [github.com/newtalaria/talaria-agent-plugin](https://github.com/newtalaria/talaria-agent-plugin)  
 **Listing:** [cursor.directory/plugins/talaria](https://cursor.directory/plugins/talaria)
 
 ---
@@ -114,4 +114,4 @@ Skills **reference** playbooks when needed (`docs_get` path `guides/add-talaria-
 - [Triage issues with an agent](triage-issues-with-an-agent.md) — investigation playbook
 - [Cursor MCP setup](../mcp/cursor.md)
 - [Grok Bot MCP setup](../mcp/grok-bot.md)
-- [Talaria plugin repo](https://github.com/newtalaria/talaria-grok-plugin)
+- [Talaria plugin repo](https://github.com/newtalaria/talaria-agent-plugin)
