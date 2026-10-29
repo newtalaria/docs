@@ -97,7 +97,7 @@
   icon: Flag
   summary: Toggle features remotely with targeting rules
   productHref: /product
-  page: false
+  page: true
   mcpTools:
     - list_flags
     - get_flag

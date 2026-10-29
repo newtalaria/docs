@@ -57,7 +57,7 @@ function collectMarkdownFiles(dir: string, files: string[] = []): string[] {
   return files;
 }
 
-function buildManifest(): Manifest {
+export function buildManifest(): Manifest {
   console.log("📝 Building manifest.yaml from frontmatter...\n");
   
   const files = collectMarkdownFiles(DOCS_ROOT);

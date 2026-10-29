@@ -59,13 +59,13 @@ The local and CI walkthrough is [Upload JavaScript source maps](../guides/upload
 
 **Response:** TODO(platform-234): response shape
 
-SDKs use this endpoint to fetch feature flag configuration at initialization. Evaluation happens client-side based on user context and the returned targeting rules.
+SDKs use this endpoint to fetch feature flag configuration at initialization.
 
 Issues stay separate per environment because the fingerprint includes environment. Each issue stores that environment. A sibling key links the same failure across environments, and issue detail lists those other environments. Clients never send a fingerprint.
 
 The dashboard reads one environment at a time: Production, Staging, Test, Development, or All. The shell defaults to production when the project has a production key, otherwise development. All is an explicit choice.
 
-Alerts with no environment evaluate as production. An alert that should cover every environment names that scope explicitly.
+Most alerts with no environment filter evaluate as production. **Exception**: logRate alerts count error-level logs (severity ≥ 17) across all environments with no environment filter available.
 
 Feature flags stay one definition per project. Evaluation uses the key's environment. Rules can target development, test, staging, or production.
 

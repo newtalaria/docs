@@ -131,7 +131,7 @@ Store `TALARIA_API_KEY` in the environment. The prefix stays `tal_prod_`. The se
 
 ## Troubleshooting
 
-A rejected key is cached for about 24 hours. Restart the process after rotating it. Outgoing spans appear only after tracing is enabled and `getConfig` has been applied.
+A rejected key is cached for about 24 hours. Restart the process after rotating it. Outgoing spans appear only after tracing is enabled and the project config fetch has been applied.
 
 ## Related docs
 

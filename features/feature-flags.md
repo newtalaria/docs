@@ -17,67 +17,31 @@ owner: docs
 
 # Feature flags
 
-Feature flags let you control feature availability remotely without deploying new code. Create flags in the dashboard, define targeting rules by environment, user, organization, or custom attributes, and evaluate them from your app.
+Feature flags let you control feature availability remotely without deploying new code. Create flags in the dashboard, define targeting rules by environment, user, or organization, and evaluate them from your SDK.
 
-## How flags work
+## Evaluating flags
 
-1. **Define flags** in the Talaria dashboard
-2. **Set targeting rules** by environment, user ID, organization, or custom attributes
-3. **Evaluate flags** in your SDK using `Talaria.isEnabled(key)` or similar
-4. **Change rules** in the dashboard—SDKs fetch updates automatically
-
-Flag definitions are shared across all environments within a project. Targeting rules specify which environments and users see which variant.
-
-## Evaluating flags from SDKs
-
-SDKs fetch flag definitions from `GET /v1/flags` at initialization using an API key with the `flags:read` scope. Evaluation happens client-side based on user context:
+SDKs fetch flag definitions using an API key with the `flags:read` scope. Evaluate flags with `boolVariation`, `stringVariation`, or `jsonVariation`:
 
 ```javascript
 // JavaScript/React/Next.js
-if (Talaria.isEnabled('new-checkout')) {
-  // Show new checkout flow
-}
+const on = await Talaria.flags.boolVariation('new-checkout', false);
 ```
 
 ```dart
 // Dart/Flutter
-if (Talaria.isEnabled('new-checkout')) {
-  // Show new checkout flow
-}
+final on = await Talaria.flags.boolVariation('new-checkout', false);
 ```
 
-```php
-// PHP/Laravel/Silverstripe
-if (Talaria::isEnabled('new-checkout')) {
-  // Show new checkout flow
-}
-```
+Pass a key and a default value. When the flag is off or undefined, the default is returned. See the [JavaScript SDK configuration](../sdk/javascript/configuration.md#feature-flags) and [Flutter SDK configuration](../sdk/flutter/configuration.md#feature-flags) pages for full code examples.
 
-Pass user context to improve targeting:
-
-```javascript
-Talaria.identify({
-  userId: 'user-123',
-  organizationId: 'org-456',
-  attributes: {
-    plan: 'enterprise',
-    beta: true
-  }
-});
-```
+Pass user context with `Talaria.analytics.identify` to improve targeting (see SDK configuration pages for syntax).
 
 ## API key scopes
 
 - **`flags:read`** — Fetch flag definitions (used by SDKs at initialization)
-- **`flags:evaluate`** — Evaluate flags with server-side API calls (optional, for server-rendered pages that can't use client-side evaluation)
-
-Most apps use `flags:read` in their client key and evaluate flags client-side. Use `flags:evaluate` only when server-side rendering requires flag state before the page loads.
+- **`flags:evaluate`** — Evaluate flags server-side (optional)
 
 ## Full API contract
 
-See [GET /v1/flags](../reference/ingest-api.md#feature-flags) in the Ingest API reference for query parameters and response shape.
-
-## Related
-
-- [Ingest API reference](../reference/ingest-api.md)
-- [Project settings](../get-started/project-settings.md)
+See [GET /v1/flags](../reference/ingest-api.md#feature-flags) in the Ingest API reference for the complete endpoint specification.

@@ -104,7 +104,7 @@ After init, a minified stack stays minified until maps are uploaded for the same
 
 ## App init vs Project settings
 
-| In app init | In Project settings (remote `getConfig`) |
+| In app init | In Project settings (the project config fetch) |
 | ----------- | ---------------------------------------- |
 | URL / base URL | Tracing on/off + sample rate |
 | API key (this chooses the environment) | Analytics on/off |

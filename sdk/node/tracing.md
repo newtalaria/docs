@@ -39,7 +39,7 @@ Import `@newtalaria/node` (not `@newtalaria/node/api`) so HTTP is patched.
 
 ## Outgoing HTTP
 
-`Talaria.init` installs a patch on `http`, `https`, and `fetch`. The patch waits until the tracer is enabled, so a process that starts before `getConfig` returns still continues `traceparent` on the next outbound call. Requests to Talaria's own base URL are skipped. Do not wrap the SDK's transport yourself.
+`Talaria.init` installs a patch on `http`, `https`, and `fetch`. The patch waits until the tracer is enabled, so a process that starts before the project config fetch returns still continues `traceparent` on the next outbound call. Requests to Talaria's own base URL are skipped. Do not wrap the SDK's transport yourself.
 
 ## Model APIs
 

@@ -114,7 +114,7 @@ The key decides the environment. Each key is bound to development, test, staging
 
 ## Troubleshooting
 
-A rejected key is cached for about 24 hours. Rotate the key and reload the page. Spans, replay, and heatmaps stay quiet until Project settings allow them and `getConfig` has refreshed (default about five minutes, or reload).
+A rejected key is cached for about 24 hours. Rotate the key and reload the page. Spans, replay, and heatmaps stay quiet until Project settings allow them and the project config fetch has refreshed (default about five minutes, or reload).
 
 ## Related docs
 

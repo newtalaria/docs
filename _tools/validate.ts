@@ -1,10 +1,13 @@
 #!/usr/bin/env tsx
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
+import { tmpdir } from "node:os";
 import { execSync } from "node:child_process";
 import matter from "gray-matter";
 import { loadRegistries, validateRegistries } from "./registries.js";
 import { frontmatterSchema } from "./schema.js";
+import { stringify as stringifyYaml } from "yaml";
+import { buildManifest } from "./build-manifest.js";
 
 const DOCS_ROOT = join(import.meta.dirname, "..");
 const errors: string[] = [];
@@ -137,33 +140,67 @@ function checkContentRules(pages: PageFile[]): void {
     const { content: body } = matter(content);
     
     for (const { pattern, name } of forbiddenPatterns) {
-      const matches = body.match(pattern);
-      if (matches && matches.length > 0) {
+      // Use matchAll to get all matches with their indices
+      const matches = Array.from(body.matchAll(pattern));
+      
+      if (matches.length > 0) {
         // Allow-list warning sentences about public prefixes
         if (name.includes("public-prefixed")) {
-          // Check each match individually
+          // Check each match individually using its actual index
           for (const match of matches) {
-            const matchIndex = body.indexOf(match);
-            const contextStart = Math.max(0, matchIndex - 300);
-            const contextEnd = Math.min(body.length, matchIndex + 300);
-            const context = body.substring(contextStart, contextEnd);
+            const matchIndex = match.index!;
             
-            // Allow if within a warning/caution block or Never statement
-            const isInWarning = context.includes("must never carry a public prefix") || 
-                context.includes("Never** use") ||
-                context.includes("**Never**") ||
-                context.includes("> [!CAUTION]") ||
-                context.includes("> [!WARNING]");
+            // Find the sentence or line containing this match
+            // Look backward to the previous sentence boundary or line start
+            let sentenceStart = matchIndex;
+            for (let i = matchIndex - 1; i >= 0; i--) {
+              if (body[i] === '\n') {
+                sentenceStart = i + 1;
+                break;
+              }
+              if (body[i] === '.' && i > 0 && body[i - 1] !== '.') {
+                sentenceStart = i + 1;
+                break;
+              }
+              if (i === 0) {
+                sentenceStart = 0;
+                break;
+              }
+            }
+            
+            // Look forward to the next sentence boundary or line end
+            let sentenceEnd = matchIndex + match[0].length;
+            for (let i = sentenceEnd; i < body.length; i++) {
+              if (body[i] === '\n') {
+                sentenceEnd = i;
+                break;
+              }
+              if (body[i] === '.' && (i === body.length - 1 || body[i + 1] === ' ' || body[i + 1] === '\n')) {
+                sentenceEnd = i + 1;
+                break;
+              }
+              if (i === body.length - 1) {
+                sentenceEnd = body.length;
+                break;
+              }
+            }
+            
+            const sentence = body.substring(sentenceStart, sentenceEnd);
+            
+            // Allow only if the same sentence/line contains "Never" or "must never"
+            const isInWarning = sentence.includes("**Never**") || 
+                sentence.includes("must never") ||
+                (sentence.trim().startsWith(">") && (sentence.includes("Never") || sentence.includes("must never")));
             
             if (!isInWarning) {
               errors.push(
-                `🚫 ${page.relativePath}: contains ${name} (${match})`
+                `🚫 ${page.relativePath}: contains ${name} (${match[0]})`
               );
             }
           }
         } else {
           errors.push(
-            `🚫 ${page.relativePath}: contains ${name} (${matches[0]})`
+            `🚫 ${page.relativePath}: contains ${name} (${matches[0][0]})`
           );
         }
       }
@@ -367,33 +404,26 @@ function checkMcpTools(pages: PageFile[]): void {
 }
 
 function validateManifestFresh() {
-  // Rebuild manifest to temp file and check if it matches the committed version
-  const tempManifest = join(DOCS_ROOT, "manifest.yaml.tmp");
+  // Build manifest in memory and compare with committed version
   try {
     const currentManifest = readFileSync(join(DOCS_ROOT, "manifest.yaml"), "utf-8");
     
-    // Run build-manifest.ts with output to temp file
-    execSync(`./node_modules/.bin/tsx build-manifest.ts && mv ${join(DOCS_ROOT, "manifest.yaml")} ${tempManifest}`, { 
-      cwd: join(DOCS_ROOT, "_tools"),
-      stdio: "pipe",
-      shell: true
-    });
+    // Temporarily redirect console.log to suppress build output
+    const originalLog = console.log;
+    const logs: string[] = [];
+    console.log = (...args) => logs.push(args.join(" "));
     
-    const rebuiltManifest = readFileSync(tempManifest, "utf-8");
+    const manifest = buildManifest();
     
-    // Clean up temp file
-    try {
-      execSync(`rm ${tempManifest}`, { stdio: "pipe" });
-    } catch {}
+    // Restore console.log
+    console.log = originalLog;
+    
+    const rebuiltManifest = stringifyYaml(manifest, { lineWidth: 0 });
     
     if (currentManifest !== rebuiltManifest) {
       errors.push("📦 manifest.yaml is stale - run `npm run build-manifest` and commit");
     }
   } catch (e) {
-    // Clean up temp file on error
-    try {
-      execSync(`rm ${tempManifest}`, { stdio: "pipe" });
-    } catch {}
     errors.push(`📦 manifest.yaml freshness check failed: ${e}`);
   }
 }
