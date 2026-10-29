@@ -16,10 +16,6 @@ clients:
 order: 102
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - mcp/claude-code.md
-redirectFrom:
-  - /docs/mcp/claude-code
 ---
 
 # Claude Code

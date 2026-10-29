@@ -16,10 +16,6 @@ clients:
 order: 103
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - mcp/vscode.md
-redirectFrom:
-  - /docs/mcp/vscode
 ---
 
 # VS Code

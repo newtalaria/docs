@@ -17,10 +17,6 @@ clients:
 order: 101
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - mcp/grok-bot.md
-redirectFrom:
-  - /docs/mcp/grok-bot
 ---
 
 # Grok Bot

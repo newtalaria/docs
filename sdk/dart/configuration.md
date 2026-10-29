@@ -20,10 +20,6 @@ feature:
 order: 50
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/dart/best-practices.md
-redirectFrom:
-  - /docs/sdk/dart/best-practices
 ---
 
 # Dart best practices

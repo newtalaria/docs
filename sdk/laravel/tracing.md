@@ -22,10 +22,6 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/laravel/instrumentation.md
-redirectFrom:
-  - /docs/sdk/laravel/instrumentation
 ---
 
 # Laravel instrumentation and tracing

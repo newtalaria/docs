@@ -16,10 +16,6 @@ clients:
 order: 104
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - mcp/codex.md
-redirectFrom:
-  - /docs/mcp/codex
 ---
 
 # Codex

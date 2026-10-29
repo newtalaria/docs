@@ -20,10 +20,6 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/dart/instrumentation.md
-redirectFrom:
-  - /docs/sdk/dart/instrumentation
 ---
 
 # Dart instrumentation and tracing

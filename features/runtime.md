@@ -11,10 +11,6 @@ feature:
 order: 40
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - guides/runtime.md
-redirectFrom:
-  - /docs/guides/runtime
 ---
 # Runtime
 

@@ -23,10 +23,6 @@ feature:
 order: 50
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/flutter/best-practices.md
-redirectFrom:
-  - /docs/sdk/flutter/best-practices
 ---
 
 # Flutter best practices

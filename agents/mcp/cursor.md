@@ -16,10 +16,6 @@ clients:
 order: 100
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - mcp/cursor.md
-redirectFrom:
-  - /docs/mcp/cursor
 ---
 
 # Cursor

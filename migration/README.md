@@ -14,10 +14,6 @@ feature: []
 order: 999
 lastReviewed: '2026-10-29'
 owner: docs
-redirectFrom:
-  - /docs/migration
-aliases:
-  - "migration/index.md"
 ---
 
 # Migration

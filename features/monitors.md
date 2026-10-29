@@ -13,10 +13,6 @@ feature:
 order: 100
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - guides/monitors.md
-redirectFrom:
-  - /docs/guides/monitors
 ---
 # Job monitors
 

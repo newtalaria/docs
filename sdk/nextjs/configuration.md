@@ -25,10 +25,6 @@ feature:
 order: 50
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/nextjs/best-practices.md
-redirectFrom:
-  - /docs/sdk/nextjs/best-practices
 ---
 
 # Next.js best practices

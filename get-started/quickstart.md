@@ -14,10 +14,6 @@ feature: []
 order: 20
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - getting-started/quickstart.md
-redirectFrom:
-  - /docs/getting-started/quickstart
 ---
 
 # Quickstart

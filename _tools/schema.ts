@@ -98,16 +98,6 @@ export function frontmatterSchema(reg: Registries) {
       order: z.number().int().min(0).max(999).optional(),
       tags: z.array(z.string().regex(kebab)).max(16).default([]),
       related: z.array(z.string().regex(kebab)).max(6).default([]),
-      aliases: z
-        .array(z.string().regex(/^[a-zA-Z0-9/_-]+\.md$/, "aliases must be paths like 'sdk/flutter/errors.md' or 'getting-started/README.md'"))
-        .default([]),
-      redirectFrom: z
-        .array(
-          z
-            .string()
-            .regex(/^\/docs(\/[a-z0-9-]+)*$/, "redirectFrom must be /docs paths")
-        )
-        .default([]),
       lastReviewed: z
         .string()
         .regex(isoDate, "lastReviewed must be YYYY-MM-DD")

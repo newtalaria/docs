@@ -29,10 +29,6 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/node/instrumentation.md
-redirectFrom:
-  - /docs/sdk/node/instrumentation
 ---
 
 # Node.js instrumentation and tracing

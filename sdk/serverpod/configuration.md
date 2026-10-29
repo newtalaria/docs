@@ -20,10 +20,6 @@ feature:
 order: 50
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/serverpod/best-practices.md
-redirectFrom:
-  - /docs/sdk/serverpod/best-practices
 ---
 
 # Serverpod best practices

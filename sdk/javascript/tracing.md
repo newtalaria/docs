@@ -21,10 +21,6 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/javascript/instrumentation.md
-redirectFrom:
-  - /docs/sdk/javascript/instrumentation
 ---
 
 # JavaScript instrumentation and tracing

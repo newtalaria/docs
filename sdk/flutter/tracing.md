@@ -20,10 +20,6 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/flutter/instrumentation.md
-redirectFrom:
-  - /docs/sdk/flutter/instrumentation
 ---
 
 # Flutter instrumentation and tracing

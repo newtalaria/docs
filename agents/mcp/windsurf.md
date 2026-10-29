@@ -16,10 +16,6 @@ clients:
 order: 106
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - mcp/windsurf.md
-redirectFrom:
-  - /docs/mcp/windsurf
 ---
 
 # Windsurf

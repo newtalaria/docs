@@ -16,10 +16,6 @@ apiVersion: ingest-v1
 order: 10
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - api/overview.md
-redirectFrom:
-  - /docs/api/overview
 ---
 
 # API overview

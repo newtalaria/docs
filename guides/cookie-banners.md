@@ -20,10 +20,6 @@ feature:
 order: 20
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - analytics/consent.md
-redirectFrom:
-  - /docs/analytics/consent
 ---
 
 # Cookie banners

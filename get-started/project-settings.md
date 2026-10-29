@@ -15,10 +15,6 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - getting-started/configuration.md
-redirectFrom:
-  - /docs/getting-started/configuration
 ---
 
 # Project configuration

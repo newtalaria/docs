@@ -21,10 +21,6 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/serverpod/instrumentation.md
-redirectFrom:
-  - /docs/sdk/serverpod/instrumentation
 ---
 
 # Serverpod instrumentation and tracing

@@ -117,22 +117,6 @@ function checkDuplicateIds(pages: PageFile[]): void {
   }
 }
 
-function checkAliasCollisions(pages: PageFile[]): void {
-  const aliases = new Map<string, string>();
-  
-  for (const page of pages) {
-    const pageAliases = page.frontmatter.aliases || [];
-    for (const alias of pageAliases) {
-      if (aliases.has(alias)) {
-        errors.push(
-          `🔁 Duplicate alias "${alias}":\n  • ${aliases.get(alias)}\n  • ${page.relativePath}`
-        );
-      } else {
-        aliases.set(alias, page.relativePath);
-      }
-    }
-  }
-}
 
 function validateManifestFresh() {
   // For now, just check that manifest.yaml exists
@@ -182,12 +166,11 @@ function main() {
     console.log(`   ✅ ${validCount} pages validated\n`);
   }
   
-  // Step 3: Check for duplicate IDs and aliases
+  // Step 3: Check for duplicate IDs
   console.log("3️⃣  Checking uniqueness...");
   checkDuplicateIds(pages);
-  checkAliasCollisions(pages);
   if (errors.length === 0) {
-    console.log("   ✅ No duplicates found\n");
+    console.log("   ✅ No duplicate IDs\n");
   }
   
   // Step 4: Content rules
@@ -207,7 +190,6 @@ function main() {
   // Step 6: Generated outputs freshness
   console.log("6️⃣  Checking generated outputs...");
   validateManifestFresh();
-  // TODO: Add redirects.json freshness check in phase 2
   if (errors.length === 0) {
     console.log("   ✅ Generated outputs fresh\n");
   }

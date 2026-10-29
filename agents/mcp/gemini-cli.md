@@ -16,10 +16,6 @@ clients:
 order: 105
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - mcp/gemini-cli.md
-redirectFrom:
-  - /docs/mcp/gemini-cli
 ---
 
 # Gemini CLI

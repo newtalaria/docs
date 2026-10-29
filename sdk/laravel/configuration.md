@@ -25,10 +25,6 @@ feature:
 order: 50
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/laravel/best-practices.md
-redirectFrom:
-  - /docs/sdk/laravel/best-practices
 ---
 
 # Laravel best practices

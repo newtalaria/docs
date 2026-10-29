@@ -20,10 +20,6 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/nextjs/instrumentation.md
-redirectFrom:
-  - /docs/sdk/nextjs/instrumentation
 ---
 
 # Next.js instrumentation and tracing

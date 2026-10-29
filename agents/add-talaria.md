@@ -18,10 +18,6 @@ loopStage:
 order: 20
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - guides/add-talaria-with-an-agent.md
-redirectFrom:
-  - /docs/guides/add-talaria-with-an-agent
 ---
 
 # Add Talaria with an agent

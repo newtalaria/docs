@@ -22,10 +22,6 @@ feature:
 order: 10
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/javascript/source-maps.md
-redirectFrom:
-  - /docs/sdk/javascript/source-maps
 ---
 
 # Upload JavaScript source maps

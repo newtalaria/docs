@@ -12,10 +12,6 @@ host: kubernetes
 order: 10
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/collector/kubernetes.md
-redirectFrom:
-  - /docs/sdk/collector/kubernetes
 ---
 # Kubernetes Collector
 

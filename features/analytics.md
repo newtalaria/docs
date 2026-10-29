@@ -13,10 +13,6 @@ feature:
 order: 60
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - analytics/setup.md
-redirectFrom:
-  - /docs/analytics/setup
 ---
 
 # Product analytics setup

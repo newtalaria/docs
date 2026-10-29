@@ -23,10 +23,6 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/silverstripe/instrumentation.md
-redirectFrom:
-  - /docs/sdk/silverstripe/instrumentation
 ---
 
 # Silverstripe instrumentation and tracing

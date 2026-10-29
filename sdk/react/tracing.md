@@ -21,10 +21,6 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/react/instrumentation.md
-redirectFrom:
-  - /docs/sdk/react/instrumentation
 ---
 
 # React instrumentation and tracing

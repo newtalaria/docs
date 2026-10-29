@@ -20,10 +20,6 @@ feature:
 order: 50
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/node/best-practices.md
-redirectFrom:
-  - /docs/sdk/node/best-practices
 ---
 
 # Node.js best practices

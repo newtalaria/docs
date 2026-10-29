@@ -17,11 +17,7 @@ feature: []
 order: 10
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - guides/agent-skills.md
   - mcp/README.md
-redirectFrom:
-  - /docs/guides/agent-skills
 ---
 
 # Agent skills overview

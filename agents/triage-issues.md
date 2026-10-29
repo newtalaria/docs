@@ -18,10 +18,6 @@ loopStage:
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - guides/triage-issues-with-an-agent.md
-redirectFrom:
-  - /docs/guides/triage-issues-with-an-agent
 ---
 
 # Triage issues with an agent

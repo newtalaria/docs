@@ -15,10 +15,6 @@ feature: []
 order: 50
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - "mcp/index.md"
-redirectFrom:
-  - /docs/mcp
 ---
 
 # MCP
