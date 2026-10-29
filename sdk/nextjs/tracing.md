@@ -20,21 +20,17 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/nextjs/instrumentation.md
-redirectFrom:
-  - /docs/sdk/nextjs/instrumentation
 ---
 
 # Next.js instrumentation and tracing
 
-Turn **Tracing** on in [Project settings](../../getting-started/configuration.md). The client and the Node server apply that document. Successful transactions follow the traces sample rate. Error transactions are always sent. Spans use the OpenTelemetry span model. Outgoing HTTP carries W3C `traceparent`.
+Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). The client and the Node server apply that document. Successful transactions follow the traces sample rate. Error transactions are always sent. Spans use the OpenTelemetry span model. Outgoing HTTP carries W3C `traceparent`.
 
 ## Client
 
-`initClient` records the same browser spans as [`@newtalaria/browser`](../javascript/instrumentation.md): pageload, History changes, fetch/XHR, and web vitals. It also listens for `popstate` and the Navigation API so App Router navigations that skip History still start a navigation transaction.
+`initClient` records the same browser spans as [`@newtalaria/browser`](../javascript/tracing.md): pageload, History changes, fetch/XHR, and web vitals. It also listens for `popstate` and the Navigation API so App Router navigations that skip History still start a navigation transaction.
 
-`ErrorBoundary`, `Profiler`, and `instrumentReactRouter` are re-exported from `@newtalaria/nextjs/client`. See [React instrumentation](../react/instrumentation.md).
+`ErrorBoundary`, `Profiler`, and `instrumentReactRouter` are re-exported from `@newtalaria/nextjs/client`. See [React instrumentation](../react/tracing.md).
 
 ## Server
 
@@ -60,7 +56,7 @@ export const GET = withRouteHandler('GET /api/health', async () => {
 
 Manual spans use `Talaria.startSpan` from `@newtalaria/nextjs/server`.
 
-Database wrappers (`wrapDuckDB`, `wrapPg`, `wrapMysql2`, `wrapRedis`) live on `@newtalaria/node`. After `initServer`, pass `getNodeClient()` into the wrapper. When server code imports `@duckdb/node-api`, wrap the connection from `instance.connect()`. See [Node instrumentation](../node/instrumentation.md).
+Database wrappers (`wrapDuckDB`, `wrapPg`, `wrapMysql2`, `wrapRedis`) live on `@newtalaria/node`. After `initServer`, pass `getNodeClient()` into the wrapper. When server code imports `@duckdb/node-api`, wrap the connection from `instance.connect()`. See [Node instrumentation](../node/tracing.md).
 
 ## Edge
 
@@ -70,5 +66,5 @@ Database wrappers (`wrapDuckDB`, `wrapPg`, `wrapMysql2`, `wrapRedis`) live on `@
 
 - [Next.js SDK](README.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Best practices](configuration.md)
+- [Configuration](../../get-started/project-settings.md)

@@ -17,10 +17,6 @@ clients:
 order: 101
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - mcp/grok-bot.md
-redirectFrom:
-  - /docs/mcp/grok-bot
 ---
 
 # Grok Bot
@@ -69,12 +65,12 @@ The token is an **opaque single-segment** base64url JSON payload (starts with `e
 
 Call `get_connection` and announce identity before creating projects or minting keys. Install and investigation follow:
 
-- [Add Talaria with an agent](../guides/add-talaria-with-an-agent.md) (install playbook)
-- [Triage issues with an agent](../guides/triage-issues-with-an-agent.md) (investigation playbook)
-- [Agent skills overview](../guides/agent-skills.md) (skills → playbooks map)
+- [Add Talaria with an agent](../add-talaria.md) (install playbook)
+- [Triage issues with an agent](../triage-issues.md) (investigation playbook)
+- [Agent skills overview](../README.md) (skills → playbooks map)
 
 ## Related
 
 - [MCP overview](README.md)
 - [Cursor plugin + skills](cursor.md)
-- [Agent skills overview](../guides/agent-skills.md)
+- [Agent skills overview](../README.md)

@@ -86,6 +86,6 @@ Fingerprints are computed on the server. Call `Talaria::flush()` at the end of a
 ## Related
 
 - [Laravel SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)
 - [PHP errors](../php/errors.md)

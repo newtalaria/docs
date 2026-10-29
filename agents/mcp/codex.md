@@ -16,10 +16,6 @@ clients:
 order: 104
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - mcp/codex.md
-redirectFrom:
-  - /docs/mcp/codex
 ---
 
 # Codex
@@ -62,7 +58,7 @@ The token is an **opaque single-segment** base64url JSON payload (starts with `e
 
 ## After connect
 
-Call `get_connection` and announce identity before creating projects or minting keys. Install and investigation follow [Add Talaria with an agent](../guides/add-talaria-with-an-agent.md) and [Triage issues with an agent](../guides/triage-issues-with-an-agent.md).
+Call `get_connection` and announce identity before creating projects or minting keys. Install and investigation follow [Add Talaria with an agent](../add-talaria.md) and [Triage issues with an agent](../triage-issues.md).
 
 ## Related
 

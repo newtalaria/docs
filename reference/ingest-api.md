@@ -59,7 +59,7 @@ Test, staging, and production use the plan meters, including pay-as-you-go. Deve
 
 ## Related
 
-- [Quickstart](../getting-started/quickstart.md)
-- [Configuration](../getting-started/configuration.md)
+- [Quickstart](../get-started/quickstart.md)
+- [Configuration](../get-started/project-settings.md)
 - [SDK hub](../sdk/README.md)
 - [Upload JavaScript source maps](../guides/upload-javascript-source-maps.md)

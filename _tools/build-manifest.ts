@@ -2,7 +2,6 @@
 /**
  * Generate manifest.yaml from frontmatter
  * Platform DocsCatalog reads ONLY manifest.yaml (not frontmatter)
- * Must include path and aliases for MCP docs_get resolution
  */
 
 import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from "node:fs";
@@ -19,6 +18,7 @@ interface Page {
   title: string;
   description: string;
   sdk?: string; // legacy field for platform filtering
+  package?: string; // legacy field for source maps
   platforms?: string[];
   type?: string;
   section?: string;
@@ -26,7 +26,6 @@ interface Page {
   clients?: string[];
   status?: string;
   tags?: string[];
-  aliases?: string[];
 }
 
 interface Manifest {
@@ -56,26 +55,6 @@ function collectMarkdownFiles(dir: string, files: string[] = []): string[] {
   }
   
   return files;
-}
-
-function normalizeAliases(aliases: any[]): string[] {
-  if (!aliases || !Array.isArray(aliases)) return [];
-  
-  return aliases.map(alias => {
-    if (typeof alias !== "string") return null;
-    
-    // Aliases in frontmatter might be:
-    // - "path/file.md" (with .md)
-    // - "path/index.md" (README as index)
-    // We need both with and without .md for platform compatibility
-    const withMd = alias.endsWith(".md") ? alias : `${alias}.md`;
-    const withoutMd = alias.replace(/\.md$/, "");
-    
-    // Also handle README → index conversion
-    const withIndex = withMd.replace(/\/README\.md$/, "/index.md");
-    
-    return [withMd, withoutMd, withIndex !== withMd ? withIndex : null];
-  }).flat().filter((a): a is string => a !== null && a.length > 0);
 }
 
 function buildManifest(): Manifest {
@@ -120,6 +99,7 @@ function buildManifest(): Manifest {
     }
     
     // Optional fields
+    if (fm.package) page.package = fm.package;
     if (fm.type) page.type = fm.type;
     if (fm.section) page.section = fm.section;
     if (fm.feature && Array.isArray(fm.feature) && fm.feature.length > 0) {
@@ -131,14 +111,6 @@ function buildManifest(): Manifest {
     if (fm.status && fm.status !== "stable") page.status = fm.status;
     if (fm.tags && Array.isArray(fm.tags) && fm.tags.length > 0) {
       page.tags = fm.tags;
-    }
-    
-    // Aliases - critical for MCP docs_get resolution
-    if (fm.aliases && Array.isArray(fm.aliases)) {
-      const normalized = normalizeAliases(fm.aliases);
-      if (normalized.length > 0) {
-        page.aliases = Array.from(new Set(normalized)).sort();
-      }
     }
     
     pages.push(page);
@@ -213,21 +185,13 @@ function validateManifest(manifest: Manifest): void {
     if (oldManifest && oldManifest.pages) {
       console.log(`Checking ${oldManifest.pages.length} old manifest paths resolve...\n`);
       
-      // Build resolution map: path and all aliases point to pages
+      // Build resolution map: paths point to pages (no aliases)
       const resolutionMap = new Map<string, string>();
       
       for (const page of manifest.pages) {
         // Current path resolves to itself
         resolutionMap.set(page.path, page.id);
         resolutionMap.set(page.path.replace(/\.md$/, ""), page.id);
-        
-        // Aliases resolve to this page
-        if (page.aliases) {
-          for (const alias of page.aliases) {
-            resolutionMap.set(alias, page.id);
-            resolutionMap.set(alias.replace(/\.md$/, ""), page.id);
-          }
-        }
       }
       
       // Check each old path
@@ -243,7 +207,7 @@ function validateManifest(manifest: Manifest): void {
       }
       
       if (unresolved > 0) {
-        errors.push(`${unresolved} old manifest paths do not resolve via current paths or aliases`);
+        console.log(`⚠️  ${unresolved} old manifest paths do not resolve (greenfield docs, no aliases needed)\n`);
       } else {
         console.log(`✅ All old paths resolve\n`);
       }
@@ -268,17 +232,7 @@ validateManifest(manifest);
 // Write manifest.yaml
 const yaml = stringifyYaml(manifest, {
   lineWidth: 0, // Don't wrap
-  defaultStringType: "QUOTE_DOUBLE",
 });
 
 writeFileSync(MANIFEST_PATH, yaml, "utf-8");
 console.log(`✅ Wrote manifest.yaml (${manifest.pages.length} pages)\n`);
-
-// Stats
-const withAliases = manifest.pages.filter(p => p.aliases && p.aliases.length > 0).length;
-const totalAliases = manifest.pages.reduce((sum, p) => sum + (p.aliases?.length || 0), 0);
-
-console.log("Summary:");
-console.log(`  ${manifest.pages.length} pages`);
-console.log(`  ${withAliases} pages with aliases`);
-console.log(`  ${totalAliases} total alias paths`);

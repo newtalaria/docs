@@ -20,10 +20,6 @@ feature:
 order: 20
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - analytics/consent.md
-redirectFrom:
-  - /docs/analytics/consent
 ---
 
 # Cookie banners
@@ -87,6 +83,6 @@ onConsent((granted) => {
 
 ## Related
 
-- [Product analytics setup](setup.md)
-- [Project configuration](../getting-started/configuration.md)
+- [Product analytics setup](../features/analytics.md)
+- [Project configuration](../get-started/project-settings.md)
 - [JavaScript SDK](../sdk/javascript/README.md)

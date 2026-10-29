@@ -86,12 +86,12 @@ Talaria.setExtra('plan', 'pro');
 Talaria.withTags({ area: 'billing' });
 ```
 
-Set `release` and `commitSha` in init. The release string must match the release used for [source maps](source-maps.md). Issue fingerprints are computed on the server.
+Set `release` and `commitSha` in init. The release string must match the release used for [source maps](../../guides/upload-javascript-source-maps.md). Issue fingerprints are computed on the server.
 
 Put emails and other direct identifiers only where you mean to store them. Prefer an opaque user id in `setUser` when that is enough to find the session.
 
 ## Related
 
 - [JavaScript SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)

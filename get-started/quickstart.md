@@ -14,10 +14,6 @@ feature: []
 order: 20
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - getting-started/quickstart.md
-redirectFrom:
-  - /docs/getting-started/quickstart
 ---
 
 # Quickstart
@@ -31,8 +27,8 @@ redirectFrom:
 
 1. Sign in to the [dashboard](https://one.newtalaria.com).
 2. Create an organization (if needed) and a **project**.
-3. Open the project → **API keys** → create a key with ingest scopes (default includes events and spans). Each key is bound to one environment: development, test, staging, or production. The prefix stays `tal_prod_`. Existing keys default to development. A deployed app that should report production needs a production key. MCP `setup_project` uses a development key. Production shipping is a second key.
-4. Copy the raw `tal_prod_…` value **once** (shown only at creation). It is a **public client ingest credential** — pass it via env / `--dart-define` / `.env` as you prefer. The key decides the environment. SDKs do not send it.
+3. Open the project → **API keys** → create a key with ingest scopes (default includes events and spans). Each key is bound to one environment: development, test, staging, or production. The prefix stays `tal_live_`. Existing keys default to development. A deployed app that should report production needs a production key. MCP `setup_project` uses a development key. Production shipping is a second key.
+4. Copy the raw `tal_live_…` value **once** (shown only at creation). It is a **public client ingest credential** — pass it via env / `--dart-define` / `.env` as you prefer. The key decides the environment. SDKs do not send it.
 
 ## Pick an SDK
 
@@ -46,18 +42,18 @@ Use the cloud ingest URL as `dsn` unless you self-host:
 https://ingest.newtalaria.com
 ```
 
-Pass the API key from environment / `--dart-define` / `.env`, or embed it in the client — `tal_prod_…` keys are designed to be public.
+Pass the API key from environment / `--dart-define` / `.env`, or embed it in the client — `tal_prod_…` / `tal_dev_…` keys are designed to be public. See [Environments and client keys](environments-and-client-keys.md) for key prefixes.
 
 ## Enable optional features
 
-Tracing, analytics, heatmaps, and session replay are controlled in **Project settings**, not only in app init. See [Project configuration](configuration.md).
+Tracing, analytics, heatmaps, and session replay are controlled in **Project settings**, not only in app init. See [Project settings](project-settings.md).
 
 ## Verify
 
 1. Trigger an error or send a test event from the app.
-2. Open **Issues** in the dashboard on the key's environment, or use MCP `search_errors` / `search_events` / `get_project_stats`. After a local install, pass `environment: development`.
+2. Open **Issues** in the dashboard on the key's environment, or use MCP `search_issues` / `get_project`. After a local install with a development key (`tal_dev_...`), select the Development environment in the dashboard.
 
 ## Related
 
-- [Add Talaria with an agent](../guides/add-talaria-with-an-agent.md)
-- [MCP](../mcp/README.md)
+- [Add Talaria with an agent](../agents/add-talaria.md)
+- [MCP](../agents/mcp/README.md)

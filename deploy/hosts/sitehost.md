@@ -14,10 +14,6 @@ host: sitehost
 order: 20
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/collector/sitehost.md
-redirectFrom:
-  - /docs/sdk/collector/sitehost
 ---
 # SiteHost containers
 

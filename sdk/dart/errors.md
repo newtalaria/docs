@@ -104,5 +104,5 @@ Call `await Talaria.flush()` before a short-lived process exits.
 ## Related
 
 - [Dart SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)

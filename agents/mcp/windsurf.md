@@ -16,10 +16,6 @@ clients:
 order: 106
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - mcp/windsurf.md
-redirectFrom:
-  - /docs/mcp/windsurf
 ---
 
 # Windsurf
@@ -56,7 +52,7 @@ Local API: `http://{{mcpUrl}}/mcp`.
 
 ## After connect
 
-Confirm Talaria is connected in the MCP servers panel, then call `get_connection` and announce identity before creating projects or minting keys. Install and investigation follow [Add Talaria with an agent](../guides/add-talaria-with-an-agent.md) and [Triage issues with an agent](../guides/triage-issues-with-an-agent.md).
+Confirm Talaria is connected in the MCP servers panel, then call `get_connection` and announce identity before creating projects or minting keys. Install and investigation follow [Add Talaria with an agent](../add-talaria.md) and [Triage issues with an agent](../triage-issues.md).
 
 ## Related
 

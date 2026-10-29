@@ -78,10 +78,10 @@ void run(List<String> args) async {
 | Capability | Where |
 | --- | --- |
 | Diagnostic exceptions, logs, per-request breadcrumbs, and session user | [Errors, logs, and breadcrumbs](errors.md) |
-| Relic HTTP, Postgres, FutureCall, and outbound `HttpClient` | [Instrumentation and tracing](instrumentation.md) |
-| Analytics and feature flags | [Best practices](best-practices.md) |
+| Relic HTTP, Postgres, FutureCall, and outbound `HttpClient` | [Instrumentation and tracing](tracing.md) |
+| Analytics and feature flags | [Best practices](configuration.md) |
 
-Tracing and analytics follow [Project configuration](../../getting-started/configuration.md). Analytics calls need a caller-supplied id. There is no automatic Flutter identity on the server.
+Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Analytics calls need a caller-supplied id. There is no automatic Flutter identity on the server.
 
 ## Install
 
@@ -118,9 +118,9 @@ If database spans never appear, the interceptor was not passed to the constructo
 
 ## Related docs
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
+- [Best practices](configuration.md)
 - [Dart SDK](../dart/README.md)
 - [Flutter](../flutter/README.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Configuration](../../get-started/project-settings.md)

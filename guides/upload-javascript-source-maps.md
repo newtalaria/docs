@@ -45,7 +45,7 @@ Talaria.init({
 })
 ```
 
-Local development uses the stable release `local`. A deploy uses `<ref>@<shortsha>`, the same string as the event. See [Releases](releases.md). The SDK reads `release` only from init.
+Local development uses the stable release `local`. A deploy uses `<ref>@<shortsha>`, the same string as the event. See [Releases](../features/releases.md). The SDK reads `release` only from init.
 
 The value in `apiKey` is the ingest key. The upload uses a second key, below.
 
@@ -94,7 +94,7 @@ The command prints the URL, the release, and each `fileName`, then the stored id
 
 ## 4. Upload from CI
 
-On GitHub Actions, upload the directory the build already wrote. Keep `TALARIA_RELEASE_KEY` in the environment. When `TALARIA_RELEASE` is set, the action uses that string, so the maps match the app build. The [releases guide](releases.md) shows the release step next to the build.
+On GitHub Actions, upload the directory the build already wrote. Keep `TALARIA_RELEASE_KEY` in the environment. When `TALARIA_RELEASE` is set, the action uses that string, so the maps match the app build. The [releases guide](../features/releases.md) shows the release step next to the build.
 
 ```yaml
 - uses: newtalaria/release@v1
@@ -182,9 +182,9 @@ On GitHub Actions:
 
 ## Related
 
-- [JavaScript source maps](../sdk/javascript/source-maps.md)
+- [JavaScript source maps](../guides/upload-javascript-source-maps.md)
 - [JavaScript SDK](../sdk/javascript/README.md)
 - [React SDK](../sdk/react/README.md)
 - [Next.js SDK](../sdk/nextjs/README.md)
-- [Add Talaria with an agent](add-talaria-with-an-agent.md)
-- [API overview](../api/overview.md)
+- [Add Talaria with an agent](../agents/add-talaria.md)
+- [API overview](../reference/ingest-api.md)

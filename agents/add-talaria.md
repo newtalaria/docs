@@ -18,24 +18,20 @@ loopStage:
 order: 20
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - guides/add-talaria-with-an-agent.md
-redirectFrom:
-  - /docs/guides/add-talaria-with-an-agent
 ---
 
 # Add Talaria with an agent
 
 Design centre: a developer connects Talaria MCP and says **“Add Talaria to this project.”** You combine local project context + these docs + live Talaria tools.
 
-**Skills:** Cursor and Grok Bot agents can use `talaria-instrument` from the Talaria plugin for guided install. This playbook is the detailed how-to that skills reference. See [Agent skills overview](agent-skills.md).
+**Skills:** Cursor and Grok Bot agents can use `talaria-instrument` from the Talaria plugin for guided install. This playbook is the detailed how-to that skills reference. See [Agent skills overview](README.md).
 
 
 ## Conversation script (follow in order)
 
 ### 1. Load this playbook and detect the stack
 
-1. `docs_get` path `guides/add-talaria-with-an-agent` (public).
+1. `docs_get` path `agents/add-talaria` (public).
 2. Inspect the local repo with IDE tools. Map the stack:
 
 | Signal | Likely SDK |
@@ -51,7 +47,7 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 | Silverstripe | `talaria/silverstripe` → [sdk/silverstripe](../sdk/silverstripe/README.md) |
 | PHP | `talaria/talaria` → [sdk/php](../sdk/php/README.md) |
 
-3. `docs_search` with `sdk` filter and query `install` / `init` / `bootstrap`, then `docs_get` the stack README and [configuration](../getting-started/configuration.md). Also `docs_get` `sdk/<id>/instrumentation` and `sdk/<id>/errors` for that stack (`javascript`, `react`, `nextjs`, `node`, `php`, `laravel`, `silverstripe`, `dart`, `flutter`, `serverpod`).
+3. `docs_search` with `sdk` filter and query `install` / `init` / `bootstrap`, then `docs_get` the stack README and [configuration](../get-started/project-settings.md). Also `docs_get` `sdk/<id>/instrumentation` and `sdk/<id>/errors` for that stack (`javascript`, `react`, `nextjs`, `node`, `php`, `laravel`, `silverstripe`, `dart`, `flutter`, `serverpod`).
 
 ### 2. Authenticate and announce identity
 

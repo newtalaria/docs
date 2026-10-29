@@ -25,10 +25,6 @@ feature:
 order: 50
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/react/best-practices.md
-redirectFrom:
-  - /docs/sdk/react/best-practices
 ---
 
 # React best practices
@@ -47,7 +43,7 @@ Successful traces follow the traces sample rate from Project settings. Error tra
 
 ## Project settings
 
-Tracing, analytics, heatmaps, and session replay follow the project document, not init flags. See [Project configuration](../../getting-started/configuration.md).
+Tracing, analytics, heatmaps, and session replay follow the project document, not init flags. See [Project configuration](../../get-started/project-settings.md).
 
 ## Analytics
 
@@ -59,7 +55,7 @@ Talaria.analytics.page('Pricing');
 Talaria.analytics.track('Checkout Started', { plan: 'pro' });
 ```
 
-Enable Analytics in Project settings first. Consent is the browser SDK's consent. See [Product analytics setup](../../analytics/setup.md).
+Enable Analytics in Project settings first. Consent is the browser SDK's consent. See [Product analytics setup](../../features/analytics.md).
 
 ## Feature flags
 
@@ -69,7 +65,7 @@ const on = await Talaria.flags.boolVariation('new-checkout', false);
 
 ## Session replay
 
-Replay, input masking, and `getReplayId()` are the browser SDK. Enable session replay in Project settings. Replay waits for the same consent state as analytics. Error capture does not wait. See [Browser best practices](../javascript/best-practices.md).
+Replay, input masking, and `getReplayId()` are the browser SDK. Enable session replay in Project settings. Replay waits for the same consent state as analytics. Error capture does not wait. See [Browser best practices](../javascript/configuration.md).
 
 ## Heatmaps
 
@@ -81,7 +77,7 @@ LCP, INP, CLS, and TTFB are child spans of the pageload when tracing is on and t
 
 ## Consent
 
-CookieYes, Cookiebot, and Google Consent Mode are followed automatically. Any other banner calls `Talaria.analytics.optIn()` after agreement and `optOut()` to stop. `publicAnalytics: true` opts the page in when there is no banner. Details: [Cookie banners](../../analytics/consent.md).
+CookieYes, Cookiebot, and Google Consent Mode are followed automatically. Any other banner calls `Talaria.analytics.optIn()` after agreement and `optOut()` to stop. `publicAnalytics: true` opts the page in when there is no banner. Details: [Cookie banners](../../guides/cookie-banners.md).
 
 ## Privacy in events
 
@@ -90,5 +86,5 @@ Keep tokens and passwords out of `extra`, tags, and breadcrumbs. The component s
 ## Related
 
 - [React SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)

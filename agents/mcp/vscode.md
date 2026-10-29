@@ -16,10 +16,6 @@ clients:
 order: 103
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - mcp/vscode.md
-redirectFrom:
-  - /docs/mcp/vscode
 ---
 
 # VS Code
@@ -81,7 +77,7 @@ The token is an **opaque single-segment** base64url JSON payload (starts with `e
 
 ## After connect
 
-Command Palette → **MCP: List Servers** and confirm Talaria lists its tools. Call `get_connection` before creating projects or minting keys. Install and investigation follow [Add Talaria with an agent](../guides/add-talaria-with-an-agent.md) and [Triage issues with an agent](../guides/triage-issues-with-an-agent.md).
+Command Palette → **MCP: List Servers** and confirm Talaria lists its tools. Call `get_connection` before creating projects or minting keys. Install and investigation follow [Add Talaria with an agent](../add-talaria.md) and [Triage issues with an agent](../triage-issues.md).
 
 ## Related
 

@@ -20,10 +20,6 @@ feature:
 order: 50
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/serverpod/best-practices.md
-redirectFrom:
-  - /docs/sdk/serverpod/best-practices
 ---
 
 # Serverpod best practices
@@ -42,7 +38,7 @@ Successful traces follow the traces sample rate from Project settings. Error tra
 
 ## Project settings
 
-Tracing and analytics follow [Project configuration](../../getting-started/configuration.md). Register `databaseInterceptor` before the first request even though spans wait for that document. You cannot add the interceptor later.
+Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Register `databaseInterceptor` before the first request even though spans wait for that document. You cannot add the interceptor later.
 
 ## Analytics
 
@@ -56,7 +52,7 @@ await Talaria.analytics.track(
 );
 ```
 
-See [Product analytics setup](../../analytics/setup.md).
+See [Product analytics setup](../../features/analytics.md).
 
 ## Feature flags
 
@@ -80,6 +76,6 @@ Database spans omit bind values. Do not put tokens in breadcrumb data or in a di
 ## Related
 
 - [Serverpod SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Dart best practices](../dart/best-practices.md)
+- [Dart best practices](../dart/configuration.md)

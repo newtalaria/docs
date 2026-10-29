@@ -95,5 +95,5 @@ Set `release` in init to the same string you use for source maps. Fingerprints a
 
 - [React SDK](README.md)
 - [Browser errors](../javascript/errors.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)

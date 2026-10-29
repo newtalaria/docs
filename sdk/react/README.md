@@ -61,11 +61,11 @@ Confirm with MCP `search_errors` and `environment: development`.
 | Capability | Where |
 | --- | --- |
 | Browser errors plus `ErrorBoundary` and the React 19 handler | [Errors, logs, and breadcrumbs](errors.md) |
-| Browser spans, Profiler commits, and React Router | [Instrumentation and tracing](instrumentation.md) |
-| Analytics, feature flags, session replay, heatmaps, and consent | [Best practices](best-practices.md) |
-| Source maps | [JavaScript source maps](../javascript/source-maps.md) |
+| Browser spans, Profiler commits, and React Router | [Instrumentation and tracing](tracing.md) |
+| Analytics, feature flags, session replay, heatmaps, and consent | [Best practices](configuration.md) |
+| Source maps | [JavaScript source maps](../javascript/../../guides/upload-javascript-source-maps.md) |
 
-Logs, breadcrumbs, identity, web vitals, replay, and heatmaps are the browser SDK. Tracing and the other product signals follow [Project configuration](../../getting-started/configuration.md).
+Logs, breadcrumbs, identity, web vitals, replay, and heatmaps are the browser SDK. Tracing and the other product signals follow [Project configuration](../../get-started/project-settings.md).
 
 ## Install
 
@@ -104,8 +104,8 @@ A rejected key is cached for about 24 hours. Reload after you rotate it. Profile
 
 ## Related docs
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
+- [Best practices](configuration.md)
 - [Browser SDK](../javascript/README.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Configuration](../../get-started/project-settings.md)

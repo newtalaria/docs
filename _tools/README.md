@@ -112,7 +112,7 @@ The schema enforces:
 - `sdk/collector/kubernetes.md` → `deploy/hosts/kubernetes.md`
 - `sdk/collector/sitehost.md` → `deploy/hosts/sitehost.md`
 
-Both need `aliases:` for old paths and `redirectFrom:` entries.
+**Greenfield docs:** No redirects or aliases needed (no live external users per Heath decision 29 Oct 2026).
 
 ## Current validation status
 
@@ -127,37 +127,21 @@ npm run validate
 
 All pages currently fail validation because they lack required frontmatter fields (`id`, `type`, `section`, `lastReviewed`, `owner`). This is expected and will be fixed during the IA migration when frontmatter is added to every page.
 
-## What's NOT done (awaiting UX)
-
-🔴 **File moves** - halted until updated IA_SPEC.md and redirects.json arrive  
-🔴 **Frontmatter additions** - waiting for final paths  
-🔴 **Redirects generation** - needs final source/destination mappings  
-🔴 **Manifest generation** - depends on completed frontmatter
-
 ## PM decisions reflected
 
-Per the binding PM decisions in the user query:
+Per the binding PM decisions:
 
 - ✅ Section name is **Features** (not Capabilities)
 - ✅ Minimal `owners.yaml` with single `docs` owner (no per-page owners)
 - ✅ MCP tool count is 44 (documented, not invented)
 - ✅ No Cursor Marketplace claims anywhere
-- ✅ File moves deferred because of platform snapshot dependency
+- ✅ **Greenfield docs:** No redirects or aliases (no live external users per Heath decision 29 Oct 2026)
 
-## Next steps (after UX update)
+## Build tools
 
-When updated IA_SPEC.md and redirects.json arrive:
-
-1. Review updated paths for Deploy & CI section
-2. Create migration script (`migrate-ia.ts`) to:
-   - `git mv` files per §3.3 mapping
-   - Add typed frontmatter with `aliases` and `redirectFrom`
-   - Rewrite relative links
-3. Add frontmatter to 4 bare pages (monitors, runtime, kubernetes, sitehost)
-4. Generate `manifest.yaml` from frontmatter
-5. Generate `_generated/redirects.json` (44 entries)
-6. Test validation passes
-7. Open PR
+- `build-manifest.ts` — Generate `manifest.yaml` from frontmatter for MCP compatibility
+- `validate.ts` — Validate registries, frontmatter, content rules, and uniqueness
+- `schema.ts` — Zod schemas for frontmatter and registries
 
 ## Running locally
 

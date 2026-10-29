@@ -17,10 +17,6 @@ feature:
 order: 80
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - guides/releases.md
-redirectFrom:
-  - /docs/guides/releases
 ---
 
 # Releases

@@ -112,7 +112,7 @@ An event that used to be labelled by that string now shows up under the key's en
 - `enableAnalytics`
 - `sampleRate`
 
-Until a config document is cached, the process sends errors only. Turn tracing and analytics on in [Project settings](../../getting-started/configuration.md). A rejected key stops the process until PHP restarts.
+Until a config document is cached, the process sends errors only. Turn tracing and analytics on in [Project settings](../../get-started/project-settings.md). A rejected key stops the process until PHP restarts.
 
 Silverstripe YAML and `TALARIA_ENABLE_TRACING` / `TALARIA_ENABLE_ANALYTICS` are passed into init and then discarded by 1.2.0 core. The dashboard switches are the ones that apply.
 
@@ -131,5 +131,5 @@ Stay on the newest 2.0.x. These 1.2 patch releases still matter if you are stepp
 
 - [Silverstripe upgrade](../silverstripe/upgrade.md)
 - [PHP SDK](README.md)
-- [Project configuration](../../getting-started/configuration.md)
+- [Project configuration](../../get-started/project-settings.md)
 - [Laravel](../laravel/README.md)

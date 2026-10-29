@@ -21,15 +21,11 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/serverpod/instrumentation.md
-redirectFrom:
-  - /docs/sdk/serverpod/instrumentation
 ---
 
 # Serverpod instrumentation and tracing
 
-Turn **Tracing** on in [Project settings](../../getting-started/configuration.md). Successful transactions follow the traces sample rate. Error transactions are always sent. Spans use the OpenTelemetry span model. Inbound and outbound HTTP use W3C `traceparent`.
+Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Successful transactions follow the traces sample rate. Error transactions are always sent. Spans use the OpenTelemetry span model. Inbound and outbound HTTP use W3C `traceparent`.
 
 `interceptDatabase` is safe to register before `init`. It no-ops until a client exists and tracing is enabled.
 
@@ -83,6 +79,6 @@ try {
 
 - [Serverpod SDK](README.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Dart instrumentation](../dart/instrumentation.md)
-- [Flutter instrumentation](../flutter/instrumentation.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Dart instrumentation](../dart/tracing.md)
+- [Flutter instrumentation](../flutter/tracing.md)
+- [Configuration](../../get-started/project-settings.md)

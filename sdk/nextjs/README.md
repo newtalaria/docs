@@ -90,8 +90,8 @@ Send a client exception and confirm with `search_errors` and `environment: devel
 | Capability | Where |
 | --- | --- |
 | Client and server capture. Edge captures exceptions and messages | [Errors, logs, and breadcrumbs](errors.md) |
-| Client browser spans, server actions, route handlers, outgoing HTTP | [Instrumentation and tracing](instrumentation.md) |
-| Client analytics, flags, replay, heatmaps, and consent. Server analytics and flags | [Best practices](best-practices.md) |
+| Client browser spans, server actions, route handlers, outgoing HTTP | [Instrumentation and tracing](tracing.md) |
+| Client analytics, flags, replay, heatmaps, and consent. Server analytics and flags | [Best practices](configuration.md) |
 | Client source maps | [Upload JavaScript source maps](../../guides/upload-javascript-source-maps.md) |
 
 Edge has a scope and breadcrumbs and does not open spans, read project config, or send analytics. Client replay, heatmaps, web vitals, and consent run in the browser.
@@ -110,7 +110,7 @@ Call `initClient` from `instrumentation-client.ts`, `initServer` from the Node b
 
 ## App init vs Project settings
 
-Client and server load tracing, analytics, heatmaps, and replay from [Project settings](../../getting-started/configuration.md). Edge does not fetch that document. Set `remoteConfig: false` on the client or server only when that runtime should send errors without the document.
+Client and server load tracing, analytics, heatmaps, and replay from [Project settings](../../get-started/project-settings.md). Edge does not fetch that document. Set `remoteConfig: false` on the client or server only when that runtime should send errors without the document.
 
 ## API key
 
@@ -126,7 +126,7 @@ A rejected key is cached for about 24 hours. Reload the page or restart the serv
 
 ## Related docs
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Best practices](configuration.md)
+- [Configuration](../../get-started/project-settings.md)

@@ -23,10 +23,6 @@ feature:
 order: 50
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/flutter/best-practices.md
-redirectFrom:
-  - /docs/sdk/flutter/best-practices
 ---
 
 # Flutter best practices
@@ -45,7 +41,7 @@ Successful traces follow the traces sample rate from Project settings. Error tra
 
 ## Project settings
 
-Tracing, analytics, and heatmaps follow [Project configuration](../../getting-started/configuration.md). Dart always fetches `sdk/getConfig`.
+Tracing, analytics, and heatmaps follow [Project configuration](../../get-started/project-settings.md). Dart always fetches `sdk/getConfig`.
 
 ## Analytics
 
@@ -58,7 +54,7 @@ await Talaria.analytics.track(
 );
 ```
 
-Call `Talaria.analytics.optIn()` after the person agrees, and `optOut()` to stop. This package does not read a web cookie banner. See [Product analytics setup](../../analytics/setup.md).
+Call `Talaria.analytics.optIn()` after the person agrees, and `optOut()` to stop. This package does not read a web cookie banner. See [Product analytics setup](../../features/analytics.md).
 
 ## Feature flags
 
@@ -94,7 +90,7 @@ Prefer an opaque user id in `setUser`. Do not put tokens into `setExtra` or brea
 ## Related
 
 - [Flutter SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Navigation and screens](navigation.md)
 - [Errors, logs, and breadcrumbs](errors.md)
 - [Troubleshooting](troubleshooting.md)

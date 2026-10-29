@@ -17,16 +17,11 @@ feature: []
 order: 10
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - guides/agent-skills.md
-  - mcp/README.md
-redirectFrom:
-  - /docs/guides/agent-skills
 ---
 
 # Agent skills overview
 
-The **Talaria** plugin for Cursor and Grok Bot includes five closed-loop skills that guide agents from initial connection through fix verification. These skills wrap the [hosted MCP](../mcp/README.md) tools and reference the detailed playbooks in this docs repo.
+The **Talaria** plugin for Cursor and Grok Bot includes five closed-loop skills that guide agents from initial connection through fix verification. These skills wrap the [hosted MCP](mcp/README.md) tools and reference the detailed playbooks in this docs repo.
 
 **Plugin:** [github.com/newtalaria/talaria-agent-plugin](https://github.com/newtalaria/talaria-agent-plugin)  
 **Listing:** [cursor.directory/plugins/talaria](https://cursor.directory/plugins/talaria)
@@ -48,10 +43,10 @@ Each skill focuses on one phase, hands off to the next when appropriate, and con
 | Skill | Purpose | Core tools | Existing playbook |
 | ----- | ------- | ---------- | ----------------- |
 | `talaria-get-started` | Connect MCP, confirm org/project, first smoke read | `get_connection`, `get_projects`, `docs_*`, `search_errors` | *Orientation only — no dedicated playbook* |
-| `talaria-instrument` | SDK install, create project/key, send test event | `setup_project`, `send_test_event`, `search_events`, `docs_get` | [Add Talaria with an agent](add-talaria-with-an-agent.md) |
+| `talaria-instrument` | SDK install, create project/key, send test event | `setup_project`, `send_test_event`, `search_events`, `docs_get` | [Add Talaria with an agent](add-talaria.md) |
 | `talaria-observe-performance` | Health, traces, spans, queries, sessions, monitors | `get_project_stats`, `search_traces`, `list_suspect_spans`, `list_database_queries` | *Read-only stats — extends playbook tools* |
-| `talaria-triage-issue` | Investigate one issue: pack → trace/replay → optional GitHub | `get_error`, `get_trace`, `get_replay`, `get_suspect_commits`, `create_github_issue`, `update_issue_status` | [Triage issues with an agent](triage-issues-with-an-agent.md) |
-| `talaria-verify-fix` | After release: verdict + optional status update | `verify_fix`, `list_releases`, `get_release`, `wait_for_event`, `update_issue_status` | *Extends triage with release verification — see `verify_fix` tool in [MCP](../mcp/README.md)* |
+| `talaria-triage-issue` | Investigate one issue: pack → trace/replay → optional GitHub | `get_error`, `get_trace`, `get_replay`, `get_suspect_commits`, `create_github_issue`, `update_issue_status` | [Triage issues with an agent](triage-issues.md) |
+| `talaria-verify-fix` | After release: verdict + optional status update | `verify_fix`, `list_releases`, `get_release`, `wait_for_event`, `update_issue_status` | *Extends triage with release verification — see `verify_fix` tool in [MCP](mcp/README.md)* |
 
 ---
 
@@ -70,9 +65,9 @@ Agents that load the plugin automatically discover and apply these skills when r
 
 Agents that do **not** have the plugin installed can still follow the same workflows by reading the playbooks via MCP `docs_get`:
 
-- **Install:** `docs_get` path `guides/add-talaria-with-an-agent`
-- **Triage:** `docs_get` path `guides/triage-issues-with-an-agent`
-- **Configuration:** `docs_get` path `getting-started/configuration`
+- **Install:** `docs_get` path `agents/add-talaria`
+- **Triage:** `docs_get` path `agents/triage-issues`
+- **Configuration:** `docs_get` path `get-started/configuration`
 - **SDK reference:** `docs_get` path `sdk/<id>/README` (e.g. `sdk/flutter/README`)
 
 The playbooks are the **detailed how-to**; the skills are **workflow guardrails** that enforce read-only smoke, ask before create, and hand off appropriately.
@@ -123,15 +118,15 @@ Install scopes are `mcp:read mcp:write mcp:keys`. Skills ask before using write 
 | **Skills** (plugin) | Agents with plugin support (Cursor, Grok Bot) | Workflow guardrails, read-only checks, ask-before-write, hand-offs |
 | **Playbooks** (`docs_get`) | Any agent via MCP `docs_*` tools | Detailed how-to, SDK snippets, conversation scripts, must-not rules |
 
-Skills **reference** playbooks when needed (`docs_get` path `guides/add-talaria-with-an-agent`). Playbooks are the canonical source of truth for SDK wiring; skills enforce the workflow.
+Skills **reference** playbooks when needed (`docs_get` path `agents/add-talaria`). Playbooks are the canonical source of truth for SDK wiring; skills enforce the workflow.
 
 ---
 
 ## Related
 
-- [MCP overview](../mcp/README.md) — tool catalogue, scopes, auth
-- [Add Talaria with an agent](add-talaria-with-an-agent.md) — install playbook
-- [Triage issues with an agent](triage-issues-with-an-agent.md) — investigation playbook
-- [Cursor MCP setup](../mcp/cursor.md)
-- [Grok Bot MCP setup](../mcp/grok-bot.md)
+- [MCP overview](mcp/README.md) — tool catalogue, scopes, auth
+- [Add Talaria with an agent](add-talaria.md) — install playbook
+- [Triage issues with an agent](triage-issues.md) — investigation playbook
+- [Cursor MCP setup](mcp/cursor.md)
+- [Grok Bot MCP setup](mcp/grok-bot.md)
 - [Talaria plugin repo](https://github.com/newtalaria/talaria-agent-plugin)

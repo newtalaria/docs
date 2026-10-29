@@ -116,7 +116,7 @@ These stop controlling the client once core is 1.2.0 or newer, even if your YAML
 - `enableAnalytics` and `TALARIA_ENABLE_ANALYTICS`
 - `sampleRate`
 
-Turn the features on in [Project settings](../../getting-started/configuration.md). Public pages can send browser analytics when that document allows it. The CMS is not opted into browser analytics. Until the first document is cached, PHP sends errors only.
+Turn the features on in [Project settings](../../get-started/project-settings.md). Public pages can send browser analytics when that document allows it. The CMS is not opted into browser analytics. Until the first document is cached, PHP sends errors only.
 
 1.1.0 was the release that added `enableAnalytics` (default off) and Member `userId` for PHP analytics. After 1.2.0 that YAML flag is not the switch.
 
@@ -148,5 +148,5 @@ Queued-job spans load only when `symbiote/silverstripe-queuedjobs` is installed.
 
 - [PHP upgrade](../php/upgrade.md)
 - [Silverstripe SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Project configuration](../../getting-started/configuration.md)
+- [Instrumentation and tracing](tracing.md)
+- [Project configuration](../../get-started/project-settings.md)

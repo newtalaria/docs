@@ -25,10 +25,6 @@ feature:
 order: 50
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/laravel/best-practices.md
-redirectFrom:
-  - /docs/sdk/laravel/best-practices
 ---
 
 # Laravel best practices
@@ -49,7 +45,7 @@ Successful traces follow the project traces sample rate. Error traces stay. A re
 
 ## Project settings
 
-Tracing, analytics, heatmaps, and session replay follow [Project configuration](../../getting-started/configuration.md).
+Tracing, analytics, heatmaps, and session replay follow [Project configuration](../../get-started/project-settings.md).
 
 ## Analytics
 
@@ -60,7 +56,7 @@ Talaria::analytics()->identify((string) auth()->id(), ['plan' => 'pro']);
 Talaria::analytics()->track('Checkout Started', ['plan' => 'pro']);
 ```
 
-There is no Laravel facade for analytics. `Talaria::analytics()` is the core client. HTML pages also get `@newtalaria/browser`, which can send `page` and `track` from the browser after consent. See [Product analytics setup](../../analytics/setup.md).
+There is no Laravel facade for analytics. `Talaria::analytics()` is the core client. HTML pages also get `@newtalaria/browser`, which can send `page` and `track` from the browser after consent. See [Product analytics setup](../../features/analytics.md).
 
 ## Feature flags
 
@@ -84,7 +80,7 @@ LCP, INP, CLS, and TTFB are recorded in the injected browser script as child spa
 
 ## Consent
 
-The injected script follows CookieYes, Cookiebot, and Google Consent Mode. Any other banner should call `analytics.optIn()` in the page after agreement. See [Cookie banners](../../analytics/consent.md). PHP `Talaria::analytics()` does not wait for a banner. Call it only for server-side events you already have a lawful basis to send.
+The injected script follows CookieYes, Cookiebot, and Google Consent Mode. Any other banner should call `analytics.optIn()` in the page after agreement. See [Cookie banners](../../guides/cookie-banners.md). PHP `Talaria::analytics()` does not wait for a banner. Call it only for server-side events you already have a lawful basis to send.
 
 ## Privacy in events
 
@@ -93,6 +89,6 @@ Query spans include SQL text. Do not concatenate secrets into queries. Do not lo
 ## Related
 
 - [Laravel SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Browser best practices](../javascript/best-practices.md)
+- [Browser best practices](../javascript/configuration.md)

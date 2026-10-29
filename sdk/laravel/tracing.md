@@ -22,15 +22,11 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/laravel/instrumentation.md
-redirectFrom:
-  - /docs/sdk/laravel/instrumentation
 ---
 
 # Laravel instrumentation and tracing
 
-Turn **Tracing** on in [Project settings](../../getting-started/configuration.md). The provider registers the integrations at boot. They no-op until the project document enables tracing. Successful transactions follow the traces sample rate. Error transactions are always sent.
+Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). The provider registers the integrations at boot. They no-op until the project document enables tracing. Successful transactions follow the traces sample rate. Error transactions are always sent.
 
 Spans use the OpenTelemetry span model. HTTP middleware and the HTTP client continue W3C `traceparent`.
 
@@ -83,11 +79,11 @@ try {
 
 ## Browser script
 
-HTML responses on the `web` middleware group load `@newtalaria/browser`. That script's tracing (pageload, fetch, web vitals) follows the same project document. See [Best practices](best-practices.md).
+HTML responses on the `web` middleware group load `@newtalaria/browser`. That script's tracing (pageload, fetch, web vitals) follows the same project document. See [Best practices](configuration.md).
 
 ## Related
 
 - [Laravel SDK](README.md)
-- [PHP instrumentation](../php/instrumentation.md)
+- [PHP instrumentation](../php/tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Configuration](../../get-started/project-settings.md)

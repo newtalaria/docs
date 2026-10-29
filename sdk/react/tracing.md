@@ -21,15 +21,11 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/react/instrumentation.md
-redirectFrom:
-  - /docs/sdk/react/instrumentation
 ---
 
 # React instrumentation and tracing
 
-`@newtalaria/react` uses the same automatic browser tracing as [`@newtalaria/browser`](../javascript/instrumentation.md): pageload, History navigation, fetch/XHR CLIENT spans, W3C `traceparent` on allowlisted origins, and web vitals as child spans of the pageload. Turn **Tracing** on in [Project settings](../../getting-started/configuration.md). Successful transactions follow the traces sample rate. Error transactions are always sent.
+`@newtalaria/react` uses the same automatic browser tracing as [`@newtalaria/browser`](../javascript/tracing.md): pageload, History navigation, fetch/XHR CLIENT spans, W3C `traceparent` on allowlisted origins, and web vitals as child spans of the pageload. Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Successful transactions follow the traces sample rate. Error transactions are always sent.
 
 ## Profiler
 
@@ -64,6 +60,6 @@ The first location starts a navigation transaction. Each later location starts a
 ## Related
 
 - [React SDK](README.md)
-- [Browser instrumentation](../javascript/instrumentation.md)
+- [Browser instrumentation](../javascript/tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Configuration](../../get-started/project-settings.md)

@@ -29,15 +29,11 @@ feature: []
 order: 30
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/node/instrumentation.md
-redirectFrom:
-  - /docs/sdk/node/instrumentation
 ---
 
 # Node.js instrumentation and tracing
 
-Turn **Tracing** on in [Project settings](../../getting-started/configuration.md). Successful transactions follow the traces sample rate. Error transactions are always sent. Spans follow the OpenTelemetry span model. HTTP propagation uses W3C `traceparent`.
+Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Successful transactions follow the traces sample rate. Error transactions are always sent. Spans follow the OpenTelemetry span model. HTTP propagation uses W3C `traceparent`.
 
 Import `@newtalaria/node` (not `@newtalaria/node/api`) so HTTP is patched.
 
@@ -389,5 +385,5 @@ try {
 
 - [Node.js SDK](README.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Best practices](configuration.md)
+- [Configuration](../../get-started/project-settings.md)

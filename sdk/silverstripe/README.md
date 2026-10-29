@@ -43,11 +43,11 @@ The DSN defaults to `https://ingest.newtalaria.com`. Set `Talaria\SilverStripe\C
 | Capability | Where |
 | --- | --- |
 | Monolog errors and logs, breadcrumbs, and the current Member | [Errors, logs, and breadcrumbs](errors.md) |
-| HTTP middleware, MySQL, Guzzle, and queued jobs | [Instrumentation and tracing](instrumentation.md) |
-| PHP analytics, feature flags, and the injected browser script | [Best practices](best-practices.md) |
+| HTTP middleware, MySQL, Guzzle, and queued jobs | [Instrumentation and tracing](tracing.md) |
+| PHP analytics, feature flags, and the injected browser script | [Best practices](configuration.md) |
 | Move between module versions | [Upgrade](upgrade.md) |
 
-CMS and public pages load `@newtalaria/browser`. Replay, heatmaps, web vitals, and consent run in that script. Public pages can send browser analytics. The CMS is not opted into analytics. There is no Redis wrapper. Silverstripe has no core Redis usage this module instruments. Use the [PHP Redis proxy](../php/instrumentation.md) if you added Redis yourself.
+CMS and public pages load `@newtalaria/browser`. Replay, heatmaps, web vitals, and consent run in that script. Public pages can send browser analytics. The CMS is not opted into analytics. There is no Redis wrapper. Silverstripe has no core Redis usage this module instruments. Use the [PHP Redis proxy](../php/tracing.md) if you added Redis yourself.
 
 ## Install
 
@@ -72,7 +72,7 @@ YAML and environment are the setup. The module reads:
 
 ## App init vs Project settings
 
-Tracing, analytics, heatmaps, and replay follow [Project configuration](../../getting-started/configuration.md). The CMS admin is not opted into browser analytics. Public pages can send analytics through the injected script when the project allows it.
+Tracing, analytics, heatmaps, and replay follow [Project configuration](../../get-started/project-settings.md). The CMS admin is not opted into browser analytics. Public pages can send analytics through the injected script when the project allows it.
 
 ## API key
 
@@ -88,9 +88,9 @@ A rejected key is cached for about 24 hours. Restart PHP-FPM after rotating it. 
 
 ## Related docs
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
+- [Best practices](configuration.md)
 - [Upgrade](upgrade.md)
 - [PHP SDK](../php/README.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Configuration](../../get-started/project-settings.md)

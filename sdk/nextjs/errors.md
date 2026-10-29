@@ -85,5 +85,5 @@ Use the same `release` on the client, server, and edge. Upload client source map
 ## Related
 
 - [Next.js SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)
