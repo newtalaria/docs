@@ -31,7 +31,7 @@
 - { id: flags-segments,        label: Segments,                 parent: flags,  kind: subpage, route: "<P>/flags/segments",           icon: Flag,           order: 222 }
 - { id: project-settings,      label: Project settings,         nav: configure, kind: page,    route: "<P>/settings",                 icon: Settings,       order: 230 }  # sidebar item reads "Settings"; page header reads "Project settings"
 - { id: project-settings-capture,  label: Capture,              parent: project-settings, kind: tab, route: "<P>/settings?tab=capture", icon: Settings,  order: 231 }
-- { id: client-keys,           label: Client keys,              parent: project-settings, kind: tab, route: "<P>/settings?tab=keys",    icon: KeyRound,  order: 232 }
+- { id: api-keys,           label: API keys,              parent: project-settings, kind: tab, route: "<P>/settings?tab=keys",    icon: KeyRound,  order: 232 }
 - { id: project-settings-source,   label: Source code,          parent: project-settings, kind: tab, route: "<P>/settings?tab=source",  icon: Settings,  order: 233 }
 - { id: project-settings-maps,     label: Source maps,          parent: project-settings, kind: tab, route: "<P>/settings?tab=maps",    icon: Settings,  order: 234 }
 - { id: project-settings-inbound,  label: Inbound filters,      parent: project-settings, kind: tab, route: "<P>/settings?tab=inbound", icon: Settings,  order: 235 }

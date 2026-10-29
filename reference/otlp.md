@@ -3,7 +3,7 @@ id: otlp-endpoint
 title: OTLP endpoint
 description: >-
   Send traces, logs, and metrics via OpenTelemetry Protocol (OTLP) over HTTP
-  to ingest.newtalaria.com/otlp. HTTP/protobuf recommended, gRPC not supported.
+  to ingest-nz1.newtalaria.com/otlp. HTTP/protobuf recommended, gRPC not supported.
 tags:
   - otlp
   - opentelemetry
@@ -26,7 +26,7 @@ Talaria accepts OpenTelemetry Protocol (OTLP) data over **HTTP only** (protobuf 
 ## Endpoint
 
 ```
-https://ingest.newtalaria.com/otlp
+https://ingest-nz1.newtalaria.com/otlp
 ```
 
 This is a **base URL**. The OTLP specification requires clients to append the signal-specific path:
@@ -35,25 +35,17 @@ This is a **base URL**. The OTLP specification requires clients to append the si
 - **Logs:** `POST /otlp/v1/logs`
 - **Metrics:** `POST /otlp/v1/metrics`
 
-Most OpenTelemetry SDKs and Collectors perform this automatically when you set `OTEL_EXPORTER_OTLP_ENDPOINT=https://ingest.newtalaria.com/otlp`.
+Most OpenTelemetry SDKs and Collectors perform this automatically when you set `OTEL_EXPORTER_OTLP_ENDPOINT=https://ingest-nz1.newtalaria.com/otlp`.
 
 ## Authentication
 
-Include your API key in the `x-api-key` header or as a Bearer token:
+Send `Authorization: Bearer` and a secret or publishable key. Collectors use a secret key (`tal_sk_<env>_nz1_…`) with the signal's write scope. A publishable key (`tal_pk_<env>_nz1_…`) is also accepted when it has that scope.
 
 ```bash
-# Recommended
-x-api-key: tal_prod_YOUR_KEY_HERE
-
-# Also accepted
-Authorization: Bearer tal_prod_YOUR_KEY_HERE
+Authorization: Bearer tal_sk_prod_nz1_…
 ```
 
-Use environment-specific key prefixes:
-- `tal_prod_` for production
-- `tal_stg_` for staging
-- `tal_test_` for test
-- `tal_dev_` for development
+`<env>` is `prod`, `stg`, `test`, or `dev`.
 
 ## Protocol
 
@@ -61,7 +53,7 @@ Use environment-specific key prefixes:
 |---|---|---|
 | `http/protobuf` | ✅ Supported (recommended) | Default per OTLP spec |
 | `http/json` | ✅ Supported | Alternative encoding |
-| `grpc` | ❌ Not supported | Cloudflare returns 403 |
+| `grpc` | ❌ Not supported | OTLP export is HTTP only |
 
 Set the protocol explicitly:
 
@@ -84,8 +76,8 @@ Bodies over 6 MiB (before compression) will receive a 413 response.
 See the [OpenTelemetry SDK Configuration](../sdk/README.md) for complete setup details.
 
 ```bash
-export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingest.newtalaria.com/otlp"
-export OTEL_EXPORTER_OTLP_HEADERS="x-api-key=tal_prod_YOUR_KEY_HERE"
+export OTEL_EXPORTER_OTLP_ENDPOINT="https://ingest-nz1.newtalaria.com/otlp"
+export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer%20tal_sk_prod_nz1_…"
 export OTEL_EXPORTER_OTLP_PROTOCOL="http/protobuf"
 export OTEL_SERVICE_NAME="your-service-name"
 ```
@@ -96,7 +88,7 @@ To send different signals to different destinations, use per-signal endpoint var
 
 ```bash
 # Override traces only (logs and metrics use the base endpoint)
-export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="https://ingest.newtalaria.com/otlp/v1/traces"
+export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="https://ingest-nz1.newtalaria.com/otlp/v1/traces"
 ```
 
 ## Error Codes
@@ -113,9 +105,9 @@ export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="https://ingest.newtalaria.com/otlp/v1
 ```yaml
 exporters:
   otlp_http:
-    endpoint: https://ingest.newtalaria.com/otlp
+    endpoint: https://ingest-nz1.newtalaria.com/otlp
     headers:
-      x-api-key: ${env:TALARIA_API_KEY}
+      Authorization: Bearer ${env:TALARIA_API_KEY}
     compression: gzip
 
 service:

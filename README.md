@@ -18,7 +18,7 @@ owner: docs
 
 # Talaria docs
 
-Canonical integration knowledge for Talaria. Humans read this on [www.newtalaria.com/docs](https://www.newtalaria.com/docs). Coding agents read the same pages via MCP `docs_list`, `docs_search`, and `docs_get`.
+Canonical integration knowledge for Talaria. Humans read this on [www.newtalaria.com/docs](https://www.newtalaria.com/docs). Coding agents read the same pages via MCP `list_docs`, `search_docs`, and `get_doc`.
 
 Learn guides and product narrative stay on the marketing site (`/learn`, `/product`). This repo is install and how-to only.
 
@@ -31,8 +31,8 @@ Start here: [Add Talaria with an agent](agents/add-talaria.md).
 Then:
 
 1. Detect the stack from the local repo (`pubspec.yaml`, `package.json`, `composer.json`).
-2. `docs_search` with an `sdk` filter (for example `flutter`) and query `install` or `init`.
-3. `docs_get` the stack hub and configuration page.
-4. Wire the URL and API key (`tal_dev_…` keys are public client ingest credentials — env / dart-define are fine). The key decides the environment. `setup_project` returns a development key. Do not pass `environment` in SDK init. Send `release` as `<ref>@<shortsha>` (for example `main@a8f31c2`). See [Releases](features/releases.md). Server SDKs fill that from CI when `TALARIA_RELEASE` is unset.
+2. `search_docs` with an `sdk` filter (for example `flutter`) and query `install` or `init`.
+3. `get_doc` the stack hub and configuration page.
+4. Wire the URL and API key (`tal_pk_dev_nz1_…` keys are public client ingest credentials — env / dart-define are fine). The key decides the environment. `setup_project` returns a development key. Do not pass `environment` in SDK init. Send `release` as `<ref>@<shortsha>` (for example `main@a8f31c2`). See [Releases](features/releases.md). Server SDKs fill that from CI when `TALARIA_RELEASE` is unset.
 5. Tell the human which **Project settings** to enable (or use MCP `get_project` / `update_project_settings` when authorized).
 6. Verify with `search_events` / `search_issues` and `environment: development`. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.

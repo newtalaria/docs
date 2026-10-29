@@ -176,11 +176,19 @@ const dashboardSurfaceSchema = z.object({
   order: z.number().int().min(0),
 });
 
-// Key Scopes (v1.2)
+// Key Scopes (v1.4.2)
+const credentialSchema = z.enum([
+  "publishable-key",
+  "secret-key",
+  "release-key",
+  "monitor-token",
+  "personal-token",
+  "oauth",
+]);
 const keyScopeSchema = z.object({
   id: z.string().regex(/^[a-z0-9:]+$/),
   label: z.string(),
-  credential: z.enum(["ingest-key", "release-key", "oauth"]).optional(),
+  credential: z.union([credentialSchema, z.array(credentialSchema).min(1)]).optional(),
 });
 
 // Page Templates (v1.2)

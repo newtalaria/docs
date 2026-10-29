@@ -31,14 +31,13 @@ owner: docs
 npm install @newtalaria/react
 ```
 
-Init once, before `createRoot`. The API key is a public client ingest credential. A bundler may inline it at build time. The key decides the environment.
+Init once, before `createRoot`. The API key is a public client ingest credential. A bundler may inline it at build time. The key decides the environment. This SDK refuses a secret `tal_sk_` key or a `tal_mon_` token at init.
 
 ```javascript
 import { Talaria } from '@newtalaria/react';
 
 Talaria.init({
-  url: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_prod_…',
+  apiKey: 'tal_pk_prod_nz1_…',
   release: '1.0.0',
   minLevel: 'warning',
 });
@@ -79,8 +78,7 @@ npm install @newtalaria/react
 import { Talaria } from '@newtalaria/react';
 
 Talaria.init({
-  url: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_prod_…',
+  apiKey: 'tal_pk_prod_nz1_…',
   release: '1.4.2',
   minLevel: 'warning',
 });

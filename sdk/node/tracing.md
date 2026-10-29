@@ -64,7 +64,6 @@ import http from 'node:http';
 import { Talaria, handleHttpRequest } from '@newtalaria/node';
 
 Talaria.init({
-  url: 'https://ingest.newtalaria.com',
   apiKey: process.env.TALARIA_API_KEY,
   release: process.env.TALARIA_RELEASE,
 });
@@ -169,7 +168,6 @@ import {
 } from '@newtalaria/node';
 
 Talaria.init({
-  url: 'https://ingest.newtalaria.com',
   apiKey: process.env.TALARIA_API_KEY,
   release: process.env.TALARIA_RELEASE,
 });

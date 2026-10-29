@@ -35,7 +35,6 @@ npm install @newtalaria/node
 import { Talaria } from '@newtalaria/node';
 
 Talaria.init({
-  url: 'https://ingest.newtalaria.com',
   apiKey: process.env.TALARIA_API_KEY,
   release: process.env.TALARIA_RELEASE ?? 'dev',
   minLevel: 'warning',
@@ -45,7 +44,7 @@ await Talaria.captureException(new Error('talaria hello'));
 await Talaria.flush();
 ```
 
-The key decides the environment. Do not pass `environment`. A local `setup_project` key is a development key. Confirm with `search_issues` and `environment: development`.
+The key decides the environment. This SDK logs one warning when the key is a publishable `tal_pk_` key; use a secret `tal_sk_` key on the server. Do not pass `environment`. A local `setup_project` key is a development key. Confirm with `search_issues` and `environment: development`.
 
 ## What you can do
 
@@ -71,7 +70,6 @@ npm install @newtalaria/node
 import { Talaria } from '@newtalaria/node';
 
 Talaria.init({
-  url: 'https://ingest.newtalaria.com',
   apiKey: process.env.TALARIA_API_KEY,
   release: process.env.TALARIA_RELEASE,
   commitSha: process.env.TALARIA_COMMIT_SHA,
@@ -91,7 +89,6 @@ import { DuckDBInstance } from '@duckdb/node-api';
 import { Talaria, getNodeClient, wrapDuckDB } from '@newtalaria/node';
 
 Talaria.init({
-  url: 'https://ingest.newtalaria.com',
   apiKey: process.env.TALARIA_API_KEY,
   release: process.env.TALARIA_RELEASE,
 });
@@ -123,7 +120,7 @@ Init holds the URL, API key, release, and tags. Tracing and analytics turn on fr
 
 ## API key
 
-Store `TALARIA_API_KEY` in the environment. The prefix stays `tal_prod_`. The server stamps the key's environment on ingest. Send `release` as a version or SHA on every process, including local runs.
+Store `TALARIA_API_KEY` in the environment. Publishable keys look like `tal_pk_<env>_nz1_…` and secret keys look like `tal_sk_<env>_nz1_…`. The server stamps the key's environment on ingest. Send `release` as a version or SHA on every process, including local runs.
 
 ## Verification
 

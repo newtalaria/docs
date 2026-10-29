@@ -32,11 +32,11 @@ composer require talaria/laravel
 ```
 
 ```env
-TALARIA_API_KEY=tal_prod_…
+TALARIA_API_KEY=tal_sk_prod_nz1_…
 TALARIA_RELEASE=1.4.2
 ```
 
-The published config defaults the URL to `https://ingest.newtalaria.com`. Publish it if you need to change that:
+The published config defaults the URL to `https://ingest-nz1.newtalaria.com`. Publish it if you need to change that:
 
 ```bash
 php artisan vendor:publish --tag=talaria-config
@@ -66,8 +66,8 @@ The provider builds the client from `config/talaria.php`. You configure the app 
 
 | Variable | Role |
 | --- | --- |
-| `TALARIA_API_KEY` | Ingest key. Chooses the environment |
-| `TALARIA_URL` | Defaults to `https://ingest.newtalaria.com` |
+| `TALARIA_API_KEY` | Secret key. Chooses the environment |
+| `TALARIA_URL` | Optional. Self-host or a custom domain only. Otherwise the SDK derives the host from the key |
 | `TALARIA_RELEASE` | Version or SHA |
 | `TALARIA_COMMIT_SHA` | Commit on events |
 | `TALARIA_SERVICE` | `service` tag. Defaults to `APP_NAME` |
@@ -80,7 +80,7 @@ Leave tracing, analytics, and replay to Project settings. The adapter still send
 
 ## API key
 
-A development key is what local install should use. Production uses a production key. The prefix stays `tal_prod_`. Do not commit the key. Send `TALARIA_RELEASE` on every environment, including local.
+A development key is what local install should use. Production uses a production key. Publishable keys look like `tal_pk_<env>_nz1_…` and secret keys look like `tal_sk_<env>_nz1_…`. Do not commit the key. Send `TALARIA_RELEASE` on every environment, including local.
 
 ## Verification
 

@@ -19,7 +19,8 @@ prereqs:
   - label: A Kubernetes cluster with kubectl access
   - label: Helm 3 installed
 credentials:
-  - ingest-key
+  - secret-key
+  - monitor-token
 scopes:
   - logs:write
   - metrics:write
@@ -51,7 +52,7 @@ The OpenTelemetry Collector runs as a DaemonSet (logs, kubelet metrics, and trac
 
 ## Before you start
 
-1. **Get your Talaria ingest key** from Project settings › Client keys. It should start with `tal_prod_` (production), `tal_stg_` (staging), `tal_test_` (test), or `tal_dev_` (development).
+1. **Get a secret key** from Project settings › API keys. It should start with `tal_sk_prod_nz1_…` (production), `tal_sk_stg_nz1_…` (staging), `tal_sk_test_nz1_…` (test), or `tal_sk_dev_nz1_…` (development).
 2. **Decide your service name**: This will appear in Runtime as the top-level grouping (e.g., `checkout-api`, `background-jobs`).
 3. **Have `kubectl` and Helm 3** ready.
 
@@ -59,17 +60,17 @@ The OpenTelemetry Collector runs as a DaemonSet (logs, kubelet metrics, and trac
 
 ### 1. Set the environment variables
 
-Store your ingest key as a Secret so the Collector can reference it:
+Store the secret key so the Collector can reference it:
 
 ```bash
 kubectl create secret generic talaria-ingest \
-  --from-literal=api-key=tal_prod_YOUR_KEY_HERE \
+  --from-literal=api-key=tal_sk_prod_nz1_… \
   --namespace=opentelemetry-collector
 ```
 
-Replace `tal_prod_YOUR_KEY_HERE` with your actual key.
+Replace `tal_sk_prod_nz1_…` with your actual key.
 
-If your application pods send telemetry directly (not just via the collector), they need the ingest key too. Add it to their Deployment `env:`:
+If your application pods send telemetry directly (not just via the collector), they need the secret key too. Add it to their Deployment `env:`:
 
 ```yaml
 env:
@@ -122,9 +123,9 @@ presets:
 config:
   exporters:
     otlp_http:
-      endpoint: https://ingest.newtalaria.com/otlp
+      endpoint: https://ingest-nz1.newtalaria.com/otlp
       headers:
-        x-api-key: ${env:TALARIA_API_KEY}
+        Authorization: Bearer ${env:TALARIA_API_KEY}
       compression: gzip
 
   processors:
@@ -194,9 +195,9 @@ config:
 
   exporters:
     otlp_http:
-      endpoint: https://ingest.newtalaria.com/otlp
+      endpoint: https://ingest-nz1.newtalaria.com/otlp
       headers:
-        x-api-key: ${env:TALARIA_API_KEY}
+        Authorization: Bearer ${env:TALARIA_API_KEY}
       compression: gzip
 
   processors:
@@ -251,7 +252,7 @@ For explicit job health tracking beyond metrics, have your CronJob send check-in
 
 ```bash
 kubectl create secret generic talaria-import-monitor \
-  --from-literal=monitor-token=tal_mon_YOUR_TOKEN_HERE \
+  --from-literal=monitor-token=tal_mon_nz1_… \
   --namespace=default
 ```
 
@@ -273,8 +274,6 @@ spec:
             - name: import
               image: example/import:1
               env:
-                - name: TALARIA_URL
-                  value: https://ingest.newtalaria.com
                 - name: TALARIA_MONITOR_TOKEN
                   valueFrom:
                     secretKeyRef:
@@ -285,8 +284,8 @@ spec:
                 - -c
                 - |
                   # Send in_progress
-                  curl -fsS -X POST "$TALARIA_URL/v1/check-ins" \
-                    -H "X-Talaria-Monitor-Token: $TALARIA_MONITOR_TOKEN" \
+                  curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
+                    -H "Authorization: Bearer $TALARIA_MONITOR_TOKEN" \
                     -H "Content-Type: application/json" \
                     -d '{"status":"in_progress"}'
                   
@@ -296,13 +295,13 @@ spec:
                   
                   # Send ok or error
                   if [ "$status" -eq 0 ]; then
-                    curl -fsS -X POST "$TALARIA_URL/v1/check-ins" \
-                      -H "X-Talaria-Monitor-Token: $TALARIA_MONITOR_TOKEN" \
+                    curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
+                      -H "Authorization: Bearer $TALARIA_MONITOR_TOKEN" \
                       -H "Content-Type: application/json" \
                       -d '{"status":"ok"}'
                   else
-                    curl -fsS -X POST "$TALARIA_URL/v1/check-ins" \
-                      -H "X-Talaria-Monitor-Token: $TALARIA_MONITOR_TOKEN" \
+                    curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
+                      -H "Authorization: Bearer $TALARIA_MONITOR_TOKEN" \
                       -H "Content-Type: application/json" \
                       -d '{"status":"error"}'
                   fi
@@ -367,9 +366,9 @@ Replace `<your-deployment-name>` with your actual deployment name. The `service`
 
 ### Exporter returns 500 errors
 
-**Cause:** The endpoint is set to `https://ingest.newtalaria.com` (without `/otlp`), so the Collector posts to `/v1/logs` instead of `/otlp/v1/logs`.
+**Cause:** The endpoint is set to `https://ingest-nz1.newtalaria.com` (without `/otlp`), so the Collector posts to `/v1/logs` instead of `/otlp/v1/logs`.
 
-**Fix:** Set `endpoint: https://ingest.newtalaria.com/otlp` in the exporter config. The OTLP spec requires the Collector to append `/v1/{traces,logs,metrics}` to the base URL.
+**Fix:** Set `endpoint: https://ingest-nz1.newtalaria.com/otlp` in the exporter config. The OTLP spec requires the Collector to append `/v1/{traces,logs,metrics}` to the base URL.
 
 ### CronJob check-ins aren't showing up in Monitors
 
@@ -381,8 +380,8 @@ Replace `<your-deployment-name>` with your actual deployment name. The `service`
    ```bash
    kubectl logs -n default job/<job-name>
    ```
-2. Verify the endpoint is `https://ingest.newtalaria.com/v1/check-ins`.
-3. Verify the header is `X-Talaria-Monitor-Token`.
+2. Verify the endpoint is `https://ingest-nz1.newtalaria.com/v1/check-ins`.
+3. Verify the header is `Authorization: Bearer`.
 4. Regenerate the monitor token from the dashboard if it was revoked.
 
 ## Next steps

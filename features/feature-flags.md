@@ -24,7 +24,7 @@ Create flags in **Flags** and evaluate them from your SDK.
 
 ## How it works
 
-SDKs evaluate flags through `GET /v1/flags` using an API key with the `flags:evaluate` scope. Evaluate flags with `boolVariation`, `stringVariation`, or `jsonVariation`:
+SDKs evaluate flags with `POST /v1/flags/evaluate` and a publishable or secret key that has `flags:evaluate`. `GET /v1/flags?keys=` lists definitions and needs a secret key with `flags:read`. Evaluate flags with `boolVariation`, `stringVariation`, or `jsonVariation`:
 
 ```javascript platform=javascript
 // JavaScript/React/Next.js
@@ -49,4 +49,4 @@ Feature flag evaluations are included in all plans. See [pricing](/pricing) for 
 - **`flags:evaluate`** — Evaluate flags (browser-safe)
 - **`flags:read`** — Read flag definitions
 
-See [GET /v1/flags](../reference/ingest-api.md#feature-flags) in the Ingest API reference for the complete endpoint specification.
+See [Feature flags](../reference/ingest-api.md#feature-flags) in the Ingest API reference for the endpoint contract.

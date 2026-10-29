@@ -81,7 +81,7 @@ jobs:
         id: maps
         uses: newtalaria/release@v1  # Illustrative until newtalaria/release@v1 is published
         with:
-          sourcemaps: dist
+          source-maps: dist
         env:
           TALARIA_RELEASE_KEY: ${{ secrets.TALARIA_RELEASE_KEY }}
 ```

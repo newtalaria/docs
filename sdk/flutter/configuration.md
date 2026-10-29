@@ -33,7 +33,7 @@ Pass `APP_RELEASE` as the build name and number (`1.4.2+42`) or the git SHA. Eac
 
 ## API key and environment
 
-The API key chooses the environment. Do not pass `environment` in `TalariaOptions`. `--dart-define=TALARIA_API_KEY=…` is compiled in. Rebuild after you change it. A rejected key is cached for about 24 hours.
+The API key chooses the environment. Do not pass `environment` in `TalariaOptions`. `--dart-define=TALARIA_BROWSER_API_KEY=…` is compiled in. Rebuild after you change it. A rejected key is cached for about 24 hours.
 
 ## Sampling
 

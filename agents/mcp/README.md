@@ -19,9 +19,9 @@ owner: docs
 
 # MCP
 
-Hosted MCP at `https://api.newtalaria.com/mcp` (local: `http://{{mcpUrl}}/mcp`). Transport is Streamable HTTP. Auth is OAuth (the client discovers `/.well-known/oauth-protected-resource`, registers at `/oauth/register`, and you approve consent) or a personal token from **Workspace › Integrations**. Install scopes are `mcp:read mcp:write mcp:keys`. A personal token lasts 30 days, 90 days, or until you revoke it. It is opaque base64url JSON (one segment, not a three-part JWT). Never use an ingest key (`tal_<env>_…`).
+Hosted MCP at `https://api.newtalaria.com/mcp` (local: `http://{{mcpUrl}}/mcp`). Transport is Streamable HTTP. Auth is OAuth (the client discovers `/.well-known/oauth-protected-resource`, registers at `/oauth/register`, and you approve consent) or a personal token from **Workspace › Integrations**. Install scopes are `mcp:read mcp:write mcp:keys`. A personal token lasts 30 days, 90 days, or until you revoke it. It is opaque base64url JSON (one segment, not a three-part JWT). Never send an API key or a monitor token to MCP.
 
-`tools/list` requires a grant. `docs_*` tools/call still work without auth when called by name. After connect, call `get_connection` before mutating.
+`tools/list` requires a grant. `get_doc, list_docs, and search_docs` tools/call still work without auth when called by name. After connect, call `get_connection` before mutating.
 
 The dashboard button **Copy Cursor mcp.json** is the Cursor file. Other clients use a different key for the same URL. Pasting the Cursor file into Claude Code fails, because an entry with `url` and no `type` is skipped.
 
@@ -43,7 +43,7 @@ The **Talaria** plugin for Cursor and Grok Bot includes five closed-loop skills 
 
 | Skill | When to use |
 | ----- | ----------- |
-| `talaria-get-started` | Connect, confirm org/project, first smoke read (`docs_*` or `search_issues`) |
+| `talaria-get-started` | Connect, confirm org/project, first smoke read (`get_doc, list_docs, and search_docs` or `search_issues`) |
 | `talaria-instrument` | SDK install, create project/key (`setup_project`), send first test event |
 | `talaria-observe-performance` | Health (`get_project_stats`), traces, spans, queries, sessions, monitors |
 | `talaria-triage-issue` | Investigate one issue (pack → trace/replay/suspects → optional GitHub issue) |
@@ -53,7 +53,7 @@ The **Talaria** plugin for Cursor and Grok Bot includes five closed-loop skills 
 
 Skills are available from the **[Talaria plugin](https://github.com/newtalaria/talaria-agent-plugin)**.
 
-Agents can also follow the Markdown playbooks via `docs_get`: [Add Talaria with an agent](../add-talaria.md) (≈ instrument), [Triage issues with an agent](../triage-issues.md) (≈ triage). See [Agent skills overview](../README.md) for the skills → playbooks map.
+Agents can also follow the Markdown playbooks via `get_doc`: [Add Talaria with an agent](../add-talaria.md) (≈ instrument), [Triage issues with an agent](../triage-issues.md) (≈ triage). See [Agent skills overview](../README.md) for the skills → playbooks map.
 
 ## Tool catalogue
 
@@ -61,11 +61,11 @@ Agents can also follow the Markdown playbooks via `docs_get`: [Add Talaria with 
 
 | Tool | Purpose |
 | ---- | ------- |
-| `docs_list` | Manifest entries; filter by `sdk` / `prefix` |
-| `docs_search` | Ranked search over title, path, tags, headings, body |
-| `docs_get` | Full Markdown for a path/id |
+| `list_docs` | Manifest entries; filter by `sdk` / `prefix` |
+| `search_docs` | Ranked search over title, path, tags, headings, body |
+| `get_doc` | Full Markdown for a path/id |
 
-For install tasks, start with `docs_get` on `agents/add-talaria`.
+For install tasks, start with `get_doc` on `agents/add-talaria`.
 
 ### Authenticated (`mcp:read` and above)
 
@@ -85,7 +85,7 @@ For install tasks, start with `docs_get` on `agents/add-talaria`.
 | `list_database_queries` | Database statements grouped by text: calls, total time, p95, errors, and N+1 trace count. `nPlusOneOnly` keeps N+1 statements. Takes `environment` |
 | `search_sessions` | Product sessions. Takes `environment` |
 | `get_project_stats` | Health snapshot for one environment, plus per-environment counts. Takes `environment` |
-| Feature flag tools | List / get / kill-switch / percent rollout. One flag definition per project; evaluation uses the ingest key's environment |
+| Feature flag tools | List / get / kill-switch / percent rollout. One flag definition per project; evaluation uses the API key's environment |
 
 ### Elevated scopes
 
@@ -93,7 +93,7 @@ For install tasks, start with `docs_get` on `agents/add-talaria`.
 | ---- | ----- | ------- |
 | `update_project_settings` / `create_project` / `send_test_event` | `mcp:write` | Safe settings, create project, ingest a test event |
 | `update_issue_status` / `add_issue_comment` | `mcp:write` | Resolve, ignore, or reopen one issue (a note is required to resolve or ignore, and is stored as a comment), or add a comment without changing status |
-| `create_api_key` / `setup_project` | `mcp:keys` | Mint a key once; never log or commit. Omit `scopes` for the ingest key. `scopes: ["releases:write"]` is a second key for source-map upload. `setup_project` stays on the ingest key |
+| `create_api_key` / `setup_project` | `mcp:keys` | Mint a key once; never log or commit. Omit `scopes` for the publishable key (every publishable scope). `scopes: ["releases:write"]` is a release key for source-map upload. `setup_project` stays on the publishable key |
 
 ## Integration workflow
 

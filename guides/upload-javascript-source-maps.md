@@ -31,7 +31,7 @@ Opening an event rewrites a minified JavaScript frame to the original file, line
 
 Hidden source maps work. Talaria reads the copy you upload when the event is opened.
 
-Browser, React, and Next.js share this path. The upload command is `@newtalaria/cli` (`talaria sourcemaps upload`).
+Browser, React, and Next.js share this path. The upload command is `@newtalaria/cli` (`talaria source-maps upload`).
 
 ## 1. Send a release from the app
 
@@ -39,7 +39,6 @@ The release on the event and the release on the upload are the same string.
 
 ```js
 Talaria.init({
-  url: 'https://ingest.newtalaria.com',
   apiKey: process.env.NEXT_PUBLIC_TALARIA_BROWSER_API_KEY,
   release: process.env.NEXT_PUBLIC_TALARIA_RELEASE,
 })
@@ -47,13 +46,13 @@ Talaria.init({
 
 Local development uses the stable release `local`. A deploy uses `<ref>@<shortsha>`, the same string as the event. See [Releases](../features/releases.md). The SDK reads `release` only from init.
 
-The value in `apiKey` is the ingest key. The upload uses a second key, below.
+The value in `apiKey` is the publishable key. The upload uses a release key, below.
 
 For Next.js, run the upload after `next build`. `withTalariaConfig` configures the app. The CLI uploads the maps from the build output.
 
 ## 2. Create an upload key
 
-In the dashboard, create an API key and enable **Allow creating releases (`releases:write`)**. That scope registers a release and calls `POST /v1/source-maps`. Leave it off the browser key.
+In the dashboard, create an API key and enable **Allow creating releases (`releases:write`)**. That scope registers a release and calls `POST /v1/source-maps`. Leave it off the publishable key.
 
 Put the raw key in `TALARIA_RELEASE_KEY`. Keep it out of git and out of any `NEXT_PUBLIC_` or other client env var.
 
@@ -61,17 +60,17 @@ An agent mints that key only after you agree:
 
 `create_api_key` with `scopes: ["releases:write"]` and a name such as `source maps`.
 
-Omitting `scopes` still mints the ingest key. `setup_project` keeps minting the development ingest key and does not add `releases:write`.
+Omitting `scopes` still mints the publishable key, with every publishable scope. `setup_project` keeps minting the development publishable key and does not add `releases:write`.
 
 ## 3. Upload a local build
 
 The local API listens on port 8080 (`http://{{mcpUrl}}`). A local MCP server listens on port 8082 and is a different service from the upload URL.
 
 ```sh
-export TALARIA_RELEASE_KEY=tal_prod_…
+export TALARIA_RELEASE_KEY=tal_sk_prod_nz1_…
 export TALARIA_RELEASE=local
 
-npx talaria sourcemaps upload ./dist
+npx talaria source-maps upload ./dist
 ```
 
 `TALARIA_RELEASE=local` matches `Talaria.init({ release: 'local' })`.
@@ -79,7 +78,7 @@ npx talaria sourcemaps upload ./dist
 Until `@newtalaria/cli` is on npm, build the workspace package and run it from this repository:
 
 ```sh
-node sdks/javascript/browser/packages/cli/dist/bin.js sourcemaps upload ./dist
+node sdks/javascript/browser/packages/cli/dist/bin.js source-maps upload ./dist
 ```
 
 The command prints the URL, the release, and each `fileName`, then the stored id. A failing file, a missing key, or a directory with no `*.js.map` exits non-zero.
@@ -100,12 +99,12 @@ On GitHub Actions, upload the directory the build already wrote. Keep `TALARIA_R
 - uses: newtalaria/release@v1  # Illustrative until newtalaria/release@v1 is published
   id: release
   with:
-    sourcemaps: dist
+    source-maps: dist
   env:
     TALARIA_RELEASE_KEY: ${{ secrets.TALARIA_RELEASE_KEY }}
 ```
 
-`steps.release.outputs.release` is the release sent with each map. The hosted API base URL is `https://ingest.newtalaria.com`.
+`steps.release.outputs.release` is the release sent with each map. The hosted API base URL is `https://ingest-nz1.newtalaria.com`.
 
 ## 5. Confirm the original frame
 
@@ -139,7 +138,7 @@ Limits: source map version 3, at most 2 MiB gzipped and 4 MiB of JSON.
 
 ```json
 POST {url}/v1/source-maps
-X-API-Key: tal_prod_…
+Authorization: Bearer tal_sk_prod_nz1_…
 
 {
   "input": {
@@ -166,7 +165,7 @@ Files later in that same call sit after this one, so their bytes do not move its
 `--silverstripe-combine-files` writes the debug id into the sibling `.js` and uploads the map with one empty generated line in front, matching the header. Deploy the rewritten `.js` as the file the combiner reads. The page still serves `assets/_combinedfiles/scripts-<hash>.js`. That combined script contains the debug id, and the browser reports its URL. Talaria matches the debug id and reads the line from the shifted map.
 
 ```sh
-npx talaria sourcemaps upload ./source-maps --silverstripe-combine-files
+npx talaria source-maps upload ./source-maps --silverstripe-combine-files
 ```
 
 On GitHub Actions (illustrative until `newtalaria/release@v1` is published):
@@ -174,7 +173,7 @@ On GitHub Actions (illustrative until `newtalaria/release@v1` is published):
 ```yaml
 - uses: newtalaria/release@v1
   with:
-    sourcemaps: source-maps
+    source-maps: source-maps
 ```
 
 `Talaria.init({ release })` stays the release the action prints. A script the browser loads directly is uploaded without this flag.

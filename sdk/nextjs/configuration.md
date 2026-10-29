@@ -35,7 +35,7 @@ Set the same `release` on `initClient`, `initServer`, and `initEdge`. Upload bro
 
 ## API key and environment
 
-The key decides the environment. The client key is public and belongs in `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY`. The server key can stay in `TALARIA_API_KEY`. Do not pass `environment` in init. Local install uses a development key.
+The key decides the environment. The browser client refuses a secret `tal_sk_` key or a `tal_mon_` token at init. The publishable key belongs in `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY`. The server uses a secret key in `TALARIA_API_KEY` and logs one warning on a publishable key. Do not pass `environment` in init. Local install uses a development key.
 
 ## Sampling
 

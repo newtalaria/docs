@@ -54,7 +54,7 @@ Do not write:
 bearer_token = "YOUR_TOKEN"
 ```
 
-The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. Never use an ingest key (`tal_<env>_…`).
+The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. Never send an API key or a monitor token to MCP.
 
 ## After connect
 

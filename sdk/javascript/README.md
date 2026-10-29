@@ -39,8 +39,7 @@ npm install @newtalaria/browser
 import { Talaria } from '@newtalaria/browser';
 
 Talaria.init({
-  url: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_prod_…',
+  apiKey: 'tal_pk_prod_nz1_…',
   release: '1.0.0',
   minLevel: 'warning',
 });
@@ -49,7 +48,7 @@ await Talaria.captureException(new Error('talaria hello'));
 await Talaria.flush();
 ```
 
-`tal_prod_…` keys are public client ingest credentials. Put the key in the bundle through your build (an env var replaced at build time is fine). The key decides the environment. A local install uses a development key. Do not pass `environment` in init.
+`tal_pk_prod_nz1_…` keys are public client ingest credentials. Put the key in the bundle through your build (an env var replaced at build time is fine). The key decides the environment. This SDK refuses a secret `tal_sk_` key or a `tal_mon_` token at init. A local install uses a development key. Do not pass `environment` in init.
 
 > [!CAUTION]
 > When using Vite, use `VITE_TALARIA_BROWSER_API_KEY` for browser code. **Never** use `VITE_TALARIA_API_KEY` or `VITE_TALARIA_RELEASE_KEY`—server keys must not carry a public prefix. For server code, use the unprefixed variables.
@@ -83,8 +82,7 @@ Call `Talaria.init` once. Later calls are ignored.
 import { Talaria } from '@newtalaria/browser';
 
 Talaria.init({
-  url: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_prod_…',
+  apiKey: 'tal_pk_prod_nz1_…',
   release: '1.4.2',
   commitSha: 'abc123',
   minLevel: 'warning',
@@ -104,7 +102,7 @@ Set `remoteConfig: false` only when this page should send errors and skip the pr
 
 ## API key
 
-The key decides the environment. Each key is bound to development, test, staging, or production, and the prefix stays `tal_prod_`. The server stamps that value on ingest. A deployed app that should report production uses a production key. Local install, including `setup_project`, uses a development key. Send `release` as a version or git SHA. The same string is the release you upload source maps for.
+The key decides the environment. Each key is bound to development, test, staging, or production, and Publishable keys look like `tal_pk_<env>_nz1_…` and secret keys look like `tal_sk_<env>_nz1_…`. The server stamps that value on ingest. A deployed app that should report production uses a production key. Local install, including `setup_project`, uses a development key. Send `release` as a version or git SHA. The same string is the release you upload source maps for.
 
 ## Verification
 

@@ -39,8 +39,8 @@ Talaria::monitor('process-job-queue', [
 Register the schedule once with the API key. The response includes `monitorToken` a single time. Store it outside the repository.
 
 ```bash
-curl -fsS -X POST "$TALARIA_URL/v1/check-ins" \
-  -H "X-Talaria-Monitor-Token: $TALARIA_MONITOR_TOKEN" \
+curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
+  -H "Authorization: Bearer $TALARIA_MONITOR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"status":"ok"}'
 ```
@@ -50,12 +50,12 @@ curl -fsS -X POST "$TALARIA_URL/v1/check-ins" \
 ### Rotating a monitor token
 
 To rotate a monitor token, include `"rotateMonitorToken": true` in the check-in request body. Works on both routes:
-- `POST /v1/check-ins` with `X-Talaria-Monitor-Token` header
+- `POST /v1/check-ins` with `Authorization: Bearer` header
 - `POST /v1/monitors/{slug}/check-ins` with an API key
 
 ```bash
-curl -fsS -X POST "$TALARIA_URL/v1/check-ins" \
-  -H "X-Talaria-Monitor-Token: $TALARIA_MONITOR_TOKEN" \
+curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
+  -H "Authorization: Bearer $TALARIA_MONITOR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"status":"ok","rotateMonitorToken":true}'
 ```
@@ -97,7 +97,7 @@ monitors:
     command: "cd /container/application && vendor/bin/sake dev/tasks/SyncShopifyDataTask"
 ```
 
-Pass `TALARIA_URL` and `TALARIA_API_KEY` into the deploy. The action stores the monitor token on the container and re-applies the crontab after an image replacement.
+Pass a secret `TALARIA_API_KEY` into the deploy when the action registers monitors on `/v1/monitors/{slug}/check-ins`. Leave `TALARIA_URL` unset on Talaria Cloud. The action stores the monitor token on the container and re-applies the crontab after an image replacement. The token itself is only valid on `POST /v1/check-ins`.
 
 ## What opens an issue
 

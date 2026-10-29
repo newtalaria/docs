@@ -36,8 +36,7 @@ import 'package:talaria/talaria.dart';
 
 Future<void> main() async {
   await Talaria.init(TalariaOptions(
-    url: 'https://ingest.newtalaria.com',
-    apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
+    apiKey: const String.fromEnvironment('TALARIA_BROWSER_API_KEY'),
     release: const String.fromEnvironment('APP_RELEASE'),
     minLevel: SeverityLevel.warning,
   ));
@@ -53,11 +52,11 @@ Future<void> main() async {
 
 ```bash
 dart run \
-  --dart-define=TALARIA_API_KEY=tal_prod_… \
+  --dart-define=TALARIA_BROWSER_API_KEY=tal_pk_prod_nz1_… \
   --dart-define=APP_RELEASE=dev
 ```
 
-The key decides the environment. Do not pass `environment`. Confirm with `search_issues` and `environment: development`.
+The key decides the environment. This SDK refuses a secret `tal_sk_` key or a `tal_mon_` token at init. Do not pass `environment`. Confirm with `search_issues` and `environment: development`.
 
 ## What you can do
 
@@ -82,8 +81,7 @@ Then `dart pub get`.
 
 ```dart
 await Talaria.init(TalariaOptions(
-  url: 'https://ingest.newtalaria.com',
-  apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
+  apiKey: const String.fromEnvironment('TALARIA_BROWSER_API_KEY'),
   release: const String.fromEnvironment('APP_RELEASE'),
   commitSha: const String.fromEnvironment('APP_COMMIT'),
   minLevel: SeverityLevel.warning,
@@ -99,7 +97,7 @@ Init holds the URL, API key, release, minimum level, and tags. Tracing and analy
 
 ## API key
 
-Pass `TALARIA_API_KEY` with `--dart-define` or from the environment your process already uses. The prefix stays `tal_prod_`. A development key is for local runs. A deployed process that should report production uses a production key. Send `release` as a version or SHA.
+Pass `TALARIA_BROWSER_API_KEY` with `--dart-define`. Publishable keys look like `tal_pk_<env>_nz1_…`. This SDK refuses a secret `tal_sk_` key or a `tal_mon_` token at init. A development publishable key is for local runs. A deployed client that should report production uses a production publishable key. Send `release` as a version or SHA.
 
 ## Verification
 

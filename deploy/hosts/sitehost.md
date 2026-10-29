@@ -41,8 +41,8 @@ This enables the OpenTelemetry Collector in your container.
 
 Configure these in your SiteHost control panel:
 
-- `TALARIA_API_KEY` – Your project API key
-- `TALARIA_URL=https://ingest.newtalaria.com`
+- `TALARIA_API_KEY` – A secret key (`tal_sk_<env>_nz1_…`)
+- Leave `TALARIA_URL` unset on Talaria Cloud. The preset derives `https://ingest-nz1.newtalaria.com` from the key. Set `TALARIA_URL` only for a custom domain.
 - `OTEL_SERVICE_NAME` – Service name (defaults to `silverstripe`)
 - `OTEL_RESOURCE_ATTRIBUTES="container.name=..."` – Container identifier (defaults to hostname)
 
@@ -118,7 +118,7 @@ After deployment:
 ## Troubleshooting
 
 **Logs not appearing:**
-- Verify `TALARIA_API_KEY` and `TALARIA_URL` are set
+- Verify `TALARIA_API_KEY` is set to a secret key
 - Check collector logs for authentication errors
 - Ensure API key has `logs:write` scope
 

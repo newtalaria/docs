@@ -28,7 +28,7 @@ Every public SDK folder (`sdk/<id>/`) has these pages:
 
 Browser packages also use h2s for Session replay, Heatmaps, Web Vitals, and Consent on `configuration.md`, with a `replay` tag. Laravel and Silverstripe document the injected `@newtalaria/browser` script there.
 
-The hub keeps these headings so `docs_search` for `install` and `init` still lands on the README:
+The hub keeps these headings so `search_docs` for `install` and `init` still lands on the README:
 
 1. Quick setup
 2. What you can do
@@ -50,7 +50,7 @@ Use GitHub admonitions:
 > Helpful context.
 
 > [!NOTE]
-> `tal_prod_…` keys are public client ingest credentials (browser/mobile safe).
+> `tal_pk_prod_nz1_…` keys are public client ingest credentials (browser/mobile safe).
 ```
 
 ## Links

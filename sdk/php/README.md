@@ -36,7 +36,6 @@ composer require talaria/talaria
 use Talaria\Talaria;
 
 Talaria::init([
-    'url' => 'https://ingest.newtalaria.com',
     'apiKey' => getenv('TALARIA_API_KEY'),
     'release' => getenv('TALARIA_RELEASE') ?: 'dev',
     'minLevel' => 'warning',
@@ -51,7 +50,7 @@ try {
 Talaria::flush();
 ```
 
-The key decides the environment. Do not pass `environment`. Confirm with MCP `search_issues` and `environment: development`. `flush()` matters in a short-lived CLI process. A web SAPI flushes on shutdown.
+The key decides the environment. This SDK logs one warning when the key is a publishable `tal_pk_` key; use a secret `tal_sk_` key on the server. Do not pass `environment`. Confirm with MCP `search_issues` and `environment: development`. `flush()` matters in a short-lived CLI process. A web SAPI flushes on shutdown.
 
 ## What you can do
 
@@ -76,7 +75,6 @@ composer require talaria/talaria
 
 ```php
 Talaria::init([
-    'url' => 'https://ingest.newtalaria.com',
     'apiKey' => getenv('TALARIA_API_KEY'),
     'release' => getenv('TALARIA_RELEASE') ?: null,
     'commitSha' => getenv('TALARIA_COMMIT_SHA') ?: null,
@@ -93,7 +91,7 @@ Init holds the URL, API key, release, minimum level, and tags. Tracing, analytic
 
 ## API key
 
-`TALARIA_API_KEY` is a `tal_prod_…` key. It is safe to load from the environment. The server stamps the key's environment on ingest. Use a development key locally and a production key on the deployed app. Send `release` as a version or SHA, including for local runs.
+`TALARIA_API_KEY` is a `tal_sk_prod_nz1_…` key. It is safe to load from the environment. The server stamps the key's environment on ingest. Use a development key locally and a production key on the deployed app. Send `release` as a version or SHA, including for local runs.
 
 ## Verification
 

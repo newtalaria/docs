@@ -69,7 +69,7 @@ vendor/bin/sake dev/build flush=all
 
 `dev/build` builds the database. `flush=all` clears the manifest cache, so the new module YAML (Injector services, browser version, removed keys) replaces the cached copy. Run that command as the same system user that serves the site. A flush owned by another user leaves the web process on the old manifest. If the site still behaves as the previous module, delete the `silverstripe-cache` directory the web user reads and flush again.
 
-Then use the site. Log an error through the framework logger, or throw, and open a public HTML page and a CMS page. Confirm with MCP `search_issues` and `environment: development` when the key is a development key. A page with no browser script usually means `enableBrowserFrontend` is false, the response is not HTML, or `TALARIA_BROWSER_API_KEY` is set to something that is not a `tal_prod_` key. A non-empty browser key in the wrong shape disables browser inject.
+Then use the site. Log an error through the framework logger, or throw, and open a public HTML page and a CMS page. Confirm with MCP `search_issues` and `environment: development` when the key is a development key. A page with no browser script usually means `enableBrowserFrontend` is false, the response is not HTML, or `TALARIA_BROWSER_API_KEY` is set to something that is not a `tal_pk_` key. A non-empty browser key in the wrong shape disables browser inject.
 
 Restart PHP-FPM after the code is deployed so OPcache loads the new files. A rejected key stays cached for about 24 hours until that restart.
 
@@ -92,16 +92,9 @@ Do not run `composer update` on deploy. `composer install` reproduces the lock f
 
 ## 1.x to 2.0
 
-2.0.0 removes the `environment` setting and `TALARIA_API_KEY`. Browser init no longer sends `environment`. The API key decides the environment.
+2.0.0 removes the `environment` setting. Browser init no longer sends `environment`. The API key decides the environment.
 
-Delete this from your YAML if it is still there:
-
-```yaml
-Talaria\SilverStripe\Config:
-  environment: '`TALARIA_API_KEY`'
-```
-
-Delete `TALARIA_API_KEY` from `.env`. Leaving the key does not select an environment. Events land on the key's environment. Use a development key on a laptop and a production key on the live site.
+Delete an `environment` key from your YAML and from `.env` if it is still there. Events land on the key's environment. Use a development secret key on a laptop and a production secret key on the live site. Keep `TALARIA_API_KEY` for PHP.
 
 2.0.0 requires `talaria/talaria` ^2.0.0 and pins `@newtalaria/browser` 0.5.0. 2.0.1 moves that pin to **0.5.3**. An application YAML value for `browserSdkVersion` replaces the module default. If you pinned an older browser SDK (for example `0.4.1`), the PHP upgrade does not change the script until you remove that line or set `0.5.3`. The script URL is `https://cdn.jsdelivr.net/npm/@newtalaria/browser@{version}/+esm`, so the version in YAML is the version the browser loads.
 
@@ -128,15 +121,15 @@ Turn the features on in [Project settings](../../get-started/project-settings.md
 | 1.1.0 | `^1.1.1` | `enableAnalytics` / `TALARIA_ENABLE_ANALYTICS` (default off) and Member `userId` on PHP analytics. Browser SDK 0.2.2. Superseded as a switch in 1.2.0. |
 | 1.1.1 | `^1.1.1` | Default browser SDK 0.3.0. |
 | 1.2.0 | `^1.2.0` | Browser SDK 0.4.0. Project settings own tracing, replay, analytics, and heatmaps. |
-| 1.2.1 | `^1.2.0` | An empty URL becomes `https://ingest.newtalaria.com`. Browser SDK 0.4.1. |
+| 1.2.1 | `^1.2.0` | An empty URL becomes `https://ingest-nz1.newtalaria.com`. Browser SDK 0.4.1. |
 | 1.2.2 | `^1.2.2` | An uncaught exception logged by Monolog is one event, with frames. The shutdown line is not a second event. |
-| 1.2.3 | `^1.2.3` | Optional `browserApiKey` / `TALARIA_BROWSER_API_KEY`. MySQL uses the shared SQL span helper (`db.query.count`, `withoutQuerySpans`). |
+| 1.2.3 | `^1.2.3` | Optional `browser_api_key` / `TALARIA_BROWSER_API_KEY`. MySQL uses the shared SQL span helper (`db.query.count`, `withoutQuerySpans`). |
 | 2.0.0 | `^2.0.0` | `environment` removed. Browser SDK 0.5.0. |
 | 2.0.1 | `^2.0.0` | Browser SDK 0.5.3. |
 
-From 1.2.1, a blank `TALARIA_URL` sends to Talaria Cloud. Set `url` in YAML, or `TALARIA_URL`, when the API is somewhere else. If PHP talks to a host the browser cannot reach (a Docker-internal URL, or HTTP behind an HTTPS site), set `TALARIA_BROWSER_API_KEY` for the injected script only. PHP keeps its own URL.
+Leave `TALARIA_URL` unset on Talaria Cloud. The SDK derives the host from the key. Set `url` in YAML, or `TALARIA_URL`, for self-host or a custom domain. If PHP talks to a host the browser cannot reach (a Docker-internal URL, or HTTP behind an HTTPS site), set `browser_api_key` / `TALARIA_BROWSER_API_KEY` for the injected script only. PHP keeps `TALARIA_API_KEY`.
 
-`TALARIA_BROWSER_API_KEY` is optional. When it is a `tal_prod_` key, CMS and public pages report with that key and PHP keeps `TALARIA_API_KEY`. When it is unset, the script uses the PHP key. When it is non-empty and not a `tal_prod_` key, the script is not injected.
+`browser_api_key` / `TALARIA_BROWSER_API_KEY` is the publishable key for the injected script. When it is a `tal_pk_` key, CMS and public pages report with that key and PHP keeps `TALARIA_API_KEY`. When it is non-empty and not a `tal_pk_` key, the script is not injected.
 
 Query spans from 1.2.3 roll identical SQL into one span under the same parent. A waterfall that used to show one bar per query now shows a count. Queries of 200ms or more, and failed queries, stay separate. A transaction stores at most 200 spans.
 

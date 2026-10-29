@@ -73,7 +73,7 @@ claude mcp add --transport http --scope user Talaria https://api.newtalaria.com/
 }
 ```
 
-The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never use an ingest key (`tal_<env>_…`).
+The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never send an API key or a monitor token to MCP.
 
 ## After connect
 

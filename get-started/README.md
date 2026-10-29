@@ -18,5 +18,5 @@ owner: docs
 # Get started
 
 - [Quickstart](quickstart.md) — account, project, API key, first event
-- [Environments and client keys](environments-and-client-keys.md) — how keys decide environments
+- [Environments and API keys](environments-and-api-keys.md) — how keys decide environments
 - [Project settings](project-settings.md) — remote configuration for tracing, analytics, and replay

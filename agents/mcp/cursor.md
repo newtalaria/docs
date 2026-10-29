@@ -36,7 +36,7 @@ owner: docs
    ```
 
 3. Cursor requests `tools/list`, receives HTTP 401, and opens consent. Sign in to Talaria if needed, then **Allow** install scopes (`mcp:read mcp:write mcp:keys`).
-4. After approve you should see the full tool catalogue (not only `docs_*`). Call `get_connection` and announce identity before creating projects or minting keys.
+4. After approve you should see the full tool catalogue (not only `get_doc, list_docs, and search_docs`). Call `get_connection` and announce identity before creating projects or minting keys.
 
 You can also copy the same file from the dashboard: **Workspace › Integrations → Copy Cursor mcp.json (OAuth)**.
 
@@ -60,15 +60,15 @@ Local API: `http://{{mcpUrl}}/mcp`.
    }
    ```
 
-3. The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never use an ingest key (`tal_<env>_…`).
+3. The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never send an API key or a monitor token to MCP.
 
 ## Install Talaria into a repo
 
-1. `docs_get` → `agents/add-talaria`
-2. Detect stack; `docs_search` / `docs_get` for the SDK hub (e.g. Flutter under `sdk/flutter`)
+1. `get_doc` → `agents/add-talaria`
+2. Detect stack; `search_docs` / `get_doc` for the SDK hub (e.g. Flutter under `sdk/flutter`)
 3. `get_connection` → announce user + org; ask before create
 4. On yes: `setup_project` with `confirmed: true` (tracing + one-time key)
-5. Wire SDK from docs (`talaria_flutter`, `runZonedApp`, `--dart-define=TALARIA_API_KEY`). The key decides the environment. Do not pass `environment` in init. `setup_project` returns a development key.
+5. Wire SDK from docs (`talaria_flutter`, `runZonedApp`, `--dart-define=TALARIA_BROWSER_API_KEY`). The publishable key decides the environment. Do not pass `environment` in init. `setup_project` returns a development publishable key.
 6. `send_test_event` → verify with `search_events` / `search_issues` and `environment: development`. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
 
 Harness path for local Flutter install tests: `

@@ -53,8 +53,7 @@ await Talaria.captureMessage(
 ```dart
 await runZonedTalaria(() async {
   await Talaria.init(TalariaOptions(
-    url: 'https://ingest.newtalaria.com',
-    apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
+    apiKey: const String.fromEnvironment('TALARIA_BROWSER_API_KEY'),
     release: const String.fromEnvironment('APP_RELEASE'),
   ));
   await runAppWork();

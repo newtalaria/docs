@@ -29,10 +29,10 @@ pages:
       - getting-started
       - quickstart
     order: 15
-  - id: environments-and-client-keys
-    path: get-started/environments-and-client-keys.md
-    title: Environments and client keys
-    description: How client keys decide environments, what environments control, and when to use multiple keys.
+  - id: environments-and-api-keys
+    path: get-started/environments-and-api-keys.md
+    title: Environments and API keys
+    description: How publishable and secret keys decide the environment, which scopes each class may hold, and when to set TALARIA_URL.
     type: concept
     section: get-started
     tags:
@@ -1155,7 +1155,7 @@ pages:
   - id: ingest-api
     path: reference/ingest-api.md
     title: Ingest API reference
-    description: Ingest authentication, event shape, and how the API key sets environment and release.
+    description: Routes, auth, and scopes for the Talaria ingest API on ingest-nz1.newtalaria.com.
     type: reference
     section: reference
     tags:
@@ -1165,7 +1165,7 @@ pages:
   - id: otlp-endpoint
     path: reference/otlp.md
     title: OTLP endpoint
-    description: Send traces, logs, and metrics via OpenTelemetry Protocol (OTLP) over HTTP to ingest.newtalaria.com/otlp. HTTP/protobuf recommended, gRPC not supported.
+    description: Send traces, logs, and metrics via OpenTelemetry Protocol (OTLP) over HTTP to ingest-nz1.newtalaria.com/otlp. HTTP/protobuf recommended, gRPC not supported.
     type: reference
     section: reference
     tags:

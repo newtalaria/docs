@@ -44,7 +44,7 @@ Talaria's published remote-HTTP path for Windsurf is a personal token in `header
 
 `serverUrl` must include the `/mcp` path. Do not paste the dashboard **Copy Cursor mcp.json** snippet: that file uses `url` and has no `serverUrl`.
 
-The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never use an ingest key (`tal_<env>_…`).
+The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never send an API key or a monitor token to MCP.
 
 Config values in `serverUrl` and `headers` can interpolate `${env:TALARIA_MCP_TOKEN}` so the token stays out of the file.
 

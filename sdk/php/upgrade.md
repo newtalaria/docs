@@ -95,11 +95,10 @@ Restart PHP after the new code is on disk so OPcache loads it. A rejected API ke
 2.0.0 removes the `environment` init option. The API key decides the environment. Events, spans, and analytics no longer send an environment string.
 
 - Delete `environment` from `Talaria::init([...])`.
-- Delete `TALARIA_API_KEY` from the environment.
 - On Silverstripe, delete the `environment` key under `Talaria\SilverStripe\Config`. Details are on the [Silverstripe upgrade](../silverstripe/upgrade.md) page.
 - On Laravel, delete the `environment` key from a published `config/talaria.php` and run `php artisan config:clear`. `APP_ENV` is not a substitute.
 
-An event that used to be labelled by that string now shows up under the key's environment (development, test, staging, or production). Use a development key locally and a production key on the deployed app. The prefix stays `tal_prod_`.
+Keep `TALARIA_API_KEY`. An event that used to be labelled by that string now shows up under the key's environment (development, test, staging, or production). Use a development secret key locally and a production secret key on the deployed app. Secret keys look like `tal_sk_<env>_nz1_…`.
 
 `talaria/silverstripe` 2.0.0 and `talaria/laravel` 2.0.0 require `talaria/talaria` ^2.0.0. A 1.x adapter does not install against 2.0.0 core, and a 2.0 adapter does not install against 1.x core. Upgrade the pair together.
 

@@ -59,7 +59,6 @@ void run(List<String> args) async {
   );
 
   await TalariaServerpod.init(TalariaOptions(
-    url: 'https://ingest.newtalaria.com',
     apiKey: Platform.environment['TALARIA_API_KEY'] ?? '',
     release: Platform.environment['TALARIA_RELEASE'] ?? 'dev',
     minLevel: SeverityLevel.warning,
@@ -71,7 +70,7 @@ void run(List<String> args) async {
 }
 ```
 
-`interceptDatabase` no-ops until init has run and tracing is on. The key decides the environment. Confirm a thrown endpoint error with `search_issues` and `environment: development`. On shutdown, `await Talaria.flush()` and `await Talaria.close()`.
+`interceptDatabase` no-ops until init has run and tracing is on. The key decides the environment. This SDK logs one warning when the key is a publishable `tal_pk_` key; use a secret `tal_sk_` key on the server. Confirm a thrown endpoint error with `search_issues` and `environment: development`. On shutdown, `await Talaria.flush()` and `await Talaria.close()`.
 
 ## What you can do
 
@@ -106,7 +105,7 @@ URL, API key, release, and tags belong in `TalariaOptions`. Tracing sample rates
 
 ## API key
 
-Load `TALARIA_API_KEY` from the server environment. The prefix stays `tal_prod_`. Use a development key locally and a production key on the deployed server. Send `TALARIA_RELEASE` as a version or SHA.
+Load `TALARIA_API_KEY` from the server environment. Publishable keys look like `tal_pk_<env>_nz1_…` and secret keys look like `tal_sk_<env>_nz1_…`. Use a development key locally and a production key on the deployed server. Send `TALARIA_RELEASE` as a version or SHA.
 
 ## Verification
 
