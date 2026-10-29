@@ -1,9 +1,25 @@
 ---
-title: React errors, logs, and breadcrumbs
-description: ErrorBoundary, the React 19 error handler, captureException, logger, breadcrumbs, and setUser on @newtalaria/react.
-sdk: react
-package: "@newtalaria/react"
-tags: [react, errors, logs, breadcrumbs, identity]
+title: 'React errors, logs, and breadcrumbs'
+description: 'Capture exceptions, logs, breadcrumbs, and user context in react with Talaria.'
+package: '@newtalaria/react'
+tags:
+  - react
+  - errors
+  - logs
+  - breadcrumbs
+  - identity
+id: react-errors
+navTitle: Errors and logs
+type: guide
+section: platforms
+platform:
+  - react
+feature:
+  - issues
+  - logs
+order: 20
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # React errors, logs, and breadcrumbs

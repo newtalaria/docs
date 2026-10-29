@@ -1,9 +1,24 @@
 ---
 title: Laravel SDK
-description: Quick setup for talaria/laravel — Composer, TALARIA_API_KEY, and the first exception. HTTP, database, queues, and the browser script.
-sdk: laravel
+description: >-
+  Install the Talaria laravel SDK and capture errors, logs, and traces from your
+  laravel application.
 package: talaria/laravel
-tags: [laravel, php, install, init]
+tags:
+  - laravel
+  - php
+  - install
+  - init
+id: laravel
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - laravel
+feature: []
+order: 10
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Laravel SDK

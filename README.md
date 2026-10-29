@@ -1,7 +1,19 @@
 ---
 title: Talaria docs
-description: Canonical Markdown docs for humans and coding agents — install, configure, and verify Talaria.
-tags: [hub, agents]
+description: >-
+  Canonical Markdown docs for humans and coding agents: install SDKs, switch on
+  features, or let your agent set it up.
+tags:
+  - hub
+  - agents
+id: docs
+type: hub
+section: get-started
+platform: []
+feature: []
+order: 1
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Talaria docs

@@ -1,9 +1,25 @@
 ---
 title: Flutter SDK
-description: Quick setup for talaria_flutter — runZonedApp, the first error, routes, and screen heatmaps.
-sdk: flutter
+description: >-
+  Install the Talaria flutter SDK and capture errors, logs, and traces from your
+  flutter application.
 package: talaria_flutter
-tags: [flutter, dart, install, init, errors]
+tags:
+  - flutter
+  - dart
+  - install
+  - init
+  - errors
+id: flutter
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - flutter
+feature: []
+order: 10
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Flutter SDK

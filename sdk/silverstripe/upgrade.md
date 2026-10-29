@@ -1,9 +1,23 @@
 ---
-title: Silverstripe upgrade
-description: Upgrade talaria/silverstripe and talaria/talaria together, flush the manifest, and handle the 1.x and 2.0 config changes.
-sdk: silverstripe
+title: Silverstripe upgrade guide
+description: Upgrade the Talaria silverstripe SDK with breaking changes for major versions.
 package: talaria/silverstripe
-tags: [silverstripe, php, upgrade, composer, flush]
+tags:
+  - silverstripe
+  - php
+  - upgrade
+  - composer
+  - flush
+id: silverstripe-upgrade
+navTitle: Upgrade
+type: guide
+section: platforms
+platform:
+  - silverstripe
+feature: []
+order: 70
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Silverstripe upgrade

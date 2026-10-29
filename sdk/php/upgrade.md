@@ -1,9 +1,23 @@
 ---
-title: PHP upgrade
-description: Upgrade talaria/talaria, talaria/silverstripe, and talaria/laravel with Composer. Commit the lock file, install it on deploy, and apply each version's config changes.
-sdk: php
+title: Php upgrade guide
+description: Upgrade the Talaria php SDK with breaking changes for major versions.
 package: talaria/talaria
-tags: [php, upgrade, composer, silverstripe, laravel]
+tags:
+  - php
+  - upgrade
+  - composer
+  - silverstripe
+  - laravel
+id: php-upgrade
+navTitle: Upgrade
+type: guide
+section: platforms
+platform:
+  - php
+feature: []
+order: 70
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # PHP upgrade

@@ -1,7 +1,23 @@
 ---
-title: Migration
-description: Upgrade guides when an SDK major breaks, including PHP and Silverstripe.
-tags: [migration, upgrade, php, silverstripe]
+title: Migration and upgrade guides
+description: Upgrade guides for Talaria SDK major versions with breaking changes.
+tags:
+  - migration
+  - upgrade
+  - php
+  - silverstripe
+id: migration
+type: reference
+section: reference
+platform: []
+feature: []
+order: 999
+lastReviewed: '2026-10-29'
+owner: docs
+redirectFrom:
+  - /docs/migration
+aliases:
+  - "migration/index.md"
 ---
 
 # Migration

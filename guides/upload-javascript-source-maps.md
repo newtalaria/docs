@@ -1,7 +1,31 @@
 ---
 title: Upload JavaScript source maps
-description: Walk through a local or CI upload so a minified browser stack shows the original file.
-tags: [javascript, source-maps, release, cli, guide]
+description: >-
+  Upload minified bundle source maps in local dev and CI so stack frames show
+  original files and line numbers.
+tags:
+  - javascript
+  - source-maps
+  - release
+  - cli
+  - guide
+id: upload-javascript-source-maps
+navTitle: Upload source maps
+type: guide
+section: guides
+platform:
+  - javascript
+  - react
+  - nextjs
+feature:
+  - issues
+order: 10
+lastReviewed: '2026-10-29'
+owner: docs
+aliases:
+  - sdk/javascript/source-maps.md
+redirectFrom:
+  - /docs/sdk/javascript/source-maps
 ---
 
 # Upload JavaScript source maps
@@ -44,7 +68,7 @@ Omitting `scopes` still mints the ingest key. `setup_project` keeps minting the 
 
 ## 3. Upload a local build
 
-The local API listens on port 8080 (`http://localhost:8080`). A local MCP server listens on port 8082 and is a different service from the upload URL.
+The local API listens on port 8080 (`http://{{mcpUrl}}`). A local MCP server listens on port 8082 and is a different service from the upload URL.
 
 ```sh
 export TALARIA_RELEASE_KEY=tal_live_…
@@ -66,7 +90,7 @@ The command prints the URL, the release, and each `fileName`, then the stored id
 | Setting | Flag | Environment | Default |
 | ------- | ---- | ----------- | ------- |
 | Directory | positional | | `.` |
-| API URL | `--url` | `TALARIA_BASE_URL` | `http://localhost:8080` |
+| API URL | `--url` | `TALARIA_BASE_URL` | `http://{{mcpUrl}}` |
 | Release | `--release` | `TALARIA_RELEASE` | `local` |
 | Key | `--api-key` | `TALARIA_RELEASE_KEY`, then `TALARIA_API_KEY` | required |
 | Silverstripe combine | `--silverstripe-combine-files` | | off |

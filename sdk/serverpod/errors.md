@@ -1,9 +1,27 @@
 ---
-title: Serverpod errors, logs, and breadcrumbs
-description: Diagnostic exception capture, logs, per-request breadcrumbs, and bindRequestUser on talaria_serverpod.
-sdk: serverpod
+title: 'Serverpod errors, logs, and breadcrumbs'
+description: >-
+  Capture exceptions, logs, breadcrumbs, and user context in serverpod with
+  Talaria.
 package: talaria_serverpod
-tags: [serverpod, errors, logs, breadcrumbs, identity]
+tags:
+  - serverpod
+  - errors
+  - logs
+  - breadcrumbs
+  - identity
+id: serverpod-errors
+navTitle: Errors and logs
+type: guide
+section: platforms
+platform:
+  - serverpod
+feature:
+  - issues
+  - logs
+order: 20
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Serverpod errors, logs, and breadcrumbs

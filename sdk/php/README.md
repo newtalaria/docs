@@ -1,9 +1,23 @@
 ---
-title: PHP SDK
-description: Quick setup for talaria/talaria — install, init, and capture the first exception. Tracing, PSR-3 logs, analytics, and feature flags.
-sdk: php
+title: Php SDK
+description: >-
+  Install the Talaria php SDK and capture errors, logs, and traces from your php
+  application.
 package: talaria/talaria
-tags: [php, install, init]
+tags:
+  - php
+  - install
+  - init
+id: php
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - php
+feature: []
+order: 10
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # PHP SDK

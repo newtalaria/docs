@@ -131,7 +131,7 @@ export function frontmatterSchema(reg: Registries) {
 
       // Section-specific validation
       if (fm.section === "platforms") {
-        if (fm.platform.length !== 1) {
+        if (fm.type !== "hub" && fm.platform.length !== 1) {
           fail("Platforms pages need exactly one platform", "platform");
         }
         if (

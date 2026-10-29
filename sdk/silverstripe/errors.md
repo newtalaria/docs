@@ -1,9 +1,27 @@
 ---
-title: Silverstripe errors, logs, and breadcrumbs
-description: Monolog handlers, captureException, breadcrumbs, and Member user context on talaria/silverstripe.
-sdk: silverstripe
+title: 'Silverstripe errors, logs, and breadcrumbs'
+description: >-
+  Capture exceptions, logs, breadcrumbs, and user context in silverstripe with
+  Talaria.
 package: talaria/silverstripe
-tags: [silverstripe, errors, logs, breadcrumbs, identity]
+tags:
+  - silverstripe
+  - errors
+  - logs
+  - breadcrumbs
+  - identity
+id: silverstripe-errors
+navTitle: Errors and logs
+type: guide
+section: platforms
+platform:
+  - silverstripe
+feature:
+  - issues
+  - logs
+order: 20
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Silverstripe errors, logs, and breadcrumbs

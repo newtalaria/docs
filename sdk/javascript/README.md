@@ -1,9 +1,24 @@
 ---
-title: JavaScript SDK
-description: Quick setup for @newtalaria/browser — install, init, and send the first error. Errors, tracing, replay, web vitals, analytics, and feature flags.
-sdk: javascript
-package: "@newtalaria/browser"
-tags: [javascript, install, init, browser]
+title: Javascript SDK
+description: >-
+  Install the Talaria javascript SDK and capture errors, logs, and traces from
+  your javascript application.
+package: '@newtalaria/browser'
+tags:
+  - javascript
+  - install
+  - init
+  - browser
+id: javascript
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - javascript
+feature: []
+order: 10
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # JavaScript SDK

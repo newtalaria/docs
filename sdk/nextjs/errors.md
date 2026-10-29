@@ -1,9 +1,27 @@
 ---
-title: Next.js errors, logs, and breadcrumbs
-description: Client, server, and edge captureException, logs, breadcrumbs, and user context on @newtalaria/nextjs.
-sdk: nextjs
-package: "@newtalaria/nextjs"
-tags: [nextjs, errors, logs, breadcrumbs, identity]
+title: 'Nextjs errors, logs, and breadcrumbs'
+description: >-
+  Capture exceptions, logs, breadcrumbs, and user context in nextjs with
+  Talaria.
+package: '@newtalaria/nextjs'
+tags:
+  - nextjs
+  - errors
+  - logs
+  - breadcrumbs
+  - identity
+id: nextjs-errors
+navTitle: Errors and logs
+type: guide
+section: platforms
+platform:
+  - nextjs
+feature:
+  - issues
+  - logs
+order: 20
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Next.js errors, logs, and breadcrumbs

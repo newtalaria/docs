@@ -1,9 +1,24 @@
 ---
-title: Navigation and screens
-description: TalariaNavigatorObserver tags events with route and screen, and starts a short INTERNAL transaction that finishes on idle.
-sdk: flutter
+title: Flutter navigation and screens
+description: >-
+  Track screen navigation and short transactions with TalariaNavigatorObserver
+  in Flutter.
 package: talaria_flutter
-tags: [flutter, navigation, tracing]
+tags:
+  - flutter
+  - navigation
+  - tracing
+id: flutter-navigation
+navTitle: Navigation
+type: guide
+section: platforms
+platform:
+  - flutter
+feature:
+  - performance
+order: 40
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Navigation and screens

@@ -1,9 +1,23 @@
 ---
 title: Dart SDK
-description: Quick setup for the talaria package — install, init, and capture the first exception. HTTP tracing, logs, analytics, and feature flags.
-sdk: dart
+description: >-
+  Install the Talaria dart SDK and capture errors, logs, and traces from your
+  dart application.
 package: talaria
-tags: [dart, install, init]
+tags:
+  - dart
+  - install
+  - init
+id: dart
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - dart
+feature: []
+order: 10
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Dart SDK

@@ -1,9 +1,24 @@
 ---
 title: Silverstripe SDK
-description: Quick setup for talaria/silverstripe — Composer, TALARIA_API_KEY, Monolog, and the first error. HTTP, MySQL, Guzzle, queued jobs, and the browser script.
-sdk: silverstripe
+description: >-
+  Install the Talaria silverstripe SDK and capture errors, logs, and traces from
+  your silverstripe application.
 package: talaria/silverstripe
-tags: [silverstripe, php, install, init]
+tags:
+  - silverstripe
+  - php
+  - install
+  - init
+id: silverstripe
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - silverstripe
+feature: []
+order: 10
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Silverstripe SDK

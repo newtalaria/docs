@@ -1,9 +1,25 @@
 ---
-title: Dart errors, logs, and breadcrumbs
-description: captureException, runZonedTalaria, TalariaLogger, breadcrumbs, and setUser on the talaria package.
-sdk: dart
+title: 'Dart errors, logs, and breadcrumbs'
+description: 'Capture exceptions, logs, breadcrumbs, and user context in dart with Talaria.'
 package: talaria
-tags: [dart, errors, logs, breadcrumbs, identity]
+tags:
+  - dart
+  - errors
+  - logs
+  - breadcrumbs
+  - identity
+id: dart-errors
+navTitle: Errors and logs
+type: guide
+section: platforms
+platform:
+  - dart
+feature:
+  - issues
+  - logs
+order: 20
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Dart errors, logs, and breadcrumbs

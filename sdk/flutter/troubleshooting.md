@@ -1,9 +1,22 @@
 ---
 title: Flutter troubleshooting
-description: Common Flutter integration mistakes and how to verify.
-sdk: flutter
+description: >-
+  Common Flutter integration mistakes and how to verify Talaria is working
+  correctly.
 package: talaria_flutter
-tags: [flutter, troubleshooting]
+tags:
+  - flutter
+  - troubleshooting
+id: flutter-troubleshooting
+navTitle: Troubleshooting
+type: troubleshooting
+section: platforms
+platform:
+  - flutter
+feature: []
+order: 60
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Flutter troubleshooting

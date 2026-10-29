@@ -1,9 +1,24 @@
 ---
 title: React SDK
-description: Quick setup for @newtalaria/react — install, init, ErrorBoundary, and the first error. Tracing, replay, analytics, and feature flags.
-sdk: react
-package: "@newtalaria/react"
-tags: [react, javascript, install, init]
+description: >-
+  Install the Talaria react SDK and capture errors, logs, and traces from your
+  react application.
+package: '@newtalaria/react'
+tags:
+  - react
+  - javascript
+  - install
+  - init
+id: react
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - react
+feature: []
+order: 10
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # React SDK

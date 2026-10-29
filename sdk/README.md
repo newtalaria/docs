@@ -1,7 +1,19 @@
 ---
-title: SDKs
-description: Official Talaria SDK guides — pick your stack.
-tags: [sdk]
+title: Platforms
+description: >-
+  Official Talaria SDKs for Flutter, Dart, Serverpod, JavaScript, React,
+  Next.js, Node.js, PHP, Laravel, and Silverstripe.
+tags:
+  - sdk
+id: sdk
+navTitle: Choose SDK
+type: hub
+section: platforms
+platform: []
+feature: []
+order: 10
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # SDKs

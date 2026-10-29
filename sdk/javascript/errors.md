@@ -1,9 +1,27 @@
 ---
-title: JavaScript errors, logs, and breadcrumbs
-description: captureException, logger, breadcrumbs, setUser, and release on @newtalaria/browser.
-sdk: javascript
-package: "@newtalaria/browser"
-tags: [javascript, errors, logs, breadcrumbs, identity]
+title: 'Javascript errors, logs, and breadcrumbs'
+description: >-
+  Capture exceptions, logs, breadcrumbs, and user context in javascript with
+  Talaria.
+package: '@newtalaria/browser'
+tags:
+  - javascript
+  - errors
+  - logs
+  - breadcrumbs
+  - identity
+id: javascript-errors
+navTitle: Errors and logs
+type: guide
+section: platforms
+platform:
+  - javascript
+feature:
+  - issues
+  - logs
+order: 20
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # JavaScript errors, logs, and breadcrumbs

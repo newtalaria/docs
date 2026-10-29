@@ -78,7 +78,8 @@ function checkContentRules(pages: PageFile[]): void {
   const forbiddenPatterns = [
     { pattern: /localhost:\d+/gi, name: "localhost URLs" },
     { pattern: /harnesses\//gi, name: "internal harness paths" },
-    { pattern: /\$\d+(?:\.\d+)?(?:\s*(?:per|\/)\s*\w+)?/g, name: "hardcoded prices" },
+    // Match prices like "$10 per GB" but not SQL placeholders like "$1"
+    { pattern: /\$\d+(?:\.\d+)?\s+(?:per|\/)\s+\w+/g, name: "hardcoded prices" },
   ];
   
   for (const page of pages) {
@@ -148,11 +149,18 @@ function main() {
   
   let validCount = 0;
   for (const page of pages) {
-    // Skip CONTRIBUTING and README at root
-    if (["CONTRIBUTING.md", "README.md"].includes(page.relativePath)) {
+    // Skip docs infrastructure files and root README
+    if ([
+      "CONTRIBUTING.md",
+      "PHASE1_STATUS.md",
+      "_tools/README.md",
+      "_data/README.md",
+      "_generated/README.md"
+    ].includes(page.relativePath)) {
       continue;
     }
     
+    // Root README is the docs landing page, so validate it
     if (validatePage(page, schema)) {
       validCount++;
     }

@@ -1,9 +1,24 @@
 ---
-title: Node.js SDK
-description: Quick setup for @newtalaria/node — install, init, and capture the first error. HTTP tracing, database wrappers, analytics, and feature flags.
-sdk: node
-package: "@newtalaria/node"
-tags: [node, javascript, install, init]
+title: Node SDK
+description: >-
+  Install the Talaria node SDK and capture errors, logs, and traces from your
+  node application.
+package: '@newtalaria/node'
+tags:
+  - node
+  - javascript
+  - install
+  - init
+id: node
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - node
+feature: []
+order: 10
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Node.js SDK

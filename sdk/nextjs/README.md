@@ -1,9 +1,24 @@
 ---
-title: Next.js SDK
-description: Quick setup for @newtalaria/nextjs — client, server, and edge init, then the first error. Tracing, replay, and analytics.
-sdk: nextjs
-package: "@newtalaria/nextjs"
-tags: [nextjs, javascript, install, init]
+title: Nextjs SDK
+description: >-
+  Install the Talaria nextjs SDK and capture errors, logs, and traces from your
+  nextjs application.
+package: '@newtalaria/nextjs'
+tags:
+  - nextjs
+  - javascript
+  - install
+  - init
+id: nextjs
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - nextjs
+feature: []
+order: 10
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Next.js SDK

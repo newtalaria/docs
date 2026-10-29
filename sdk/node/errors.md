@@ -1,9 +1,25 @@
 ---
-title: Node.js errors, logs, and breadcrumbs
-description: uncaughtException, captureException, captureMessage, breadcrumbs, and setUser on @newtalaria/node.
-sdk: node
-package: "@newtalaria/node"
-tags: [node, errors, logs, breadcrumbs, identity]
+title: 'Node errors, logs, and breadcrumbs'
+description: 'Capture exceptions, logs, breadcrumbs, and user context in node with Talaria.'
+package: '@newtalaria/node'
+tags:
+  - node
+  - errors
+  - logs
+  - breadcrumbs
+  - identity
+id: node-errors
+navTitle: Errors and logs
+type: guide
+section: platforms
+platform:
+  - node
+feature:
+  - issues
+  - logs
+order: 20
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Node.js errors, logs, and breadcrumbs

@@ -1,9 +1,24 @@
 ---
 title: Serverpod SDK
-description: Quick setup for talaria_serverpod — init, databaseInterceptor, Relic attach, and the first diagnostic error.
-sdk: serverpod
+description: >-
+  Install the Talaria serverpod SDK and capture errors, logs, and traces from
+  your serverpod application.
 package: talaria_serverpod
-tags: [serverpod, dart, install, init]
+tags:
+  - serverpod
+  - dart
+  - install
+  - init
+id: serverpod
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - serverpod
+feature: []
+order: 10
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Serverpod SDK

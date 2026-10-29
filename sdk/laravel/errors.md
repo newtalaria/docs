@@ -1,9 +1,27 @@
 ---
-title: Laravel errors, logs, and breadcrumbs
-description: reportable captureException, the talaria log channel, breadcrumbs, and the authenticated user on talaria/laravel.
-sdk: laravel
+title: 'Laravel errors, logs, and breadcrumbs'
+description: >-
+  Capture exceptions, logs, breadcrumbs, and user context in laravel with
+  Talaria.
 package: talaria/laravel
-tags: [laravel, errors, logs, breadcrumbs, identity]
+tags:
+  - laravel
+  - errors
+  - logs
+  - breadcrumbs
+  - identity
+id: laravel-errors
+navTitle: Errors and logs
+type: guide
+section: platforms
+platform:
+  - laravel
+feature:
+  - issues
+  - logs
+order: 20
+lastReviewed: '2026-10-29'
+owner: docs
 ---
 
 # Laravel errors, logs, and breadcrumbs
