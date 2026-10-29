@@ -18,6 +18,8 @@
     "tags":
       - "getting-started"
     "aliases":
+      - "getting-started/README"
+      - "getting-started/README.md"
       - "getting-started/index"
       - "getting-started/index.md"
   - "id": "project-settings"
@@ -955,6 +957,9 @@
     "aliases":
       - "guides/agent-skills"
       - "guides/agent-skills.md"
+      - "mcp/README"
+      - "mcp/README.md"
+      - "mcp/index.md"
   - "id": "mcp"
     "path": "agents/mcp/README.md"
     "title": "Talaria MCP server"

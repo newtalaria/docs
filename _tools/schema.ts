@@ -99,7 +99,7 @@ export function frontmatterSchema(reg: Registries) {
       tags: z.array(z.string().regex(kebab)).max(16).default([]),
       related: z.array(z.string().regex(kebab)).max(6).default([]),
       aliases: z
-        .array(z.string().regex(/^[a-z0-9/_-]+\.md$/, "aliases must be paths like 'sdk/flutter/errors.md'"))
+        .array(z.string().regex(/^[a-zA-Z0-9/_-]+\.md$/, "aliases must be paths like 'sdk/flutter/errors.md' or 'getting-started/README.md'"))
         .default([]),
       redirectFrom: z
         .array(

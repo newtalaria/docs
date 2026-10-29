@@ -15,6 +15,7 @@ lastReviewed: '2026-10-29'
 owner: docs
 aliases:
   - "getting-started/index.md"
+  - "getting-started/README.md"
 redirectFrom:
   - /docs/getting-started
 ---
