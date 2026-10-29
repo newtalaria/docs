@@ -48,9 +48,18 @@ The local and CI walkthrough is [Upload JavaScript source maps](../guides/upload
 
 ## Feature flags
 
-`GET /v1/flags` on the API base URL. Send `X-API-Key` from a key with `flags:read` scope. Returns SDK flag definitions as JSON, filtered by the key's environment.
+`GET https://ingest.newtalaria.com/v1/flags` with an API key that has the `flags:read` scope. Returns SDK flag definitions filtered by the key's environment.
 
-SDKs use this endpoint to fetch feature flag configuration at initialization. The response includes flag keys, targeting rules, and default values. Evaluation happens client-side based on user context.
+**Query parameters:**
+- `anonymousId` (optional) — Anonymous user identifier
+- `userId` (optional) — Authenticated user identifier
+- `organizationId` (optional) — Organization identifier
+- `attributes` (optional) — JSON-encoded string of additional targeting attributes
+- `keys` (optional) — Comma-separated list of flag keys to fetch (omit to fetch all)
+
+**Response:** TODO(platform-234): response shape
+
+SDKs use this endpoint to fetch feature flag configuration at initialization. Evaluation happens client-side based on user context and the returned targeting rules.
 
 Issues stay separate per environment because the fingerprint includes environment. Each issue stores that environment. A sibling key links the same failure across environments, and issue detail lists those other environments. Clients never send a fingerprint.
 

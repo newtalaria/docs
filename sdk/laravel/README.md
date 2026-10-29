@@ -76,7 +76,7 @@ The provider builds the client from `config/talaria.php`. You configure the app 
 
 ## App init vs Project settings
 
-Leave tracing, analytics, and replay to Project settings. The adapter still sends the key and release from config. `TALARIA_ENABLE_TRACING` in the published file is not the switch the running client uses after `sdk/getConfig`.
+Leave tracing, analytics, and replay to Project settings. The adapter still sends the key and release from config. `TALARIA_ENABLE_TRACING` in the published file is not the switch the running client uses after fetching project configuration.
 
 ## API key
 

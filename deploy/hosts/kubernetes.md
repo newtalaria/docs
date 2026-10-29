@@ -308,9 +308,11 @@ The monitor is created via the dashboard or by sending the first check-in with `
 
 ```
 Tool: search_logs
-Parameters: { service: "k8s-collector", limit: 10 }
+Parameters: { service: "<your-deployment-name>", limit: 10 }
 Expected: Log records with k8s.namespace.name and k8s.pod.name attributes
 ```
+
+Replace `<your-deployment-name>` with your actual deployment name. The `service` value comes from `service.name`, which the resource processor sets from `k8s.deployment.name`.
 
 ## Troubleshooting
 
@@ -368,4 +370,4 @@ Expected: Log records with k8s.namespace.name and k8s.pod.name attributes
 
 ## For agents
 
-This task includes MCP tool verification. Use `search_logs` with `service: "k8s-collector"` to confirm log ingestion from the Kubernetes collector.
+This task includes MCP tool verification. Use `search_logs` with `service: "<your-deployment-name>"` (matching your actual deployment name) to confirm log ingestion from the Kubernetes collector. The `service` value comes from `service.name`, which is set from `k8s.deployment.name` by the resource processor.

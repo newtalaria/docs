@@ -849,6 +849,14 @@ pages:
       - analytics
     tags:
       - analytics
+  - id: feature-flags
+    path: features/feature-flags.md
+    title: Feature flags
+    description: Toggle features remotely with targeting rules based on user context and environment.
+    type: feature
+    section: features
+    features:
+      - feature-flags
   - id: monitors
     path: features/monitors.md
     title: Cron and job monitors
@@ -1042,6 +1050,7 @@ pages:
       - javascript
       - react
       - nextjs
+    package: "@newtalaria/cli"
     type: guide
     section: guides
     features:

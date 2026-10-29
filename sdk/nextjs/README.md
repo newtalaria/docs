@@ -43,7 +43,7 @@ npm install @newtalaria/nextjs
 Client (`instrumentation-client.ts`). `NEXT_PUBLIC_` values are inlined into the browser bundle. The key is a public client ingest credential and decides the environment.
 
 > [!CAUTION]
-> Use `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY` for the browser. **Never** use `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY` or `NEXT_PUBLIC_TALARIA_RELEASE_KEY`—server keys must not carry a public prefix.
+> Use `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY` for the browser. **Never** use `NEXT_PUBLIC_TALARIA_API_KEY` or `NEXT_PUBLIC_TALARIA_RELEASE_KEY`—server keys must not carry a public prefix.
 
 ```javascript
 import { initClient } from '@newtalaria/nextjs/client';

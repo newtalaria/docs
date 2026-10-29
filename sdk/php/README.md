@@ -89,7 +89,7 @@ A second `init` is ignored. Uncaught errors are captured while default integrati
 
 ## App init vs Project settings
 
-Init holds the URL, API key, release, minimum level, and tags. Tracing, analytics, and feature flags turn on from Project settings after `sdk/getConfig`. Init values for those switches are not what the process uses. Set `'remoteConfig' => false` only when this process should send errors and skip that fetch.
+Init holds the URL, API key, release, minimum level, and tags. Tracing, analytics, and feature flags turn on from Project settings after fetching project configuration. Init values for those switches are not what the process uses. Set `'remoteConfig' => false` only when this process should send errors and skip that fetch.
 
 ## API key
 

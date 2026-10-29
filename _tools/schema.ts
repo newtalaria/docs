@@ -213,7 +213,7 @@ export function frontmatterSchema(reg: Registries) {
         fail("Feature pages document exactly one feature", "feature");
       }
 
-      if (fm.section === "deploy") {
+      if (fm.section === "deploy-ci") {
         const ciHost = (fm.ci?.length || 0) + (fm.host?.length || 0);
         if (fm.type === "guide" && ciHost !== 1) {
           fail("Deploy pages name exactly one CI provider or one host", "ci");

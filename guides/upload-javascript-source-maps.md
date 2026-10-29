@@ -97,7 +97,7 @@ The command prints the URL, the release, and each `fileName`, then the stored id
 On GitHub Actions, upload the directory the build already wrote. Keep `TALARIA_RELEASE_KEY` in the environment. When `TALARIA_RELEASE` is set, the action uses that string, so the maps match the app build. The [releases guide](../features/releases.md) shows the release step next to the build.
 
 ```yaml
-- uses: newtalaria/release@v1
+- uses: newtalaria/release@v1  # Illustrative until newtalaria/release@v1 is published
   id: release
   with:
     sourcemaps: dist

@@ -92,7 +92,7 @@ Talaria.init({
 });
 ```
 
-Set `remoteConfig: false` only when this page should send errors and skip `sdk/getConfig`.
+Set `remoteConfig: false` only when this page should send errors and skip the project configuration fetch.
 
 ## App init vs Project settings
 

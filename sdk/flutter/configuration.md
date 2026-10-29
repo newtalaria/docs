@@ -41,7 +41,7 @@ Successful traces follow the traces sample rate from Project settings. Error tra
 
 ## Project settings
 
-Tracing, analytics, and heatmaps follow [Project configuration](../../get-started/project-settings.md). Dart always fetches `sdk/getConfig`.
+Tracing, analytics, and heatmaps follow [Project configuration](../../get-started/project-settings.md). Dart always fetches project configuration.
 
 ## Analytics
 

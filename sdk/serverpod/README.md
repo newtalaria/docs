@@ -102,7 +102,7 @@ Register `handleExceptionEvent` on `experimentalFeatures.diagnosticEventHandlers
 
 ## App init vs Project settings
 
-URL, API key, release, and tags belong in `TalariaOptions`. Tracing sample rates and analytics come from Project settings. Dart always fetches `sdk/getConfig`.
+URL, API key, release, and tags belong in `TalariaOptions`. Tracing sample rates and analytics come from Project settings. Dart always fetches project configuration.
 
 ## API key
 

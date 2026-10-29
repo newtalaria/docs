@@ -39,7 +39,7 @@ The API key chooses the environment. Do not pass `environment` in `Talaria.init`
 
 ## Sampling
 
-Event sampling and trace sampling come from Project settings after `sdk/getConfig`. Successful traces follow the traces sample rate. Error traces stay. A response with `retry: false` stops that signal until the page reloads.
+Event sampling and trace sampling come from Project settings after fetching project configuration. Successful traces follow the traces sample rate. Error traces stay. A response with `retry: false` stops that signal until the page reloads.
 
 ## Project settings
 

@@ -21,6 +21,14 @@
   label: monitors:write
   credential: ingest-key
 
+- id: flags:read
+  label: flags:read
+  credential: ingest-key
+
+- id: flags:evaluate
+  label: flags:evaluate
+  credential: ingest-key
+
 - id: mcp:read
   label: mcp:read
   credential: oauth

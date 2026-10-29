@@ -123,6 +123,7 @@ function checkContentRules(pages: PageFile[]): void {
     { pattern: /\bk8scluster\b/g, name: "k8scluster (use k8s_cluster)" },
     { pattern: /\botlphttp\b/g, name: "otlphttp (use otlp_http)" },
     { pattern: /\/sdk\/getConfig\b/g, name: "/sdk/getConfig (don't document as route)" },
+    { pattern: /\bsdk\/getConfig\b/g, name: "sdk/getConfig (describe config fetch instead)" },
     { pattern: /(NEXT_PUBLIC_|VITE_)TALARIA_API_KEY\b/g, name: "public-prefixed TALARIA_API_KEY (never use NEXT_PUBLIC_ or VITE_ with API_KEY)" },
     { pattern: /(NEXT_PUBLIC_|VITE_)TALARIA_RELEASE_KEY\b/g, name: "public-prefixed TALARIA_RELEASE_KEY (never use NEXT_PUBLIC_ or VITE_ with RELEASE_KEY)" },
     { pattern: /(NEXT_PUBLIC_|VITE_)TALARIA_DSN\b/g, name: "public-prefixed TALARIA_DSN (use BROWSER_API_KEY)" },
@@ -140,23 +141,31 @@ function checkContentRules(pages: PageFile[]): void {
       if (matches && matches.length > 0) {
         // Allow-list warning sentences about public prefixes
         if (name.includes("public-prefixed")) {
-          // Check if the match is within a warning block about not using these vars
-          const matchIndex = body.indexOf(matches[0]);
-          const contextStart = Math.max(0, matchIndex - 300);
-          const contextEnd = Math.min(body.length, matchIndex + 300);
-          const context = body.substring(contextStart, contextEnd);
-          
-          if (context.includes("must never carry a public prefix") || 
-              context.includes("Never** use") ||
-              context.includes("**Never**") ||
-              context.includes("> [!CAUTION]") ||
-              context.includes("> [!WARNING]")) {
-            continue;
+          // Check each match individually
+          for (const match of matches) {
+            const matchIndex = body.indexOf(match);
+            const contextStart = Math.max(0, matchIndex - 300);
+            const contextEnd = Math.min(body.length, matchIndex + 300);
+            const context = body.substring(contextStart, contextEnd);
+            
+            // Allow if within a warning/caution block or Never statement
+            const isInWarning = context.includes("must never carry a public prefix") || 
+                context.includes("Never** use") ||
+                context.includes("**Never**") ||
+                context.includes("> [!CAUTION]") ||
+                context.includes("> [!WARNING]");
+            
+            if (!isInWarning) {
+              errors.push(
+                `🚫 ${page.relativePath}: contains ${name} (${match})`
+              );
+            }
           }
+        } else {
+          errors.push(
+            `🚫 ${page.relativePath}: contains ${name} (${matches[0]})`
+          );
         }
-        errors.push(
-          `🚫 ${page.relativePath}: contains ${name} (${matches[0]})`
-        );
       }
     }
   }
@@ -293,8 +302,8 @@ function checkTaskPageH2Order(pages: PageFile[]): void {
       h2s.push(match[1].trim());
     }
     
-    // Filter out "For agents" and "Related" which are allowed trailing sections
-    const coreH2s = h2s.filter(h => h !== "For agents" && h !== "Related");
+    // Filter out "For agents" which is the only allowed trailing section
+    const coreH2s = h2s.filter(h => h !== "For agents");
     
     // Check if the 7 expected H2s are present in order
     let expectedIndex = 0;
@@ -358,22 +367,33 @@ function checkMcpTools(pages: PageFile[]): void {
 }
 
 function validateManifestFresh() {
-  // Rebuild manifest and check if it matches the committed version
+  // Rebuild manifest to temp file and check if it matches the committed version
+  const tempManifest = join(DOCS_ROOT, "manifest.yaml.tmp");
   try {
     const currentManifest = readFileSync(join(DOCS_ROOT, "manifest.yaml"), "utf-8");
     
-    // Run build-manifest.ts
-    execSync("./node_modules/.bin/tsx build-manifest.ts", { 
+    // Run build-manifest.ts with output to temp file
+    execSync(`./node_modules/.bin/tsx build-manifest.ts && mv ${join(DOCS_ROOT, "manifest.yaml")} ${tempManifest}`, { 
       cwd: join(DOCS_ROOT, "_tools"),
-      stdio: "pipe"
+      stdio: "pipe",
+      shell: true
     });
     
-    const rebuiltManifest = readFileSync(join(DOCS_ROOT, "manifest.yaml"), "utf-8");
+    const rebuiltManifest = readFileSync(tempManifest, "utf-8");
+    
+    // Clean up temp file
+    try {
+      execSync(`rm ${tempManifest}`, { stdio: "pipe" });
+    } catch {}
     
     if (currentManifest !== rebuiltManifest) {
       errors.push("📦 manifest.yaml is stale - run `npm run build-manifest` and commit");
     }
   } catch (e) {
+    // Clean up temp file on error
+    try {
+      execSync(`rm ${tempManifest}`, { stdio: "pipe" });
+    } catch {}
     errors.push(`📦 manifest.yaml freshness check failed: ${e}`);
   }
 }

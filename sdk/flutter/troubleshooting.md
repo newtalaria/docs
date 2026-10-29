@@ -31,7 +31,7 @@ owner: docs
 ## Tracing spans missing
 
 1. Enable tracing in **Project settings** (remote config). Init alone is not enough.
-2. Wait for `getConfig` refresh (up to `ttlSeconds`, default ~5 minutes) or restart the app after saving settings.
+2. Wait for project configuration refresh (up to `ttlSeconds`, default ~5 minutes) or restart the app after saving settings.
 3. Confirm you are not wrapping the Talaria ingest client.
 4. Screen spans finish on idle. They are short by design. See [Instrumentation and tracing](tracing.md).
 
