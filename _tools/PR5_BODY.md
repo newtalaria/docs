@@ -3,7 +3,7 @@
 ## TIS v0.2 Integration Standard (Phase 0)
 
 **Status**: ✅ Ready for review  
-**Head**: `a94be35`  
+**Head**: `68e088e`  
 **Validation**: `npm run validate` exits **0**, **55 warnings** (existing pages, per spec)  
 **Legacy naming**: **0 occurrences**  
 **MCP URLs**: Verified on `api.newtalaria.com/mcp` (22 files)
