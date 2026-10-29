@@ -16,12 +16,35 @@ The dashboard button **Copy Cursor mcp.json** is the Cursor file. Other clients 
 
 | Client | Config key | Page |
 | ------ | ---------- | ---- |
+| Grok Bot | Custom Add MCP chat prompt or marketplace handle `talaria` | [Grok Bot](grok-bot.md) |
 | Cursor | `mcpServers` → `url` | [Cursor](cursor.md) |
 | Claude Code | `mcpServers` → `type: http` + `url` | [Claude Code](claude-code.md) |
 | VS Code | `servers` → `type: http` + `url` | [VS Code](vscode.md) |
 | Codex | `[mcp_servers.Talaria]` → `url` | [Codex](codex.md) |
 | Gemini CLI | `mcpServers` → `httpUrl` | [Gemini CLI](gemini-cli.md) |
 | Windsurf | `mcpServers` → `serverUrl` | [Windsurf](windsurf.md) |
+
+## Agent skills
+
+The **Talaria** plugin for Cursor and Grok Bot includes five closed-loop skills that guide agents from install through fix verification:
+
+| Skill | When to use |
+| ----- | ----------- |
+| `talaria-get-started` | Connect, confirm org/project, first smoke read (`docs_*` or `search_errors`) |
+| `talaria-instrument` | SDK install, create project/key (`setup_project`), send first test event |
+| `talaria-observe-performance` | Health (`get_project_stats`), traces, spans, queries, sessions, monitors |
+| `talaria-triage-issue` | Investigate one issue (pack → trace/replay/suspects → optional GitHub issue) |
+| `talaria-verify-fix` | After release: `verify_fix` verdict, optional `update_issue_status` |
+
+**Closed loop:** get-started → instrument → observe → triage → verify-fix.
+
+Skills are available from:
+
+- **Cursor Marketplace:** Install the Talaria plugin
+- **cursor.directory:** [cursor.directory/plugins/talaria](https://cursor.directory/plugins/talaria)
+- **GitHub:** [newtalaria/talaria-grok-plugin](https://github.com/newtalaria/talaria-grok-plugin)
+
+Agents can also follow the Markdown playbooks via `docs_get`: [Add Talaria with an agent](../guides/add-talaria-with-an-agent.md) (≈ instrument), [Triage issues with an agent](../guides/triage-issues-with-an-agent.md) (≈ triage). See [Agent skills overview](../guides/agent-skills.md) for the skills → playbooks map.
 
 ## Tool catalogue
 

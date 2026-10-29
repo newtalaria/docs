@@ -36,6 +36,12 @@ pages:
     description: Check an open issue, then resolve or ignore it with a note.
     tags: [agents, mcp, issues, playbook]
 
+  - id: agent-skills
+    path: guides/agent-skills.md
+    title: Agent skills overview
+    description: Talaria plugin skills closed loop — how they map to MCP tools and existing playbooks.
+    tags: [agents, skills, mcp, playbook]
+
   - id: upload-javascript-source-maps
     path: guides/upload-javascript-source-maps.md
     title: Upload JavaScript source maps
@@ -451,6 +457,12 @@ pages:
     title: Cursor
     description: Add the Talaria MCP server in Cursor and use it for install and production investigation.
     tags: [mcp, cursor]
+
+  - id: mcp-grok-bot
+    path: mcp/grok-bot.md
+    title: Grok Bot
+    description: Add the Talaria MCP server in Grok Bot with OAuth or a Bearer token. Cursor plugin adds skills.
+    tags: [mcp, grok, grok-bot]
 
   - id: mcp-claude-code
     path: mcp/claude-code.md
