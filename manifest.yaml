@@ -1042,6 +1042,7 @@ pages:
       - javascript
       - react
       - nextjs
+    package: "@newtalaria/cli"
     type: guide
     section: guides
     features:

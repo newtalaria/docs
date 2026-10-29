@@ -7,8 +7,7 @@ Infrastructure for IA Phase 1: registries, frontmatter schema, and CI validation
 ✅ **Registries built** with Deploy & CI section  
 ✅ **Frontmatter schema** includes `ci` and `host` fields  
 ✅ **CI validation** in place  
-✅ **Minimal owners stub** (`docs` only, per PM)  
-⏸️ **File moves HALTED** - awaiting updated IA_SPEC.md and redirects.json from UX
+✅ **Minimal owners stub** (`docs` only, per PM)
 
 ## What's been built
 
@@ -170,6 +169,4 @@ npm run check:snippets
 
 ## Questions for PM/UX
 
-**Q1:** Has platform MCP `docs_get` alias resolution shipped? File moves depend on it.  
-**Q2:** Updated IA_SPEC.md and redirects.json with Deploy & CI paths?  
-**Q3:** Should GitHub Actions page exist in phase 1, or stub only?
+**Q1:** Should GitHub Actions page exist in phase 1, or stub only?

@@ -27,11 +27,11 @@ Every API key is bound to exactly one environment: **production**, **staging**, 
 - `tal_test_...` — test
 - `tal_dev_...` — development
 
-The server stamps the key's environment onto every event, span, log, metric, analytics hit, and replay. SDKs never send an environment value. The key decides it.
+The server stamps the key's environment onto every span. SDKs never send an environment value. The key decides it.
 
 ## Client keys vs other keys
 
-**Client keys** (also called ingest keys) are what your app uses to send data. They have scopes like `events:write`, `spans:write`, `logs:write`, `metrics:write`, `analytics:write`, and `replays:write`.
+**Client keys** (also called ingest keys) are what your app uses to send data.
 
 Create them in the dashboard at **Project settings › Client keys**.
 
@@ -59,7 +59,7 @@ Issues are grouped separately per environment. The same crash in production and 
 
 ### Alerts
 
-Alerts with no environment filter evaluate as production. To monitor every environment, set the environment scope explicitly in the alert rule.
+Most alerts with no environment filter evaluate as production. **Exception**: logRate alerts count error-level logs (severity ≥ 17) across all environments with no environment filter available.
 
 ### Feature flags
 
