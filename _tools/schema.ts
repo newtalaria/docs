@@ -62,30 +62,6 @@ export function frontmatterSchema(reg: Registries) {
     reg.owners.map((o) => o.id),
     "owner"
   );
-  
-  // Integration references (optional, can be from any registry)
-  const allIntegrationIds = [
-    ...reg.platforms.map((p) => p.id),
-    ...reg.ciProviders.map((c) => c.id),
-    ...reg.hosts.map((h) => h.id),
-    ...reg.otelSources.map((o) => o.id),
-  ];
-  const integration = enumOf(
-    allIntegrationIds,
-    "integration"
-  );
-  
-  // v1.2 task-page registries
-  const surface = enumOf(
-    reg.dashboardSurfaces.map((d) => d.id),
-    "dashboard surface"
-  );
-  const keyScope = enumOf(
-    reg.keyScopes.map((k) => k.id),
-    "key scope"
-  );
-  // MCP tools stub for now (full validation in phase 2)
-  const mcpTool = z.string().min(1);
 
   return z
     .object({
@@ -105,7 +81,6 @@ export function frontmatterSchema(reg: Registries) {
       host: host.optional(),
       clients: z.array(client).default([]),
       apiVersion: apiVersion.optional(),
-      integration: integration.optional(),
       versionOf: z.string().regex(kebab).optional(),
       status: z.enum(STATUSES).default("stable"),
       replacedBy: z.string().regex(kebab).optional(),
@@ -133,36 +108,6 @@ export function frontmatterSchema(reg: Registries) {
       owner,
       nav: z.boolean().default(true),
       noindex: z.boolean().default(false),
-      
-      // v1.2 task-page flow fields (§6.0)
-      outcome: z.string().min(40).max(200).optional(),
-      why: z.string().min(40).max(280).optional(),
-      notFor: z.array(z.object({
-        when: z.string().min(5).max(100),
-        href: z.string(),
-      }).strict()).max(3).default([]),
-      prereqs: z.array(z.object({
-        label: z.string().min(2).max(40),
-        href: z.string().optional(),
-      }).strict()).max(5).default([]),
-      credentials: z.array(z.enum(["ingest-key", "release-key", "personal-token", "oauth"])).default([]),
-      scopes: z.array(keyScope).default([]),
-      timeMinutes: z.number().int().min(1).max(120).optional(),
-      verify: z.object({
-        surface,
-        path: z.string().min(3).max(120),
-        expect: z.string().min(20).max(240),
-        mcp: z.object({
-          tool: mcpTool,
-          args: z.record(z.unknown()).optional(),
-          expect: z.string().min(10).max(240),
-        }).strict().optional(),
-        cli: z.object({
-          command: z.string().min(3),
-          expect: z.string().min(10).max(240),
-        }).strict().optional(),
-      }).strict().optional(),
-      next: z.array(z.string().regex(kebab)).max(4).default([]),
     })
     .strict() // Reject unknown keys (including legacy `sdk:`)
     .superRefine((fm, ctx) => {
@@ -170,32 +115,6 @@ export function frontmatterSchema(reg: Registries) {
         ctx.addIssue({ code: "custom", message, path: [path] });
 
       // Section-specific validation
-      // Determine if this is a task page (v1.2 §6.0.2)
-      const isTaskPage =
-        (fm.section === "guides" && fm.type === "guide") ||
-        (fm.section === "deploy" && fm.type === "guide") ||
-        (fm.section === "agents" && (fm.type === "guide" || fm.type === "quickstart")) ||
-        (fm.section === "platforms" && (fm.type === "quickstart" || fm.type === "guide"));
-      
-      const isPlatformGuide = fm.section === "platforms" && fm.type === "guide";
-      
-      // Task-page validation rules (v1.2)
-      // Note: Missing fields are warnings (checked in validate.ts), not schema errors
-      if (isTaskPage) {
-        // MCP pages cannot use ingest keys (hard error)
-        if (fm.clients && fm.clients.length > 0 && fm.credentials.includes("ingest-key")) {
-          fail("Ingest keys never work on /mcp (use oauth or personal-token)", "credentials");
-        }
-        
-        // Scopes need credentials (hard error)
-        if (fm.scopes.length > 0 && fm.credentials.length === 0) {
-          fail("scopes need credentials", "scopes");
-        }
-      } else if (fm.outcome || fm.verify || (fm.notFor && fm.notFor.length > 0)) {
-        fail("Task-flow fields are only for task pages (§6.0)", "outcome");
-      }
-      
-      // General section-specific validation
       if (fm.section === "platforms") {
         if (fm.type !== "hub" && fm.platform.length !== 1) {
           fail("Platforms pages need exactly one platform", "platform");
@@ -213,11 +132,13 @@ export function frontmatterSchema(reg: Registries) {
         fail("Feature pages document exactly one feature", "feature");
       }
 
-      if (fm.section === "deploy") {
-        const ciCount = fm.ci?.length || 0;
-        const hostCount = fm.host ? 1 : 0;
-        if (fm.type === "guide" && (ciCount + hostCount) !== 1) {
-          fail("Deploy pages name exactly one CI provider or one host", "ci");
+      if (fm.section === "deploy" && fm.type === "guide") {
+        // Deploy & CI guide pages must have either ci or host
+        if (!fm.ci && !fm.host) {
+          fail("Deploy & CI pages must set either ci or host", "ci");
+        }
+        if (fm.ci && fm.host) {
+          fail("Deploy & CI pages cannot set both ci and host", "ci");
         }
       }
 
