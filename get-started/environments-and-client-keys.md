@@ -97,8 +97,6 @@ CI needs two keys:
 1. A client key for the app (can be development or production)
 2. A **release key** with `releases:write` scope for source-map uploads
 
-Release keys don't have an environment prefix and work across all environments.
-
 ## How SDKs use the key
 
 SDKs send the key as:
