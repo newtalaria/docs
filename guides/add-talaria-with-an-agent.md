@@ -8,6 +8,9 @@ tags: [agents, mcp, playbook]
 
 Design centre: a developer connects Talaria MCP and says **“Add Talaria to this project.”** You combine local project context + these docs + live Talaria tools.
 
+**Skills:** Cursor and Grok Bot agents can use `talaria-instrument` from the Talaria plugin for guided install. This playbook is the detailed how-to that skills reference. See [Agent skills overview](agent-skills.md).
+
+
 ## Conversation script (follow in order)
 
 ### 1. Load this playbook and detect the stack

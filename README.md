@@ -12,6 +12,8 @@ Canonical integration knowledge for Talaria. Humans read this on [www.newtalaria
 
 Start here: [Add Talaria with an agent](guides/add-talaria-with-an-agent.md).
 
+**Skills (closed loop):** Cursor and Grok Bot agents can use the Talaria plugin skills (get-started → instrument → observe-performance → triage-issue → verify-fix). See [Agent skills overview](guides/agent-skills.md) for the skills → playbooks map.
+
 Then:
 
 1. Detect the stack from the local repo (`pubspec.yaml`, `package.json`, `composer.json`).
@@ -30,6 +32,7 @@ Then:
 | SDKs | [sdk/README.md](sdk/README.md) |
 | Flutter | [sdk/flutter/README.md](sdk/flutter/README.md) |
 | MCP | [mcp/README.md](mcp/README.md) |
+| Agent skills | [guides/agent-skills.md](guides/agent-skills.md) |
 | Agent playbook | [guides/add-talaria-with-an-agent.md](guides/add-talaria-with-an-agent.md) |
 | JavaScript source maps | [guides/upload-javascript-source-maps.md](guides/upload-javascript-source-maps.md) |
 | Releases | [guides/releases.md](guides/releases.md) |

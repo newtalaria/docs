@@ -6,6 +6,10 @@ tags: [agents, mcp, issues, playbook]
 
 # Triage issues with an agent
 
+**Skills:** Cursor and Grok Bot agents can use `talaria-triage-issue` from the Talaria plugin for guided investigation. This playbook is the detailed how-to that skills reference. See [Agent skills overview](agent-skills.md).
+
+---
+
 Use this after you have a real `projectId` from `get_connection` or `get_projects`. One issue at a time. Include `dashboardUrl` when you tell the human what you changed.
 
 ## 1. Find open issues
