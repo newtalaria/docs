@@ -1,0 +1,11 @@
+# Tools
+_tools/node_modules/
+_tools/dist/
+_tools/package-lock.json
+
+# Generated (committed but gitignored during dev)
+_generated/*.json
+
+# OS
+.DS_Store
+Thumbs.db
