@@ -81,6 +81,30 @@ function checkContentRules(pages: PageFile[]): void {
     { pattern: /harnesses\//gi, name: "internal harness paths" },
     // Match prices like "$10 per GB" but not SQL placeholders like "$1"
     { pattern: /\$\d+(?:\.\d+)?\s+(?:per|\/)\s+\w+/g, name: "hardcoded prices" },
+    
+    // TIS v0.2 naming standard (hard cut, no backward compat)
+    { pattern: /TALARIA_DSN/g, name: "TALARIA_DSN (use TALARIA_URL)" },
+    { pattern: /TALARIA_BASE_URL/g, name: "TALARIA_BASE_URL (use TALARIA_URL)" },
+    { pattern: /\bdsn:/g, name: "dsn: in init (use url:)" },
+    { pattern: /\bbaseUrl:/g, name: "baseUrl: in init (use url:)" },
+    { pattern: /tal_live_/g, name: "tal_live_ prefix (use tal_prod_/tal_stg_/tal_test_/tal_dev_)" },
+    { pattern: /TALARIA_PING_TOKEN/g, name: "TALARIA_PING_TOKEN (use TALARIA_MONITOR_TOKEN)" },
+    { pattern: /X-Monitor-Token/g, name: "X-Monitor-Token header (use X-Talaria-Monitor-Token)" },
+    { pattern: /tal_ping_/g, name: "tal_ping_ prefix (use tal_mon_)" },
+    { pattern: /\/monitors\/ping\b/g, name: "/monitors/ping endpoint (use /v1/check-ins)" },
+    { pattern: /\/monitors\/checkIn\b/g, name: "/monitors/checkIn endpoint (use /v1/check-ins or /v1/monitors/{slug}/check-ins)" },
+    { pattern: /\/releases\/setCommits\b/g, name: "/releases/setCommits endpoint (use /v1/releases)" },
+    { pattern: /\/sourceMaps\/upload\b/g, name: "/sourceMaps/upload endpoint (use /v1/source-maps)" },
+    { pattern: /\bcheckInId\b/g, name: "checkInId (use runId)" },
+    { pattern: /\bsearch_errors\b/g, name: "search_errors MCP tool (use search_issues)" },
+    { pattern: /\bget_error\b/g, name: "get_error MCP tool (use get_issue)" },
+    { pattern: /\bget_projects\b/g, name: "get_projects MCP tool (use list_projects)" },
+    { pattern: /\bget_logs\b/g, name: "get_logs MCP tool (use search_logs)" },
+    { pattern: /\bget_suspect_commits\b/g, name: "get_suspect_commits MCP tool (use list_suspect_commits)" },
+    { pattern: /\bget_issue_links\b/g, name: "get_issue_links MCP tool (use list_issue_links)" },
+    { pattern: /newtalaria\/source-maps@v1/g, name: "newtalaria/source-maps@v1 action (use newtalaria/release@v1)" },
+    { pattern: /talaria\/sitehost\/monitors\.json/g, name: "talaria/sitehost/monitors.json (use talaria/monitors.yaml)" },
+    { pattern: /api\.newtalaria\.com\/otlp/g, name: "api.newtalaria.com/otlp (use ingest.newtalaria.com/otlp)" },
   ];
   
   for (const page of pages) {
@@ -93,7 +117,7 @@ function checkContentRules(pages: PageFile[]): void {
       const matches = body.match(pattern);
       if (matches && matches.length > 0) {
         errors.push(
-          `🚫 ${page.relativePath}: contains ${name} (${matches[0]})`
+          `🚫 ${page.relativePath}: contains legacy naming: ${name}`
         );
       }
     }
