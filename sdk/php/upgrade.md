@@ -19,14 +19,23 @@ order: 70
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # PHP upgrade
 
-`talaria/talaria` 2.0.0 is the current core. `talaria/silverstripe` 2.0.1 and `talaria/laravel` 2.0.1 require that core (`^2.0.0`). PHP 8.1 or newer.
+## What you're setting up
+
+`talaria/talaria` 2.0.0 is the current core. `talaria/silverstripe` 2.0.1 and `talaria/laravel` 2.0.1 require that core (`^2.0.0`).
+
+## Why use this
 
 Upgrade the package your app requires and the core it depends on in one Composer command. A Silverstripe site follows [Upgrade the Silverstripe module](../silverstripe/upgrade.md) for the flush and the module's config. This page is the shared Composer procedure and the core version changes.
 
-## See the installed version
+## Before you start
+
+PHP 8.1 or newer.
+
+## Steps
+
+### 1. See the installed version
 
 From the application root (the directory that contains `composer.json` and `composer.lock`):
 
@@ -43,7 +52,7 @@ When the solver refuses a version, ask why:
 composer why-not talaria/talaria 2.0.0
 ```
 
-## Update the unit you installed
+### 2. Update the unit you installed
 
 | App | Already allows the target (same major, or an open `^1.0`) | Crossing into 2.0 when the constraint is still `^1.2` |
 | --- | --- | --- |
@@ -67,7 +76,7 @@ Read `git diff composer.lock` before you commit. `-W` can move other libraries t
 
 Do not run a bare `composer update` with no package names. That upgrades every dependency in the lock file.
 
-## Test, then commit the lock file
+### 3. Test, then commit the lock file
 
 Exercise the path that reports to Talaria: a request, a logged error, and a CLI or queue job if you use one. Silverstripe's build and flush are on the [Silverstripe upgrade](../silverstripe/upgrade.md) page. Laravel: `php artisan config:clear`, and restart Octane if the app uses it.
 
@@ -80,7 +89,7 @@ git commit -m "Upgrade Talaria dependencies"
 
 `composer.json` changes when a constraint moves (for example `^1.2` to `^2.0`). `composer.lock` changes on every resolved update. UAT and production install that lock file. They do not resolve versions again.
 
-## Deploy with install, not update
+### 4. Deploy with install, not update
 
 ```bash
 composer install --no-dev --optimize-autoloader
@@ -90,7 +99,7 @@ composer install --no-dev --optimize-autoloader
 
 Restart PHP after the new code is on disk so OPcache loads it. A rejected API key is cached for about 24 hours in that process. Restarting is also how a rotated key is picked up.
 
-## 1.x to 2.0.0
+### 5. 1.x to 2.0.0
 
 2.0.0 removes the `environment` init option. The API key decides the environment. Events, spans, and analytics no longer send an environment string.
 
@@ -102,7 +111,7 @@ Keep `TALARIA_API_KEY`. An event that used to be labelled by that string now sho
 
 `talaria/silverstripe` 2.0.0 and `talaria/laravel` 2.0.0 require `talaria/talaria` ^2.0.0. A 1.x adapter does not install against 2.0.0 core, and a 2.0 adapter does not install against 1.x core. Upgrade the pair together.
 
-## 1.1 to 1.2.0
+### 6. 1.1 to 1.2.0
 
 1.2.0 reads tracing, analytics, and the event sample rate from the SDK's project configuration fetch. These init options no longer change that behaviour:
 
@@ -115,7 +124,7 @@ Until a config document is cached, the process sends errors only. Turn tracing a
 
 Silverstripe YAML and `TALARIA_ENABLE_TRACING` / `TALARIA_ENABLE_ANALYTICS` are passed into init and then discarded by 1.2.0 core. The dashboard switches are the ones that apply.
 
-## Inside 1.2 and 2.0
+### 7. Inside 1.2 and 2.0
 
 Stay on the newest 2.0.x. These 1.2 patch releases still matter if you are stepping through 1.x before the major:
 
@@ -126,7 +135,11 @@ Stay on the newest 2.0.x. These 1.2 patch releases still matter if you are stepp
 | 1.2.4 | `Talaria::flags()` (`boolVariation`, `stringVariation`, `jsonVariation`). Flag state follows `flags.enabled` in the project config. |
 | 2.0.1 adapters | Silverstripe and Laravel pin `@newtalaria/browser` 0.5.3. Core stays 2.0.0. |
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [Silverstripe upgrade](../silverstripe/upgrade.md)
 - [PHP SDK](README.md)

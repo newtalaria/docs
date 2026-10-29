@@ -6,7 +6,7 @@ import { execSync } from "node:child_process";
 import matter from "gray-matter";
 import { loadRegistries, validateRegistries } from "./registries.js";
 import { frontmatterSchema } from "./schema.js";
-import { stringify as stringifyYaml } from "yaml";
+import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
 import { buildManifest, yamlStringifyOptions } from "./build-manifest.js";
 
 const DOCS_ROOT = join(import.meta.dirname, "..");
@@ -428,70 +428,168 @@ function checkDuplicateIds(pages: PageFile[]): void {
   }
 }
 
+const TASK_H2S = [
+  "What you're setting up",
+  "Why use this",
+  "Before you start",
+  "Steps",
+  "Check it worked",
+  "Troubleshooting",
+  "Next steps",
+];
+
+function requiredTaskH2s(page: PageFile): string[] | null {
+  const fm = page.frontmatter;
+  const rel = page.relativePath;
+  const file = rel.split("/").pop()?.replace(/\.md$/, "") ?? "";
+  const platformGuide = new Set([
+    "errors",
+    "tracing",
+    "navigation",
+    "configuration",
+    "analytics-and-flags",
+  ]);
+
+  // §6.0.2: optional blocks may be omitted. These kinds are errors.
+  if (fm.section === "deploy" && fm.type === "guide") return TASK_H2S;
+  if (fm.section === "get-started" && fm.type === "quickstart") return TASK_H2S;
+  if (rel.startsWith("agents/mcp/") && file !== "README" && fm.type === "guide") return TASK_H2S;
+  if (fm.section === "platforms" && fm.type === "guide" && file === "upgrade") {
+    return TASK_H2S.filter((heading) => heading !== "Troubleshooting");
+  }
+  if (fm.section === "platforms" && fm.type === "guide" && platformGuide.has(file)) {
+    return [
+      "What you're setting up",
+      "Steps",
+      "Check it worked",
+      "Next steps",
+    ];
+  }
+  return null;
+}
+
+function isTaskPage(page: PageFile): boolean {
+  const fm = page.frontmatter;
+  return (
+    (fm.section === "guides" && fm.type === "guide") ||
+    (fm.section === "deploy" && fm.type === "guide") ||
+    (fm.section === "get-started" && fm.type === "quickstart") ||
+    (fm.section === "agents" && (fm.type === "guide" || fm.type === "quickstart")) ||
+    (fm.section === "platforms" && (fm.type === "quickstart" || fm.type === "guide"))
+  );
+}
+
+function taskH2s(page: PageFile): string[] {
+  const content = readFileSync(page.path, "utf-8");
+  const { content: body } = matter(content);
+  const h2s: string[] = [];
+  for (const match of body.matchAll(/^## (.+)$/gm)) {
+    h2s.push(match[1].trim());
+  }
+  return h2s.filter((heading) => heading !== "For agents");
+}
+
+function h2sFollowFlow(actual: string[]): boolean {
+  let last = -1;
+  for (const heading of actual) {
+    const index = TASK_H2S.indexOf(heading);
+    if (index === -1 || index <= last) return false;
+    last = index;
+  }
+  return true;
+}
+
 function checkTaskPageH2Order(pages: PageFile[]): void {
-  const expectedH2s = [
-    "What you're setting up",
-    "Why use this",
-    "Before you start",
-    "Steps",
-    "Check it worked",
-    "Troubleshooting",
-    "Next steps"
-  ];
-  
   for (const page of pages) {
-    // Task pages are guides in deploy, guides, agents sections, or quickstarts/guides in platforms
-    const isTaskPage = 
-      (page.frontmatter.section === "guides" && page.frontmatter.type === "guide") ||
-      (page.frontmatter.section === "deploy" && page.frontmatter.type === "guide") ||
-      (page.frontmatter.section === "agents" && (page.frontmatter.type === "guide" || page.frontmatter.type === "quickstart")) ||
-      (page.frontmatter.section === "platforms" && (page.frontmatter.type === "quickstart" || page.frontmatter.type === "guide"));
-    
-    if (!isTaskPage) continue;
-    
-    const content = readFileSync(page.path, "utf-8");
-    const { content: body } = matter(content);
-    
-    // Extract H2 headings (## Something)
-    const h2Regex = /^## (.+)$/gm;
-    const h2s: string[] = [];
-    let match;
-    while ((match = h2Regex.exec(body)) !== null) {
-      h2s.push(match[1].trim());
-    }
-    
-    // Filter out "For agents" which is the only allowed trailing section
-    const coreH2s = h2s.filter(h => h !== "For agents");
-    
-    // Check if the 7 expected H2s are present in order
-    let expectedIndex = 0;
-    for (let i = 0; i < coreH2s.length && expectedIndex < expectedH2s.length; i++) {
-      if (coreH2s[i] === expectedH2s[expectedIndex]) {
-        expectedIndex++;
-      } else {
-        // Out of order or missing
-        break;
-      }
-    }
-    
-    const allExpectedPresent = expectedIndex === expectedH2s.length;
-    
-    if (!allExpectedPresent) {
-      // New task pages (like kubernetes) must have all 7 in order - error
-      // Existing pages get a warning per spec
-      const isNewTaskPage = page.relativePath === "deploy/hosts/kubernetes.md";
-      
-      if (isNewTaskPage) {
+    if (!isTaskPage(page)) continue;
+    const coreH2s = taskH2s(page);
+    const required = requiredTaskH2s(page);
+    const follows = h2sFollowFlow(coreH2s);
+    const missing = required?.filter((heading) => !coreH2s.includes(heading)) ?? [];
+
+    if (required) {
+      if (!follows || missing.length > 0) {
         errors.push(
-          `📋 ${page.relativePath}: task page must have all 7 H2s in order: ${expectedH2s.join(", ")}`
-        );
-      } else {
-        warnings.push(
-          `📋 ${page.relativePath}: task page should have all 7 H2s in order (found: ${coreH2s.join(", ")})`
+          `📋 ${page.relativePath}: task page H2s must follow §6.0 (missing: ${missing.join(", ") || "none"}; found: ${coreH2s.join(", ")})`
         );
       }
+      continue;
+    }
+
+    const allSeven = follows && TASK_H2S.every((heading) => coreH2s.includes(heading));
+    if (!allSeven) {
+      warnings.push(
+        `📋 ${page.relativePath}: task page should have all 7 H2s in order (found: ${coreH2s.join(", ")})`
+      );
     }
   }
+}
+
+function checkNavPaths(registries: ReturnType<typeof loadRegistries>): void {
+  const manifest = parseYaml(readFileSync(join(DOCS_ROOT, "manifest.yaml"), "utf-8")) as {
+    pages: { path: string }[];
+  };
+  const paths = new Set(manifest.pages.map((page) => page.path));
+  const expected: string[] = [];
+  for (const section of registries.sections) {
+    expected.push(`${section.path}/README.md`);
+    for (const subgroup of section.subgroups ?? []) {
+      expected.push(`${subgroup.path}/README.md`);
+    }
+  }
+  for (const path of expected) {
+    if (!paths.has(path)) {
+      errors.push(`🧭 nav path has no manifest page: ${path}`);
+    }
+  }
+}
+
+function checkSiblingOrder(): void {
+  const registries = loadRegistries();
+  const manifest = parseYaml(readFileSync(join(DOCS_ROOT, "manifest.yaml"), "utf-8")) as {
+    pages: { path: string }[];
+  };
+  const paths = manifest.pages.map((page) => page.path);
+
+  const expectOrder = (label: string, wanted: string[]) => {
+    const present = wanted.filter((path) => paths.includes(path));
+    const actual = paths.filter((path) => present.includes(path));
+    if (actual.join("\n") !== present.join("\n")) {
+      errors.push(
+        `↕️ manifest sibling order for ${label} does not follow the registry (found: ${actual.join(", ")})`
+      );
+    }
+  };
+
+  const platformHubs = [...registries.platforms]
+    .sort((a, b) => a.order - b.order)
+    .map((platform) => `sdk/${platform.id}/README.md`);
+  expectOrder("platforms", platformHubs);
+
+  const pageSet = registries.sections.find((section) => section.id === "platforms")?.pageSet ?? [];
+  for (const platform of registries.platforms) {
+    const wanted = pageSet.map((key) =>
+      key === "overview" ? `sdk/${platform.id}/README.md` : `sdk/${platform.id}/${key}.md`
+    );
+    expectOrder(`${platform.id} pages`, wanted);
+  }
+
+  const mcpClients = [...registries.mcpClients]
+    .sort((a, b) => a.order - b.order)
+    .map((client) => `agents/mcp/${client.id}.md`);
+  expectOrder("MCP clients", mcpClients);
+
+  const hosts = [...registries.hosts]
+    .filter((host) => host.status !== "hidden")
+    .sort((a, b) => a.order - b.order)
+    .map((host) => `deploy/hosts/${host.id}.md`);
+  expectOrder("hosts", hosts);
+
+  const providers = [...registries.ciProviders]
+    .filter((provider) => provider.status !== "hidden")
+    .sort((a, b) => a.order - b.order)
+    .map((provider) => `deploy/ci/${provider.id}.md`);
+  expectOrder("CI providers", providers);
 }
 
 function checkMcpTools(pages: PageFile[]): void {
@@ -613,6 +711,13 @@ function main() {
   checkTaskPageH2Order(pages);
   if (errors.length === 0 && warnings.length === 0) {
     console.log("   ✅ Task pages follow H2 order\n");
+  }
+
+  console.log("4️⃣e Checking nav paths and sibling order...");
+  checkNavPaths(registries);
+  checkSiblingOrder();
+  if (errors.length === 0) {
+    console.log("   ✅ Nav paths and sibling order match the registries\n");
   }
   
   // Step 4d: MCP tool references

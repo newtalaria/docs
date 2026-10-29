@@ -26,28 +26,33 @@ order: 50
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # Laravel configuration
 
-## Release
+## What you're setting up
+
+Release, sampling, analytics, feature flags, and the injected browser session replay, heatmaps, and consent for talaria/laravel.
+
+## Steps
+
+### 1. Release
 
 Set `TALARIA_RELEASE` to the version or git SHA of this deploy. Local `.env` should still set one. Browser source maps, if you ship a separate frontend, must use that same string. The injected script uses the release from this config.
 
-## API key and environment
+### 2. API key and environment
 
 `TALARIA_API_KEY` chooses the environment. Do not add an environment field. Use a development key locally and a production key in production `.env`. Run `php artisan config:clear` after a change, and restart Octane workers.
 
 `browser_api_key` / `TALARIA_BROWSER_API_KEY` is the publishable key for the injected script. `TALARIA_URL` overrides the host for self-host or a custom domain. Leave `TALARIA_URL` unset on Talaria Cloud so the SDK derives the host from the key. Set the browser key when the browser cannot use the PHP host (a Docker-internal host, for example). PHP keeps a secret key in `TALARIA_API_KEY`.
 
-## Sampling
+### 3. Sampling
 
 Successful traces follow the project traces sample rate. Error traces stay. A response with `retry: false` stops that signal until the PHP process restarts. Octane is one long process, so a kill switch lasts until the worker restarts.
 
-## Project settings
+### 4. Project settings
 
 Tracing, analytics, heatmaps, and session replay follow [Project configuration](../../get-started/project-settings.md).
 
-## Analytics
+### 5. Analytics
 
 Enable Analytics in Project settings. PHP:
 
@@ -58,7 +63,7 @@ Talaria::analytics()->track('Checkout Started', ['plan' => 'pro']);
 
 There is no Laravel facade for analytics. `Talaria::analytics()` is the core client. HTML pages also get `@newtalaria/browser`, which can send `page` and `track` from the browser after consent. See [Product analytics setup](../../features/analytics.md).
 
-## Feature flags
+### 6. Feature flags
 
 Flags are the core client. There is no Laravel facade or config surface.
 
@@ -66,27 +71,31 @@ Flags are the core client. There is no Laravel facade or config surface.
 $on = Talaria::flags()->boolVariation('new-checkout', false);
 ```
 
-## Session replay
+### 7. Session replay
 
 The `web` middleware group injects `@newtalaria/browser` from jsDelivr (`TALARIA_BROWSER_SDK_VERSION`, default `0.5.3`). Replay starts when session replay is enabled in Project settings and the visitor consent state allows it. Set `TALARIA_BROWSER=false` to skip the script.
 
-## Heatmaps
+### 8. Heatmaps
 
 Heatmaps are recorded by that same browser script when analytics and heatmaps are enabled and the visitor has consented.
 
-## Web Vitals
+### 9. Web Vitals
 
 LCP, INP, CLS, and TTFB are recorded in the injected browser script as child spans of the pageload, when tracing is on.
 
-## Consent
+### 10. Consent
 
 The injected script follows CookieYes, Cookiebot, and Google Consent Mode. Any other banner should call `analytics.optIn()` in the page after agreement. See [Cookie banners](../../guides/cookie-banners.md). PHP `Talaria::analytics()` does not wait for a banner. Call it only for server-side events you already have a lawful basis to send.
 
-## Privacy in events
+### 11. Privacy in events
 
 Query spans include SQL text. Do not concatenate secrets into queries. Do not log raw request bodies on the `talaria` channel.
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [Laravel SDK](README.md)
 - [Instrumentation and tracing](tracing.md)

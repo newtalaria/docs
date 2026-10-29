@@ -24,6 +24,8 @@ interface Page {
   section?: string;
   features?: string[];
   clients?: string[];
+  family?: string;
+  familyLabel?: string;
   status?: string;
   tags?: string[];
   order?: number; // for sorting within section
@@ -58,9 +60,76 @@ function collectMarkdownFiles(dir: string, files: string[] = []): string[] {
   return files;
 }
 
+type Ordered = { id: string; order: number; family?: string; label?: string };
+
+function loadRegistry(name: string): Ordered[] {
+  return parseYaml(readFileSync(join(DOCS_ROOT, "_registry", name), "utf-8")) as Ordered[];
+}
+
+function orderOf(entries: Ordered[]): Map<string, number> {
+  return new Map(entries.map((entry) => [entry.id, entry.order]));
+}
+
 export function buildManifest(): Manifest {
   console.log("📝 Building manifest.yaml from frontmatter...\n");
-  
+
+  const sections = loadRegistry("sections.yaml") as Array<Ordered & { pageSet?: string[] }>;
+  const sectionOrderMap: Record<string, number> = {};
+  let pageSet: string[] = [];
+  for (const section of sections) {
+    sectionOrderMap[section.id] = section.order;
+    if (section.id === "platforms" && section.pageSet) pageSet = section.pageSet;
+  }
+  const families = loadRegistry("platform-families.yaml");
+  const familyOrder = orderOf(families);
+  const familyLabels = new Map(families.map((entry) => [entry.id, entry.label || entry.id]));
+  const platforms = loadRegistry("platforms.yaml");
+  const platformById = new Map(platforms.map((entry) => [entry.id, entry]));
+  const mcpOrder = orderOf(loadRegistry("mcp-clients.yaml"));
+  const hostOrder = orderOf(loadRegistry("hosts.yaml"));
+  const ciOrder = orderOf(loadRegistry("ci-providers.yaml"));
+
+  function sortTuple(page: Page): number[] {
+    const sectionOrder = sectionOrderMap[page.section || ""] ?? 999;
+    const path = page.path;
+    const order = page.order ?? 999;
+
+    if (path === "sdk/README.md") return [sectionOrder, 0, 0, 0, 0];
+    const sdk = path.match(/^sdk\/([^/]+)\/([^/]+)\.md$/);
+    if (sdk) {
+      const platform = platformById.get(sdk[1]);
+      const file = sdk[2] === "README" ? "overview" : sdk[2];
+      const setIndex = pageSet.indexOf(file);
+      return [
+        sectionOrder,
+        1,
+        platform ? (familyOrder.get(platform.family || "") ?? 999) : 999,
+        platform?.order ?? 999,
+        setIndex === -1 ? 999 : setIndex,
+      ];
+    }
+
+    if (path === "deploy/README.md") return [sectionOrder, 0, 0, 0, 0];
+    if (path === "deploy/ci/README.md") return [sectionOrder, 1, 0, 0, 0];
+    if (path.startsWith("deploy/ci/") && path.endsWith(".md")) {
+      const id = path.slice("deploy/ci/".length, -3);
+      return [sectionOrder, 1, 1, ciOrder.get(id) ?? 999, 0];
+    }
+    if (path === "deploy/hosts/README.md") return [sectionOrder, 2, 0, 0, 0];
+    if (path.startsWith("deploy/hosts/") && path.endsWith(".md")) {
+      const id = path.slice("deploy/hosts/".length, -3);
+      return [sectionOrder, 2, 1, hostOrder.get(id) ?? 999, 0];
+    }
+
+    if (path === "agents/mcp/README.md") return [sectionOrder, 1, 0, 0, 0];
+    if (path.startsWith("agents/mcp/") && path.endsWith(".md")) {
+      const id = path.slice("agents/mcp/".length, -3);
+      return [sectionOrder, 1, 1, mcpOrder.get(id) ?? 999, 0];
+    }
+
+    return [sectionOrder, 0, order, 0, 0];
+  }
+
   const files = collectMarkdownFiles(DOCS_ROOT);
   const pages: Page[] = [];
   const errors: string[] = [];
@@ -109,6 +178,15 @@ export function buildManifest(): Manifest {
     if (fm.clients && Array.isArray(fm.clients) && fm.clients.length > 0) {
       page.clients = fm.clients;
     }
+    const sdkPage = file.match(/^sdk\/([^/]+)\//);
+    if (sdkPage) {
+      const platform = platformById.get(sdkPage[1]);
+      if (platform) {
+        page.family = platform.family;
+        const familyLabel = familyLabels.get(platform.family);
+        if (familyLabel) page.familyLabel = familyLabel;
+      }
+    }
     if (fm.status && fm.status !== "stable") page.status = fm.status;
     if (fm.tags && Array.isArray(fm.tags) && fm.tags.length > 0) {
       page.tags = fm.tags;
@@ -128,29 +206,14 @@ export function buildManifest(): Manifest {
     process.exit(1);
   }
   
-  // Load sections.yaml to get section order
-  const sectionsYamlPath = join(DOCS_ROOT, "_registry", "sections.yaml");
-  const sectionsYaml = readFileSync(sectionsYamlPath, "utf-8");
-  const sections = parseYaml(sectionsYaml) as Array<{ id: string; order: number }>;
-  const sectionOrderMap: Record<string, number> = {};
-  for (const section of sections) {
-    sectionOrderMap[section.id] = section.order;
-  }
-  
-  // Sort by section order, then by page order, then by id
+  // Section order, then registry sibling order (family, platform, page set,
+  // MCP client, host, CI provider). Frontmatter order is the fallback.
   pages.sort((a, b) => {
-    const sectionOrderA = sectionOrderMap[a.section || ""] || 999;
-    const sectionOrderB = sectionOrderMap[b.section || ""] || 999;
-    const sectionDiff = sectionOrderA - sectionOrderB;
-    if (sectionDiff !== 0) return sectionDiff;
-    
-    // Within same section, sort by page order
-    const orderA = a.order ?? 999;
-    const orderB = b.order ?? 999;
-    const orderDiff = orderA - orderB;
-    if (orderDiff !== 0) return orderDiff;
-    
-    // Finally by id for stable output
+    const ka = sortTuple(a);
+    const kb = sortTuple(b);
+    for (let i = 0; i < ka.length; i++) {
+      if (ka[i] !== kb[i]) return ka[i] - kb[i];
+    }
     return a.id.localeCompare(b.id);
   });
   

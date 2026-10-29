@@ -24,26 +24,31 @@ order: 50
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # Flutter configuration
 
-## Release
+## What you're setting up
+
+Release, sampling, analytics, feature flags, and screen heatmap consent for talaria_flutter.
+
+## Steps
+
+### 1. Release
 
 Pass `APP_RELEASE` as the build name and number (`1.4.2+42`) or the git SHA. Each flavor can share the version and still use its own API key so development and production stay apart.
 
-## API key and environment
+### 2. API key and environment
 
 The API key chooses the environment. Do not pass `environment` in `TalariaOptions`. `--dart-define=TALARIA_BROWSER_API_KEY=…` is compiled in. Rebuild after you change it. A rejected key is cached for about 24 hours.
 
-## Sampling
+### 3. Sampling
 
 Successful traces follow the traces sample rate from Project settings. Error traces stay. Screen transactions are short on purpose. A response with `retry: false` stops that signal until the process restarts.
 
-## Project settings
+### 4. Project settings
 
 Tracing, analytics, and heatmaps follow [Project configuration](../../get-started/project-settings.md). Dart always fetches project configuration.
 
-## Analytics
+### 5. Analytics
 
 Enable Analytics in Project settings. `TalariaNavigatorObserver` emits `$screen` for named routes. On web, `$pageview` is sent when the browser path changes. Unnamed routes are skipped. `TalariaFlutter.setScreen` takes an optional title for shells that do not push a route.
 
@@ -56,7 +61,7 @@ await Talaria.analytics.track(
 
 Call `Talaria.analytics.optIn()` after the person agrees, and `optOut()` to stop. This package does not read a web cookie banner. See [Product analytics setup](../../features/analytics.md).
 
-## Feature flags
+### 6. Feature flags
 
 ```dart
 final on = await Talaria.flags.boolVariation('new-checkout', false);
@@ -64,7 +69,7 @@ final on = await Talaria.flags.boolVariation('new-checkout', false);
 
 Flags are the `talaria` client. Remote evaluate is the right path on a device. The default is returned when the flag is off or the read times out (the client waits up to about three seconds on a cold start, then uses the default).
 
-## Heatmaps
+### 7. Heatmaps
 
 Enable heatmaps and analytics, then wrap the tree:
 
@@ -79,15 +84,15 @@ MaterialApp(
 
 Password fields are covered by default. `TalariaHeatmapPrivacy`, `TalariaMask`, `TalariaUnmask`, and `TalariaHeatmapAnchor` adjust a region when you need that. Heatmaps record taps, scroll depth, and snapshots of the Flutter view.
 
-## Privacy in events
+### 8. Privacy in events
 
 Prefer an opaque user id in `setUser`. Do not put tokens into `setExtra` or breadcrumb `data`. Route names become tags, so keep them stable and free of raw ids when you can. Use `setScreen` with a template (`/orders/detail`) rather than `/orders/98421`.
 
-## Verify
+## Check it worked
 
 `search_issues` with `environment: development` after a local run. Switch the dashboard shell to Development when the project also has a production key.
 
-## Related
+## Next steps
 
 - [Flutter SDK](README.md)
 - [Instrumentation and tracing](tracing.md)

@@ -20,11 +20,21 @@ owner: docs
 
 # Windsurf
 
-Windsurf Cascade reads MCP servers from `~/.codeium/windsurf/mcp_config.json` (Windows: `%USERPROFILE%\.codeium\windsurf\mcp_config.json`). Open it from the MCP toolbar → **Configure**. A remote server uses `serverUrl`. The field `url` from a Cursor file does not connect.
+## What you're setting up
 
-## Add the server
+Windsurf Cascade reads MCP servers from `~/.codeium/windsurf/mcp_config.json` (Windows: `%USERPROFILE%\.codeium\windsurf\mcp_config.json`). Open it from the MCP toolbar → **Configure**. A remote server uses `serverUrl`.
 
-Talaria's published remote-HTTP path for Windsurf is a personal token in `headers`.
+## Why use this
+
+The field `url` from a Cursor file does not connect. Talaria's published remote-HTTP path for Windsurf is a personal token in `headers`.
+
+## Before you start
+
+Create a personal token from **Workspace › Integrations**. Never send an API key or a monitor token to MCP.
+
+## Steps
+
+### 1. Add the server
 
 1. Dashboard **Workspace › Integrations → Create personal token**. Choose 30 days, 90 days, or until you revoke it.
 2. Add Talaria and refresh the MCP toolbar:
@@ -44,16 +54,24 @@ Talaria's published remote-HTTP path for Windsurf is a personal token in `header
 
 `serverUrl` must include the `/mcp` path. Do not paste the dashboard **Copy Cursor mcp.json** snippet: that file uses `url` and has no `serverUrl`.
 
-The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never send an API key or a monitor token to MCP.
+The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`.
 
 Config values in `serverUrl` and `headers` can interpolate `${env:TALARIA_MCP_TOKEN}` so the token stays out of the file.
 
 Local API: `http://{{mcpUrl}}/mcp`.
 
-## After connect
+## Check it worked
 
 Confirm Talaria is connected in the MCP servers panel, then call `get_connection` and announce identity before creating projects or minting keys. Install and investigation follow [Add Talaria with an agent](../add-talaria.md) and [Triage issues with an agent](../triage-issues.md).
 
-## Related
+## Troubleshooting
+
+### A Cursor config does not connect
+
+**Cause:** The field `url` from a Cursor file does not connect.
+
+**Fix:** Use `serverUrl`, including the `/mcp` path, and a personal token in `headers`.
+
+## Next steps
 
 - [MCP overview](README.md)

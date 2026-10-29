@@ -17,15 +17,21 @@ owner: docs
 ---
 # SiteHost containers
 
-Forward logs from your SiteHost PHP container to Talaria using the OpenTelemetry Collector. The collector tails Apache error logs, PHP-FPM logs, cron task logs, and your application logs.
+## What you're setting up
 
-## Prerequisites
+Forward logs from your SiteHost PHP container to Talaria using the OpenTelemetry Collector.
+
+## Why use this
+
+The collector tails Apache error logs, PHP-FPM logs, cron task logs, and your application logs.
+
+## Before you start
 
 - A SiteHost PHP container
 - Talaria project API key with `logs:write` scope
 - (Optional) `talaria/silverstripe` package for container health metrics
 
-## Configure log collection
+## Steps
 
 ### 1. Create monitor configuration
 
@@ -71,7 +77,7 @@ The collector merges your configuration with the built-in preset, which provides
 - OTLP exporter with compression
 - Memory limits
 
-## Default log sources
+### 4. Default log sources
 
 The preset collector configuration tails these files:
 
@@ -80,13 +86,13 @@ The preset collector configuration tails these files:
 - `/container/logs/cron-*.log` – Cron task output
 - `/container/logs/sitehost/sitehost.log` – Application logs
 
-### Excluded by default
+#### Excluded by default
 
 - Rotated archives (`*.gz`)
 - Access logs
 - rsyslog, supervisor, and internal Talaria logs
 
-## Log severity mapping
+### 5. Log severity mapping
 
 The collector parses severity from Apache and PHP-FPM log formats:
 
@@ -97,7 +103,7 @@ The collector parses severity from Apache and PHP-FPM log formats:
 | `error` | error |
 | `crit`, `critical`, `alert`, `emerg` | fatal |
 
-## Container health metrics (Silverstripe only)
+### 6. Container health metrics (Silverstripe only)
 
 If you have `talaria/silverstripe` installed, the `talaria-sitehost-probe` reports container health metrics once per minute:
 
@@ -107,7 +113,7 @@ If you have `talaria/silverstripe` installed, the `talaria-sitehost-probe` repor
 
 Set `metrics:write` scope on your API key to receive these metrics.
 
-## Verify collection
+## Check it worked
 
 After deployment:
 
@@ -117,15 +123,35 @@ After deployment:
 
 ## Troubleshooting
 
-**Logs not appearing:**
+### Logs not appearing
+
+**Cause:** `TALARIA_API_KEY` is unset, the key is not a secret key, or it lacks `logs:write`.
+
+**Fix:**
+
 - Verify `TALARIA_API_KEY` is set to a secret key
 - Check collector logs for authentication errors
 - Ensure API key has `logs:write` scope
 
-**Custom configuration not applied:**
+### Custom configuration not applied
+
+**Cause:** `talaria/collector.yaml` did not pass collector validation.
+
+**Fix:**
+
 - Run `otelcol-contrib validate` locally to check YAML syntax
 - Review `/container/logs/talaria-otelcol.log` for validation errors
 
-**Collector not starting:**
+### Collector not starting
+
+**Cause:** `talaria/monitors.yaml` is missing, or supervisord did not start `talaria-otelcol`.
+
+**Fix:**
+
 - Verify `talaria/monitors.yaml` exists in your repository
 - Check supervisord status with `supervisorctl status talaria-otelcol`
+
+## Next steps
+
+- [Kubernetes](kubernetes.md)
+- [Silverstripe SDK](../../sdk/silverstripe/README.md)

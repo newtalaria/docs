@@ -23,10 +23,15 @@ order: 20
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # Serverpod errors, logs, and breadcrumbs
 
-## Errors
+## What you're setting up
+
+Capture exceptions, logs, breadcrumbs, and user context in serverpod with Talaria.
+
+## Steps
+
+### 1. Errors
 
 `handleExceptionEvent` turns a Serverpod `ExceptionEvent` into `captureException` with mechanism `serverpod_diagnostic`. Register it from `diagnosticEventHandlers` as shown in the [quick setup](README.md). When the handler context is a `DiagnosticEventContext`, pass it as `context:` so the event keeps that session's trace and user.
 
@@ -43,7 +48,7 @@ try {
 }
 ```
 
-## Logs
+### 2. Logs
 
 Logs are the `talaria` methods.
 
@@ -54,7 +59,7 @@ await log.warning('Payment method missing');
 
 `minLevel: SeverityLevel.warning` drops info and debug.
 
-## Breadcrumbs
+### 3. Breadcrumbs
 
 The core buffer is scoped to the request. A diagnostic capture reads the crumbs for that session, not another request's zone. HTTP and database work add their own crumbs.
 
@@ -67,7 +72,7 @@ Talaria.addBreadcrumb(Breadcrumb(
 ));
 ```
 
-## Identity and context
+### 4. Identity and context
 
 Do not call `Talaria.setUser` for the authenticated caller. That setter is process-wide and would leak across concurrent requests. Bind the user to the session:
 
@@ -81,7 +86,11 @@ Tags that apply to the whole process belong in `TalariaOptions.tags` (`service`,
 
 Set `release` in init. Fingerprints are computed on the server. Call `await Talaria.flush()` on shutdown.
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [Serverpod SDK](README.md)
 - [Instrumentation and tracing](tracing.md)

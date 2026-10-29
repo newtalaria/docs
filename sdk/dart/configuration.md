@@ -21,26 +21,31 @@ order: 50
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # Dart configuration
 
-## Release
+## What you're setting up
+
+Release, sampling, analytics, and feature flags for the talaria package.
+
+## Steps
+
+### 1. Release
 
 Pass `release` as a version or git SHA through `--dart-define=APP_RELEASE=…` or your own environment. Local runs should still send one. Release health groups on that string.
 
-## API key and environment
+### 2. API key and environment
 
 The API key chooses the environment. Do not add an environment field to `TalariaOptions`. Compile the define into the binary you ship. A development key is for local runs. Restart after rotating a rejected key. The failure is cached for about 24 hours.
 
-## Sampling
+### 3. Sampling
 
 Successful traces follow the traces sample rate from Project settings. Error traces stay. A response with `retry: false` stops that signal until the process starts again.
 
-## Project settings
+### 4. Project settings
 
 Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Dart always fetches project configuration.
 
-## Analytics
+### 5. Analytics
 
 Enable Analytics in Project settings. This package has no consent-banner integration. `optIn` is the call that allows sending when you have already collected consent in the app. Server-side tools pass `userId` or `anonymousId` on the call.
 
@@ -55,7 +60,7 @@ await Talaria.analytics.track(
 
 `page` and `screen` are on the same client. See [Product analytics setup](../../features/analytics.md).
 
-## Feature flags
+### 6. Feature flags
 
 ```dart
 final on = await Talaria.flags.boolVariation('new-checkout', false);
@@ -63,15 +68,15 @@ final on = await Talaria.flags.boolVariation('new-checkout', false);
 
 `stringVariation` and `jsonVariation` take a key and a default. When you need local evaluation (a server that should not round-trip on every read), call `Talaria.flags.loadDefinitions()` once at startup. That requires `flags:definitions` on the API key. Mobile clients should stay on remote evaluate.
 
-## Privacy in events
+### 7. Privacy in events
 
 `setExtra` is a map of app metadata. Do not put tokens or raw queries there. `DbSpan` stores a sanitized statement, not bind values, when you pass SQL through it.
 
-## Verify
+## Check it worked
 
 `search_issues` with `environment: development` for a local key. `get_project_stats` analytics counts stay at 0 while analytics is off.
 
-## Related
+## Next steps
 
 - [Dart SDK](README.md)
 - [Instrumentation and tracing](tracing.md)

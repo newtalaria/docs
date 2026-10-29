@@ -22,12 +22,15 @@ order: 30
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # React instrumentation and tracing
+
+## What you're setting up
 
 `@newtalaria/react` uses the same automatic browser tracing as [`@newtalaria/browser`](../javascript/tracing.md): pageload, History navigation, fetch/XHR CLIENT spans, W3C `traceparent` on allowlisted origins, and web vitals as child spans of the pageload. Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Successful transactions follow the traces sample rate. Error transactions are always sent.
 
-## Profiler
+## Steps
+
+### 1. Profiler
 
 `Profiler` records a React commit as an INTERNAL span named `ui.react.<id>` when tracing is on. The span carries `ui.component_name` and `ui.render.duration_ms`.
 
@@ -41,7 +44,7 @@ import { Profiler } from '@newtalaria/react';
 
 `withProfiler(Component, 'Checkout')` wraps a component the same way.
 
-## React Router
+### 2. React Router
 
 `instrumentReactRouter` records v6/v7 navigations. `react-router` is a peer dependency. Call it once with the router you created:
 
@@ -53,11 +56,15 @@ const unsubscribe = instrumentReactRouter(router);
 
 The first location starts a navigation transaction. Each later location starts another, with that pathname as the name. Call `unsubscribe` if the router goes away.
 
-## Manual spans
+### 3. Manual spans
 
 `Talaria.startSpan` and `Talaria.startNavigation` are the browser methods. Use a manual span for a multi-step action (submit, wizard) so it is not parented by the short pageload transaction after that transaction has ended.
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [React SDK](README.md)
 - [Browser instrumentation](../javascript/tracing.md)

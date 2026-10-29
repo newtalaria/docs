@@ -22,14 +22,17 @@ order: 30
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # Serverpod instrumentation and tracing
+
+## What you're setting up
 
 Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Successful transactions follow the traces sample rate. Error transactions are always sent. Spans use the OpenTelemetry span model. Inbound and outbound HTTP use W3C `traceparent`.
 
 `interceptDatabase` is safe to register before `init`. It no-ops until a client exists and tracing is enabled.
 
-## Relic HTTP
+## Steps
+
+### 1. Relic HTTP
 
 `TalariaServerpod.attach` adds middleware on the API server and on the web server when that server exists. Each endpoint RPC and web route opens a SERVER span named `{METHOD} {route}`. An inbound `traceparent` is the parent. A streaming method keeps one SERVER span for the stream, not one per chunk.
 
@@ -37,13 +40,13 @@ A Flutter app using `Talaria.wrapHttpClient` continues into this span. The water
 
 These paths are skipped: ingest (`ingest` and `ingestBatch`), Insights, `/livez`, `/readyz`, `/startupz`, `/robots.txt`, `/favicon.ico`, and `/.well-known/`.
 
-## Postgres
+### 2. Postgres
 
 `databaseInterceptor: TalariaServerpod.interceptDatabase` wraps the session database. ORM queries and `unsafeQuery` become CLIENT spans with `db.system.name`. When raw SQL is available it is sanitized. Otherwise the span carries a stand-in such as `SELECT Product`. Bind values are not sent. Each repeated query is its own span, so an N+1 stays visible.
 
 FutureCalls with no HTTP span in scope get a CONSUMER transaction named `FutureCall.{name}`. That transaction is not adopted from another session.
 
-## Outbound HTTP
+### 3. Outbound HTTP
 
 `dart:io` `HttpClient` created after `TalariaServerpod.init` sends `traceparent` and records a CLIENT span while a request span is open. Ingest URLs are skipped.
 
@@ -57,7 +60,7 @@ final httpClient = Talaria.wrapHttpClient(http.Client());
 
 Never wrap the SDK ingest client.
 
-## Manual spans
+### 4. Manual spans
 
 Redis and other caches are opt-in.
 
@@ -75,7 +78,11 @@ try {
 }
 ```
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [Serverpod SDK](README.md)
 - [Errors, logs, and breadcrumbs](errors.md)

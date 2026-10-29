@@ -21,14 +21,17 @@ order: 30
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # Dart instrumentation and tracing
+
+## What you're setting up
 
 Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Successful transactions follow the traces sample rate. Error transactions are always sent. Spans use the OpenTelemetry span model. `wrapHttpClient` sets W3C `traceparent` on outbound requests.
 
 Do not pass a wrapped client in as the SDK's own ingest client.
 
-## Manual spans
+## Steps
+
+### 1. Manual spans
 
 ```dart
 final span = Talaria.startSpan('charge', kind: SpanKind.client);
@@ -48,7 +51,7 @@ try {
 
 `setRecordQuerySpans(false)` pauses query spans. `withoutQuerySpans` pauses them for one callback.
 
-## HTTP
+### 2. HTTP
 
 ```dart
 import 'package:http/http.dart' as http;
@@ -59,7 +62,7 @@ final response = await httpClient.get(Uri.parse('https://api.example.com/health'
 
 The wrapper records a CLIENT span and sets `traceparent` while a trace is active and tracing is on. Ingest URLs are skipped.
 
-## Database
+### 3. Database
 
 There is no automatic ORM hook in this package. Time a query with `DbSpan`:
 
@@ -75,7 +78,11 @@ await DbSpan.trace(
 
 The span is CLIENT, with `db.system.name` and a sanitized statement. A query breadcrumb is added. `DbSpan.traceOperation` is the same helper when you already know the operation and table and do not want to pass SQL.
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [Dart SDK](README.md)
 - [Errors, logs, and breadcrumbs](errors.md)
