@@ -48,18 +48,31 @@ The local and CI walkthrough is [Upload JavaScript source maps](../guides/upload
 
 ## Feature flags
 
-`GET https://ingest.newtalaria.com/v1/flags` with an API key that has the `flags:read` scope. Returns SDK flag definitions filtered by the key's environment.
+### Evaluate flags
+
+`GET https://ingest.newtalaria.com/v1/flags` evaluates flags using an API key with the `flags:evaluate` scope. Browser keys can have this scope.
 
 **Query parameters:**
 - `anonymousId` (optional) — Anonymous user identifier
 - `userId` (optional) — Authenticated user identifier
 - `organizationId` (optional) — Organization identifier
 - `attributes` (optional) — JSON-encoded string of additional targeting attributes
-- `keys` (optional) — Comma-separated list of flag keys to fetch (omit to fetch all)
+- `keys` (optional) — Comma-separated list of flag keys to evaluate (omit to evaluate all)
 
-**Response:** TODO(platform-234): response shape
+**Response:** `{"evaluations":[{"key","variationKey","valueJson","version","reason"}]}`
+- `key` — Flag key
+- `variationKey` — Variation key
+- `valueJson` — Value as JSON
+- `version` — Version
+- `reason` — Reason
 
-SDKs use this endpoint to fetch feature flag configuration at initialization.
+SDKs call this endpoint to evaluate flags.
+
+### Read definitions
+
+`GET https://ingest.newtalaria.com/v1/flags/definitions` returns flag definitions using an API key with the `flags:read` scope.
+
+**Response:** `{"flags":[…]}`
 
 Issues stay separate per environment because the fingerprint includes environment. Each issue stores that environment. A sibling key links the same failure across environments, and issue detail lists those other environments. Clients never send a fingerprint.
 

@@ -21,7 +21,7 @@ Feature flags let you control feature availability remotely without deploying ne
 
 ## Evaluating flags
 
-SDKs read flags using an API key with the `flags:read` scope. Evaluate flags with `boolVariation`, `stringVariation`, or `jsonVariation`:
+SDKs evaluate flags through `GET /v1/flags` using an API key with the `flags:evaluate` scope. Evaluate flags with `boolVariation`, `stringVariation`, or `jsonVariation`:
 
 ```javascript
 // JavaScript/React/Next.js
@@ -37,8 +37,8 @@ Pass a key and a default value. When the flag is off or undefined, the default i
 
 ## API key scopes
 
+- **`flags:evaluate`** — Evaluate flags (browser-safe)
 - **`flags:read`** — Read flag definitions
-- **`flags:evaluate`** — Evaluate flags server-side (optional)
 
 ## Full API contract
 
