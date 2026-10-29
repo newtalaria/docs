@@ -99,6 +99,7 @@ function buildManifest(): Manifest {
     }
     
     // Optional fields
+    if (fm.package) page.package = fm.package;
     if (fm.type) page.type = fm.type;
     if (fm.section) page.section = fm.section;
     if (fm.feature && Array.isArray(fm.feature) && fm.feature.length > 0) {
@@ -231,7 +232,6 @@ validateManifest(manifest);
 // Write manifest.yaml
 const yaml = stringifyYaml(manifest, {
   lineWidth: 0, // Don't wrap
-  defaultStringType: "QUOTE_DOUBLE",
 });
 
 writeFileSync(MANIFEST_PATH, yaml, "utf-8");
