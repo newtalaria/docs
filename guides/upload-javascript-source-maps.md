@@ -39,7 +39,7 @@ The release on the event and the release on the upload are the same string.
 ```js
 Talaria.init({
   url: 'https://ingest.newtalaria.com',
-  apiKey: process.env.NEXT_PUBLIC_TALARIA_API_KEY,
+  apiKey: process.env.NEXT_PUBLIC_TALARIA_BROWSER_API_KEY,
   release: process.env.NEXT_PUBLIC_TALARIA_RELEASE,
 })
 ```
