@@ -358,10 +358,11 @@ function checkUnresolvedTemplates(label: string, content: string): void {
   }
 }
 
-function githubSlug(heading: string): string {
+function headingSlug(heading: string): string {
   return heading
     .trim()
     .toLowerCase()
+    .replace(/^\d+\.\s+/, "")
     .replace(/<[^>]+>/g, "")
     .replace(/[^\w\s-]/g, "")
     .replace(/\s+/g, "-")
@@ -374,7 +375,7 @@ function headingAnchors(body: string): Set<string> {
   const counts = new Map<string, number>();
   const anchors = new Set<string>();
   for (const match of withoutFences.matchAll(/^#{1,6}\s+(.+)$/gm)) {
-    const base = githubSlug(match[1]);
+    const base = headingSlug(match[1]);
     if (!base) continue;
     const seen = counts.get(base) ?? 0;
     counts.set(base, seen + 1);
@@ -393,7 +394,7 @@ function checkLinks(pages: PageFile[]): void {
   const pathMap = new Set<string>();
   const anchorsByPath = new Map<string, Set<string>>();
   
-  // Build map of valid paths and heading anchors (GitHub slug rules).
+  // Build map of valid paths and heading anchors (headingSlug, including the step-number strip).
   for (const page of pages) {
     pathMap.add(page.relativePath);
     pathMap.add(page.relativePath.replace(/\.md$/, ""));

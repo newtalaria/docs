@@ -36,7 +36,7 @@ const on = await Talaria.flags.boolVariation('new-checkout', false);
 final on = await Talaria.flags.boolVariation('new-checkout', false);
 ```
 
-Pass a key and a default value. When the flag is off or undefined, the default is returned. See the [JavaScript SDK configuration](../sdk/javascript/configuration.md#5-feature-flags) and [Flutter SDK configuration](../sdk/flutter/configuration.md#6-feature-flags) pages for full code examples.
+Pass a key and a default value. When the flag is off or undefined, the default is returned. See the [JavaScript SDK configuration](../sdk/javascript/configuration.md#feature-flags) and [Flutter SDK configuration](../sdk/flutter/configuration.md#feature-flags) pages for full code examples.
 
 ## Use it with an agent
 
