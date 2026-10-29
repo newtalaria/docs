@@ -319,10 +319,10 @@ function checkTaskPageH2Order(pages: PageFile[]): void {
   ];
   
   for (const page of pages) {
-    // Task pages are guides in deploy-ci, guides, agents sections, or quickstarts/guides in platforms
+    // Task pages are guides in deploy, guides, agents sections, or quickstarts/guides in platforms
     const isTaskPage = 
       (page.frontmatter.section === "guides" && page.frontmatter.type === "guide") ||
-      (page.frontmatter.section === "deploy-ci" && page.frontmatter.type === "guide") ||
+      (page.frontmatter.section === "deploy" && page.frontmatter.type === "guide") ||
       (page.frontmatter.section === "agents" && (page.frontmatter.type === "guide" || page.frontmatter.type === "quickstart")) ||
       (page.frontmatter.section === "platforms" && (page.frontmatter.type === "quickstart" || page.frontmatter.type === "guide"));
     
