@@ -61,7 +61,7 @@ See [Product analytics setup](../../features/analytics.md).
 
 ### 6. Feature flags
 
-Prefer local definitions so a mid-request read does not wait on the network. The API key needs `flags:definitions`.
+Prefer local definitions so a mid-request read does not wait on the network. The API key needs `flags:read`. `GET /v1/flags` accepts a secret key only.
 
 ```dart
 await TalariaServerpodFlags.ensureLocalDefinitions();

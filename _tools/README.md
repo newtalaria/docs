@@ -124,7 +124,7 @@ npm run validate
 ✅ Registries valid  
 ❌ Pages missing frontmatter (expected - no file moves yet)
 
-All pages currently fail validation because they lack required frontmatter fields (`id`, `type`, `section`, `lastReviewed`, `owner`). This is expected and will be fixed during the IA migration when frontmatter is added to every page.
+All pages currently fail validation because they lack required frontmatter fields (`id`, `type`, `section`, `lastReviewed`, `owner`). Add that frontmatter on each page before it can pass.
 
 ## PM decisions reflected
 

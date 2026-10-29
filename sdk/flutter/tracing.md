@@ -30,7 +30,7 @@ Turn **Tracing** on in [Project settings](../../get-started/project-settings.md)
 ```dart
 await TalariaFlutter.init(TalariaOptions(
   apiKey: const String.fromEnvironment('TALARIA_BROWSER_API_KEY'),
-  release: const String.fromEnvironment('APP_RELEASE'),
+  release: const String.fromEnvironment('TALARIA_RELEASE'),
 ));
 ```
 
@@ -77,7 +77,7 @@ Error events from Flutter hooks attach `traceId` and `spanId` when a screen or H
 ```bash
 flutter run \
   --dart-define=TALARIA_BROWSER_API_KEY=tal_pk_prod_nz1_… \
-  --dart-define=APP_RELEASE=1.4.2+42
+  --dart-define=TALARIA_RELEASE=1.4.2+42
 ```
 
 The API key decides the environment. Give each flavor its own key so those issues stay separate. Set `release` from the build number or commit SHA.

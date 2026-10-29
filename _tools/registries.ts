@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse as parseYaml } from "yaml";
 import { z } from "zod";
@@ -10,7 +10,7 @@ const baseEntry = z.object({
   id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   label: z.string().min(1),
   icon: z.string().optional(),
-  status: z.enum(["stable", "beta", "preview", "deprecated", "hidden"]).default("stable"),
+  status: z.enum(["stable", "beta", "preview", "deprecated", "hidden", "unpublished"]).default("stable"),
   order: z.number().int().min(0),
 });
 
@@ -198,6 +198,12 @@ const pageTemplatesSchema = z.object({
   }),
 });
 
+const snippetSchema = z.object({
+  id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  path: z.string().regex(/^_snippets\/.+\.md$/),
+  platform: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).optional(),
+});
+
 function loadYaml<T>(filename: string, schema: z.ZodType<T>): T {
   const path = join(REGISTRY_DIR, filename);
   try {
@@ -233,6 +239,7 @@ export interface Registries {
   dashboardSurfaces: z.infer<typeof dashboardSurfaceSchema>[];
   keyScopes: z.infer<typeof keyScopeSchema>[];
   pageTemplates: z.infer<typeof pageTemplatesSchema>;
+  snippets: { id: string; path: string; platform?: string }[];
   mcpTools: { name: string }[];  // Stub for validation; full schema in phase 2
 }
 
@@ -266,6 +273,7 @@ export function loadRegistries(): Registries {
     dashboardSurfaces: loadYaml("dashboard-surfaces.yaml", z.array(dashboardSurfaceSchema)),
     keyScopes: loadYaml("key-scopes.yaml", z.array(keyScopeSchema)),
     pageTemplates: loadYaml("page-templates.yaml", pageTemplatesSchema),
+    snippets: loadYaml("snippets.yaml", z.array(snippetSchema)),
     mcpTools: [],  // Stub: populated from _data/mcp-tools.json in phase 2
   };
 }
@@ -341,6 +349,20 @@ export function validateRegistries(reg: Registries): void {
   checkConformanceRule(reg.ciProviders, "CI provider");
   checkConformanceRule(reg.hosts, "Host");
   checkConformanceRule(reg.otelSources, "OTEL source");
+
+  const docsRoot = join(REGISTRY_DIR, "..");
+  const snippetKeys = new Set<string>();
+  const snippetPaths = new Set<string>();
+  for (const snippet of reg.snippets) {
+    const key = snippet.platform ? `${snippet.id}:${snippet.platform}` : snippet.id;
+    if (snippetKeys.has(key)) errors.push(`Duplicate snippet id: ${key}`);
+    snippetKeys.add(key);
+    if (snippetPaths.has(snippet.path)) errors.push(`Duplicate snippet path: ${snippet.path}`);
+    snippetPaths.add(snippet.path);
+    if (!existsSync(join(docsRoot, snippet.path))) {
+      errors.push(`Snippet ${key} is missing ${snippet.path}`);
+    }
+  }
 
   if (errors.length > 0) {
     console.error("\n❌ Registry validation failed:");

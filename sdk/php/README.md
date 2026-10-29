@@ -22,9 +22,32 @@ owner: docs
 
 # PHP SDK
 
-`talaria/talaria` (2.0.0) is the framework-agnostic PHP client. Laravel and Silverstripe apps should use those adapters instead of calling `Talaria::init` themselves.
+## What you're setting up
 
-## Quick setup
+`talaria/talaria` (2.0.0) is the framework-agnostic PHP client.
+
+**What you can do**
+
+| Capability | Where |
+| --- | --- |
+| Exceptions, PSR-3 logs, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
+| Incoming HTTP, PSR-15, Guzzle, PDO, mysqli, and Redis | [Instrumentation and tracing](tracing.md) |
+| Analytics and feature flags | [Best practices](configuration.md) |
+| Move between package versions | [Upgrade](upgrade.md) |
+
+Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Framework wiring lives in [Laravel](../laravel/README.md) and [Silverstripe](../silverstripe/README.md).
+
+## Why use this
+
+Laravel and Silverstripe apps should use those adapters instead of calling `Talaria::init` themselves.
+
+## Before you start
+
+PHP 8.1 or newer.
+
+## Steps
+
+### 1. Quick setup
 
 ```bash
 composer require talaria/talaria
@@ -52,26 +75,13 @@ Talaria::flush();
 
 The key decides the environment. This SDK logs one warning when the key is a publishable `tal_pk_` key; use a secret `tal_sk_` key on the server. Do not pass `environment`. Confirm with MCP `search_issues` and `environment: development`. `flush()` matters in a short-lived CLI process. A web SAPI flushes on shutdown.
 
-## What you can do
-
-| Capability | Where |
-| --- | --- |
-| Exceptions, PSR-3 logs, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
-| Incoming HTTP, PSR-15, Guzzle, PDO, mysqli, and Redis | [Instrumentation and tracing](tracing.md) |
-| Analytics and feature flags | [Best practices](configuration.md) |
-| Move between package versions | [Upgrade](upgrade.md) |
-
-Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Framework wiring lives in [Laravel](../laravel/README.md) and [Silverstripe](../silverstripe/README.md).
-
-## Install
-
-PHP 8.1 or newer.
+### 2. Install
 
 ```bash
 composer require talaria/talaria
 ```
 
-## Initialization
+### 3. Initialization
 
 ```php
 Talaria::init([
@@ -85,15 +95,15 @@ Talaria::init([
 
 A second `init` is ignored. Uncaught errors are captured while default integrations are on (the default). Pass `'defaultIntegrations' => false` when an adapter installs its own handler.
 
-## App init vs Project settings
+### 4. App init vs Project settings
 
 Init holds the URL, API key, release, minimum level, and tags. Tracing, analytics, and feature flags turn on from Project settings after fetching project configuration. Init values for those switches are not what the process uses. Set `'remoteConfig' => false` only when this process should send errors and skip that fetch.
 
-## API key
+### 5. API key
 
 `TALARIA_API_KEY` is a `tal_sk_prod_nz1_…` key. It is safe to load from the environment. The server stamps the key's environment on ingest. Use a development key locally and a production key on the deployed app. Send `release` as a version or SHA, including for local runs.
 
-## Verification
+## Check it worked
 
 `Talaria::captureException($e)` then `Talaria::flush()`. MCP `search_issues` with `environment: development`.
 
@@ -101,7 +111,7 @@ Init holds the URL, API key, release, minimum level, and tags. Tracing, analytic
 
 Confirm the env vars are loaded in the SAPI you are running (FPM and CLI do not share a shell). A rejected key is cached for about 24 hours. Restart PHP after rotating it. Spans stay empty until tracing is on in Project settings.
 
-## Related docs
+## Next steps
 
 - [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)

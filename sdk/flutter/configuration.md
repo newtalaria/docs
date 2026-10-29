@@ -34,7 +34,7 @@ Release, sampling, analytics, feature flags, and screen heatmap consent for tala
 
 ### 1. Release
 
-Pass `APP_RELEASE` as the build name and number (`1.4.2+42`) or the git SHA. Each flavor can share the version and still use its own API key so development and production stay apart.
+Pass `TALARIA_RELEASE` as the build name and number (`1.4.2+42`) or the git SHA. Each flavor can share the version and still use its own API key so development and production stay apart.
 
 ### 2. API key and environment
 

@@ -30,7 +30,13 @@ The field `url` from a Cursor file does not connect. Talaria's published remote-
 
 ## Before you start
 
-Create a personal token from **Workspace › Integrations**. Never send an API key or a monitor token to MCP.
+Create a personal token from **Workspace › Integrations**.
+
+<!-- snippet: api-key-warning -->
+> [!WARNING]
+> MCP uses OAuth or a personal token. API keys, publishable (`tal_pk_…`) or secret (`tal_sk_…`), never work on `/mcp`.
+<!-- /snippet -->
+Never send a monitor token to MCP.
 
 ## Steps
 
@@ -56,7 +62,7 @@ Create a personal token from **Workspace › Integrations**. Never send an API k
 
 The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`.
 
-Config values in `serverUrl` and `headers` can interpolate `${env:TALARIA_MCP_TOKEN}` so the token stays out of the file.
+Config values in `serverUrl` and `headers` can interpolate `${env:NAME}` so the token stays out of the file.
 
 Local API: `http://{{mcpUrl}}/mcp`.
 

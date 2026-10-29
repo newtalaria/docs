@@ -18,7 +18,7 @@ owner: docs
 
 A monitor is a schedule Talaria expects to hear from. A cron line, a Kubernetes CronJob, or the SiteHost probe sends `in_progress`, then `ok` or `error`. When the slot plus its margin passes with no `ok`, Talaria opens one issue.
 
-Check-ins use a project API key with the `monitors:write` scope, or a per-monitor token. The monitor token is for a crontab that must not contain the API key.
+`POST /v1/monitors/{slug}/check-ins` needs a **secret key** with `monitors:write`. `POST /v1/check-ins` needs a monitor token (`tal_mon_`). The monitor token is for a crontab that must not contain the secret key.
 
 ## Check in from PHP
 
@@ -36,7 +36,7 @@ Talaria::monitor('process-job-queue', [
 
 ## Check in from cron
 
-Register the schedule once with the API key. The response includes `monitorToken` a single time. Store it outside the repository.
+Register the schedule once with `POST /v1/monitors/{slug}/check-ins` and a **secret key** that has `monitors:write`. The response includes `monitorToken` (`tal_mon_`) a single time. Store it outside the repository. Cron check-ins then use `POST /v1/check-ins` with that monitor token.
 
 ```bash
 curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
@@ -45,22 +45,7 @@ curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
   -d '{"status":"ok"}'
 ```
 
-`status` is `in_progress`, `ok`, or `error`. Optional fields are `runId`, `durationSeconds`, and `logTail`.
-
-### Rotating a monitor token
-
-To rotate a monitor token, include `"rotateMonitorToken": true` in the check-in request body. Works on both routes:
-- `POST /v1/check-ins` with `Authorization: Bearer` header
-- `POST /v1/monitors/{slug}/check-ins` with an API key
-
-```bash
-curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
-  -H "Authorization: Bearer $TALARIA_MONITOR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"status":"ok","rotateMonitorToken":true}'
-```
-
-The response includes the new token (`tal_mon_...`) **only once**. Store it immediately—the old token stops working after rotation. If the response is lost, create a new monitor or use the API key route with `rotateMonitorToken: true` to mint another token.
+`status` is `in_progress`, `ok`, or `error`. Optional fields are `runId`, `durationSeconds`, and `logTail`. `POST /v1/check-ins` needs a monitor token (`tal_mon_`). `POST /v1/monitors/{slug}/check-ins` needs a **secret key** with `monitors:write`.
 
 The SiteHost deploy action writes these lines when the app contains `talaria/monitors.yaml`:
 

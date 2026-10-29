@@ -30,7 +30,13 @@ This shape is Cursor's. Claude Code, VS Code, Codex, Gemini CLI, and Windsurf ea
 
 ## Before you start
 
-Cursor requests `tools/list`, receives HTTP 401, and opens consent. Sign in to Talaria if needed, then allow install scopes (`mcp:read mcp:write mcp:keys`). A personal token from **Workspace › Integrations** is the fallback when OAuth stalls. Never send an API key or a monitor token to MCP.
+Cursor requests `tools/list`, receives HTTP 401, and opens consent. Sign in to Talaria if needed, then allow install scopes (`mcp:read mcp:write mcp:keys`). A personal token from **Workspace › Integrations** is the fallback when OAuth stalls.
+
+<!-- snippet: api-key-warning -->
+> [!WARNING]
+> MCP uses OAuth or a personal token. API keys, publishable (`tal_pk_…`) or secret (`tal_sk_…`), never work on `/mcp`.
+<!-- /snippet -->
+Never send a monitor token to MCP.
 
 ## Steps
 
@@ -100,7 +106,13 @@ After approve you should see the full tool catalogue (not only `get_doc, list_do
    }
    ```
 
-3. The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never send an API key or a monitor token to MCP.
+3. The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`.
+
+<!-- snippet: api-key-warning -->
+> [!WARNING]
+> MCP uses OAuth or a personal token. API keys, publishable (`tal_pk_…`) or secret (`tal_sk_…`), never work on `/mcp`.
+<!-- /snippet -->
+Never send a monitor token to MCP.
 
 ## Next steps
 

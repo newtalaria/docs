@@ -30,7 +30,13 @@ Do not paste the dashboard **Copy Cursor mcp.json** snippet here: that file uses
 
 ## Before you start
 
-Gemini CLI can complete OAuth for a remote HTTP server. Sign in to Talaria and allow install scopes (`mcp:read mcp:write mcp:keys`) when a browser opens. A personal token from **Workspace › Integrations** is the fallback when OAuth stalls. Never send an API key or a monitor token to MCP.
+Gemini CLI can complete OAuth for a remote HTTP server. Sign in to Talaria and allow install scopes (`mcp:read mcp:write mcp:keys`) when a browser opens. A personal token from **Workspace › Integrations** is the fallback when OAuth stalls.
+
+<!-- snippet: api-key-warning -->
+> [!WARNING]
+> MCP uses OAuth or a personal token. API keys, publishable (`tal_pk_…`) or secret (`tal_sk_…`), never work on `/mcp`.
+<!-- /snippet -->
+Never send a monitor token to MCP.
 
 ## Steps
 
@@ -86,7 +92,13 @@ gemini mcp add --transport http --header "Authorization: Bearer YOUR_TOKEN" Tala
 }
 ```
 
-The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never send an API key or a monitor token to MCP.
+The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`.
+
+<!-- snippet: api-key-warning -->
+> [!WARNING]
+> MCP uses OAuth or a personal token. API keys, publishable (`tal_pk_…`) or secret (`tal_sk_…`), never work on `/mcp`.
+<!-- /snippet -->
+Never send a monitor token to MCP.
 
 ## Next steps
 

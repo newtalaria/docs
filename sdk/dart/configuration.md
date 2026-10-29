@@ -31,7 +31,7 @@ Release, sampling, analytics, and feature flags for the talaria package.
 
 ### 1. Release
 
-Pass `release` as a version or git SHA through `--dart-define=APP_RELEASE=…` or your own environment. Local runs should still send one. Release health groups on that string.
+Pass `release` as a version or git SHA through `--dart-define=TALARIA_RELEASE=…` or your own environment. Local runs should still send one. Release health groups on that string.
 
 ### 2. API key and environment
 
@@ -66,7 +66,7 @@ await Talaria.analytics.track(
 final on = await Talaria.flags.boolVariation('new-checkout', false);
 ```
 
-`stringVariation` and `jsonVariation` take a key and a default. When you need local evaluation (a server that should not round-trip on every read), call `Talaria.flags.loadDefinitions()` once at startup. That requires `flags:definitions` on the API key. Mobile clients should stay on remote evaluate.
+`stringVariation` and `jsonVariation` take a key and a default. When you need local evaluation (a server that should not round-trip on every read), call `Talaria.flags.loadDefinitions()` once at startup. That requires `flags:read` on a secret key. Mobile clients should stay on remote evaluate.
 
 ### 7. Privacy in events
 

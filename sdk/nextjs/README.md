@@ -23,6 +23,8 @@ owner: docs
 
 # Next.js SDK
 
+## What you're setting up
+
 `@newtalaria/nextjs` (0.5.3) has three runtimes. Import the subpath for the runtime you are in.
 
 | Runtime | Import |
@@ -32,9 +34,28 @@ owner: docs
 | Edge | `@newtalaria/nextjs/edge` |
 | `next.config` | `@newtalaria/nextjs/config` |
 
+**What you can do**
+
+| Capability | Where |
+| --- | --- |
+| Client and server capture. Edge captures exceptions and messages | [Errors, logs, and breadcrumbs](errors.md) |
+| Client browser spans, server actions, route handlers, outgoing HTTP | [Instrumentation and tracing](tracing.md) |
+| Client analytics, flags, replay, heatmaps, and consent. Server analytics and flags | [Best practices](configuration.md) |
+| Client source maps | [Upload JavaScript source maps](../../guides/upload-javascript-source-maps.md) |
+
+Edge has a scope and breadcrumbs and does not open spans, read project config, or send analytics. Client replay, heatmaps, web vitals, and consent run in the browser.
+
+## Why use this
+
 The package root re-exports the client. Prefer the explicit subpath.
 
-## Quick setup
+## Before you start
+
+Do not pass `environment` in init.
+
+## Steps
+
+### 1. Quick setup
 
 ```bash
 npm install @newtalaria/nextjs
@@ -86,38 +107,27 @@ export default withTalariaConfig({
 
 Send a client exception and confirm with `search_issues` and `environment: development`.
 
-## What you can do
-
-| Capability | Where |
-| --- | --- |
-| Client and server capture. Edge captures exceptions and messages | [Errors, logs, and breadcrumbs](errors.md) |
-| Client browser spans, server actions, route handlers, outgoing HTTP | [Instrumentation and tracing](tracing.md) |
-| Client analytics, flags, replay, heatmaps, and consent. Server analytics and flags | [Best practices](configuration.md) |
-| Client source maps | [Upload JavaScript source maps](../../guides/upload-javascript-source-maps.md) |
-
-Edge has a scope and breadcrumbs and does not open spans, read project config, or send analytics. Client replay, heatmaps, web vitals, and consent run in the browser.
-
-## Install
+### 2. Install
 
 ```bash
 npm install @newtalaria/nextjs
 ```
 
-## Initialization
+### 3. Initialization
 
 Call `initClient` from `instrumentation-client.ts`, `initServer` from the Node branch of `instrumentation.ts`, and `initEdge` from the edge branch. Use a publishable key (`NEXT_PUBLIC_TALARIA_BROWSER_API_KEY`) on the client and a secret key (`TALARIA_API_KEY`) in Node and Edge. Each key's environment is what events from that runtime report.
 
 `withTalariaConfig` sets server externals so `@newtalaria/node` is not bundled into the browser. It does not upload source maps. Upload those with `@newtalaria/cli` for the same `release` as `initClient`.
 
-## App init vs Project settings
+### 4. App init vs Project settings
 
 Client and server load tracing, analytics, heatmaps, and replay from [Project settings](../../get-started/project-settings.md). Edge does not fetch that document. Set `remoteConfig: false` on the client or server only when that runtime should send errors without the document.
 
-## API key
+### 5. API key
 
-Do not pass `environment` in init. A local `setup_project` key is a development key. Production traffic needs a production key. Send `release` as a version or SHA.
+A local `setup_project` key is a development key. Production traffic needs a production key. Send `release` as a version or SHA.
 
-## Verification
+## Check it worked
 
 Throw in a client component and in a server action you wrapped with `withServerAction`. `search_issues` with `environment: development` should show both.
 
@@ -125,7 +135,7 @@ Throw in a client component and in a server action you wrapped with `withServerA
 
 A rejected key is cached for about 24 hours. Reload the page or restart the server after rotating it. Server spans stay empty until tracing is on in Project settings and `initServer` has run.
 
-## Related docs
+## Next steps
 
 - [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)

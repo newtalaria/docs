@@ -1,11 +1,12 @@
 # CI provider registry for Deploy & CI section
 # Awaiting UX's updated paths - do not create pages yet
 
+# Unpublished until deploy/ci/github-actions.md exists.
 - id: github-actions
   label: GitHub Actions
   icon: Github
   summary: Set release, upload source maps, and store API keys in GitHub Actions.
-  status: stable
+  status: unpublished
   order: 10
 
 - id: gitlab-ci

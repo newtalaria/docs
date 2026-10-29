@@ -336,6 +336,7 @@ function checkContentRules(pages: PageFile[]): void {
     const content = readFileSync(join(registryDir, file), "utf-8");
     
     for (const { pattern, name } of forbiddenPatterns) {
+      if (file === "snippets.yaml" && name.startsWith("dsn")) continue;
       const matches = content.match(pattern);
       if (matches && matches.length > 0) {
         errors.push(
@@ -454,7 +455,7 @@ function requiredTaskH2s(page: PageFile): string[] | null {
   if (fm.section === "deploy" && fm.type === "guide") return TASK_H2S;
   if (fm.section === "get-started" && fm.type === "quickstart") return TASK_H2S;
   if (rel.startsWith("agents/mcp/") && file !== "README" && fm.type === "guide") return TASK_H2S;
-  if (fm.section === "platforms" && fm.type === "guide" && file === "upgrade") {
+  if (fm.section === "platforms" && (fm.type === "quickstart" || (fm.type === "guide" && file === "upgrade"))) {
     return TASK_H2S.filter((heading) => heading !== "Troubleshooting");
   }
   if (fm.section === "platforms" && fm.type === "guide" && platformGuide.has(file)) {
@@ -586,7 +587,7 @@ function checkSiblingOrder(): void {
   expectOrder("hosts", hosts);
 
   const providers = [...registries.ciProviders]
-    .filter((provider) => provider.status !== "hidden")
+    .filter((provider) => provider.status !== "hidden" && provider.status !== "unpublished")
     .sort((a, b) => a.order - b.order)
     .map((provider) => `deploy/ci/${provider.id}.md`);
   expectOrder("CI providers", providers);

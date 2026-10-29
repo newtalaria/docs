@@ -59,7 +59,7 @@ await Talaria.captureMessage(
 await runZonedTalaria(() async {
   await Talaria.init(TalariaOptions(
     apiKey: const String.fromEnvironment('TALARIA_BROWSER_API_KEY'),
-    release: const String.fromEnvironment('APP_RELEASE'),
+    release: const String.fromEnvironment('TALARIA_RELEASE'),
   ));
   await runAppWork();
 });

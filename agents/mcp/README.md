@@ -19,7 +19,13 @@ owner: docs
 
 # MCP
 
-Hosted MCP at `https://api.newtalaria.com/mcp` (local: `http://{{mcpUrl}}/mcp`). Transport is Streamable HTTP. Auth is OAuth (the client discovers `/.well-known/oauth-protected-resource`, registers at `/oauth/register`, and you approve consent) or a personal token from **Workspace › Integrations**. Install scopes are `mcp:read mcp:write mcp:keys`. A personal token lasts 30 days, 90 days, or until you revoke it. It is opaque base64url JSON (one segment, not a three-part JWT). Never send an API key or a monitor token to MCP.
+Hosted MCP at `https://api.newtalaria.com/mcp` (local: `http://{{mcpUrl}}/mcp`). Transport is Streamable HTTP. Auth is OAuth (the client discovers `/.well-known/oauth-protected-resource`, registers at `/oauth/register`, and you approve consent) or a personal token from **Workspace › Integrations**. Install scopes are `mcp:read mcp:write mcp:keys`. A personal token lasts 30 days, 90 days, or until you revoke it. It is opaque base64url JSON (one segment, not a three-part JWT).
+
+<!-- snippet: api-key-warning -->
+> [!WARNING]
+> MCP uses OAuth or a personal token. API keys, publishable (`tal_pk_…`) or secret (`tal_sk_…`), never work on `/mcp`.
+<!-- /snippet -->
+Never send a monitor token to MCP.
 
 `tools/list` requires a grant. `get_doc, list_docs, and search_docs` tools/call still work without auth when called by name. After connect, call `get_connection` before mutating.
 
@@ -29,12 +35,13 @@ The dashboard button **Copy Cursor mcp.json** is the Cursor file. Other clients 
 
 | Client | Config key | Page |
 | ------ | ---------- | ---- |
-| Grok Bot | Custom Add MCP chat prompt or marketplace handle `talaria` | [Grok Bot](grok-bot.md) |
 | Cursor | `mcpServers` → `url` | [Cursor](cursor.md) |
-| Claude Code | `mcpServers` → `type: http` + `url` | [Claude Code](claude-code.md) |
+| Grok Bot | Custom Add MCP chat prompt or marketplace handle `talaria` | [Grok Bot](grok-bot.md) |
 | VS Code | `servers` → `type: http` + `url` | [VS Code](vscode.md) |
-| Codex | `[mcp_servers.Talaria]` → `url` | [Codex](codex.md) |
+| Copilot CLI | `copilot plugin install` | No guide yet |
+| Claude Code | `mcpServers` → `type: http` + `url` | [Claude Code](claude-code.md) |
 | Gemini CLI | `mcpServers` → `httpUrl` | [Gemini CLI](gemini-cli.md) |
+| Codex | `[mcp_servers.Talaria]` → `url` | [Codex](codex.md) |
 | Windsurf | `mcpServers` → `serverUrl` | [Windsurf](windsurf.md) |
 
 ## Agent skills

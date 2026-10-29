@@ -23,9 +23,32 @@ owner: docs
 
 # React SDK
 
+## What you're setting up
+
 `@newtalaria/react` (0.5.3) re-exports `@newtalaria/browser` and adds an error boundary, the React 19 error handler, a Profiler, and a React Router helper.
 
-## Quick setup
+**What you can do**
+
+| Capability | Where |
+| --- | --- |
+| Browser errors plus `ErrorBoundary` and the React 19 handler | [Errors, logs, and breadcrumbs](errors.md) |
+| Browser spans, Profiler commits, and React Router | [Instrumentation and tracing](tracing.md) |
+| Analytics, feature flags, session replay, heatmaps, and consent | [Best practices](configuration.md) |
+| Source maps | [JavaScript source maps](../javascript/../../guides/upload-javascript-source-maps.md) |
+
+Logs, breadcrumbs, identity, web vitals, replay, and heatmaps are the browser SDK. Tracing and the other product signals follow [Project configuration](../../get-started/project-settings.md).
+
+## Why use this
+
+Install the Talaria react SDK and capture errors, logs, and traces from your react application.
+
+## Before you start
+
+Pass the key from the build, not from a Node `process.env` read at runtime in the browser.
+
+## Steps
+
+### 1. Quick setup
 
 ```bash
 npm install @newtalaria/react
@@ -55,24 +78,13 @@ import { ErrorBoundary } from '@newtalaria/react';
 
 Confirm with MCP `search_issues` and `environment: development`.
 
-## What you can do
-
-| Capability | Where |
-| --- | --- |
-| Browser errors plus `ErrorBoundary` and the React 19 handler | [Errors, logs, and breadcrumbs](errors.md) |
-| Browser spans, Profiler commits, and React Router | [Instrumentation and tracing](tracing.md) |
-| Analytics, feature flags, session replay, heatmaps, and consent | [Best practices](configuration.md) |
-| Source maps | [JavaScript source maps](../javascript/../../guides/upload-javascript-source-maps.md) |
-
-Logs, breadcrumbs, identity, web vitals, replay, and heatmaps are the browser SDK. Tracing and the other product signals follow [Project configuration](../../get-started/project-settings.md).
-
-## Install
+### 2. Install
 
 ```bash
 npm install @newtalaria/react
 ```
 
-## Initialization
+### 3. Initialization
 
 ```javascript
 import { Talaria } from '@newtalaria/react';
@@ -84,18 +96,18 @@ Talaria.init({
 });
 ```
 
-## App init vs Project settings
+### 4. App init vs Project settings
 
 Init holds `url`, `apiKey`, `release`, and `minLevel`. The API key decides the environment. Tracing, analytics, heatmaps, and session replay follow Project settings. Set `remoteConfig: false` only when you want errors without fetching that document.
 
-## API key
+### 5. API key
 
-Pass the key from the build, not from a Node `process.env` read at runtime in the browser. A development key is what `setup_project` returns. A deployed app that should report production uses a production key. Send `release` as a version or SHA, and upload source maps for that same release.
+A development key is what `setup_project` returns. A deployed app that should report production uses a production key. Send `release` as a version or SHA, and upload source maps for that same release.
 
 > [!CAUTION]
 > When using Vite, use `VITE_TALARIA_BROWSER_API_KEY` for browser code. **Never** use `VITE_TALARIA_API_KEY` or `VITE_TALARIA_RELEASE_KEY`—server keys must not carry a public prefix. For server code, use the unprefixed variables.
 
-## Verification
+## Check it worked
 
 Trigger a render error inside `ErrorBoundary`, or call `Talaria.captureException`. Look in Issues, or call `search_issues` with `environment: development`.
 
@@ -103,7 +115,7 @@ Trigger a render error inside `ErrorBoundary`, or call `Talaria.captureException
 
 A rejected key is cached for about 24 hours. Reload after you rotate it. Profiler spans and replay stay empty until Project settings allow them.
 
-## Related docs
+## Next steps
 
 - [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
