@@ -214,8 +214,9 @@ export function frontmatterSchema(reg: Registries) {
       }
 
       if (fm.section === "deploy-ci") {
-        const ciHost = (fm.ci?.length || 0) + (fm.host?.length || 0);
-        if (fm.type === "guide" && ciHost !== 1) {
+        const ciCount = fm.ci?.length || 0;
+        const hostCount = fm.host ? 1 : 0;
+        if (fm.type === "guide" && (ciCount + hostCount) !== 1) {
           fail("Deploy pages name exactly one CI provider or one host", "ci");
         }
       }
