@@ -99,10 +99,10 @@
   productHref: /product
   page: false
   mcpTools:
-    - list_flags
-    - get_flag
-    - set_flag
-    - delete_flag
+    - list_feature_flags
+    - get_feature_flag
+    - set_feature_flag_off
+    - set_feature_flag_percent
   status: stable
   order: 70
 

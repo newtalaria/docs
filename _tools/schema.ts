@@ -132,8 +132,8 @@ export function frontmatterSchema(reg: Registries) {
         fail("Feature pages document exactly one feature", "feature");
       }
 
-      if (fm.section === "deploy-ci") {
-        // Deploy & CI pages must have either ci or host
+      if (fm.section === "deploy" && fm.type === "guide") {
+        // Deploy & CI guide pages must have either ci or host
         if (!fm.ci && !fm.host) {
           fail("Deploy & CI pages must set either ci or host", "ci");
         }

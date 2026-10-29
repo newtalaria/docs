@@ -18,6 +18,6 @@ Deploy OpenTelemetry collectors and integrate Talaria with your CI pipeline:
 ## Hosts & runtimes
 
 - **[Kubernetes](./hosts/kubernetes.md)** — Deploy the OpenTelemetry Collector on Kubernetes to send traces, logs, and metrics to Talaria
-- **[SiteHost](./hosts/sitehost.md)** — Monitor cron jobs and scheduled tasks on SiteHost hosting
+- **[SiteHost](./hosts/sitehost.md)** — Tail container logs and run supervisord health checks on SiteHost PHP hosting
 
 Browse the deployment guides for platform-specific instructions.

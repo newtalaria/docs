@@ -46,8 +46,8 @@ Client (`instrumentation-client.ts`). `NEXT_PUBLIC_` values are inlined into the
 import { initClient } from '@newtalaria/nextjs/client';
 
 initClient({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: process.env.NEXT_PUBLIC_TALARIA_API_KEY,
+  url: process.env.NEXT_PUBLIC_TALARIA_URL,
+  apiKey: process.env.NEXT_PUBLIC_TALARIA_BROWSER_API_KEY,
   release: process.env.NEXT_PUBLIC_TALARIA_RELEASE,
   minLevel: 'warning',
 });
@@ -104,7 +104,7 @@ npm install @newtalaria/nextjs
 
 ## Initialization
 
-Call `initClient` from `instrumentation-client.ts`, `initServer` from the Node branch of `instrumentation.ts`, and `initEdge` from the edge branch. Use a browser key (`NEXT_PUBLIC_TALARIA_API_KEY`) on the client and a server key (`TALARIA_API_KEY`) in Node and Edge. They can be the same project key or two keys. Each key's environment is what events from that runtime report.
+Call `initClient` from `instrumentation-client.ts`, `initServer` from the Node branch of `instrumentation.ts`, and `initEdge` from the edge branch. Use a browser key (`NEXT_PUBLIC_TALARIA_BROWSER_API_KEY`) on the client and a server key (`TALARIA_API_KEY`) in Node and Edge. They can be the same project key or two keys. Each key's environment is what events from that runtime report.
 
 `withTalariaConfig` sets server externals so `@newtalaria/node` is not bundled into the browser. It does not upload source maps. Upload those with `@newtalaria/cli` for the same `release` as `initClient`.
 

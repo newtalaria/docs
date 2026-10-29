@@ -19,7 +19,7 @@
     text: "Add a custom MCP server named Talaria at {{mcpUrl}}"
   listing:
     status: pending
-    note: "Connect apps (pending approval)"
+    note: "Connect apps"
   status: stable
   order: 20
 
