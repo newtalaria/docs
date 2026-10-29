@@ -1,0 +1,34 @@
+# API key scopes registry for task-page prerequisite blocks (v1.2)
+# From docs: quickstart, mcp/README, runtime, monitors
+
+- id: ingest
+  label: "ingest (events, spans)"
+  credential: ingest-key
+
+- id: releases:write
+  label: releases:write
+  credential: release-key
+
+- id: logs:write
+  label: logs:write
+  credential: ingest-key
+
+- id: metrics:write
+  label: metrics:write
+  credential: ingest-key
+
+- id: monitors:write
+  label: monitors:write
+  credential: ingest-key
+
+- id: mcp:read
+  label: mcp:read
+  credential: oauth
+
+- id: mcp:write
+  label: mcp:write
+  credential: oauth
+
+- id: mcp:keys
+  label: mcp:keys
+  credential: oauth

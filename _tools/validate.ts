@@ -117,6 +117,67 @@ function checkDuplicateIds(pages: PageFile[]): void {
   }
 }
 
+function checkIntegrationUniqueness(pages: PageFile[]): void {
+  const integrations = new Map<string, string>();
+  
+  for (const page of pages) {
+    const integrationId = page.frontmatter.integration;
+    if (!integrationId) continue;
+    
+    if (integrations.has(integrationId)) {
+      errors.push(
+        `🔁 Integration "${integrationId}" used on multiple pages:\n  • ${integrations.get(integrationId)}\n  • ${page.relativePath}`
+      );
+    } else {
+      integrations.set(integrationId, page.relativePath);
+    }
+  }
+}
+
+function checkTaskPageStructure(pages: PageFile[], registries: Registries): void {
+  const taskPageHeadings = registries.pageTemplates["task-page"].headings;
+  
+  for (const page of pages) {
+    const fm = page.frontmatter;
+    
+    // Determine if this is a task page (v1.2 §6.0.2)
+    const isTaskPage = 
+      (fm.section === "guides" && fm.type === "guide") ||
+      (fm.section === "deploy" && fm.type === "guide") ||
+      (fm.section === "agents" && (fm.type === "guide" || fm.type === "quickstart")) ||
+      (fm.section === "platforms" && (fm.type === "quickstart" || fm.type === "guide"));
+    
+    if (!isTaskPage) continue;
+    
+    const isPlatformGuide = fm.section === "platforms" && fm.type === "guide";
+    
+    // Check frontmatter fields (warnings only until phase 3b)
+    if (!fm.outcome) {
+      warnings.push(`⚠️  ${page.relativePath}: Task page missing 'outcome' field`);
+    }
+    if (!fm.verify) {
+      warnings.push(`⚠️  ${page.relativePath}: Task page missing 'verify' field`);
+    }
+    if (!fm.next || fm.next.length < 2) {
+      warnings.push(`⚠️  ${page.relativePath}: Task page needs 2–4 'next' page IDs`);
+    }
+    if (!isPlatformGuide) {
+      if (!fm.timeMinutes) {
+        warnings.push(`⚠️  ${page.relativePath}: Task page missing 'timeMinutes'`);
+      }
+      if (!fm.why) {
+        warnings.push(`⚠️  ${page.relativePath}: Task page missing 'why' field`);
+      }
+      if (!fm.notFor || fm.notFor.length < 1) {
+        warnings.push(`⚠️  ${page.relativePath}: Task page needs at least one 'notFor' entry`);
+      }
+      if (!fm.credentials || fm.credentials.length < 1) {
+        warnings.push(`⚠️  ${page.relativePath}: Task page missing 'credentials' field`);
+      }
+    }
+  }
+}
+
 function checkAliasCollisions(pages: PageFile[]): void {
   const aliases = new Map<string, string>();
   
@@ -186,9 +247,13 @@ function main() {
   console.log("3️⃣  Checking uniqueness...");
   checkDuplicateIds(pages);
   checkAliasCollisions(pages);
+  checkIntegrationUniqueness(pages);
   if (errors.length === 0) {
     console.log("   ✅ No duplicates found\n");
   }
+  
+  // Step 3b: Task-page structure (v1.2) - warnings only until phase 3b
+  checkTaskPageStructure(pages, registries);
   
   // Step 4: Content rules
   console.log("4️⃣  Checking content rules...");

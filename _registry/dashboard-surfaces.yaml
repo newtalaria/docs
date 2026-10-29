@@ -1,0 +1,73 @@
+# Dashboard surface registry for task-page verify blocks (v1.2)
+# Names match exactly as shown in the Talaria dashboard
+# PM to confirm against the app in Q3
+
+- id: issues
+  label: Issues
+  icon: Bug
+  order: 10
+
+- id: issue-detail
+  label: Issues › issue detail
+  icon: Bug
+  order: 11
+
+- id: performance
+  label: Performance
+  icon: Gauge
+  order: 20
+
+- id: logs
+  label: Logs
+  icon: ScrollText
+  order: 30
+
+- id: runtime
+  label: Runtime
+  icon: Activity
+  order: 40
+
+- id: replays
+  label: Session replays
+  icon: Film
+  order: 50
+
+- id: analytics
+  label: Analytics
+  icon: ChartLine
+  order: 60
+
+- id: flags
+  label: Feature flags
+  icon: Flag
+  order: 70
+
+- id: releases
+  label: Releases
+  icon: Tag
+  order: 80
+
+- id: alerts
+  label: Alerts
+  icon: Bell
+  order: 90
+
+- id: monitors
+  label: Monitors
+  icon: Timer
+  order: 100
+
+- id: project-settings
+  label: Project settings
+  icon: Settings
+  order: 110
+
+- id: api-keys
+  label: Project › API keys
+  icon: KeyRound
+  order: 120
+
+- id: settings-integrations
+  label: Settings › Integrations
+  icon: Plug
+  order: 130
