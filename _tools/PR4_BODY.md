@@ -3,7 +3,7 @@
 ## IA Phase 1 Implementation (v1.3.1)
 
 **Status**: ✅ Ready for review  
-**Head**: `69af60a`  
+**Head**: `5fcb8f0`  
 **Validation**: `npm run validate` exits **0**, **0 warnings**  
 **Link check**: All 71 pages, **zero broken links**
 
