@@ -38,7 +38,7 @@ Successful traces follow the traces sample rate from Project settings. Error tra
 
 ## Project settings
 
-Tracing, analytics, and feature flags follow [Project configuration](../../get-started/project-settings.md). The client clears those switches until `sdk/getConfig` returns. Session replay, heatmaps, and web vitals are recorded by `@newtalaria/browser` when [Laravel](../laravel/README.md) or [Silverstripe](../silverstripe/README.md) injects it.
+Tracing, analytics, and feature flags follow [Project configuration](../../get-started/project-settings.md). The client clears those switches until the SDK fetches and applies project configuration. Session replay, heatmaps, and web vitals are recorded by `@newtalaria/browser` when [Laravel](../laravel/README.md) or [Silverstripe](../silverstripe/README.md) injects it.
 
 ## Analytics
 
