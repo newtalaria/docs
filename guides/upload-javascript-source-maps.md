@@ -1,5 +1,6 @@
 ---
 title: Upload JavaScript source maps
+path: guides/upload-javascript-source-maps.md
 description: >-
   Upload minified bundle source maps in local dev and CI so stack frames show
   original files and line numbers.
@@ -22,10 +23,6 @@ feature:
 order: 10
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - sdk/javascript/source-maps.md
-redirectFrom:
-  - /docs/sdk/javascript/source-maps
 ---
 
 # Upload JavaScript source maps
@@ -42,7 +39,7 @@ The release on the event and the release on the upload are the same string.
 
 ```js
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
+  url: 'https://ingest.newtalaria.com',
   apiKey: process.env.NEXT_PUBLIC_TALARIA_API_KEY,
   release: process.env.NEXT_PUBLIC_TALARIA_RELEASE,
 })
@@ -71,7 +68,7 @@ Omitting `scopes` still mints the ingest key. `setup_project` keeps minting the 
 The local API listens on port 8080 (`http://{{mcpUrl}}`). A local MCP server listens on port 8082 and is a different service from the upload URL.
 
 ```sh
-export TALARIA_RELEASE_KEY=tal_live_…
+export TALARIA_RELEASE_KEY=tal_prod_…
 export TALARIA_RELEASE=local
 
 npx talaria sourcemaps upload ./dist
@@ -90,7 +87,7 @@ The command prints the URL, the release, and each `fileName`, then the stored id
 | Setting | Flag | Environment | Default |
 | ------- | ---- | ----------- | ------- |
 | Directory | positional | | `.` |
-| API URL | `--url` | `TALARIA_BASE_URL` | `http://{{mcpUrl}}` |
+| API URL | `--url` | `TALARIA_URL` | `http://{{mcpUrl}}` |
 | Release | `--release` | `TALARIA_RELEASE` | `local` |
 | Key | `--api-key` | `TALARIA_RELEASE_KEY`, then `TALARIA_API_KEY` | required |
 | Silverstripe combine | `--silverstripe-combine-files` | | off |
@@ -100,19 +97,19 @@ The command prints the URL, the release, and each `fileName`, then the stored id
 On GitHub Actions, upload the directory the build already wrote. Keep `TALARIA_RELEASE_KEY` in the environment. When `TALARIA_RELEASE` is set, the action uses that string, so the maps match the app build. The [releases guide](releases.md) shows the release step next to the build.
 
 ```yaml
-- uses: newtalaria/source-maps@v1
-  id: maps
+- uses: newtalaria/release@v1
+  id: release
   with:
-    path: dist
+    sourcemaps: dist
   env:
     TALARIA_RELEASE_KEY: ${{ secrets.TALARIA_RELEASE_KEY }}
 ```
 
-`steps.maps.outputs.release` is the release sent with each map. The hosted API base URL is `https://ingest.newtalaria.com`.
+`steps.release.outputs.release` is the release sent with each map. The hosted API base URL is `https://ingest.newtalaria.com`.
 
 ## 5. Confirm the original frame
 
-Open the event in the dashboard, or call `get_event`. A matching frame shows the original path, function, line, and a short context window.
+Open the event in the dashboard, or call `get_issue`. A matching frame shows the original path, function, line, and a short context window.
 
 For a wider excerpt, call MCP `get_source_map` (dashboard AI uses `getSourceMaps`) with:
 
@@ -141,8 +138,8 @@ Uploading the same release and `fileName` again replaces that map. One request p
 Limits: source map version 3, at most 2 MiB gzipped and 4 MiB of JSON.
 
 ```json
-POST {baseUrl}/sourceMaps/upload
-X-API-Key: tal_live_…
+POST {baseUrl}/v1/source-maps
+X-API-Key: tal_prod_…
 
 {
   "input": {
@@ -175,9 +172,9 @@ npx talaria sourcemaps upload ./source-maps --silverstripe-combine-files
 On GitHub Actions:
 
 ```yaml
-- uses: newtalaria/source-maps@v1
+- uses: newtalaria/release@v1
   with:
-    path: source-maps
+    sourcemaps: source-maps
     silverstripe-combine-files: true
 ```
 

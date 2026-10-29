@@ -2,6 +2,7 @@
 id: monitors
 title: Cron and job monitors
 navTitle: Cron monitors
+path: features/monitors.md
 description: >-
   Check in from cron or scheduled jobs so a missed run opens an issue
   automatically.
@@ -13,16 +14,12 @@ feature:
 order: 100
 lastReviewed: '2026-10-29'
 owner: docs
-aliases:
-  - guides/monitors.md
-redirectFrom:
-  - /docs/guides/monitors
 ---
 # Job monitors
 
 A monitor is a schedule Talaria expects to hear from. A cron line, a Kubernetes CronJob, or the SiteHost probe sends `in_progress`, then `ok` or `error`. When the slot plus its margin passes with no `ok`, Talaria opens one issue.
 
-Check-ins use a project API key with the `monitors:write` scope, or a per-monitor ping token. The token is for a crontab that must not contain the API key.
+Check-ins use a project API key with the `monitors:write` scope, or a per-monitor token. The monitor token is for a crontab that must not contain the API key.
 
 ## Check in from PHP
 
@@ -40,59 +37,53 @@ Talaria::monitor('process-job-queue', [
 
 ## Check in from cron
 
-Register the schedule once with the API key. The response includes `pingToken` a single time. Store it outside the repository.
+Register the schedule once with the API key. The response includes `monitorToken` a single time. Store it outside the repository.
 
 ```bash
-curl -fsS -X POST "$TALARIA_DSN/monitors/ping" \
-  -H "X-Monitor-Token: $TALARIA_PING_TOKEN" \
+curl -fsS -X POST "$TALARIA_URL/v1/check-ins" \
+  -H "X-Talaria-Monitor-Token: $TALARIA_MONITOR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"status":"ok"}'
 ```
 
-`status` is `in_progress`, `ok`, or `error`. Optional fields are `checkInId`, `durationSeconds`, and `logTail`.
+`status` is `in_progress`, `ok`, or `error`. Optional fields are `runId`, `durationSeconds`, and `logTail`.
 
-The SiteHost deploy action writes these lines when the app contains `talaria/sitehost/monitors.json`:
+The SiteHost deploy action writes these lines when the app contains `talaria/monitors.yaml`:
 
-```json
-{
-  "jobs": [
-    {
-      "slug": "process-job-queue",
-      "crontab": "* * * * *",
-      "timezone": "Pacific/Auckland",
-      "marginSeconds": 120,
-      "maxRuntimeSeconds": 55,
-      "command": "cd /container/application && vendor/bin/sake dev/tasks/ProcessJobQueueTask"
-    },
-    {
-      "slug": "sync-careers",
-      "crontab": "0 1 * * *",
-      "timezone": "Pacific/Auckland",
-      "marginSeconds": 120,
-      "maxRuntimeSeconds": 3600,
-      "command": "cd /container/application && vendor/bin/sake dev/tasks/SyncCareersDataTask w=1"
-    },
-    {
-      "slug": "sync-businesses",
-      "crontab": "0 2 * * *",
-      "timezone": "Pacific/Auckland",
-      "marginSeconds": 120,
-      "maxRuntimeSeconds": 3600,
-      "command": "cd /container/application && vendor/bin/sake dev/tasks/SyncBusinessesDataTask w=1"
-    },
-    {
-      "slug": "sync-shopify",
-      "crontab": "0 0,12 * * *",
-      "timezone": "Pacific/Auckland",
-      "marginSeconds": 120,
-      "maxRuntimeSeconds": 3600,
-      "command": "cd /container/application && vendor/bin/sake dev/tasks/SyncShopifyDataTask"
-    }
-  ]
-}
+```yaml
+version: 1
+monitors:
+  - slug: process-job-queue
+    schedule:
+      crontab: "* * * * *"
+      timezone: Pacific/Auckland
+    marginSeconds: 120
+    maxRuntimeSeconds: 55
+    command: "cd /container/application && vendor/bin/sake dev/tasks/ProcessJobQueueTask"
+  - slug: sync-careers
+    schedule:
+      crontab: "0 1 * * *"
+      timezone: Pacific/Auckland
+    marginSeconds: 120
+    maxRuntimeSeconds: 3600
+    command: "cd /container/application && vendor/bin/sake dev/tasks/SyncCareersDataTask w=1"
+  - slug: sync-businesses
+    schedule:
+      crontab: "0 2 * * *"
+      timezone: Pacific/Auckland
+    marginSeconds: 120
+    maxRuntimeSeconds: 3600
+    command: "cd /container/application && vendor/bin/sake dev/tasks/SyncBusinessesDataTask w=1"
+  - slug: sync-shopify
+    schedule:
+      crontab: "0 0,12 * * *"
+      timezone: Pacific/Auckland
+    marginSeconds: 120
+    maxRuntimeSeconds: 3600
+    command: "cd /container/application && vendor/bin/sake dev/tasks/SyncShopifyDataTask"
 ```
 
-Pass `TALARIA_DSN` and `TALARIA_API_KEY` into the deploy. The action stores the ping token on the container and re-applies the crontab after an image replacement.
+Pass `TALARIA_URL` and `TALARIA_API_KEY` into the deploy. The action stores the monitor token on the container and re-applies the crontab after an image replacement.
 
 ## What opens an issue
 
@@ -107,4 +98,4 @@ A later `ok` resolves the open issue. Check-ins are not billed. The miss, timeou
 
 ## Dashboard and MCP
 
-The project **Monitors** page lists the schedule, timezone, last run, duration, and status. `list_monitors` answers whether a job ran before an issue exists. `get_error` includes the monitor slug and a redacted log tail when the issue came from a check-in.
+The project **Monitors** page lists the schedule, timezone, last run, duration, and status. `list_monitors` answers whether a job ran before an issue exists. `get_issue` includes the monitor slug and a redacted log tail when the issue came from a check-in.
