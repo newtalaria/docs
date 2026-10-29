@@ -55,7 +55,7 @@ The local and CI walkthrough is [Upload JavaScript source maps](../guides/upload
 **Query parameters:**
 - `anonymousId` (optional) — Anonymous user identifier
 - `userId` (optional) — Authenticated user identifier
-- `organizationId` (optional) — Organization identifier
+- `organizationId` (optional) — Organisation identifier
 - `attributes` (optional) — JSON-encoded string of additional attributes
 - `keys` (optional) — Comma-separated list of flag keys to evaluate (omit to evaluate all)
 

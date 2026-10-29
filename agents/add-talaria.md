@@ -96,7 +96,7 @@ Do **not** claim “Talaria is wired” until step 6 returns the test event.
 
 After init, a minified stack stays minified until maps are uploaded for the same release.
 
-1. `docs_get` path `guides/upload-javascript-source-maps` (command reference: `sdk/javascript/source-maps`).
+1. `docs_get` path `guides/upload-javascript-source-maps`.
 2. Set `Talaria.init({ release: 'local' })` for a local run, or the git SHA in CI. The release string on events must match the upload.
 3. Ask before minting a second key. Call `create_api_key` with `scopes: ["releases:write"]` and a name like `source maps`. Do not add that scope to the browser key from `setup_project`.
 4. Put the raw key only in `TALARIA_RELEASE_KEY`. Then run `npx talaria sourcemaps upload ./dist` (local default is `http://{{mcpUrl}}` and release `local`).

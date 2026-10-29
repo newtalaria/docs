@@ -16,7 +16,7 @@ owner: docs
 
 # Feature flags
 
-Feature flags let you control feature rollouts remotely without deploying code. Use them to test new features with a subset of users, enable functionality for specific environments, or quickly disable features when issues arise.
+Feature flags let you control feature rollouts remotely without deploying code. Turn features on or off, or roll them out to a percentage of users. Quickly disable features when issues arise without redeploying.
 
 ## Turn it on
 

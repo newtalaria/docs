@@ -67,7 +67,7 @@ Agents that do **not** have the plugin installed can still follow the same workf
 
 - **Install:** `docs_get` path `agents/add-talaria`
 - **Triage:** `docs_get` path `agents/triage-issues`
-- **Configuration:** `docs_get` path `get-started/configuration`
+- **Configuration:** `docs_get` path `get-started/project-settings`
 - **SDK reference:** `docs_get` path `sdk/<id>/README` (e.g. `sdk/flutter/README`)
 
 The playbooks are the **detailed how-to**; the skills are **workflow guardrails** that enforce read-only smoke, ask before create, and hand off appropriately.
