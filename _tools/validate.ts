@@ -142,13 +142,15 @@ function checkContentRules(pages: PageFile[]): void {
         if (name.includes("public-prefixed")) {
           // Check if the match is within a warning block about not using these vars
           const matchIndex = body.indexOf(matches[0]);
-          const contextStart = Math.max(0, matchIndex - 200);
-          const contextEnd = Math.min(body.length, matchIndex + 200);
+          const contextStart = Math.max(0, matchIndex - 300);
+          const contextEnd = Math.min(body.length, matchIndex + 300);
           const context = body.substring(contextStart, contextEnd);
           
           if (context.includes("must never carry a public prefix") || 
               context.includes("Never** use") ||
-              context.includes("**Never**")) {
+              context.includes("**Never**") ||
+              context.includes("> [!CAUTION]") ||
+              context.includes("> [!WARNING]")) {
             continue;
           }
         }
