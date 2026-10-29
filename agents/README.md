@@ -56,7 +56,7 @@ Each skill focuses on one phase, hands off to the next when appropriate, and con
 
 Install the **Talaria** plugin in Cursor Marketplace or Grok Bot (handle `talaria` once approved). The plugin includes:
 
-- `mcp.json` pointing at `https://ingest.newtalaria.com/otlp/mcp`
+- `mcp.json` pointing at `https://api.newtalaria.com/mcp`
 - Five skill `SKILL.md` files in `skills/` with YAML frontmatter
 
 Agents that load the plugin automatically discover and apply these skills when relevant.

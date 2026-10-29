@@ -31,10 +31,8 @@ Forward logs from your SiteHost PHP container to Talaria using the OpenTelemetry
 
 Add `talaria/monitors.yaml` to your repository root:
 
-```json
-{
-  "monitors": []
-}
+```yaml
+monitors: []
 ```
 
 This enables the OpenTelemetry Collector in your container.
@@ -44,9 +42,8 @@ This enables the OpenTelemetry Collector in your container.
 Configure these in your SiteHost control panel:
 
 - `TALARIA_API_KEY` – Your project API key
-- `TALARIA_URL` – Your Talaria endpoint (e.g., `https://ingest.newtalaria.com/otlp`)
+- `TALARIA_URL=https://ingest.newtalaria.com`
 - `OTEL_SERVICE_NAME` – Service name (defaults to `silverstripe`)
-- `TALARIA_API_KEY` – Environment name (defaults to `production`)
 - `OTEL_RESOURCE_ATTRIBUTES="container.name=..."` – Container identifier (defaults to hostname)
 
 ### 3. (Optional) Customize log collection

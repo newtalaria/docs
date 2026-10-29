@@ -89,19 +89,24 @@ function checkContentRules(pages: PageFile[]): void {
     { pattern: /TALARIA_SERVICE_NAME/g, name: "TALARIA_SERVICE_NAME (use OTEL_SERVICE_NAME)" },
     { pattern: /TALARIA_CONTAINER_NAME/g, name: "TALARIA_CONTAINER_NAME (use OTEL_RESOURCE_ATTRIBUTES)" },
     { pattern: /\bDSN\b/g, name: "DSN references (use URL or API key)" },
+    { pattern: /\bdsn\b/g, name: "dsn lowercase (use url)" },
     { pattern: /\bdsn:/g, name: "dsn: in init (use url:)" },
+    { pattern: /\{dsn\}/g, name: "{dsn} placeholder (use {url})" },
     { pattern: /\bbaseUrl:/g, name: "baseUrl: in init (use url:)" },
     { pattern: /\{baseUrl\}/g, name: "{baseUrl} placeholder (use {url})" },
     { pattern: /tal_live_/g, name: "tal_live_ prefix (use tal_prod_/tal_stg_/tal_test_/tal_dev_)" },
     { pattern: /TALARIA_PING_TOKEN/g, name: "TALARIA_PING_TOKEN (use TALARIA_MONITOR_TOKEN)" },
+    { pattern: /\bpingToken\b/g, name: "pingToken (use monitor-token)" },
+    { pattern: /\bping token\b/gi, name: "ping token (use monitor token)" },
     { pattern: /X-Monitor-Token/g, name: "X-Monitor-Token header (use X-Talaria-Monitor-Token)" },
     { pattern: /tal_ping_/g, name: "tal_ping_ prefix (use tal_mon_)" },
     { pattern: /\/monitors\/ping\b/g, name: "/monitors/ping endpoint (use /v1/check-ins)" },
-    { pattern: /\/monitors\/checkIn\b/g, name: "/monitors/checkIn endpoint (use /v1/check-ins or /v1/monitors/{slug}/check-ins)" },
+    { pattern: /monitors\/checkIn\b/g, name: "monitors/checkIn endpoint (use /v1/check-ins or /v1/monitors/{slug}/check-ins)" },
     { pattern: /\/monitors\/heartbeat\b/g, name: "/monitors/heartbeat endpoint (use /v1/check-ins or /v1/monitors/{slug}/check-ins)" },
     { pattern: /\bheartbeat\b/gi, name: "heartbeat references (use check-ins)" },
     { pattern: /\/releases\/setCommits\b/g, name: "/releases/setCommits endpoint (use /v1/releases)" },
     { pattern: /\/sourceMaps\/upload\b/g, name: "/sourceMaps/upload endpoint (use /v1/source-maps)" },
+    { pattern: /sourceMaps\.upload\b/g, name: "sourceMaps.upload (use POST /v1/source-maps)" },
     { pattern: /\/v1\/screenHeatmaps\b/g, name: "/v1/screenHeatmaps camelCase (use /v1/screen-heatmaps)" },
     { pattern: /\/v1\/deploys\b/g, name: "/v1/deploys (Phase 2 only, returns 501 in Phase 0)" },
     { pattern: /\bcheckInId\b/g, name: "checkInId (use runId)" },
@@ -114,8 +119,16 @@ function checkContentRules(pages: PageFile[]): void {
     { pattern: /newtalaria\/source-maps@v1/g, name: "newtalaria/source-maps@v1 action (use newtalaria/release@v1)" },
     { pattern: /talaria\/sitehost\/monitors\.json/g, name: "talaria/sitehost/monitors.json (use talaria/monitors.yaml)" },
     { pattern: /api\.newtalaria\.com\/otlp/g, name: "api.newtalaria.com/otlp (use ingest.newtalaria.com/otlp)" },
+    { pattern: /\/otlp\/mcp\b/g, name: "/otlp/mcp (MCP is on api.newtalaria.com/mcp)" },
+    { pattern: /\bk8scluster\b/g, name: "k8scluster (use k8s_cluster)" },
+    { pattern: /\botlphttp\b/g, name: "otlphttp (use otlp_http)" },
+    { pattern: /\/sdk\/getConfig\b/g, name: "/sdk/getConfig (don't document as route)" },
+    { pattern: /(NEXT_PUBLIC_|VITE_)TALARIA_API_KEY\b/g, name: "public-prefixed TALARIA_API_KEY (never use NEXT_PUBLIC_ or VITE_ with API_KEY)" },
+    { pattern: /(NEXT_PUBLIC_|VITE_)TALARIA_RELEASE_KEY\b/g, name: "public-prefixed TALARIA_RELEASE_KEY (never use NEXT_PUBLIC_ or VITE_ with RELEASE_KEY)" },
+    { pattern: /(NEXT_PUBLIC_|VITE_)TALARIA_DSN\b/g, name: "public-prefixed TALARIA_DSN (use BROWSER_API_KEY)" },
   ];
   
+  // Check pages
   for (const page of pages) {
     if (page.frontmatter.visibility === "contributor") continue;
     
@@ -125,8 +138,29 @@ function checkContentRules(pages: PageFile[]): void {
     for (const { pattern, name } of forbiddenPatterns) {
       const matches = body.match(pattern);
       if (matches && matches.length > 0) {
+        // Allow-list warning sentences about public prefixes
+        if (name.includes("public-prefixed") && body.includes("must never carry a public prefix")) {
+          continue;
+        }
         errors.push(
           `🚫 ${page.relativePath}: contains ${name} (${matches[0]})`
+        );
+      }
+    }
+  }
+  
+  // Check registry files
+  const registryDir = join(DOCS_ROOT, "_registry");
+  const registryFiles = readdirSync(registryDir).filter(f => f.endsWith(".yaml"));
+  
+  for (const file of registryFiles) {
+    const content = readFileSync(join(registryDir, file), "utf-8");
+    
+    for (const { pattern, name } of forbiddenPatterns) {
+      const matches = content.match(pattern);
+      if (matches && matches.length > 0) {
+        errors.push(
+          `🚫 _registry/${file}: contains ${name} (${matches[0]})`
         );
       }
     }
@@ -215,10 +249,122 @@ function checkDuplicateIds(pages: PageFile[]): void {
   }
 }
 
+function checkTaskPageH2Order(pages: PageFile[]): void {
+  const expectedH2s = [
+    "What you're setting up",
+    "Why use this",
+    "Before you start",
+    "Steps",
+    "Check it worked",
+    "Troubleshooting",
+    "Next steps"
+  ];
+  
+  for (const page of pages) {
+    // Task pages are guides in deploy-ci, guides, agents sections, or quickstarts/guides in platforms
+    const isTaskPage = 
+      (page.frontmatter.section === "guides" && page.frontmatter.type === "guide") ||
+      (page.frontmatter.section === "deploy-ci" && page.frontmatter.type === "guide") ||
+      (page.frontmatter.section === "agents" && (page.frontmatter.type === "guide" || page.frontmatter.type === "quickstart")) ||
+      (page.frontmatter.section === "platforms" && (page.frontmatter.type === "quickstart" || page.frontmatter.type === "guide"));
+    
+    if (!isTaskPage) continue;
+    
+    const content = readFileSync(page.path, "utf-8");
+    const { content: body } = matter(content);
+    
+    // Extract H2 headings (## Something)
+    const h2Regex = /^## (.+)$/gm;
+    const h2s: string[] = [];
+    let match;
+    while ((match = h2Regex.exec(body)) !== null) {
+      h2s.push(match[1].trim());
+    }
+    
+    // Filter out "For agents" and "Related" which are allowed trailing sections
+    const coreH2s = h2s.filter(h => h !== "For agents" && h !== "Related");
+    
+    // Check if the 7 expected H2s are present in order
+    let expectedIndex = 0;
+    for (let i = 0; i < coreH2s.length && expectedIndex < expectedH2s.length; i++) {
+      if (coreH2s[i] === expectedH2s[expectedIndex]) {
+        expectedIndex++;
+      } else {
+        // Out of order or missing
+        break;
+      }
+    }
+    
+    const allExpectedPresent = expectedIndex === expectedH2s.length;
+    
+    if (!allExpectedPresent) {
+      // New task pages (like kubernetes) must have all 7 in order - error
+      // Existing pages get a warning per spec
+      const isNewTaskPage = page.relativePath === "deploy/hosts/kubernetes.md";
+      
+      if (isNewTaskPage) {
+        errors.push(
+          `📋 ${page.relativePath}: task page must have all 7 H2s in order: ${expectedH2s.join(", ")}`
+        );
+      } else {
+        warnings.push(
+          `📋 ${page.relativePath}: task page should have all 7 H2s in order (found: ${coreH2s.join(", ")})`
+        );
+      }
+    }
+  }
+}
+
+function checkMcpTools(pages: PageFile[]): void {
+  // Load MCP tools from features.yaml
+  const registries = loadRegistries();
+  const mcpTools = new Set<string>();
+  
+  for (const feature of registries.features) {
+    if (feature.mcpTools) {
+      for (const tool of feature.mcpTools) {
+        mcpTools.add(tool);
+      }
+    }
+  }
+  
+  // Check verify.mcp.tool references
+  for (const page of pages) {
+    const verify = page.frontmatter.verify;
+    if (verify && typeof verify === "object" && "mcp" in verify) {
+      const mcp = verify.mcp as any;
+      if (mcp && typeof mcp === "object" && "tool" in mcp) {
+        const tool = mcp.tool;
+        if (typeof tool === "string" && !mcpTools.has(tool)) {
+          errors.push(
+            `🔧 ${page.relativePath}: verify.mcp.tool "${tool}" not found in features.yaml mcpTools`
+          );
+        }
+      }
+    }
+  }
+}
 
 function validateManifestFresh() {
-  // For now, just check that manifest.yaml exists
-  // TODO: Add proper freshness check in CI workflow
+  // Rebuild manifest and check if it matches the committed version
+  try {
+    const currentManifest = readFileSync(join(DOCS_ROOT, "manifest.yaml"), "utf-8");
+    
+    // Run build-manifest.ts
+    execSync("tsx build-manifest.ts", { 
+      cwd: join(DOCS_ROOT, "_tools"),
+      stdio: "pipe"
+    });
+    
+    const rebuiltManifest = readFileSync(join(DOCS_ROOT, "manifest.yaml"), "utf-8");
+    
+    if (currentManifest !== rebuiltManifest) {
+      errors.push("📦 manifest.yaml is stale - run `npm run build-manifest` and commit");
+    }
+  } catch (e) {
+    errors.push(`📦 manifest.yaml freshness check failed: ${e}`);
+  }
+}
   const manifestPath = join(DOCS_ROOT, "manifest.yaml");
   try {
     readFileSync(manifestPath, "utf-8");
@@ -283,6 +429,20 @@ function main() {
   checkLinks(pages);
   if (errors.length === 0) {
     console.log("   ✅ All links valid\n");
+  }
+  
+  // Step 4c: Task-page H2 order
+  console.log("4️⃣c Checking task-page H2 order...");
+  checkTaskPageH2Order(pages);
+  if (errors.length === 0 && warnings.length === 0) {
+    console.log("   ✅ Task pages follow H2 order\n");
+  }
+  
+  // Step 4d: MCP tool references
+  console.log("4️⃣d Checking MCP tool references...");
+  checkMcpTools(pages);
+  if (errors.length === 0) {
+    console.log("   ✅ MCP tool references valid\n");
   }
   
   // Step 5: Freshness warnings

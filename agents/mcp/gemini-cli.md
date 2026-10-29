@@ -20,12 +20,12 @@ owner: docs
 
 # Gemini CLI
 
-Gemini CLI stores MCP servers in `settings.json` under `mcpServers`. For Streamable HTTP the field is `httpUrl`. The field `url` is an SSE endpoint. Talaria is Streamable HTTP at `https://ingest.newtalaria.com/otlp/mcp`.
+Gemini CLI stores MCP servers in `settings.json` under `mcpServers`. For Streamable HTTP the field is `httpUrl`. The field `url` is an SSE endpoint. Talaria is Streamable HTTP at `https://api.newtalaria.com/mcp`.
 
 ## Add the server
 
 ```bash
-gemini mcp add --transport http Talaria https://ingest.newtalaria.com/otlp/mcp
+gemini mcp add --transport http Talaria https://api.newtalaria.com/mcp
 ```
 
 Or in `~/.gemini/settings.json` (user) or the project settings file:
@@ -34,7 +34,7 @@ Or in `~/.gemini/settings.json` (user) or the project settings file:
 {
   "mcpServers": {
     "Talaria": {
-      "httpUrl": "https://ingest.newtalaria.com/otlp/mcp"
+      "httpUrl": "https://api.newtalaria.com/mcp"
     }
   }
 }
@@ -50,14 +50,14 @@ Local API: `http://{{mcpUrl}}/mcp`.
 2. Pass the header on the CLI, or set `headers` in settings.
 
 ```bash
-gemini mcp add --transport http --header "Authorization: Bearer YOUR_TOKEN" Talaria https://ingest.newtalaria.com/otlp/mcp
+gemini mcp add --transport http --header "Authorization: Bearer YOUR_TOKEN" Talaria https://api.newtalaria.com/mcp
 ```
 
 ```json
 {
   "mcpServers": {
     "Talaria": {
-      "httpUrl": "https://ingest.newtalaria.com/otlp/mcp",
+      "httpUrl": "https://api.newtalaria.com/mcp",
       "headers": {
         "Authorization": "Bearer YOUR_TOKEN"
       }

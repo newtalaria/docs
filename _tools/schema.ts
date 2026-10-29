@@ -173,7 +173,7 @@ export function frontmatterSchema(reg: Registries) {
       // Determine if this is a task page (v1.2 §6.0.2)
       const isTaskPage = 
         (fm.section === "guides" && fm.type === "guide") ||
-        (fm.section === "deploy" && fm.type === "guide") ||
+        (fm.section === "deploy-ci" && fm.type === "guide") ||
         (fm.section === "agents" && (fm.type === "guide" || fm.type === "quickstart")) ||
         (fm.section === "platforms" && (fm.type === "quickstart" || fm.type === "guide"));
       

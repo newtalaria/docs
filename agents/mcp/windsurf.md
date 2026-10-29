@@ -33,7 +33,7 @@ Talaria's published remote-HTTP path for Windsurf is a personal token in `header
 {
   "mcpServers": {
     "Talaria": {
-      "serverUrl": "https://ingest.newtalaria.com/otlp/mcp",
+      "serverUrl": "https://api.newtalaria.com/mcp",
       "headers": {
         "Authorization": "Bearer YOUR_TOKEN"
       }

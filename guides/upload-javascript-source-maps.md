@@ -52,7 +52,7 @@ For Next.js, run the upload after `next build`. `withTalariaConfig` configures t
 
 ## 2. Create an upload key
 
-In the dashboard, create an API key and enable **Allow creating releases (`releases:write`)**. That scope registers a release and calls `sourceMaps.upload`. Leave it off the browser key.
+In the dashboard, create an API key and enable **Allow creating releases (`releases:write`)**. That scope registers a release and calls `POST /v1/source-maps`. Leave it off the browser key.
 
 Put the raw key in `TALARIA_RELEASE_KEY`. Keep it out of git and out of any `NEXT_PUBLIC_` or other client env var.
 
@@ -88,7 +88,7 @@ The command prints the URL, the release, and each `fileName`, then the stored id
 | Directory | positional | | `.` |
 | API URL | `--url` | `TALARIA_URL` | `http://{{mcpUrl}}` |
 | Release | `--release` | `TALARIA_RELEASE` | `local` |
-| Key | `--api-key` | `TALARIA_RELEASE_KEY`, then `TALARIA_API_KEY` | required |
+| Key | `--api-key` | `TALARIA_RELEASE_KEY` | required |
 | Silverstripe combine | `--silverstripe-combine-files` | | off |
 
 ## 4. Upload from CI
@@ -168,13 +168,12 @@ Files later in that same call sit after this one, so their bytes do not move its
 npx talaria sourcemaps upload ./source-maps --silverstripe-combine-files
 ```
 
-On GitHub Actions:
+On GitHub Actions (illustrative until `newtalaria/release@v1` is published):
 
 ```yaml
 - uses: newtalaria/release@v1
   with:
     sourcemaps: source-maps
-    silverstripe-combine-files: true
 ```
 
 `Talaria.init({ release })` stays the release the action prints. A script the browser loads directly is uploaded without this flag.

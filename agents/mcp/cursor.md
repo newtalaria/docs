@@ -23,13 +23,13 @@ owner: docs
 ## Add the server
 
 1. Open **Cursor Settings → MCP**.
-2. Add Talaria at `https://ingest.newtalaria.com/otlp/mcp` (Streamable HTTP), or paste this into `~/.cursor/mcp.json`. This shape is Cursor's. Claude Code, VS Code, Codex, Gemini CLI, and Windsurf each use a different key — see [MCP](README.md).
+2. Add Talaria at `https://api.newtalaria.com/mcp` (Streamable HTTP), or paste this into `~/.cursor/mcp.json`. This shape is Cursor's. Claude Code, VS Code, Codex, Gemini CLI, and Windsurf each use a different key — see [MCP](README.md).
 
    ```json
    {
      "mcpServers": {
        "Talaria": {
-         "url": "https://ingest.newtalaria.com/otlp/mcp"
+         "url": "https://api.newtalaria.com/mcp"
        }
      }
    }
@@ -51,7 +51,7 @@ Local API: `http://{{mcpUrl}}/mcp`.
    {
      "mcpServers": {
        "Talaria": {
-         "url": "https://ingest.newtalaria.com/otlp/mcp",
+         "url": "https://api.newtalaria.com/mcp",
          "headers": {
            "Authorization": "Bearer YOUR_TOKEN"
          }
