@@ -7,7 +7,7 @@ import matter from "gray-matter";
 import { loadRegistries, validateRegistries } from "./registries.js";
 import { frontmatterSchema } from "./schema.js";
 import { stringify as stringifyYaml } from "yaml";
-import { buildManifest } from "./build-manifest.js";
+import { buildManifest, yamlStringifyOptions } from "./build-manifest.js";
 
 const DOCS_ROOT = join(import.meta.dirname, "..");
 const errors: string[] = [];
@@ -418,7 +418,7 @@ function validateManifestFresh() {
     // Restore console.log
     console.log = originalLog;
     
-    const rebuiltManifest = stringifyYaml(manifest, { lineWidth: 0 });
+    const rebuiltManifest = stringifyYaml(manifest, yamlStringifyOptions);
     
     if (currentManifest !== rebuiltManifest) {
       errors.push("📦 manifest.yaml is stale - run `npm run build-manifest` and commit");

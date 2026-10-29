@@ -225,14 +225,20 @@ function validateManifest(manifest: Manifest): void {
   console.log("✅ Manifest valid\n");
 }
 
-// Main
-const manifest = buildManifest();
-validateManifest(manifest);
-
-// Write manifest.yaml
-const yaml = stringifyYaml(manifest, {
+// Export stringify options for use in validator
+export const yamlStringifyOptions = {
   lineWidth: 0, // Don't wrap
-});
+};
 
-writeFileSync(MANIFEST_PATH, yaml, "utf-8");
-console.log(`✅ Wrote manifest.yaml (${manifest.pages.length} pages)\n`);
+// Main - only run when executed directly
+import { pathToFileURL } from "node:url";
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const manifest = buildManifest();
+  validateManifest(manifest);
+
+  // Write manifest.yaml
+  const yaml = stringifyYaml(manifest, yamlStringifyOptions);
+
+  writeFileSync(MANIFEST_PATH, yaml, "utf-8");
+  console.log(`✅ Wrote manifest.yaml (${manifest.pages.length} pages)\n`);
+}

@@ -21,7 +21,7 @@ Feature flags let you control feature availability remotely without deploying ne
 
 ## Evaluating flags
 
-SDKs fetch flag definitions using an API key with the `flags:read` scope. Evaluate flags with `boolVariation`, `stringVariation`, or `jsonVariation`:
+SDKs read flags using an API key with the `flags:read` scope. Evaluate flags with `boolVariation`, `stringVariation`, or `jsonVariation`:
 
 ```javascript
 // JavaScript/React/Next.js
@@ -35,11 +35,9 @@ final on = await Talaria.flags.boolVariation('new-checkout', false);
 
 Pass a key and a default value. When the flag is off or undefined, the default is returned. See the [JavaScript SDK configuration](../sdk/javascript/configuration.md#feature-flags) and [Flutter SDK configuration](../sdk/flutter/configuration.md#feature-flags) pages for full code examples.
 
-Pass user context with `Talaria.analytics.identify` to improve targeting (see SDK configuration pages for syntax).
-
 ## API key scopes
 
-- **`flags:read`** — Fetch flag definitions (used by SDKs at initialization)
+- **`flags:read`** — Read flag definitions
 - **`flags:evaluate`** — Evaluate flags server-side (optional)
 
 ## Full API contract
