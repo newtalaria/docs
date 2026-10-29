@@ -1,0 +1,1 @@
+The release value is `<ref>@<shortsha>`. The left side is the git ref name. The right side is the first 7 characters of the commit. An explicit `release` option or `TALARIA_RELEASE` wins. A plain version such as `1.4.2` still works.

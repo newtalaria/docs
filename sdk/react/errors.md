@@ -21,12 +21,15 @@ order: 20
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # React errors, logs, and breadcrumbs
+
+## What you're setting up
 
 Browser handlers (`window.onerror`, `unhandledrejection`) are active after `Talaria.init`. This package adds two React paths.
 
-## ErrorBoundary
+## Steps
+
+### 1. ErrorBoundary
 
 ```tsx
 import { ErrorBoundary } from '@newtalaria/react';
@@ -48,7 +51,7 @@ export function App() {
 
 `componentDidCatch` calls `captureException` with mechanism `react` and the component stack in `extra`. The error is marked handled. `fallback` may be a node or `(error, reset) => node`.
 
-## React 19 error handler
+### 2. React 19 error handler
 
 Pass `reactErrorHandler()` to `createRoot` / `hydrateRoot`. These errors are marked unhandled.
 
@@ -65,7 +68,7 @@ createRoot(document.getElementById('root'), {
 
 The default export of `@newtalaria/react` also exposes `reactErrorHandler` on the Talaria object. The named import above is the one to call from `createRoot`.
 
-## Logs
+### 3. Logs
 
 `logger()` and the severity methods are re-exported from the browser SDK.
 
@@ -77,11 +80,11 @@ await log.warn('Payment method missing');
 await Talaria.captureException(error);
 ```
 
-## Breadcrumbs
+### 4. Breadcrumbs
 
 Console, network, and navigation crumbs are recorded automatically. Add your own with `Talaria.addBreadcrumb({ type, category, message, level })`. The trail is attached to the next error.
 
-## Identity and context
+### 5. Identity and context
 
 ```javascript
 Talaria.setUser({ id: 'user_42' });
@@ -91,7 +94,11 @@ Talaria.setExtra('plan', 'pro');
 
 Set `release` in init to the same string you use for source maps. Fingerprints are computed on the server.
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [React SDK](README.md)
 - [Browser errors](../javascript/errors.md)

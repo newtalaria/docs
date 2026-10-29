@@ -20,10 +20,30 @@ owner: docs
 
 # Cursor
 
-## Add the server
+## What you're setting up
+
+Add Talaria at `https://api.newtalaria.com/mcp` (Streamable HTTP), or paste the Cursor `mcp.json` shape below.
+
+## Why use this
+
+This shape is Cursor's. Claude Code, VS Code, Codex, Gemini CLI, and Windsurf each use a different key — see [MCP](README.md).
+
+## Before you start
+
+Cursor requests `tools/list`, receives HTTP 401, and opens consent. Sign in to Talaria if needed, then allow install scopes (`mcp:read mcp:write mcp:keys`). A personal token from **Workspace › Integrations** is the fallback when OAuth stalls.
+
+<!-- snippet: api-key-warning -->
+> [!WARNING]
+> MCP uses OAuth or a personal token. API keys, publishable (`tal_pk_…`) or secret (`tal_sk_…`), never work on `/mcp`.
+<!-- /snippet -->
+Never send a monitor token to MCP.
+
+## Steps
+
+### 1. Add the server
 
 1. Open **Cursor Settings → MCP**.
-2. Add Talaria at `https://api.newtalaria.com/mcp` (Streamable HTTP), or paste this into `~/.cursor/mcp.json`. This shape is Cursor's. Claude Code, VS Code, Codex, Gemini CLI, and Windsurf each use a different key — see [MCP](README.md).
+2. Add Talaria at `https://api.newtalaria.com/mcp` (Streamable HTTP), or paste this into `~/.cursor/mcp.json`.
 
    ```json
    {
@@ -35,16 +55,38 @@ owner: docs
    }
    ```
 
-3. Cursor requests `tools/list`, receives HTTP 401, and opens consent. Sign in to Talaria if needed, then **Allow** install scopes (`mcp:read mcp:write mcp:keys`).
-4. After approve you should see the full tool catalogue (not only `get_doc, list_docs, and search_docs`). Call `get_connection` and announce identity before creating projects or minting keys.
+3. You can also copy the same file from the dashboard: **Workspace › Integrations → Copy Cursor mcp.json (OAuth)**.
 
-You can also copy the same file from the dashboard: **Settings → Integrations → Copy Cursor mcp.json (OAuth)**.
+### 2. Install Talaria into a repo
 
-Local API: `http://{{mcpUrl}}/mcp`.
+1. `get_doc` → `agents/add-talaria`
+2. Detect stack; `search_docs` / `get_doc` for the SDK hub (e.g. Flutter under `sdk/flutter`)
+3. `get_connection` → announce user + org; ask before create
+4. On yes: `setup_project` with `confirmed: true` (tracing + one-time key)
+5. Wire SDK from docs (`talaria_flutter`, `runZonedApp`, `--dart-define=TALARIA_BROWSER_API_KEY`). The publishable key decides the environment. Do not pass `environment` in init. `setup_project` returns a development publishable key.
+6. `send_test_event` → verify with `search_events` / `search_issues` and `environment: development`. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
 
-## Personal token (if OAuth stalls)
+### 3. Investigate production
 
-1. Dashboard **Settings → Integrations → Create personal MCP token**.
+1. `list_projects`
+2. `search_issues` with `environment: production` (the default once a production key exists) → `get_issue`
+3. Follow `traceId` / `sessionId` when present
+4. Include `dashboardUrl` from tool results when citing an issue
+5. When the failure is already fixed, follow [Triage issues with an agent](../triage-issues.md): `update_issue_status` with a note
+
+## Check it worked
+
+After approve you should see the full tool catalogue (not only `get_doc, list_docs, and search_docs`). Call `get_connection` and announce identity before creating projects or minting keys.
+
+## Troubleshooting
+
+### Personal token (if OAuth stalls)
+
+**Cause:** OAuth stalls.
+
+**Fix:**
+
+1. Dashboard **Workspace › Integrations → Create personal MCP token**.
 2. Prefer **Copy Cursor mcp.json** (shown once). Choose 30 days, 90 days, or until you revoke it. Or paste Bearer yourself:
 
    ```json
@@ -60,28 +102,15 @@ Local API: `http://{{mcpUrl}}/mcp`.
    }
    ```
 
-3. The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never send an API key or a monitor token to MCP.
+3. The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`.
 
-## Install Talaria into a repo
+<!-- snippet: api-key-warning -->
+> [!WARNING]
+> MCP uses OAuth or a personal token. API keys, publishable (`tal_pk_…`) or secret (`tal_sk_…`), never work on `/mcp`.
+<!-- /snippet -->
+Never send a monitor token to MCP.
 
-1. `get_doc` → `agents/add-talaria`
-2. Detect stack; `search_docs` / `get_doc` for the SDK hub (e.g. Flutter under `sdk/flutter`)
-3. `get_connection` → announce user + org; ask before create
-4. On yes: `setup_project` with `confirmed: true` (tracing + one-time key)
-5. Wire SDK from docs (`talaria_flutter`, `runZonedApp`, `--dart-define=TALARIA_BROWSER_API_KEY`). The key decides the environment. Do not pass `environment` in init. `setup_project` returns a development key.
-6. `send_test_event` → verify with `search_events` / `search_issues` and `environment: development`. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
-
-Harness path for local Flutter install tests: `
-
-## Investigate production
-
-1. `list_projects`
-2. `search_issues` with `environment: production` (the default once a production key exists) → `get_issue`
-3. Follow `traceId` / `sessionId` when present
-4. Include `dashboardUrl` from tool results when citing an issue
-5. When the failure is already fixed, follow [Triage issues with an agent](../triage-issues.md): `update_issue_status` with a note
-
-## Related
+## Next steps
 
 - [MCP overview](README.md)
 - [Configuration](../../get-started/project-settings.md)

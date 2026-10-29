@@ -1,0 +1,13 @@
+# Task-page templates (v1.2)
+# The exact H2 labels and order from IA_SPEC §6.0.1
+# UX may change wording here without touching code
+
+task-page:
+  headings:
+    - "What you're setting up"
+    - "Why use this"
+    - "Before you start"
+    - "Steps"
+    - "Check it worked"
+    - "Troubleshooting"
+    - "Next steps"

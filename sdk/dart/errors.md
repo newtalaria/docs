@@ -21,10 +21,15 @@ order: 20
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # Dart errors, logs, and breadcrumbs
 
-## Errors
+## What you're setting up
+
+Capture exceptions, logs, breadcrumbs, and user context in dart with Talaria.
+
+## Steps
+
+### 1. Errors
 
 ```dart
 try {
@@ -54,7 +59,7 @@ await Talaria.captureMessage(
 await runZonedTalaria(() async {
   await Talaria.init(TalariaOptions(
     apiKey: const String.fromEnvironment('TALARIA_BROWSER_API_KEY'),
-    release: const String.fromEnvironment('APP_RELEASE'),
+    release: const String.fromEnvironment('TALARIA_RELEASE'),
   ));
   await runAppWork();
 });
@@ -62,7 +67,7 @@ await runZonedTalaria(() async {
 
 Zone errors are captured. Errors in another isolate are not.
 
-## Logs
+### 2. Logs
 
 ```dart
 final log = Talaria.logger(name: 'billing', tags: {'area': 'billing'});
@@ -73,7 +78,7 @@ await Talaria.error('Charge declined');
 
 Levels are `debug`, `info`, `warning`, `error`, and `fatal`. `warn` is `warning`.
 
-## Breadcrumbs
+### 3. Breadcrumbs
 
 ```dart
 Talaria.addBreadcrumb(Breadcrumb(
@@ -86,7 +91,7 @@ Talaria.addBreadcrumb(Breadcrumb(
 
 The trail attached to an error holds up to 50 crumbs. Query crumbs from `DbSpan` share that buffer and cannot evict the other crumbs past their own cap.
 
-## Identity and context
+### 4. Identity and context
 
 `setUser` is on the facade. `setTags` and `setExtra` are on `TalariaClient`.
 
@@ -100,7 +105,11 @@ Talaria.getClient()?.setExtra({'plan': 'pro'});
 
 Call `await Talaria.flush()` before a short-lived process exits.
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [Dart SDK](README.md)
 - [Instrumentation and tracing](tracing.md)

@@ -23,10 +23,15 @@ order: 20
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # JavaScript errors, logs, and breadcrumbs
 
-## Errors
+## What you're setting up
+
+Capture exceptions, logs, breadcrumbs, and user context in javascript with Talaria.
+
+## Steps
+
+### 1. Errors
 
 `window.onerror` and `unhandledrejection` are captured after init. Recoverable failures still belong in `try / catch`:
 
@@ -47,7 +52,7 @@ try {
 await Talaria.captureMessage('Checkout failed closed', 'error');
 ```
 
-## Logs
+### 2. Logs
 
 `logger()` returns a scoped logger. Severity methods on `Talaria` send the same stream.
 
@@ -62,7 +67,7 @@ await Talaria.error('Charge declined');
 
 Levels are `debug`, `info`, `warning`, `error`, and `fatal`. `warn` is `warning`.
 
-## Breadcrumbs
+### 3. Breadcrumbs
 
 The SDK records console, network, and navigation crumbs and attaches the trail to the next error. Add your own:
 
@@ -77,7 +82,7 @@ Talaria.addBreadcrumb({
 
 The buffer keeps a short trail (errors attach up to the last 50).
 
-## Identity and context
+### 4. Identity and context
 
 ```javascript
 Talaria.setUser({ id: 'user_42', email: 'ada@example.com' });
@@ -90,7 +95,11 @@ Set `release` and `commitSha` in init. The release string must match the release
 
 Put emails and other direct identifiers only where you mean to store them. Prefer an opaque user id in `setUser` when that is enough to find the session.
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [JavaScript SDK](README.md)
 - [Instrumentation and tracing](tracing.md)

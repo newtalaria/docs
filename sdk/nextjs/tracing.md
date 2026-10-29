@@ -21,18 +21,21 @@ order: 30
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # Next.js instrumentation and tracing
+
+## What you're setting up
 
 Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). The client and the Node server apply that document. Successful transactions follow the traces sample rate. Error transactions are always sent. Spans use the OpenTelemetry span model. Outgoing HTTP carries W3C `traceparent`.
 
-## Client
+## Steps
+
+### 1. Client
 
 `initClient` records the same browser spans as [`@newtalaria/browser`](../javascript/tracing.md): pageload, History changes, fetch/XHR, and web vitals. It also listens for `popstate` and the Navigation API so App Router navigations that skip History still start a navigation transaction.
 
 `ErrorBoundary`, `Profiler`, and `instrumentReactRouter` are re-exported from `@newtalaria/nextjs/client`. See [React instrumentation](../react/tracing.md).
 
-## Server
+### 2. Server
 
 `initServer` inits the Node client and patches outgoing `http`, `https`, and `fetch` once tracing is on. Talaria's own ingest URL is skipped. The patch waits for project config, so a cold start still continues `traceparent` after the document arrives.
 
@@ -58,11 +61,15 @@ Manual spans use `Talaria.startSpan` from `@newtalaria/nextjs/server`.
 
 Database wrappers (`wrapDuckDB`, `wrapPg`, `wrapMysql2`, `wrapRedis`) live on `@newtalaria/node`. After `initServer`, pass `getNodeClient()` into the wrapper. When server code imports `@duckdb/node-api`, wrap the connection from `instance.connect()`. See [Node instrumentation](../node/tracing.md).
 
-## Edge
+### 3. Edge
 
 `initEdge` captures exceptions and messages. It does not open spans, inject `traceparent`, or fetch project config. Keep edge work on `captureException` / `captureMessage`.
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [Next.js SDK](README.md)
 - [Errors, logs, and breadcrumbs](errors.md)

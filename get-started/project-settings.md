@@ -26,13 +26,7 @@ Official SDKs load tracing, analytics, heatmaps, and session replay from the pro
 
 ## How the SDK applies it
 
-After init, the SDK calls:
-
-```http
-GET https://ingest-nz1.newtalaria.com/v1/sdk-config
-```
-
-with the project API key. The response is a read-only document. The SDK caches it and refreshes after `ttlSeconds` (default 300 seconds, clamped between one minute and one hour).
+After init, the SDK fetches its project configuration using the API key. The response is a read-only document. The SDK caches it and refreshes after `ttlSeconds` (default 300 seconds, clamped between one minute and one hour).
 
 Until the first document arrives, the SDK sends **errors only**. Spans, analytics, heatmaps, and replay start only when the document allows them. Saving Project settings shows up on the next refresh.
 
@@ -59,11 +53,11 @@ Open the project in the [dashboard](https://one.newtalaria.com) and edit **Proje
 - Heatmaps enabled (needs analytics, and the same visitor consent)
 - Slow query threshold (ms)
 
-The server also applies the plan and organization analytics when it builds the document. Child spans are stored with the sampled root. Billing counts one transaction per started block of 25 spans in a trace, root and child spans together: a 9-span trace is 1 transaction and a 60-span trace is 3.
+The server also applies the plan and organisation analytics when it builds the document. Child spans are stored with the sampled root. See [pricing](/pricing) for how transactions are billed.
 
 ## What stays in init
 
-Talaria Cloud ingest is `https://ingest-nz1.newtalaria.com`. Pass that URL as `url` unless the API is not Talaria Cloud.
+Leave `url` unset on Talaria Cloud. The SDK derives the host from the key. Set `TALARIA_URL` or `url` only for self-host or a custom domain.
 
 Init still takes:
 

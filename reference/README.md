@@ -16,5 +16,6 @@ owner: docs
 API references and technical specifications:
 
 - **[Ingest API](./ingest-api.md)** — HTTP API for ingesting source maps, feature flags, and other resources
+- **[OTLP endpoint](./otlp.md)** — OpenTelemetry Protocol endpoint configuration
 
 Browse the reference documentation for complete API specifications.

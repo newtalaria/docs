@@ -33,6 +33,6 @@ Then:
 1. Detect the stack from the local repo (`pubspec.yaml`, `package.json`, `composer.json`).
 2. `search_docs` with an `sdk` filter (for example `flutter`) and query `install` or `init`.
 3. `get_doc` the stack hub and configuration page.
-4. Wire the API key (`tal_pk_prod_nz1_…` keys are public client ingest credentials — env / dart-define are fine). The key decides the environment. `setup_project` returns a development key. Do not pass `environment` in SDK init. Send `release` as `<ref>@<shortsha>` (for example `main@a8f31c2`). See [Releases](features/releases.md). Server SDKs fill that from CI when `TALARIA_RELEASE` is unset.
+4. Wire the URL and API key (`tal_pk_dev_nz1_…` keys are public client ingest credentials — env / dart-define are fine). The key decides the environment. `setup_project` returns a development key. Do not pass `environment` in SDK init. Send `release` as `<ref>@<shortsha>` (for example `main@a8f31c2`). See [Releases](features/releases.md). Server SDKs fill that from CI when `TALARIA_RELEASE` is unset.
 5. Tell the human which **Project settings** to enable (or use MCP `get_project` / `update_project_settings` when authorized).
 6. Verify with `search_events` / `search_issues` and `environment: development`. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.

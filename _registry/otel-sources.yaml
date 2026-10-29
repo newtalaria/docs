@@ -1,0 +1,18 @@
+# OTEL Sources registry for T2/T3 integrations
+# (OTel SDK per language, Fluent Bit, Vector, generic Collector)
+# No entries yet - awaiting UX decision on where pages go
+
+# Example entry structure (commented out):
+# - id: otel-python
+#   label: Python (OpenTelemetry)
+#   icon: Code2
+#   status: beta
+#   order: 10
+#   summary: Send traces, logs, and metrics from Python apps via OpenTelemetry SDK.
+#   integration:
+#     tier: T2
+#     signals: [traces, logs, metrics]
+#     upstream: opentelemetry-python
+#     semconv: "1.44.0"
+
+[]

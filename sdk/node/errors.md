@@ -21,10 +21,15 @@ order: 20
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # Node.js errors, logs, and breadcrumbs
 
-## Errors
+## What you're setting up
+
+Capture exceptions, logs, breadcrumbs, and user context in node with Talaria.
+
+## Steps
+
+### 1. Errors
 
 After init, `uncaughtException` and `unhandledRejection` are captured. Catch recoverable failures yourself:
 
@@ -41,7 +46,7 @@ try {
 }
 ```
 
-## Logs
+### 2. Logs
 
 There is no `logger()` on Node. That method is the browser SDK. Record a message with `captureMessage`. `minLevel: 'warning'` drops info and debug.
 
@@ -50,7 +55,7 @@ await Talaria.captureMessage('Payment method missing', 'warning');
 await Talaria.captureMessage('Charge declined', 'error');
 ```
 
-## Breadcrumbs
+### 3. Breadcrumbs
 
 Add a crumb before work that might fail. Database wrappers add query crumbs on their own. The trail is attached to the next error.
 
@@ -63,7 +68,7 @@ Talaria.addBreadcrumb({
 });
 ```
 
-## Identity and context
+### 4. Identity and context
 
 ```javascript
 Talaria.setUser({ id: 'user_42' });
@@ -77,7 +82,11 @@ Call `resetRequestState()` at the end of a request if you reuse the process and 
 
 In a short-lived script, `await Talaria.flush()` before exit so the batch is sent.
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [Node.js SDK](README.md)
 - [Instrumentation and tracing](tracing.md)

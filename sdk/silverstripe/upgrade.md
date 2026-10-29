@@ -19,8 +19,9 @@ order: 70
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # Silverstripe upgrade
+
+## What you're setting up
 
 `talaria/silverstripe` 2.0.1 requires `talaria/talaria` ^2.0.0. Treat them as one unit:
 
@@ -30,11 +31,17 @@ talaria/silverstripe
         └── requires → talaria/talaria
 ```
 
+## Why use this
+
 When a new module release requires a newer core, upgrade both in the same Composer command. The shared rules for the lock file and for `composer install` on deploy are in [PHP upgrade](../php/upgrade.md). This page is the Silverstripe sequence and the config that has to change with it.
+
+## Before you start
 
 The module supports Silverstripe 4.13, 5, and 6 on PHP 8.1 or newer. Do not call `Talaria::init()` in application code. Injector builds the client.
 
-## Upgrade
+## Steps
+
+### 1. Upgrade
 
 Run this from the application root, the project that owns `composer.json` and `composer.lock`. Not from inside `vendor/`.
 
@@ -61,7 +68,7 @@ On Silverstripe 4, leave `monolog/monolog` on 1.x or 2.x and leave `psr/log` abl
 
 `silverstripe/vendor-plugin` has to stay allowed (`composer config allow-plugins.silverstripe/vendor-plugin true`). If that plugin is blocked, the module's `_config` YAML is not applied and the logger handler never registers.
 
-## Flush and test
+### 2. Flush and test
 
 ```bash
 vendor/bin/sake dev/build flush=all
@@ -75,7 +82,7 @@ Restart PHP-FPM after the code is deployed so OPcache loads the new files. A rej
 
 The module reads keys through Silverstripe's environment, including `.env`. A variable exported only in your shell is visible to that shell and not to PHP-FPM. Set `TALARIA_API_KEY` where the web SAPI loads it. If the key or URL is missing, Injector installs a disabled client and `error_log` records that. Install and flush still complete.
 
-## Commit the lock file
+### 3. Commit the lock file
 
 ```bash
 git add composer.json composer.lock
@@ -90,15 +97,15 @@ composer install --no-dev --optimize-autoloader
 
 Do not run `composer update` on deploy. `composer install` reproduces the lock file.
 
-## 1.x to 2.0
+### 4. 1.x to 2.0
 
 2.0.0 removes the `environment` setting. Browser init no longer sends `environment`. The API key decides the environment.
 
-Delete an `environment` key from your YAML if it is still there. Events land on the key's environment. Use a development key on a laptop and a production key on the live site.
+Delete an `environment` key from your YAML and from `.env` if it is still there. Events land on the key's environment. Use a development secret key on a laptop and a production secret key on the live site. Keep `TALARIA_API_KEY` for PHP.
 
 2.0.0 requires `talaria/talaria` ^2.0.0 and pins `@newtalaria/browser` 0.5.0. 2.0.1 moves that pin to **0.5.3**. An application YAML value for `browserSdkVersion` replaces the module default. If you pinned an older browser SDK (for example `0.4.1`), the PHP upgrade does not change the script until you remove that line or set `0.5.3`. The script URL is `https://cdn.jsdelivr.net/npm/@newtalaria/browser@{version}/+esm`, so the version in YAML is the version the browser loads.
 
-## 1.1 to 1.2.0
+### 5. 1.1 to 1.2.0
 
 1.2.0 requires `talaria/talaria` ^1.2.0. Tracing, analytics, heatmaps, and replay follow the project config document, not YAML.
 
@@ -113,7 +120,7 @@ Turn the features on in [Project settings](../../get-started/project-settings.md
 
 1.1.0 was the release that added `enableAnalytics` (default off) and Member `userId` for PHP analytics. After 1.2.0 that YAML flag is not the switch.
 
-## Patch releases
+### 6. Patch releases
 
 | Module | Requires core | What you will notice |
 | --- | --- | --- |
@@ -127,9 +134,9 @@ Turn the features on in [Project settings](../../get-started/project-settings.md
 | 2.0.0 | `^2.0.0` | `environment` removed. Browser SDK 0.5.0. |
 | 2.0.1 | `^2.0.0` | Browser SDK 0.5.3. |
 
-From 1.2.1, a blank `TALARIA_URL` sends to Talaria Cloud. Set `url` in YAML, or `TALARIA_URL`, when the API is somewhere else. If PHP talks to a host the browser cannot reach (a Docker-internal URL, or HTTP behind an HTTPS site), set `TALARIA_URL` for the injected script only. PHP keeps its own URL.
+Leave `TALARIA_URL` unset on Talaria Cloud. The SDK derives the host from the key. Set `url` in YAML, or `TALARIA_URL`, for self-host or a custom domain. If PHP talks to a host the browser cannot reach (a Docker-internal URL, or HTTP behind an HTTPS site), set `browser_api_key` / `TALARIA_BROWSER_API_KEY` for the injected script only. PHP keeps `TALARIA_API_KEY`.
 
-`TALARIA_BROWSER_API_KEY` is optional. When it is a `tal_pk_prod_nz1_…` key, CMS and public pages report with that key and PHP keeps `TALARIA_API_KEY`. When it is unset, the script uses the PHP key. When it is non-empty and not a `tal_pk_` key, the script is not injected.
+`browser_api_key` / `TALARIA_BROWSER_API_KEY` is the publishable key for the injected script. When it is a `tal_pk_` key, CMS and public pages report with that key and PHP keeps `TALARIA_API_KEY`. When it is non-empty and not a `tal_pk_` key, the script is not injected.
 
 Query spans from 1.2.3 roll identical SQL into one span under the same parent. A waterfall that used to show one bar per query now shows a count. Queries of 200ms or more, and failed queries, stay separate. A transaction stores at most 200 spans.
 
@@ -137,7 +144,11 @@ MySQL wrapping is an Injector replacement of `MySQLDatabase` that runs after the
 
 Queued-job spans load only when `symbiote/silverstripe-queuedjobs` is installed. The job service class is not in the Composer classmap until that module is present.
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [PHP upgrade](../php/upgrade.md)
 - [Silverstripe SDK](README.md)

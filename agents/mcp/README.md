@@ -19,7 +19,13 @@ owner: docs
 
 # MCP
 
-Hosted MCP at `https://api.newtalaria.com/mcp` (local: `http://{{mcpUrl}}/mcp`). Transport is Streamable HTTP. Auth is OAuth (the client discovers `/.well-known/oauth-protected-resource`, registers at `/oauth/register`, and you approve consent) or a personal token from **Settings → Integrations**. Install scopes are `mcp:read mcp:write mcp:keys`. A personal token lasts 30 days, 90 days, or until you revoke it. It is opaque base64url JSON (one segment, not a three-part JWT). Never send an API key or a monitor token to MCP.
+Hosted MCP at `https://api.newtalaria.com/mcp`. Transport is Streamable HTTP. Auth is OAuth (the client discovers `/.well-known/oauth-protected-resource`, registers at `/oauth/register`, and you approve consent) or a personal token from **Workspace › Integrations**. Install scopes are `mcp:read mcp:write mcp:keys`. A personal token lasts 30 days, 90 days, or until you revoke it. It is opaque base64url JSON (one segment, not a three-part JWT).
+
+<!-- snippet: api-key-warning -->
+> [!WARNING]
+> MCP uses OAuth or a personal token. API keys, publishable (`tal_pk_…`) or secret (`tal_sk_…`), never work on `/mcp`.
+<!-- /snippet -->
+Never send a monitor token to MCP.
 
 `tools/list` requires a grant. `get_doc, list_docs, and search_docs` tools/call still work without auth when called by name. After connect, call `get_connection` before mutating.
 
@@ -29,12 +35,13 @@ The dashboard button **Copy Cursor mcp.json** is the Cursor file. Other clients 
 
 | Client | Config key | Page |
 | ------ | ---------- | ---- |
-| Grok Bot | Custom Add MCP chat prompt or marketplace handle `talaria` | [Grok Bot](grok-bot.md) |
 | Cursor | `mcpServers` → `url` | [Cursor](cursor.md) |
-| Claude Code | `mcpServers` → `type: http` + `url` | [Claude Code](claude-code.md) |
+| Grok Bot | Custom Add MCP chat prompt or marketplace handle `talaria` | [Grok Bot](grok-bot.md) |
 | VS Code | `servers` → `type: http` + `url` | [VS Code](vscode.md) |
-| Codex | `[mcp_servers.Talaria]` → `url` | [Codex](codex.md) |
+| Copilot CLI | `copilot plugin install` | No guide yet |
+| Claude Code | `mcpServers` → `type: http` + `url` | [Claude Code](claude-code.md) |
 | Gemini CLI | `mcpServers` → `httpUrl` | [Gemini CLI](gemini-cli.md) |
+| Codex | `[mcp_servers.Talaria]` → `url` | [Codex](codex.md) |
 | Windsurf | `mcpServers` → `serverUrl` | [Windsurf](windsurf.md) |
 
 ## Agent skills
@@ -51,7 +58,7 @@ The **Talaria** plugin for Cursor and Grok Bot includes five closed-loop skills 
 
 **Closed loop:** get-started → instrument → observe → triage → verify-fix.
 
-Skills are available from the **[Talaria plugin](https://github.com/newtalaria/cursor-plugin)**.
+Skills are available from the **[Talaria plugin](https://github.com/newtalaria/talaria-agent-plugin)**.
 
 Agents can also follow the Markdown playbooks via `get_doc`: [Add Talaria with an agent](../add-talaria.md) (≈ instrument), [Triage issues with an agent](../triage-issues.md) (≈ triage). See [Agent skills overview](../README.md) for the skills → playbooks map.
 
@@ -85,7 +92,7 @@ For install tasks, start with `get_doc` on `agents/add-talaria`.
 | `list_database_queries` | Database statements grouped by text: calls, total time, p95, errors, and N+1 trace count. `nPlusOneOnly` keeps N+1 statements. Takes `environment` |
 | `search_sessions` | Product sessions. Takes `environment` |
 | `get_project_stats` | Health snapshot for one environment, plus per-environment counts. Takes `environment` |
-| Feature flag tools | List / get / kill-switch / percent rollout. One flag definition per project; evaluation uses the ingest key's environment |
+| Feature flag tools | List / get / kill-switch / percent rollout. One flag definition per project; evaluation uses the API key's environment |
 
 ### Elevated scopes
 
@@ -93,7 +100,7 @@ For install tasks, start with `get_doc` on `agents/add-talaria`.
 | ---- | ----- | ------- |
 | `update_project_settings` / `create_project` / `send_test_event` | `mcp:write` | Safe settings, create project, ingest a test event |
 | `update_issue_status` / `add_issue_comment` | `mcp:write` | Resolve, ignore, or reopen one issue (a note is required to resolve or ignore, and is stored as a comment), or add a comment without changing status |
-| `create_api_key` / `setup_project` | `mcp:keys` | Mint a key once; never log or commit. Omit `scopes` for the ingest key. `scopes: ["releases:write"]` is a second key for source-map upload. `setup_project` stays on the ingest key |
+| `create_api_key` / `setup_project` | `mcp:keys` | Mint a key once; never log or commit. Omit `scopes` for the publishable key (every publishable scope). `scopes: ["releases:write"]` is a release key for source-map upload. `setup_project` stays on the publishable key |
 
 ## Integration workflow
 

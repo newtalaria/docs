@@ -54,7 +54,7 @@ Each skill focuses on one phase, hands off to the next when appropriate, and con
 
 ### From the Talaria plugin
 
-Install the **[Talaria plugin](https://github.com/newtalaria/cursor-plugin)**. The plugin includes:
+Install the **[Talaria plugin](https://github.com/newtalaria/talaria-agent-plugin)**. The plugin includes:
 
 - `mcp.json` pointing at `https://api.newtalaria.com/mcp`
 - Five skill `SKILL.md` files in `skills/` with YAML frontmatter
@@ -67,7 +67,7 @@ Agents that do **not** have the plugin installed can still follow the same workf
 
 - **Install:** `get_doc` path `agents/add-talaria`
 - **Triage:** `get_doc` path `agents/triage-issues`
-- **Configuration:** `get_doc` path `get-started/configuration`
+- **Configuration:** `get_doc` path `get-started/project-settings`
 - **SDK reference:** `get_doc` path `sdk/<id>/README` (e.g. `sdk/flutter/README`)
 
 The playbooks are the **detailed how-to**; the skills are **workflow guardrails** that enforce read-only smoke, ask before create, and hand off appropriately.

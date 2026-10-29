@@ -1,10 +1,13 @@
 #!/usr/bin/env tsx
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
+import { tmpdir } from "node:os";
 import { execSync } from "node:child_process";
 import matter from "gray-matter";
 import { loadRegistries, validateRegistries } from "./registries.js";
 import { frontmatterSchema } from "./schema.js";
+import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
+import { buildManifest, yamlStringifyOptions } from "./build-manifest.js";
 
 const DOCS_ROOT = join(import.meta.dirname, "..");
 const errors: string[] = [];
@@ -193,8 +196,54 @@ function checkContentRules(pages: PageFile[]): void {
     { pattern: /harnesses\//gi, name: "internal harness paths" },
     // Match prices like "$10 per GB" but not SQL placeholders like "$1"
     { pattern: /\$\d+(?:\.\d+)?\s+(?:per|\/)\s+\w+/g, name: "hardcoded prices" },
+    // TIS v0.2 naming standard (hard cut, no backward compat)
+    { pattern: /TALARIA_DSN/g, name: "TALARIA_DSN (use TALARIA_URL)" },
+    { pattern: /TALARIA_BROWSER_DSN/g, name: "TALARIA_BROWSER_DSN (use TALARIA_URL + TALARIA_BROWSER_API_KEY)" },
+    { pattern: /TALARIA_BASE_URL/g, name: "TALARIA_BASE_URL (use TALARIA_URL)" },
+    { pattern: /TALARIA_ENVIRONMENT/g, name: "TALARIA_ENVIRONMENT (the key chooses the environment)" },
+    { pattern: /TALARIA_SERVICE_NAME/g, name: "TALARIA_SERVICE_NAME (use OTEL_SERVICE_NAME)" },
+    { pattern: /TALARIA_CONTAINER_NAME/g, name: "TALARIA_CONTAINER_NAME (use OTEL_RESOURCE_ATTRIBUTES)" },
+    { pattern: /\bDSN\b/g, name: "DSN references (use URL or API key)" },
+    { pattern: /\bdsn\b/g, name: "dsn lowercase (use url)" },
+    { pattern: /\bdsn:/g, name: "dsn: in init (use url:)" },
+    { pattern: /\{dsn\}/g, name: "{dsn} placeholder (use {url})" },
+    { pattern: /\bbaseUrl:/g, name: "baseUrl: in init (use url:)" },
+    { pattern: /\{baseUrl\}/g, name: "{baseUrl} placeholder (use {url})" },
+    { pattern: /tal_live_/g, name: "retired live key prefix" },
+    { pattern: /TALARIA_PING_TOKEN/g, name: "TALARIA_PING_TOKEN (use TALARIA_MONITOR_TOKEN)" },
+    { pattern: /\bpingToken\b/g, name: "pingToken (use monitor-token)" },
+    { pattern: /\bping token\b/gi, name: "ping token (use monitor token)" },
+    { pattern: /X-Monitor-Token/g, name: "retired monitor header (use Authorization Bearer)" },
+    { pattern: /tal_ping_/g, name: "tal_ping_ prefix (use tal_mon_)" },
+    { pattern: /\/monitors\/ping\b/g, name: "/monitors/ping endpoint (use /v1/check-ins)" },
+    { pattern: /monitors\/checkIn\b/g, name: "monitors/checkIn endpoint (use /v1/check-ins or /v1/monitors/{slug}/check-ins)" },
+    { pattern: /\/monitors\/heartbeat\b/g, name: "/monitors/heartbeat endpoint (use /v1/check-ins or /v1/monitors/{slug}/check-ins)" },
+    { pattern: /\bheartbeat\b/gi, name: "heartbeat references (use check-ins)" },
+    { pattern: /\/releases\/setCommits\b/g, name: "/releases/setCommits endpoint (use /v1/releases)" },
+    { pattern: /\/sourceMaps\/upload\b/g, name: "/sourceMaps/upload endpoint (use /v1/source-maps)" },
+    { pattern: /sourceMaps\.upload\b/g, name: "sourceMaps.upload (use POST /v1/source-maps)" },
+    { pattern: /\/v1\/screenHeatmaps\b/g, name: "/v1/screenHeatmaps camelCase (use /v1/screen-heatmaps)" },
+    { pattern: /\/v1\/deploys\b/g, name: "/v1/deploys (Phase 2 only, returns 501 in Phase 0)" },
+    { pattern: /\bcheckInId\b/g, name: "checkInId (use runId)" },
+    { pattern: /\bsearch_errors\b/g, name: "search_errors MCP tool (use search_issues)" },
+    { pattern: /\bget_error\b/g, name: "get_error MCP tool (use get_issue)" },
+    { pattern: /\bget_projects\b/g, name: "get_projects MCP tool (use list_projects)" },
+    { pattern: /\bget_logs\b/g, name: "get_logs MCP tool (use search_logs)" },
+    { pattern: /\bget_suspect_commits\b/g, name: "get_suspect_commits MCP tool (use list_suspect_commits)" },
+    { pattern: /\bget_issue_links\b/g, name: "get_issue_links MCP tool (use list_issue_links)" },
+    { pattern: /newtalaria\/source-maps@v1/g, name: "newtalaria/source-maps@v1 action (use newtalaria/release@v1)" },
+    { pattern: /talaria\/sitehost\/monitors\.json/g, name: "talaria/sitehost/monitors.json (use talaria/monitors.yaml)" },
+    { pattern: /\/otlp\/mcp\b/g, name: "/otlp/mcp (MCP stays on the api host /mcp path)" },
+    { pattern: /\bk8scluster\b/g, name: "k8scluster (use k8s_cluster)" },
+    { pattern: /\botlphttp\b/g, name: "otlphttp (use otlp_http)" },
+    { pattern: /\/sdk\/getConfig\b/g, name: "/sdk/getConfig (don't document as route)" },
+    { pattern: /\bsdk\/getConfig\b/g, name: "sdk/getConfig (describe config fetch instead)" },
+    { pattern: /(NEXT_PUBLIC_|VITE_)TALARIA_API_KEY\b/g, name: "public-prefixed TALARIA_API_KEY (never use NEXT_PUBLIC_ or VITE_ with API_KEY)" },
+    { pattern: /(NEXT_PUBLIC_|VITE_)TALARIA_RELEASE_KEY\b/g, name: "public-prefixed TALARIA_RELEASE_KEY (never use NEXT_PUBLIC_ or VITE_ with RELEASE_KEY)" },
+    { pattern: /(NEXT_PUBLIC_|VITE_)TALARIA_DSN\b/g, name: "public-prefixed TALARIA_DSN (use BROWSER_API_KEY)" },
   ];
   
+  // Check pages
   for (const page of pages) {
     if (page.frontmatter.visibility === "contributor") continue;
     
@@ -202,29 +251,193 @@ function checkContentRules(pages: PageFile[]): void {
     const { content: body } = matter(content);
     
     for (const { pattern, name } of forbiddenPatterns) {
-      const matches = body.match(pattern);
+      // Use matchAll to get all matches with their indices
+      const matches = Array.from(body.matchAll(pattern));
+      
+      if (matches.length > 0) {
+        // Allow-list warning sentences about public prefixes
+        if (name.includes("public-prefixed")) {
+          // Check each match individually using its actual index
+          for (const match of matches) {
+            const matchIndex = match.index!;
+            
+            // Find the sentence or line containing this match
+            // Look backward to the previous sentence boundary or line start
+            let sentenceStart = matchIndex;
+            for (let i = matchIndex - 1; i >= 0; i--) {
+              if (body[i] === '\n') {
+                sentenceStart = i + 1;
+                break;
+              }
+              if (body[i] === '.' && i > 0 && body[i - 1] !== '.') {
+                sentenceStart = i + 1;
+                break;
+              }
+              if (i === 0) {
+                sentenceStart = 0;
+                break;
+              }
+            }
+            
+            // Look forward to the next sentence boundary or line end
+            let sentenceEnd = matchIndex + match[0].length;
+            for (let i = sentenceEnd; i < body.length; i++) {
+              if (body[i] === '\n') {
+                sentenceEnd = i;
+                break;
+              }
+              if (body[i] === '.' && (i === body.length - 1 || body[i + 1] === ' ' || body[i + 1] === '\n')) {
+                sentenceEnd = i + 1;
+                break;
+              }
+              if (i === body.length - 1) {
+                sentenceEnd = body.length;
+                break;
+              }
+            }
+            
+            const sentence = body.substring(sentenceStart, sentenceEnd);
+            
+            // Allow only if the same sentence/line contains "Never" or "must never"
+            const isInWarning = sentence.includes("**Never**") || 
+                sentence.includes("must never") ||
+                (sentence.trim().startsWith(">") && (sentence.includes("Never") || sentence.includes("must never")));
+            
+            if (!isInWarning) {
+              errors.push(
+                `🚫 ${page.relativePath}: contains ${name} (${match[0]})`
+              );
+            }
+          }
+        } else if (pattern.source.includes("deploys")) {
+          for (const match of matches) {
+            const index = match.index ?? 0;
+            if (!body.slice(Math.max(0, index - 80), index + 80).includes("501")) {
+              errors.push(
+                `🚫 ${page.relativePath}: contains ${name} (${match[0]})`
+              );
+              break;
+            }
+          }
+        } else {
+          errors.push(
+            `🚫 ${page.relativePath}: contains ${name} (${matches[0][0]})`
+          );
+        }
+      }
+    }
+    checkUnresolvedTemplates(page.relativePath, body);
+  }
+  
+  // Check registry files
+  const registryDir = join(DOCS_ROOT, "_registry");
+  const registryFiles = readdirSync(registryDir).filter(f => f.endsWith(".yaml"));
+  
+  for (const file of registryFiles) {
+    const content = readFileSync(join(registryDir, file), "utf-8");
+    
+    for (const { pattern, name } of forbiddenPatterns) {
+      if (file === "snippets.yaml" && name.startsWith("dsn")) continue;
+      const matches = content.match(pattern);
       if (matches && matches.length > 0) {
         errors.push(
-          `🚫 ${page.relativePath}: contains ${name} (${matches[0]})`
+          `🚫 _registry/${file}: contains ${name} (${matches[0]})`
         );
       }
     }
+    checkUnresolvedTemplates(`_registry/${file}`, content);
   }
+}
+
+const UNRESOLVED_TEMPLATE = /(?<!\$)\{\{[^}]+\}\}/g;
+
+function checkUnresolvedTemplates(label: string, content: string): void {
+  const matches = content.match(UNRESOLVED_TEMPLATE);
+  if (matches && matches.length > 0) {
+    errors.push(`🚫 ${label}: unresolved template (${matches[0]})`);
+  }
+}
+
+function headingSlug(heading: string): string {
+  return heading
+    .trim()
+    .toLowerCase()
+    .replace(/^\d+\.\s+/, "")
+    .replace(/<[^>]+>/g, "")
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function headingAnchors(body: string): Set<string> {
+  const withoutFences = body.replace(/```[\s\S]*?```/g, "");
+  const counts = new Map<string, number>();
+  const anchors = new Set<string>();
+  for (const match of withoutFences.matchAll(/^#{1,6}\s+(.+)$/gm)) {
+    const base = headingSlug(match[1]);
+    if (!base) continue;
+    const seen = counts.get(base) ?? 0;
+    counts.set(base, seen + 1);
+    anchors.add(seen === 0 ? base : `${base}-${seen}`);
+  }
+  for (const match of withoutFences.matchAll(/\bid=["']([^"']+)["']/g)) {
+    anchors.add(match[1]);
+  }
+  for (const match of withoutFences.matchAll(/\{#([A-Za-z0-9_-]+)\}/g)) {
+    anchors.add(match[1]);
+  }
+  return anchors;
 }
 
 function checkLinks(pages: PageFile[]): void {
   const pathMap = new Set<string>();
+  const anchorsByPath = new Map<string, Set<string>>();
   
-  // Build map of valid paths
+  // Build map of valid paths and heading anchors (headingSlug, including the step-number strip).
   for (const page of pages) {
     pathMap.add(page.relativePath);
-    // Also accept without .md extension
     pathMap.add(page.relativePath.replace(/\.md$/, ""));
-    // README.md can be referenced as directory
     if (page.relativePath.endsWith("/README.md")) {
       pathMap.add(page.relativePath.replace(/\/README\.md$/, ""));
     }
+    const { content: body } = matter(readFileSync(page.path, "utf-8"));
+    anchorsByPath.set(page.relativePath, headingAnchors(body));
   }
+
+  const resolvePage = (from: string, urlPath: string): string | null => {
+    if (!urlPath) return from;
+    let candidate = urlPath;
+    if (urlPath.startsWith("/docs/")) {
+      candidate = urlPath.replace(/^\/docs\//, "");
+    } else if (urlPath.startsWith("/")) {
+      return null;
+    } else {
+      const dir = from.includes("/") ? from.substring(0, from.lastIndexOf("/")) : "";
+      candidate = join(dir, urlPath).replace(/\\/g, "/");
+    }
+    if (anchorsByPath.has(candidate)) return candidate;
+    if (anchorsByPath.has(candidate + ".md")) return candidate + ".md";
+    if (anchorsByPath.has(candidate + "/README.md")) return candidate + "/README.md";
+    return null;
+  };
+
+  const checkAnchor = (from: string, url: string, target: string | null): void => {
+    const hash = url.includes("#") ? url.slice(url.indexOf("#") + 1) : "";
+    if (!hash || !target) return;
+    let anchor = hash;
+    try {
+      anchor = decodeURIComponent(hash);
+    } catch {
+      anchor = hash;
+    }
+    const anchors = anchorsByPath.get(target);
+    if (!anchors?.has(anchor)) {
+      errors.push(
+        `🔗 ${from}: broken anchor ${url} (no heading #${anchor} on ${target})`
+      );
+    }
+  };
   
   for (const page of pages) {
     if (page.frontmatter.visibility === "contributor") continue;
@@ -239,8 +452,12 @@ function checkLinks(pages: PageFile[]): void {
     while ((match = linkPattern.exec(body)) !== null) {
       const url = match[2];
       
-      // Skip external URLs, anchors, and mailto
-      if (url.startsWith("http") || url.startsWith("#") || url.startsWith("mailto:")) {
+      if (url.startsWith("http") || url.startsWith("mailto:")) {
+        continue;
+      }
+
+      if (url.startsWith("#")) {
+        checkAnchor(page.relativePath, url, page.relativePath);
         continue;
       }
       
@@ -251,6 +468,8 @@ function checkLinks(pages: PageFile[]): void {
           errors.push(
             `🔗 ${page.relativePath}: broken /docs link: ${url}`
           );
+        } else {
+          checkAnchor(page.relativePath, url, resolvePage(page.relativePath, docPath));
         }
         continue;
       }
@@ -258,9 +477,11 @@ function checkLinks(pages: PageFile[]): void {
       // Check relative paths
       if (!url.startsWith("/")) {
         const urlPath = url.split("#")[0].split("?")[0];
-        if (!urlPath) continue; // Just an anchor
+        if (!urlPath) {
+          checkAnchor(page.relativePath, url, page.relativePath);
+          continue;
+        }
         
-        // Resolve relative to current file
         const dir = page.relativePath.includes("/") 
           ? page.relativePath.substring(0, page.relativePath.lastIndexOf("/"))
           : "";
@@ -271,6 +492,8 @@ function checkLinks(pages: PageFile[]): void {
           errors.push(
             `🔗 ${page.relativePath}: broken relative link: ${url} (resolves to ${resolved})`
           );
+        } else {
+          checkAnchor(page.relativePath, url, resolvePage(page.relativePath, urlPath));
         }
       }
     }
@@ -294,15 +517,223 @@ function checkDuplicateIds(pages: PageFile[]): void {
   }
 }
 
+const TASK_H2S = [
+  "What you're setting up",
+  "Why use this",
+  "Before you start",
+  "Steps",
+  "Check it worked",
+  "Troubleshooting",
+  "Next steps",
+];
+
+function requiredTaskH2s(page: PageFile): string[] | null {
+  const fm = page.frontmatter;
+  const rel = page.relativePath;
+  const file = rel.split("/").pop()?.replace(/\.md$/, "") ?? "";
+  const platformGuide = new Set([
+    "errors",
+    "tracing",
+    "navigation",
+    "configuration",
+    "analytics-and-flags",
+  ]);
+
+  // §6.0.2: optional blocks may be omitted. These kinds are errors.
+  if (fm.section === "deploy" && fm.type === "guide") return TASK_H2S;
+  if (fm.section === "get-started" && fm.type === "quickstart") return TASK_H2S;
+  if (fm.section === "guides" && fm.type === "guide") return TASK_H2S;
+  if (fm.section === "agents" && fm.type === "guide") return TASK_H2S;
+  if (fm.section === "platforms" && (fm.type === "quickstart" || (fm.type === "guide" && file === "upgrade"))) {
+    return TASK_H2S.filter((heading) => heading !== "Troubleshooting");
+  }
+  if (fm.section === "platforms" && fm.type === "guide" && platformGuide.has(file)) {
+    return [
+      "What you're setting up",
+      "Steps",
+      "Check it worked",
+      "Next steps",
+    ];
+  }
+  return null;
+}
+
+function isTaskPage(page: PageFile): boolean {
+  const fm = page.frontmatter;
+  return (
+    (fm.section === "guides" && fm.type === "guide") ||
+    (fm.section === "deploy" && fm.type === "guide") ||
+    (fm.section === "get-started" && fm.type === "quickstart") ||
+    (fm.section === "agents" && (fm.type === "guide" || fm.type === "quickstart")) ||
+    (fm.section === "platforms" && (fm.type === "quickstart" || fm.type === "guide"))
+  );
+}
+
+function taskH2s(page: PageFile): string[] {
+  const content = readFileSync(page.path, "utf-8");
+  const { content: body } = matter(content);
+  const h2s: string[] = [];
+  for (const match of body.matchAll(/^## (.+)$/gm)) {
+    h2s.push(match[1].trim());
+  }
+  return h2s.filter((heading) => heading !== "For agents");
+}
+
+function h2sFollowFlow(actual: string[]): boolean {
+  let last = -1;
+  for (const heading of actual) {
+    const index = TASK_H2S.indexOf(heading);
+    if (index === -1 || index <= last) return false;
+    last = index;
+  }
+  return true;
+}
+
+function checkTaskPageH2Order(pages: PageFile[]): void {
+  for (const page of pages) {
+    if (!isTaskPage(page)) continue;
+    const coreH2s = taskH2s(page);
+    const required = requiredTaskH2s(page);
+    const follows = h2sFollowFlow(coreH2s);
+    const missing = required?.filter((heading) => !coreH2s.includes(heading)) ?? [];
+
+    if (required) {
+      if (!follows || missing.length > 0) {
+        errors.push(
+          `📋 ${page.relativePath}: task page H2s must follow §6.0 (missing: ${missing.join(", ") || "none"}; found: ${coreH2s.join(", ")})`
+        );
+      }
+      continue;
+    }
+
+    const allSeven = follows && TASK_H2S.every((heading) => coreH2s.includes(heading));
+    if (!allSeven) {
+      warnings.push(
+        `📋 ${page.relativePath}: task page should have all 7 H2s in order (found: ${coreH2s.join(", ")})`
+      );
+    }
+  }
+}
+
+function checkNavPaths(registries: ReturnType<typeof loadRegistries>): void {
+  const manifest = parseYaml(readFileSync(join(DOCS_ROOT, "manifest.yaml"), "utf-8")) as {
+    pages: { path: string }[];
+  };
+  const paths = new Set(manifest.pages.map((page) => page.path));
+  const expected: string[] = [];
+  for (const section of registries.sections) {
+    expected.push(`${section.path}/README.md`);
+    for (const subgroup of section.subgroups ?? []) {
+      expected.push(`${subgroup.path}/README.md`);
+    }
+  }
+  for (const path of expected) {
+    if (!paths.has(path)) {
+      errors.push(`🧭 nav path has no manifest page: ${path}`);
+    }
+  }
+}
+
+function checkSiblingOrder(): void {
+  const registries = loadRegistries();
+  const manifest = parseYaml(readFileSync(join(DOCS_ROOT, "manifest.yaml"), "utf-8")) as {
+    pages: { path: string }[];
+  };
+  const paths = manifest.pages.map((page) => page.path);
+
+  const expectOrder = (label: string, wanted: string[]) => {
+    const present = wanted.filter((path) => paths.includes(path));
+    const actual = paths.filter((path) => present.includes(path));
+    if (actual.join("\n") !== present.join("\n")) {
+      errors.push(
+        `↕️ manifest sibling order for ${label} does not follow the registry (found: ${actual.join(", ")})`
+      );
+    }
+  };
+
+  const platformHubs = [...registries.platforms]
+    .sort((a, b) => a.order - b.order)
+    .map((platform) => `sdk/${platform.id}/README.md`);
+  expectOrder("platforms", platformHubs);
+
+  const pageSet = registries.sections.find((section) => section.id === "platforms")?.pageSet ?? [];
+  for (const platform of registries.platforms) {
+    const wanted = pageSet.map((key) =>
+      key === "overview" ? `sdk/${platform.id}/README.md` : `sdk/${platform.id}/${key}.md`
+    );
+    expectOrder(`${platform.id} pages`, wanted);
+  }
+
+  const mcpClients = [...registries.mcpClients]
+    .sort((a, b) => a.order - b.order)
+    .map((client) => `agents/mcp/${client.id}.md`);
+  expectOrder("MCP clients", mcpClients);
+
+  const hosts = [...registries.hosts]
+    .filter((host) => host.status !== "hidden")
+    .sort((a, b) => a.order - b.order)
+    .map((host) => `deploy/hosts/${host.id}.md`);
+  expectOrder("hosts", hosts);
+
+  const providers = [...registries.ciProviders]
+    .filter((provider) => provider.status !== "hidden" && provider.status !== "unpublished")
+    .sort((a, b) => a.order - b.order)
+    .map((provider) => `deploy/ci/${provider.id}.md`);
+  expectOrder("CI providers", providers);
+}
+
+function checkMcpTools(pages: PageFile[]): void {
+  // Load MCP tools from features.yaml
+  const registries = loadRegistries();
+  const mcpTools = new Set<string>();
+  
+  for (const feature of registries.features) {
+    if (feature.mcpTools) {
+      for (const tool of feature.mcpTools) {
+        mcpTools.add(tool);
+      }
+    }
+  }
+  
+  // Check verify.mcp.tool references
+  for (const page of pages) {
+    const verify = page.frontmatter.verify;
+    if (verify && typeof verify === "object" && "mcp" in verify) {
+      const mcp = verify.mcp as any;
+      if (mcp && typeof mcp === "object" && "tool" in mcp) {
+        const tool = mcp.tool;
+        if (typeof tool === "string" && !mcpTools.has(tool)) {
+          errors.push(
+            `🔧 ${page.relativePath}: verify.mcp.tool "${tool}" not found in features.yaml mcpTools`
+          );
+        }
+      }
+    }
+  }
+}
 
 function validateManifestFresh() {
-  // For now, just check that manifest.yaml exists
-  // TODO: Add proper freshness check in CI workflow
-  const manifestPath = join(DOCS_ROOT, "manifest.yaml");
+  // Build manifest in memory and compare with committed version
   try {
-    readFileSync(manifestPath, "utf-8");
-  } catch {
-    errors.push("manifest.yaml is missing - run 'cd _tools && npm run build:manifest'");
+    const currentManifest = readFileSync(join(DOCS_ROOT, "manifest.yaml"), "utf-8");
+    
+    // Temporarily redirect console.log to suppress build output
+    const originalLog = console.log;
+    const logs: string[] = [];
+    console.log = (...args) => logs.push(args.join(" "));
+    
+    const manifest = buildManifest();
+    
+    // Restore console.log
+    console.log = originalLog;
+    
+    const rebuiltManifest = stringifyYaml(manifest, yamlStringifyOptions);
+    
+    if (currentManifest !== rebuiltManifest) {
+      errors.push("📦 manifest.yaml is stale - run `npm run build-manifest` and commit");
+    }
+  } catch (e) {
+    errors.push(`📦 manifest.yaml freshness check failed: ${e}`);
   }
 }
 
@@ -363,6 +794,27 @@ function main() {
   checkLinks(pages);
   if (errors.length === 0) {
     console.log("   ✅ All links valid\n");
+  }
+  
+  // Step 4c: Task-page H2 order
+  console.log("4️⃣c Checking task-page H2 order...");
+  checkTaskPageH2Order(pages);
+  if (errors.length === 0 && warnings.length === 0) {
+    console.log("   ✅ Task pages follow H2 order\n");
+  }
+
+  console.log("4️⃣e Checking nav paths and sibling order...");
+  checkNavPaths(registries);
+  checkSiblingOrder();
+  if (errors.length === 0) {
+    console.log("   ✅ Nav paths and sibling order match the registries\n");
+  }
+  
+  // Step 4d: MCP tool references
+  console.log("4️⃣d Checking MCP tool references...");
+  checkMcpTools(pages);
+  if (errors.length === 0) {
+    console.log("   ✅ MCP tool references valid\n");
   }
   
   // Step 5: Freshness warnings

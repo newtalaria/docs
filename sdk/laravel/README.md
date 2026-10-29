@@ -23,9 +23,31 @@ owner: docs
 
 # Laravel SDK
 
-`talaria/laravel` (2.0.1) is the Laravel 10, 11, and 12 adapter. It requires PHP 8.1. The service provider is auto-discovered. Do not call `Talaria::init()` yourself.
+## What you're setting up
 
-## Quick setup
+`talaria/laravel` (2.0.1) is the Laravel 10, 11, and 12 adapter. The service provider is auto-discovered.
+
+**What you can do**
+
+| Capability | Where |
+| --- | --- |
+| Exceptions, the `talaria` log channel, breadcrumbs, and the authenticated user | [Errors, logs, and breadcrumbs](errors.md) |
+| HTTP, database queries, queues, the HTTP client, and Artisan | [Instrumentation and tracing](tracing.md) |
+| Analytics, feature flags, and the injected browser script (replay, heatmaps, web vitals, consent) | [Best practices](configuration.md) |
+
+Octane, Horizon, and Livewire spans register when those packages are installed. Tracing and analytics follow [Project configuration](../../get-started/project-settings.md).
+
+## Why use this
+
+Do not call `Talaria::init()` yourself.
+
+## Before you start
+
+It requires PHP 8.1.
+
+## Steps
+
+### 1. Quick setup
 
 ```bash
 composer require talaria/laravel
@@ -36,7 +58,7 @@ TALARIA_API_KEY=tal_sk_prod_nz1_…
 TALARIA_RELEASE=1.4.2
 ```
 
-The published config defaults the URL to `https://ingest-nz1.newtalaria.com`. Publish it if you need to change that:
+Leave `TALARIA_URL` unset so the SDK derives the host from the key. Publish the config if you need to change it:
 
 ```bash
 php artisan vendor:publish --tag=talaria-config
@@ -44,45 +66,37 @@ php artisan vendor:publish --tag=talaria-config
 
 Throw in a route. The exception handler's `reportable` hook calls `captureException`. Confirm with MCP `search_issues` and `environment: development`. Run `php artisan config:clear` after changing `.env`.
 
-## What you can do
-
-| Capability | Where |
-| --- | --- |
-| Exceptions, the `talaria` log channel, breadcrumbs, and the authenticated user | [Errors, logs, and breadcrumbs](errors.md) |
-| HTTP, database queries, queues, the HTTP client, and Artisan | [Instrumentation and tracing](tracing.md) |
-| Analytics, feature flags, and the injected browser script (replay, heatmaps, web vitals, consent) | [Best practices](configuration.md) |
-
-Octane, Horizon, and Livewire spans register when those packages are installed. Tracing and analytics follow [Project configuration](../../get-started/project-settings.md).
-
-## Install
+### 2. Install
 
 ```bash
 composer require talaria/laravel
 ```
 
-## Initialization
+### 3. Initialization
 
 The provider builds the client from `config/talaria.php`. You configure the app with environment variables:
 
 | Variable | Role |
 | --- | --- |
-| `TALARIA_API_KEY` | Ingest key. Chooses the environment |
-| `TALARIA_URL` | Defaults to `https://ingest-nz1.newtalaria.com` |
+| `TALARIA_API_KEY` | Secret key. Chooses the environment |
+| `TALARIA_URL` | Optional. Self-host or a custom domain only. Otherwise the SDK derives the host from the key |
 | `TALARIA_RELEASE` | Version or SHA |
 | `TALARIA_COMMIT_SHA` | Commit on events |
 | `TALARIA_SERVICE` | `service` tag. Defaults to `APP_NAME` |
 | `TALARIA_MIN_LEVEL` | Default `warning` |
 | `TALARIA_BROWSER` | Inject `@newtalaria/browser` on the `web` group. Default true |
 
-## App init vs Project settings
+### 4. App init vs Project settings
 
-Leave tracing, analytics, and replay to Project settings. The adapter still sends the key and release from config. `TALARIA_ENABLE_TRACING` in the published file is not the switch the running client uses after `GET /v1/sdk-config`.
+Leave tracing, analytics, and replay to Project settings. The adapter still sends the key and release from config. `TALARIA_ENABLE_TRACING` in the published file is not the switch the running client uses after fetching project configuration.
 
-## API key
+### 5. API key
+
+This SDK logs one warning when the key is a publishable `tal_pk_` key; use a secret `tal_sk_` key on the server.
 
 A development key is what local install should use. Production uses a production key. Publishable keys look like `tal_pk_<env>_nz1_…` and secret keys look like `tal_sk_<env>_nz1_…`. Do not commit the key. Send `TALARIA_RELEASE` on every environment, including local.
 
-## Verification
+## Check it worked
 
 Hit a route that throws. `search_issues` with `environment: development`. The dashboard shell defaults to production when a production key exists, so switch it to Development for this install.
 
@@ -90,7 +104,7 @@ Hit a route that throws. `search_issues` with `environment: development`. The da
 
 `php artisan config:clear` after env edits. Restart Octane after a key change. A rejected key is cached for about 24 hours.
 
-## Related docs
+## Next steps
 
 - [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)

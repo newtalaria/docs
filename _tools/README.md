@@ -48,6 +48,19 @@ All registries follow the spec in IA_SPEC.md §11:
   3. Unique IDs
   4. Content rules (no localhost, harness paths, prices)
   5. Freshness warnings (180-day lastReviewed)
+  6. Heading anchors, using the slug rule below
+
+### Heading anchors
+
+Visible step numbers stay in the heading. The anchor slug drops one leading step number, so reordering steps does not change the link. `### 6. Feature flags` is `#feature-flags`.
+
+`headingSlug` in `validate.ts` is the rule the marketing renderer should match:
+
+1. Trim and lowercase the heading text.
+2. Remove one leading step number: digits, a period, and the following whitespace (`6. `).
+3. Remove HTML tags, then remove characters other than letters, numbers, underscores, spaces, and hyphens.
+4. Turn each run of spaces into a hyphen, collapse repeated hyphens, and trim hyphens from the ends.
+5. The first repeated slug is unchanged. Later copies get `-1`, `-2`, and so on. An explicit `id="..."` or `{#...}` is kept as written.
   
 - **`build-manifest.ts`** - Stub for generating manifest.yaml (phase 1)
 - **`sync-snippets.ts`** - Stub for snippet synchronization (phase 2)
@@ -82,7 +95,7 @@ Pages in this section use either `ci:` or `host:` (mutually exclusive):
 ---
 id: github-actions-deploy
 title: GitHub Actions
-section: deploy-ci
+section: deploy
 ci: github-actions
 type: guide
 # ...
@@ -92,7 +105,7 @@ type: guide
 ---
 id: kubernetes-collector
 title: Kubernetes
-section: deploy-ci
+section: deploy
 host: kubernetes
 type: guide
 # ...
@@ -100,7 +113,7 @@ type: guide
 ```
 
 The schema enforces:
-- Pages in `deploy-ci` section must have either `ci` or `host`
+- Pages in `deploy` section must have either `ci` or `host`
 - Cannot have both `ci` and `host`
 - Values must exist in `ci-providers.yaml` or `hosts.yaml`
 
@@ -111,7 +124,7 @@ The schema enforces:
 - `sdk/collector/kubernetes.md` → `deploy/hosts/kubernetes.md`
 - `sdk/collector/sitehost.md` → `deploy/hosts/sitehost.md`
 
-**Greenfield docs:** No redirects or aliases needed (no live external users per Heath decision 29 Oct 2026).
+**Greenfield docs:** Pages are addressed only by their current path.
 
 ## Current validation status
 
@@ -124,7 +137,7 @@ npm run validate
 ✅ Registries valid  
 ❌ Pages missing frontmatter (expected - no file moves yet)
 
-All pages currently fail validation because they lack required frontmatter fields (`id`, `type`, `section`, `lastReviewed`, `owner`). This is expected and will be fixed during the IA migration when frontmatter is added to every page.
+All pages currently fail validation because they lack required frontmatter fields (`id`, `type`, `section`, `lastReviewed`, `owner`). Add that frontmatter on each page before it can pass.
 
 ## PM decisions reflected
 
@@ -133,7 +146,7 @@ Per the binding PM decisions:
 - ✅ Section name is **Features** (not Capabilities)
 - ✅ Minimal `owners.yaml` with single `docs` owner (no per-page owners)
 - ✅ MCP tool count is 44 (documented, not invented)
-- ✅ **Greenfield docs:** No redirects or aliases (no live external users per Heath decision 29 Oct 2026)
+- ✅ **Greenfield docs:** Pages are addressed only by their current path
 
 ## Build tools
 

@@ -18,42 +18,56 @@ owner: docs
 
 # Quickstart
 
-## Prerequisites
+## What you're setting up
+
+Create an account, a project, and an API key, then send your first event.
+
+## Why use this
+
+Send your first event in under 5 minutes.
+
+## Before you start
 
 - A Talaria account at [one.newtalaria.com](https://one.newtalaria.com)
 - An application you can run locally (Flutter, Dart, JS, PHP, …)
 
-## Create a project and API key
+## Steps
+
+### 1. Create a project and API key
 
 1. Sign in to the [dashboard](https://one.newtalaria.com).
-2. Create an organization (if needed) and a **project**.
-3. Open the project → **API keys** → create a key with ingest scopes (default includes events and spans). Each key is bound to one environment: development, test, staging, or production. Publishable keys look like `tal_pk_<env>_nz1_…` and secret keys look like `tal_sk_<env>_nz1_…`. Existing keys default to development. A deployed app that should report production needs a production key. MCP `setup_project` uses a development key. Production shipping is a second key.
+2. Create an organisation (if needed) and a **project**.
+3. Open **Project settings › API keys** and create a key. The prefix shows its environment (`tal_pk_dev_nz1_…` for local).
 4. Copy the raw `tal_pk_dev_nz1_…` value **once** (shown only at creation). It is a **public client ingest credential** — pass it via env / `--dart-define` / `.env` as you prefer. The key decides the environment. SDKs do not send it.
 
-## Pick an SDK
+### 2. Pick an SDK
 
 See the [SDK hub](../sdk/README.md). For Flutter, start at [Flutter SDK](../sdk/flutter/README.md).
 
-## Wire init
+### 3. Wire init
 
-On Talaria Cloud, omit `url`. The SDK derives `https://ingest-nz1.newtalaria.com` from the key. Set `url` or `TALARIA_URL` only for self-host or a custom domain:
-
-```text
-https://ingest-nz1.newtalaria.com
-```
+On Talaria Cloud the SDK derives `https://ingest-nz1.newtalaria.com` from the key's cell. Leave `url` and `TALARIA_URL` unset. Set `TALARIA_URL` or `url` only for self-host or a custom domain.
 
 Pass the API key from environment / `--dart-define` / `.env`, or embed it in the client — `tal_pk_prod_nz1_…` / `tal_pk_dev_nz1_…` keys are designed to be public. See [Environments and API keys](environments-and-api-keys.md) for key prefixes.
 
-## Enable optional features
+### 4. Enable optional features
 
 Tracing, analytics, heatmaps, and session replay are controlled in **Project settings**, not only in app init. See [Project settings](project-settings.md).
 
-## Verify
+## Check it worked
 
 1. Trigger an error or send a test event from the app.
-2. Open **Issues** in the dashboard on the key's environment, or use MCP `search_issues` / `get_project`. After a local install with a development key (`tal_pk_dev_nz1_…`), select the Development environment in the dashboard.
+2. Open **Issues** in the dashboard on the key's environment, or use MCP `search_issues` / `get_project`.
 
-## Related
+## Troubleshooting
+
+### The local event is not in the production list
+
+**Cause:** A local install uses a development key (`tal_pk_dev_nz1_…`).
+
+**Fix:** Select the Development environment in the dashboard.
+
+## Next steps
 
 - [Add Talaria with an agent](../agents/add-talaria.md)
 - [MCP](../agents/mcp/README.md)

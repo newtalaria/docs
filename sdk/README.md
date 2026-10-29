@@ -46,4 +46,4 @@ SDK majors that change init or config have their own upgrade pages:
 | `talaria/talaria`, and the Laravel pair | [PHP upgrade](php/upgrade.md) |
 | `talaria/silverstripe` with `talaria/talaria` | [Silverstripe upgrade](silverstripe/upgrade.md) |
 
-Agents: filter `search_docs` / `list_docs` with an `sdk` value matching the table. After the hub, `get_doc` `sdk/<id>/instrumentation` and `sdk/<id>/errors`. Search `analytics` or `feature flags` for [best practices](javascript/configuration.md) on that sdk.
+Agents: filter `search_docs` / `list_docs` with an `sdk` value matching the table. After the hub, `get_doc` `sdk/<id>/errors` and `sdk/<id>/tracing`. Search `analytics` or `feature flags` for [configuration](javascript/configuration.md) on that sdk.

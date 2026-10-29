@@ -95,9 +95,9 @@
 - id: feature-flags
   label: Feature flags
   icon: Flag
-  summary: Turn features on or off, or roll out by percentage
+  summary: Turn features on or off remotely from your SDK
   productHref: /product
-  page: false
+  page: true
   mcpTools:
     - list_feature_flags
     - get_feature_flag

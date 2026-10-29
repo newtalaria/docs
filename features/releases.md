@@ -79,7 +79,7 @@ jobs:
 
       - name: Upload source maps
         id: maps
-        uses: newtalaria/release@v1
+        uses: newtalaria/release@v1  # Illustrative until newtalaria/release@v1 is published
         with:
           source-maps: dist
         env:

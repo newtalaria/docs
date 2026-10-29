@@ -30,18 +30,21 @@ order: 30
 lastReviewed: '2026-10-29'
 owner: docs
 ---
-
 # Node.js instrumentation and tracing
+
+## What you're setting up
 
 Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Successful transactions follow the traces sample rate. Error transactions are always sent. Spans follow the OpenTelemetry span model. HTTP propagation uses W3C `traceparent`.
 
 Import `@newtalaria/node` (not `@newtalaria/node/api`) so HTTP is patched.
 
-## Outgoing HTTP
+## Steps
 
-`Talaria.init` installs a patch on `http`, `https`, and `fetch`. The patch waits until the tracer is enabled, so a process that starts before `getConfig` returns still continues `traceparent` on the next outbound call. Requests to Talaria's own base URL are skipped. Do not wrap the SDK's transport yourself.
+### 1. Outgoing HTTP
 
-## Model APIs
+`Talaria.init` installs a patch on `http`, `https`, and `fetch`. The patch waits until the tracer is enabled, so a process that starts before the project config fetch returns still continues `traceparent` on the next outbound call. Requests to Talaria's own base URL are skipped. Do not wrap the SDK's transport yourself.
+
+### 2. Model APIs
 
 Tracing turned on by project setup is enough for the global `fetch` and `http` patches. A `POST` to `api.openai.com` on `/v1/chat/completions`, `/v1/responses`, `/v1/completions`, or `/v1/embeddings`, or a `POST` to `api.anthropic.com` on `/v1/messages`, is one client span. The span name is `{operation} {model}`. Attributes use the OpenTelemetry GenAI names: operation, provider, request model, response model, and input and output token counts when a non-streaming JSON response includes usage. A streaming response records the operation, model, provider, and HTTP status, and leaves the token counts unset. Prompt and completion text are not span attributes.
 
@@ -55,7 +58,7 @@ import { wrapModelFetch } from '@newtalaria/node';
 const client = new OpenAI({ fetch: wrapModelFetch(fetch) });
 ```
 
-## Incoming HTTP
+### 3. Incoming HTTP
 
 Call `handleHttpRequest` at the start of each request. It reads an inbound `traceparent`, opens a SERVER span, and finishes that span when the response ends.
 
@@ -74,7 +77,7 @@ http.createServer((req, res) => {
 }).listen(3000);
 ```
 
-## Manual spans
+### 4. Manual spans
 
 ```javascript
 const span = Talaria.startSpan('checkout.charge', {
@@ -94,13 +97,13 @@ try {
 
 `startTransaction` opens a root span. `setRecordQuerySpans(false)` pauses database spans. `withoutQuerySpans` pauses them for one callback.
 
-## Database clients
+### 5. Database clients
 
 Wrap the object that actually runs the SQL, after `Talaria.init`. Call `handleHttpRequest` on the request that runs the query so the database span is a child of that SERVER span. `@newtalaria/node` does not import database drivers. Install the driver in the app, then pass the pool or connection into the matching wrapper.
 
 `wrapPg` and `wrapMysql2` patch `query`. A library records a span when its SQL goes through that method. A library that opens its own connections, or that never calls `query`, needs the snippet further down for that library. Bound parameter values and result rows stay in the app. The SQL text stored on the span has string literals and numbers removed.
 
-### node-postgres (`pg`)
+#### node-postgres (`pg`)
 
 Wrap the `Pool` or `Client` once, where it is constructed. Every later `query` on that object is a CLIENT span with `db.system.name` = `postgresql`.
 
@@ -118,7 +121,7 @@ const { rows } = await pool.query('SELECT id FROM users WHERE id = $1', [userId]
 
 The value in `[userId]` is the second argument. The wrapper reads the SQL string only. Prefer `$1` placeholders so the value never has to be stripped out of the statement text.
 
-### mysql2
+#### mysql2
 
 Same shape as `pg`. Wrap the pool from `mysql2/promise`. `db.system.name` is `mysql`.
 
@@ -136,7 +139,7 @@ const [rows] = await pool.query('SELECT id FROM users WHERE id = ?', [userId]);
 
 The callback-style `mysql2` connection also has `query`. Wrap that connection the same way if the app does not use the promise API.
 
-### Redis
+#### Redis
 
 `wrapRedis` patches `sendCommand`. `node-redis` passes the command as an array, and the span name uses the first element (`GET`, `SET`). `ioredis` passes a `Command` object; the wrapper reads its `name`, so `redis.get` and `redis.set` are named too. The key and the value are not attributes.
 
@@ -153,7 +156,7 @@ const ioredis = wrapRedis(getNodeClient(), new Redis(process.env.REDIS_URL));
 await ioredis.get('session:1');
 ```
 
-### DuckDB
+#### DuckDB
 
 When the file imports `@duckdb/node-api`, wrap the connection returned by `instance.connect()`. Leave `DuckDBInstance` itself unwrapped.
 
@@ -188,7 +191,7 @@ http.createServer(async (req, res) => {
 
 The span name is the SQL verb. Attributes are `db.system.name` = `duckdb`, `db.operation.name` (a leading `FROM` is recorded as `SELECT`), and `db.query.text` with string literals and numbers removed. A query breadcrumb records the verb. On throw, `captureException` sends the DuckDB message, including a write conflict, plus the sanitized statement. Bound parameter values and result rows stay in the app.
 
-### Prisma
+#### Prisma
 
 `PrismaClient` on its own talks to Prisma's query engine. `findMany` and `create` do not call `pg.Pool.query`, so `wrapPg` on some other pool in the same process does not see them.
 
@@ -235,7 +238,7 @@ try {
 }
 ```
 
-### Drizzle
+#### Drizzle
 
 `drizzle-orm/node-postgres` runs SQL through the `pg` pool you pass in. Wrap the pool, then construct Drizzle with it. `drizzle-orm/mysql2` is the same step with `wrapMysql2`.
 
@@ -256,7 +259,7 @@ const rows = await db.execute(sql`select id from users where id = ${userId}`);
 
 Drizzle's `sql` template sends the value as a parameter. The wrapper records the statement text from `query`, not the bound value.
 
-### Kysely
+#### Kysely
 
 `PostgresDialect` holds a `pg` pool and calls `query` on it. Wrap the pool before the dialect. `MysqlDialect` takes a `mysql2` pool wrapped with `wrapMysql2`.
 
@@ -277,7 +280,7 @@ const db = new Kysely({
 const rows = await db.selectFrom('users').select('id').where('id', '=', userId).execute();
 ```
 
-### Knex
+#### Knex
 
 Knex builds its own connections. A `pg` pool created beside it is a different object, and `wrapPg` on that pool does not see Knex. Record the span from Knex's query events. `query.sql` is the statement. `query.bindings` holds the values; leave them off the span.
 
@@ -314,7 +317,7 @@ db.on('query-error', (error, query) => {
 
 Use `mysql` as `db.system.name` when `client` is `mysql2`.
 
-### Sequelize
+#### Sequelize
 
 Sequelize acquires connections internally. Wrapping a separate `pg` pool does not cover `Model.findAll`. `beforeQuery` and `afterQuery` run around the statement Sequelize compiled. `query.sql` is that statement. Bind parameters stay on the query object.
 
@@ -352,7 +355,7 @@ sequelize.addHook('afterQuery', (_options, query) => {
 
 Set `dialect: 'mysql'` and `db.system.name` to `mysql` for a MySQL connection.
 
-### MongoDB and other drivers
+#### MongoDB and other drivers
 
 There is no wrapper for the MongoDB driver, `better-sqlite3`, or `node:sqlite`. Those clients do not call `query` on `pg` or `mysql2`. Open a CLIENT span around the call and set `db.system.name` to `mongodb` or `sqlite`. Put the operation and the collection or table on the span. Leave filters, documents, and bound values in the app.
 
@@ -379,7 +382,11 @@ try {
 }
 ```
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [Node.js SDK](README.md)
 - [Errors, logs, and breadcrumbs](errors.md)

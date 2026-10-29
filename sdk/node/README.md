@@ -23,9 +23,33 @@ owner: docs
 
 # Node.js SDK
 
-`@newtalaria/node` (0.5.3) is the Node.js server SDK. Browser apps use `@newtalaria/browser`. Next.js should use `@newtalaria/nextjs` so the client and server stay on the right entrypoints.
+## What you're setting up
 
-## Quick setup
+`@newtalaria/node` (0.5.3) is the Node.js server SDK.
+
+**What you can do**
+
+| Capability | Where |
+| --- | --- |
+| Process errors, `captureMessage`, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
+| Incoming HTTP, outgoing HTTP, `pg`, `mysql2`, Redis, and DuckDB | [Instrumentation and tracing](tracing.md) |
+| Analytics and feature flags | [Best practices](configuration.md) |
+
+`logger()` is the browser API. On Node, record a message with `captureMessage`. Tracing and analytics follow [Project configuration](../../get-started/project-settings.md).
+
+`@newtalaria/node/api` is the HTTP-free facade used by Next.js. It does not patch HTTP. Application code should import `@newtalaria/node`.
+
+## Why use this
+
+Browser apps use `@newtalaria/browser`. Next.js should use `@newtalaria/nextjs` so the client and server stay on the right entrypoints.
+
+## Before you start
+
+Store `TALARIA_API_KEY` in the environment.
+
+## Steps
+
+### 1. Quick setup
 
 ```bash
 npm install @newtalaria/node
@@ -46,25 +70,13 @@ await Talaria.flush();
 
 The key decides the environment. This SDK logs one warning when the key is a publishable `tal_pk_` key; use a secret `tal_sk_` key on the server. Do not pass `environment`. A local `setup_project` key is a development key. Confirm with `search_issues` and `environment: development`.
 
-## What you can do
-
-| Capability | Where |
-| --- | --- |
-| Process errors, `captureMessage`, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
-| Incoming HTTP, outgoing HTTP, `pg`, `mysql2`, Redis, and DuckDB | [Instrumentation and tracing](tracing.md) |
-| Analytics and feature flags | [Best practices](configuration.md) |
-
-`logger()` is the browser API. On Node, record a message with `captureMessage`. Tracing and analytics follow [Project configuration](../../get-started/project-settings.md).
-
-`@newtalaria/node/api` is the HTTP-free facade used by Next.js. It does not patch HTTP. Application code should import `@newtalaria/node`.
-
-## Install
+### 2. Install
 
 ```bash
 npm install @newtalaria/node
 ```
 
-## Initialization
+### 3. Initialization
 
 ```javascript
 import { Talaria } from '@newtalaria/node';
@@ -80,7 +92,7 @@ Talaria.init({
 
 Init installs outgoing HTTP instrumentation that waits until project config enables tracing. Call `handleHttpRequest` on each incoming request. If the process imports `pg`, `mysql2`, `ioredis`, `@duckdb/node-api`, Prisma, Drizzle, Kysely, Knex, or Sequelize, wrap the client that runs the SQL after it is created. See [Instrumentation and tracing](tracing.md).
 
-## DuckDB
+### 4. DuckDB
 
 `@duckdb/node-api` stays in your app. Wrap the connection from `instance.connect()`:
 
@@ -102,7 +114,7 @@ const reader = await connection.runAndReadAll(
 
 `run`, `stream`, `prepare`, and `runAndRead*` become CLIENT spans. Bound parameter values and result rows stay in the app. The full request example is on [Instrumentation and tracing](tracing.md).
 
-## Other database libraries
+### 5. Other database libraries
 
 `wrapPg` and `wrapMysql2` patch `query` on a pool you already built. Prisma records the statement when that pool is wrapped first and passed to a driver adapter (`@prisma/adapter-pg`, or the mysql2 adapter with `wrapMysql2`). A default `PrismaClient` does not call `query`, so `findMany` needs a span around the call if you are not using an adapter.
 
@@ -114,23 +126,23 @@ MongoDB, `better-sqlite3`, and `node:sqlite` have no wrapper. Open a CLIENT span
 
 Each snippet is on [Instrumentation and tracing](tracing.md).
 
-## App init vs Project settings
+### 6. App init vs Project settings
 
 Init holds the URL, API key, release, and tags. Tracing and analytics turn on from Project settings. Set `remoteConfig: false` only for an errors-only process that should not fetch policy.
 
-## API key
+### 7. API key
 
-Store `TALARIA_API_KEY` in the environment. Publishable keys look like `tal_pk_<env>_nz1_…` and secret keys look like `tal_sk_<env>_nz1_…`. The server stamps the key's environment on ingest. Send `release` as a version or SHA on every process, including local runs.
+Publishable keys look like `tal_pk_<env>_nz1_…` and secret keys look like `tal_sk_<env>_nz1_…`. The server stamps the key's environment on ingest. Send `release` as a version or SHA on every process, including local runs.
 
-## Verification
+## Check it worked
 
 `await Talaria.captureException(new Error('talaria hello'))`, then `await Talaria.flush()` in a short-lived script. MCP `search_issues` with `environment: development`.
 
 ## Troubleshooting
 
-A rejected key is cached for about 24 hours. Restart the process after rotating it. Outgoing spans appear only after tracing is enabled and `getConfig` has been applied.
+A rejected key is cached for about 24 hours. Restart the process after rotating it. Outgoing spans appear only after tracing is enabled and the project config fetch has been applied.
 
-## Related docs
+## Next steps
 
 - [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)

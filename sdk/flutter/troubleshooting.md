@@ -23,15 +23,15 @@ owner: docs
 
 ## No events in the dashboard
 
-1. Confirm `TALARIA_API_KEY` / dart-define is set and not empty.
-2. Confirm the derived ingest host is `https://ingest-nz1.newtalaria.com` (or your self-hosted API).
+1. Confirm `--dart-define=TALARIA_BROWSER_API_KEY` is set to a publishable key and is not empty.
+2. Leave `url` unset on Talaria Cloud. The SDK derives `https://ingest-nz1.newtalaria.com` from the key. Set `url` only for self-host or a custom domain.
 3. Restart after rotating a rejected key (failed auth is cached ~24h).
 4. MCP: `get_project_stats` / `search_events` with the real project UUID from `list_projects`.
 
 ## Tracing spans missing
 
 1. Enable tracing in **Project settings** (remote config). Init alone is not enough.
-2. Wait for `getConfig` refresh (up to `ttlSeconds`, default ~5 minutes) or restart the app after saving settings.
+2. Wait for project configuration refresh (up to `ttlSeconds`, default ~5 minutes) or restart the app after saving settings.
 3. Confirm you are not wrapping the Talaria ingest client.
 4. Screen spans finish on idle. They are short by design. See [Instrumentation and tracing](tracing.md).
 
