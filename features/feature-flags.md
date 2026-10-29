@@ -3,8 +3,7 @@ id: feature-flags
 title: Feature flags
 navTitle: Feature flags
 description: >-
-  Toggle features remotely with targeting rules based on user context and
-  environment.
+  Turn features on or off remotely and evaluate them from your SDK.
 type: feature
 section: features
 platform: []
@@ -17,7 +16,7 @@ owner: docs
 
 # Feature flags
 
-Feature flags let you control feature availability remotely without deploying new code. Create flags in the dashboard, define targeting rules by environment, user, or organization, and evaluate them from your SDK.
+Feature flags let you control feature availability remotely without deploying new code. Create flags in the dashboard and evaluate them from your SDK.
 
 ## Evaluating flags
 

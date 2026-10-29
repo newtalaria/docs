@@ -80,7 +80,7 @@ The dashboard reads one environment at a time: Production, Staging, Test, Develo
 
 Most alerts with no environment filter evaluate as production. **Exception**: logRate alerts count error-level logs (severity ≥ 17) across all environments with no environment filter available.
 
-Feature flags stay one definition per project. Evaluation uses the key's environment. Rules can target development, test, staging, or production.
+Feature flags stay one definition per project. Evaluation uses the key's environment.
 
 Test, staging, and production use the plan meters, including pay-as-you-go. Development has its own included cap equal to that signal's plan inclusion, hard-stops, and does not create overage.
 

@@ -63,7 +63,7 @@ Most alerts with no environment filter evaluate as production. **Exception**: lo
 
 ### Feature flags
 
-Feature flags stay one definition per project. Flag evaluation uses the key's environment to match targeting rules. A rule can target specific environments: `production`, `staging`, `test`, or `development`.
+Feature flags stay one definition per project. Flag evaluation uses the key's environment.
 
 ### Billing
 

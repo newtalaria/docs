@@ -852,7 +852,7 @@ pages:
   - id: feature-flags
     path: features/feature-flags.md
     title: Feature flags
-    description: Toggle features remotely with targeting rules based on user context and environment.
+    description: Turn features on or off remotely and evaluate them from your SDK.
     type: feature
     section: features
     features:
