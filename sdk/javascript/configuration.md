@@ -42,15 +42,13 @@ Send `release` as a version or git SHA on every event. Upload source maps for th
 
 The API key chooses the environment. Do not pass `environment` in `Talaria.init`. Use a development key locally and a production key on the deployed app. Keep the key out of git if the repository is public; it is still safe to ship inside the browser bundle.
 
-### 3. Sampling
+### 3. Sampling and project settings
 
 Event sampling and trace sampling come from Project settings after fetching project configuration. Successful traces follow the traces sample rate. Error traces stay. A response with `retry: false` stops that signal until the page reloads.
 
-### 4. Project settings
-
 Tracing, analytics, heatmaps, and session replay stay off until the project document allows them. Init cannot turn those signals on by itself. See [Project configuration](../../get-started/project-settings.md).
 
-### 5. Analytics
+### 4. Analytics
 
 Enable **Analytics** in Project settings, then send product events:
 
@@ -62,7 +60,7 @@ Talaria.analytics.track('Checkout Started', { plan: 'pro' });
 
 Browser analytics wait for consent unless you opt the page in. See [Product analytics setup](../../features/analytics.md).
 
-### 6. Feature flags
+### 5. Feature flags
 
 ```javascript
 const on = await Talaria.flags.boolVariation('new-checkout', false);
@@ -70,21 +68,17 @@ const on = await Talaria.flags.boolVariation('new-checkout', false);
 
 `stringVariation` and `jsonVariation` take a key and a default the same way. Evaluation uses the environment of the API key. A flag that is off returns the default.
 
-### 7. Session replay
+### 6. Session replay, heatmaps, and web vitals
 
 Enable session replay in Project settings and set the session sample rate and the error-linked sample rate. The SDK records the session and attaches the recording to errors from that visit. `maskAllInputs` defaults to true. `getReplayId()` returns the current replay id when one is open.
 
 Replay starts only when the project allows it and the visitor consent state allows analytics. Error capture does not wait for that consent.
 
-### 8. Heatmaps
-
 Enable heatmaps and analytics in Project settings. The SDK records clicks, scroll depth, and page snapshots for pages that have consented. Mask inputs and use `blockSelector` or `[data-talaria-mask]` for blocks that should not appear in a snapshot.
-
-### 9. Web Vitals
 
 LCP, INP, CLS, and TTFB are child spans of the pageload transaction. They show up when tracing is on and that pageload was sampled. See [Instrumentation and tracing](tracing.md).
 
-### 10. Consent
+### 7. Consent
 
 The browser SDK follows CookieYes, Cookiebot, and Google Consent Mode `analytics_storage` without extra code. That choice also holds or starts session replay. For any other banner:
 
@@ -95,7 +89,7 @@ Talaria.analytics.optOut();
 
 A page with no banner can set `publicAnalytics: true` so the browser opts in when the project allows analytics. Leave it unset when a banner Talaria already reads is on the page. Details: [Cookie banners](../../guides/cookie-banners.md).
 
-### 11. Privacy in events
+### 8. Privacy in events
 
 Do not put tokens, passwords, or raw card numbers in `extra`, tags, or breadcrumb data. Tags should stay low-cardinality (`service`, `area`, `feature`). Put the release and the user id in the fields made for them.
 

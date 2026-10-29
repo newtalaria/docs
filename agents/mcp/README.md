@@ -19,7 +19,7 @@ owner: docs
 
 # MCP
 
-Hosted MCP at `https://api.newtalaria.com/mcp` (local: `http://{{mcpUrl}}/mcp`). Transport is Streamable HTTP. Auth is OAuth (the client discovers `/.well-known/oauth-protected-resource`, registers at `/oauth/register`, and you approve consent) or a personal token from **Workspace › Integrations**. Install scopes are `mcp:read mcp:write mcp:keys`. A personal token lasts 30 days, 90 days, or until you revoke it. It is opaque base64url JSON (one segment, not a three-part JWT).
+Hosted MCP at `https://api.newtalaria.com/mcp`. Transport is Streamable HTTP. Auth is OAuth (the client discovers `/.well-known/oauth-protected-resource`, registers at `/oauth/register`, and you approve consent) or a personal token from **Workspace › Integrations**. Install scopes are `mcp:read mcp:write mcp:keys`. A personal token lasts 30 days, 90 days, or until you revoke it. It is opaque base64url JSON (one segment, not a three-part JWT).
 
 <!-- snippet: api-key-warning -->
 > [!WARNING]

@@ -96,7 +96,8 @@ export OTEL_EXPORTER_OTLP_TRACES_ENDPOINT="https://ingest-nz1.newtalaria.com/otl
 | Code | Meaning |
 |---|---|
 | 200 | Success |
-| 403 | Forbidden (invalid or missing API key, or gRPC attempted) |
+| 401 | `invalid_key` (missing or invalid API key) |
+| 403 | `insufficient_scope` |
 | 413 | Payload too large (> 6 MiB uncompressed) |
 | 500 | Server error (retry with exponential backoff) |
 

@@ -57,8 +57,6 @@ Never send a monitor token to MCP.
 
 3. You can also copy the same file from the dashboard: **Workspace › Integrations → Copy Cursor mcp.json (OAuth)**.
 
-Local API: `http://{{mcpUrl}}/mcp`.
-
 ### 2. Install Talaria into a repo
 
 1. `get_doc` → `agents/add-talaria`
@@ -67,8 +65,6 @@ Local API: `http://{{mcpUrl}}/mcp`.
 4. On yes: `setup_project` with `confirmed: true` (tracing + one-time key)
 5. Wire SDK from docs (`talaria_flutter`, `runZonedApp`, `--dart-define=TALARIA_BROWSER_API_KEY`). The publishable key decides the environment. Do not pass `environment` in init. `setup_project` returns a development publishable key.
 6. `send_test_event` → verify with `search_events` / `search_issues` and `environment: development`. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
-
-Harness path for local Flutter install tests: `
 
 ### 3. Investigate production
 

@@ -1,7 +1,7 @@
 # API key scopes (v1.4.2)
 # pk or sk: data :write scopes and flags:evaluate
 # sk only: flags:read, monitors:write
-# release key (an sk key): releases:write
+# releases:write: secret key and release key (a release key is an sk key)
 # MCP scopes stay on OAuth
 
 - id: events:write
@@ -54,6 +54,7 @@
 - id: releases:write
   label: releases:write
   credential:
+    - secret-key
     - release-key
 
 - id: monitors:write

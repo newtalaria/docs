@@ -65,8 +65,6 @@ The same entry in `.mcp.json` (project) or the user config:
 
 `type` may be `streamable-http`. It may not be omitted.
 
-Local API: `http://{{mcpUrl}}/mcp`.
-
 ## Check it worked
 
 Call `get_connection` and announce identity before creating projects or minting keys. Install and investigation follow [Add Talaria with an agent](../add-talaria.md) and [Triage issues with an agent](../triage-issues.md).

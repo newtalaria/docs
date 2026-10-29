@@ -22,12 +22,26 @@ owner: docs
 
 # Add Talaria with an agent
 
-Design centre: a developer connects Talaria MCP and says **“Add Talaria to this project.”** You combine local project context + these docs + live Talaria tools.
+## What you're setting up
 
-**Skills:** Cursor and Grok Bot agents can use `talaria-instrument` from the Talaria plugin for guided install. This playbook is the detailed how-to that skills reference. See [Agent skills overview](README.md).
+A developer connects Talaria MCP and says **“Add Talaria to this project.”** You combine local project context, these docs, and live Talaria tools.
 
+## Why use this
 
-## Conversation script (follow in order)
+Cursor and Grok Bot agents can use `talaria-instrument` from the Talaria plugin for guided install. This playbook is the detailed how-to that skills reference. See [Agent skills overview](README.md).
+
+## Before you start
+
+Do not automate these:
+
+- Creating billing orgs / paying plans
+- Committing API keys
+- Creating projects or minting keys without announcing identity and asking first
+- Enabling replay/analytics without consent guidance
+- Claiming features the stack does not support (e.g. browser session replay on Flutter)
+- Switching Talaria **accounts** via tools (reconnect MCP instead)
+
+## Steps
 
 ### 1. Load this playbook and detect the stack
 
@@ -87,10 +101,6 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
    - MongoDB, `better-sqlite3`, and `node:sqlite` have no wrapper. Open a CLIENT span around the call.
    Leave bound values, documents, and result rows in the app.
 5. Call **`send_test_event`** on the real `projectId`.
-6. Verify with `search_events` / `search_issues`, passing `environment: development`. A just-installed project has no production key, and these tools default to development in that case; pass `development` anyway so a later production key does not hide the local traffic. Install success is `search_issues` or `search_events` on development. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
-7. Close with the `dashboardUrl` and how to run the app with the key. The dashboard shell reads one environment at a time and defaults to production when a production key exists, otherwise development. Switch to Development to see this install.
-
-Do **not** claim “Talaria is wired” until step 6 returns the test event.
 
 ### 5. Source maps for browser, React, and Next
 
@@ -99,10 +109,10 @@ After init, a minified stack stays minified until maps are uploaded for the same
 1. `get_doc` path `guides/upload-javascript-source-maps`.
 2. Set `Talaria.init({ release: 'local' })` for a local run, or the git SHA in CI. The release string on events must match the upload.
 3. Ask before minting a second key. Call `create_api_key` with `scopes: ["releases:write"]` and a name like `source maps`. Do not add that scope to the browser key from `setup_project`.
-4. Put the raw key only in `TALARIA_RELEASE_KEY`. Then run `npx talaria source-maps upload ./dist` (local default is `http://{{mcpUrl}}` and release `local`).
+4. Put the raw key only in `TALARIA_RELEASE_KEY`. Then run `npx talaria source-maps upload ./dist`. Leave `TALARIA_URL` unset on Talaria Cloud. The default release is `local`.
 5. Open the event with `get_event`. If a frame is still a hashed `*.js` file, call `get_source_map` and upload the `fileName` it returns.
 
-## App init vs Project settings
+### 6. App init vs Project settings
 
 | In app init | In Project settings (the project config fetch) |
 | ----------- | ---------------------------------------- |
@@ -115,18 +125,31 @@ After init, a minified stack stays minified until maps are uploaded for the same
 
 Until remote config arrives, SDKs send **errors only**. Flutter does not support browser session replay.
 
-## Production loop (after install)
+### 7. Production loop
 
 1. `search_issues` with `environment: production` (the default once a production key exists) → `get_issue` → optional `get_trace` / `search_sessions` in that same environment.
 2. Fix code locally.
 3. Instrument more using docs. `search_docs` with the stack `sdk` filter for `tracing`, `errors`, or `analytics`, then `get_doc` the top hit. Analytics and feature flags are on `sdk/<id>/configuration`.
 4. Re-verify with stats and search tools.
 
-## Do not automate blindly
+## Check it worked
 
-- Creating billing orgs / paying plans
-- Committing API keys
-- Creating projects or minting keys without announcing identity and asking first
-- Enabling replay/analytics without consent guidance
-- Claiming features the stack does not support (e.g. browser session replay on Flutter)
-- Switching Talaria **accounts** via tools (reconnect MCP instead)
+Verify with `search_events` / `search_issues`, passing `environment: development`. A just-installed project has no production key, and these tools default to development in that case; pass `development` anyway so a later production key does not hide the local traffic. Install success is `search_issues` or `search_events` on development.
+
+Close with the `dashboardUrl` and how to run the app with the key. The dashboard shell reads one environment at a time and defaults to production when a production key exists, otherwise development. Switch to Development to see this install.
+
+Do **not** claim “Talaria is wired” until that search returns the test event.
+
+## Troubleshooting
+
+### Stats stay at zero after the test event
+
+**Cause:** `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
+
+**Fix:** Confirm install with `search_issues` or `search_events` on `environment: development`. Do not treat a zero analytics count as a failed install.
+
+## Next steps
+
+- [Agent skills overview](README.md)
+- [Upload JavaScript source maps](../guides/upload-javascript-source-maps.md)
+- [Project configuration](../get-started/project-settings.md)

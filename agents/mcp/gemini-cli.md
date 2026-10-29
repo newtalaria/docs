@@ -58,8 +58,6 @@ Or in `~/.gemini/settings.json` (user) or the project settings file:
 }
 ```
 
-Local API: `http://{{mcpUrl}}/mcp`.
-
 ## Check it worked
 
 Call `get_connection` and announce identity before creating projects or minting keys. Install and investigation follow [Add Talaria with an agent](../add-talaria.md) and [Triage issues with an agent](../triage-issues.md).

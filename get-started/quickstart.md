@@ -46,11 +46,7 @@ See the [SDK hub](../sdk/README.md). For Flutter, start at [Flutter SDK](../sdk/
 
 ### 3. Wire init
 
-Use the cloud ingest URL as `url` unless you self-host:
-
-```text
-https://ingest-nz1.newtalaria.com
-```
+On Talaria Cloud the SDK derives `https://ingest-nz1.newtalaria.com` from the key's cell. Leave `url` and `TALARIA_URL` unset. Set `TALARIA_URL` or `url` only for self-host or a custom domain.
 
 Pass the API key from environment / `--dart-define` / `.env`, or embed it in the client — `tal_pk_prod_nz1_…` / `tal_pk_dev_nz1_…` keys are designed to be public. See [Environments and API keys](environments-and-api-keys.md) for key prefixes.
 

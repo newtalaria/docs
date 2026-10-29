@@ -60,8 +60,6 @@ VS Code tries Streamable HTTP, then falls back to SSE. Talaria answers Streamabl
 
 A portable `.mcp.json` at the workspace root uses `mcpServers` instead of `servers`. If you use that file, still set `"type": "http"` and `url`.
 
-Local API: `http://{{mcpUrl}}/mcp`.
-
 ## Check it worked
 
 Command Palette → **MCP: List Servers** and confirm Talaria lists its tools. Call `get_connection` before creating projects or minting keys. Install and investigation follow [Add Talaria with an agent](../add-talaria.md) and [Triage issues with an agent](../triage-issues.md).

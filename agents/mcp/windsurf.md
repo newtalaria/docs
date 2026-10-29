@@ -64,8 +64,6 @@ The token is an **opaque single-segment** base64url JSON payload (starts with `e
 
 Config values in `serverUrl` and `headers` can interpolate `${env:NAME}` so the token stays out of the file.
 
-Local API: `http://{{mcpUrl}}/mcp`.
-
 ## Check it worked
 
 Confirm Talaria is connected in the MCP servers panel, then call `get_connection` and announce identity before creating projects or minting keys. Install and investigation follow [Add Talaria with an agent](../add-talaria.md) and [Triage issues with an agent](../triage-issues.md).

@@ -47,8 +47,6 @@ Never send a monitor token to MCP.
 url = "https://api.newtalaria.com/mcp"
 ```
 
-Local API: `http://{{mcpUrl}}/mcp`.
-
 ### 2. Personal token
 
 1. Dashboard **Workspace › Integrations → Create personal token**. Choose 30 days, 90 days, or until you revoke it.

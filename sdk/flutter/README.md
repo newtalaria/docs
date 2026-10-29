@@ -128,7 +128,7 @@ See [Project configuration](../../get-started/project-settings.md).
 
 ### 5. API key
 
-Pass the key with `--dart-define`. The server stamps the key's environment on events, spans, analytics, and heatmaps. URL for Talaria Cloud is `https://ingest-nz1.newtalaria.com`.
+Pass the key with `--dart-define`. The server stamps the key's environment on events, spans, analytics, and heatmaps. Leave `url` unset on Talaria Cloud. The SDK derives `https://ingest-nz1.newtalaria.com` from the key. Set `url` only for self-host or a custom domain.
 
 ## Check it worked
 

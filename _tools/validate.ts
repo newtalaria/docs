@@ -326,6 +326,7 @@ function checkContentRules(pages: PageFile[]): void {
         }
       }
     }
+    checkUnresolvedTemplates(page.relativePath, body);
   }
   
   // Check registry files
@@ -344,22 +345,98 @@ function checkContentRules(pages: PageFile[]): void {
         );
       }
     }
+    checkUnresolvedTemplates(`_registry/${file}`, content);
   }
+}
+
+const UNRESOLVED_TEMPLATE = /(?<!\$)\{\{[^}]+\}\}/g;
+
+function checkUnresolvedTemplates(label: string, content: string): void {
+  const matches = content.match(UNRESOLVED_TEMPLATE);
+  if (matches && matches.length > 0) {
+    errors.push(`🚫 ${label}: unresolved template (${matches[0]})`);
+  }
+}
+
+function githubSlug(heading: string): string {
+  return heading
+    .trim()
+    .toLowerCase()
+    .replace(/<[^>]+>/g, "")
+    .replace(/[^\w\s-]/g, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function headingAnchors(body: string): Set<string> {
+  const withoutFences = body.replace(/```[\s\S]*?```/g, "");
+  const counts = new Map<string, number>();
+  const anchors = new Set<string>();
+  for (const match of withoutFences.matchAll(/^#{1,6}\s+(.+)$/gm)) {
+    const base = githubSlug(match[1]);
+    if (!base) continue;
+    const seen = counts.get(base) ?? 0;
+    counts.set(base, seen + 1);
+    anchors.add(seen === 0 ? base : `${base}-${seen}`);
+  }
+  for (const match of withoutFences.matchAll(/\bid=["']([^"']+)["']/g)) {
+    anchors.add(match[1]);
+  }
+  for (const match of withoutFences.matchAll(/\{#([A-Za-z0-9_-]+)\}/g)) {
+    anchors.add(match[1]);
+  }
+  return anchors;
 }
 
 function checkLinks(pages: PageFile[]): void {
   const pathMap = new Set<string>();
+  const anchorsByPath = new Map<string, Set<string>>();
   
-  // Build map of valid paths
+  // Build map of valid paths and heading anchors (GitHub slug rules).
   for (const page of pages) {
     pathMap.add(page.relativePath);
-    // Also accept without .md extension
     pathMap.add(page.relativePath.replace(/\.md$/, ""));
-    // README.md can be referenced as directory
     if (page.relativePath.endsWith("/README.md")) {
       pathMap.add(page.relativePath.replace(/\/README\.md$/, ""));
     }
+    const { content: body } = matter(readFileSync(page.path, "utf-8"));
+    anchorsByPath.set(page.relativePath, headingAnchors(body));
   }
+
+  const resolvePage = (from: string, urlPath: string): string | null => {
+    if (!urlPath) return from;
+    let candidate = urlPath;
+    if (urlPath.startsWith("/docs/")) {
+      candidate = urlPath.replace(/^\/docs\//, "");
+    } else if (urlPath.startsWith("/")) {
+      return null;
+    } else {
+      const dir = from.includes("/") ? from.substring(0, from.lastIndexOf("/")) : "";
+      candidate = join(dir, urlPath).replace(/\\/g, "/");
+    }
+    if (anchorsByPath.has(candidate)) return candidate;
+    if (anchorsByPath.has(candidate + ".md")) return candidate + ".md";
+    if (anchorsByPath.has(candidate + "/README.md")) return candidate + "/README.md";
+    return null;
+  };
+
+  const checkAnchor = (from: string, url: string, target: string | null): void => {
+    const hash = url.includes("#") ? url.slice(url.indexOf("#") + 1) : "";
+    if (!hash || !target) return;
+    let anchor = hash;
+    try {
+      anchor = decodeURIComponent(hash);
+    } catch {
+      anchor = hash;
+    }
+    const anchors = anchorsByPath.get(target);
+    if (!anchors?.has(anchor)) {
+      errors.push(
+        `🔗 ${from}: broken anchor ${url} (no heading #${anchor} on ${target})`
+      );
+    }
+  };
   
   for (const page of pages) {
     if (page.frontmatter.visibility === "contributor") continue;
@@ -374,8 +451,12 @@ function checkLinks(pages: PageFile[]): void {
     while ((match = linkPattern.exec(body)) !== null) {
       const url = match[2];
       
-      // Skip external URLs, anchors, and mailto
-      if (url.startsWith("http") || url.startsWith("#") || url.startsWith("mailto:")) {
+      if (url.startsWith("http") || url.startsWith("mailto:")) {
+        continue;
+      }
+
+      if (url.startsWith("#")) {
+        checkAnchor(page.relativePath, url, page.relativePath);
         continue;
       }
       
@@ -386,6 +467,8 @@ function checkLinks(pages: PageFile[]): void {
           errors.push(
             `🔗 ${page.relativePath}: broken /docs link: ${url}`
           );
+        } else {
+          checkAnchor(page.relativePath, url, resolvePage(page.relativePath, docPath));
         }
         continue;
       }
@@ -393,9 +476,11 @@ function checkLinks(pages: PageFile[]): void {
       // Check relative paths
       if (!url.startsWith("/")) {
         const urlPath = url.split("#")[0].split("?")[0];
-        if (!urlPath) continue; // Just an anchor
+        if (!urlPath) {
+          checkAnchor(page.relativePath, url, page.relativePath);
+          continue;
+        }
         
-        // Resolve relative to current file
         const dir = page.relativePath.includes("/") 
           ? page.relativePath.substring(0, page.relativePath.lastIndexOf("/"))
           : "";
@@ -406,6 +491,8 @@ function checkLinks(pages: PageFile[]): void {
           errors.push(
             `🔗 ${page.relativePath}: broken relative link: ${url} (resolves to ${resolved})`
           );
+        } else {
+          checkAnchor(page.relativePath, url, resolvePage(page.relativePath, urlPath));
         }
       }
     }
@@ -454,7 +541,8 @@ function requiredTaskH2s(page: PageFile): string[] | null {
   // §6.0.2: optional blocks may be omitted. These kinds are errors.
   if (fm.section === "deploy" && fm.type === "guide") return TASK_H2S;
   if (fm.section === "get-started" && fm.type === "quickstart") return TASK_H2S;
-  if (rel.startsWith("agents/mcp/") && file !== "README" && fm.type === "guide") return TASK_H2S;
+  if (fm.section === "guides" && fm.type === "guide") return TASK_H2S;
+  if (fm.section === "agents" && fm.type === "guide") return TASK_H2S;
   if (fm.section === "platforms" && (fm.type === "quickstart" || (fm.type === "guide" && file === "upgrade"))) {
     return TASK_H2S.filter((heading) => heading !== "Troubleshooting");
   }

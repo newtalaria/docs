@@ -53,10 +53,10 @@ Bodies are plain JSON with no `input` wrapper. Batches are `{"<plural>":[…]}`.
 | POST | `/v1/spans` | pk or sk | `spans:write` |
 | POST | `/v1/analytics` | pk or sk | `analytics:write` |
 | POST | `/v1/replays` | pk or sk | `replays:write` |
-| POST | `/v1/replays/segments` | pk or sk | `replays:write` |
+| POST | `/v1/replays/segments` | pk or sk | `replays:write` (`{"segments":[…]}` or octet-stream gzip) |
 | POST | `/v1/replays/{replayId}/finish` | pk or sk | `replays:write` |
 | POST | `/v1/heatmaps` | pk or sk | `analytics:write` |
-| POST | `/v1/heatmaps/snapshots` | pk or sk | `analytics:write` |
+| POST | `/v1/heatmaps/snapshots` | pk or sk | `analytics:write` (JSON or octet-stream gzip) |
 | POST | `/v1/screen-heatmaps` | pk or sk | `analytics:write` |
 | POST | `/v1/screen-heatmaps/snapshots` | pk or sk | `analytics:write` |
 | POST | `/v1/screen-heatmaps/recordings` | pk or sk | `analytics:write` |
@@ -68,8 +68,7 @@ Bodies are plain JSON with no `input` wrapper. Batches are `{"<plural>":[…]}`.
 | GET | `/v1/flags?keys=` | sk | `flags:read` |
 | POST | `/v1/client-reports` | pk or sk | any valid key |
 | POST | `/otlp/v1/{traces,logs,metrics}` | pk or sk | `spans:write` / `logs:write` / `metrics:write` |
-
-`POST /v1/deploys` returns 501 `not_implemented` and is not available.
+| POST | `/v1/deploys` | n/a | 501 `not_implemented` (not available) |
 
 SDKs and the CLI call `/v1/releases` and `/v1/source-maps`.
 
