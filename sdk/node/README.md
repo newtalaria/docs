@@ -1,5 +1,5 @@
 ---
-title: Node SDK
+title: Node.js SDK
 description: >-
   Install the Talaria node SDK and capture errors, logs, and traces from your
   node application.

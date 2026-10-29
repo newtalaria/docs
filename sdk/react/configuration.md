@@ -1,5 +1,5 @@
 ---
-title: React best practices
+title: React configuration
 description: >-
   Release, sampling, analytics, feature flags, session replay, heatmaps, and
   consent for @newtalaria/react.

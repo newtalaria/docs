@@ -1,5 +1,5 @@
 ---
-title: Nextjs SDK
+title: Next.js SDK
 description: >-
   Install the Talaria nextjs SDK and capture errors, logs, and traces from your
   nextjs application.

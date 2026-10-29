@@ -1,5 +1,5 @@
 ---
-title: Javascript SDK
+title: JavaScript SDK
 description: >-
   Install the Talaria javascript SDK and capture errors, logs, and traces from
   your javascript application.

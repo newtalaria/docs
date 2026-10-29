@@ -51,11 +51,7 @@ The **Talaria** plugin for Cursor and Grok Bot includes five closed-loop skills 
 
 **Closed loop:** get-started → instrument → observe → triage → verify-fix.
 
-Skills are available from:
-
-- **Cursor Marketplace:** Install the Talaria plugin
-- **cursor.directory:** [cursor.directory/plugins/talaria](https://cursor.directory/plugins/talaria)
-- **GitHub:** [newtalaria/talaria-agent-plugin](https://github.com/newtalaria/talaria-agent-plugin)
+Skills are available from the **[Talaria plugin](https://github.com/newtalaria/cursor-plugin)**.
 
 Agents can also follow the Markdown playbooks via `docs_get`: [Add Talaria with an agent](../add-talaria.md) (≈ instrument), [Triage issues with an agent](../triage-issues.md) (≈ triage). See [Agent skills overview](../README.md) for the skills → playbooks map.
 

@@ -1,5 +1,5 @@
 ---
-title: Next.js best practices
+title: Next.js configuration
 description: >-
   Release, sampling, analytics, feature flags, session replay, heatmaps, and
   consent for @newtalaria/nextjs.

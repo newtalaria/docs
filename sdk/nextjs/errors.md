@@ -1,5 +1,5 @@
 ---
-title: 'Nextjs errors, logs, and breadcrumbs'
+title: 'Next.js errors, logs, and breadcrumbs'
 description: >-
   Capture exceptions, logs, breadcrumbs, and user context in nextjs with
   Talaria.

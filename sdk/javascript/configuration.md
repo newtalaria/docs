@@ -1,5 +1,5 @@
 ---
-title: JavaScript best practices
+title: JavaScript configuration
 description: >-
   Release, sampling, analytics, feature flags, session replay, heatmaps, web
   vitals, and consent for @newtalaria/browser.

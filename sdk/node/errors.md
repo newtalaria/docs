@@ -1,5 +1,5 @@
 ---
-title: 'Node errors, logs, and breadcrumbs'
+title: 'Node.js errors, logs, and breadcrumbs'
 description: 'Capture exceptions, logs, breadcrumbs, and user context in node with Talaria.'
 package: '@newtalaria/node'
 tags:

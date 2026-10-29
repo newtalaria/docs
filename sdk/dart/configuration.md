@@ -1,5 +1,5 @@
 ---
-title: Dart best practices
+title: Dart configuration
 description: 'Release, sampling, analytics, and feature flags for the talaria package.'
 package: talaria
 tags:

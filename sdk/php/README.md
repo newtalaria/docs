@@ -1,5 +1,5 @@
 ---
-title: Php SDK
+title: PHP SDK
 description: >-
   Install the Talaria php SDK and capture errors, logs, and traces from your php
   application.

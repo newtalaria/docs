@@ -1,5 +1,5 @@
 ---
-title: 'Javascript errors, logs, and breadcrumbs'
+title: 'JavaScript errors, logs, and breadcrumbs'
 description: >-
   Capture exceptions, logs, breadcrumbs, and user context in javascript with
   Talaria.

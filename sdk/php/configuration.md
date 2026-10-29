@@ -1,5 +1,5 @@
 ---
-title: PHP best practices
+title: PHP configuration
 description: 'Release, sampling, analytics, and feature flags for talaria/talaria.'
 package: talaria/talaria
 tags:

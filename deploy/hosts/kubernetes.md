@@ -5,7 +5,7 @@ description: >-
   Deploy the OpenTelemetry Collector on Kubernetes with Helm values and a
   CronJob health check-in.
 type: guide
-section: deploy-ci
+section: deploy
 platform: []
 feature: []
 host: kubernetes

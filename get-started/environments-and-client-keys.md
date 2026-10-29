@@ -1,14 +1,14 @@
 ---
 title: Environments and client keys
 description: >-
-  How API keys decide environments, what environments control, and when to use
+  How client keys decide environments, what environments control, and when to use
   multiple keys.
 tags:
   - environments
   - api-keys
   - configuration
 id: environments-and-client-keys
-navTitle: Environments & keys
+navTitle: Environments and client keys
 type: concept
 section: get-started
 platform: []

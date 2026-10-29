@@ -1,5 +1,5 @@
 ---
-title: Node.js best practices
+title: Node.js configuration
 description: 'Release, sampling, analytics, and feature flags for @newtalaria/node.'
 package: '@newtalaria/node'
 tags:

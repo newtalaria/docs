@@ -11,7 +11,7 @@ type: quickstart
 section: get-started
 platform: []
 feature: []
-order: 20
+order: 15
 lastReviewed: '2026-10-29'
 owner: docs
 ---
