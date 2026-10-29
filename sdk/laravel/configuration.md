@@ -1,5 +1,5 @@
 ---
-title: Laravel best practices
+title: Laravel configuration
 description: >-
   Release, sampling, analytics, feature flags, and the injected browser session
   replay, heatmaps, and consent for talaria/laravel.

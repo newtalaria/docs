@@ -15,7 +15,7 @@ lastReviewed: '2026-10-29'
 owner: docs
 ---
 
-# Getting started
+# Get started
 
 - [Quickstart](quickstart.md) — account, project, API key, first event
 - [Environments and client keys](environments-and-client-keys.md) — how keys decide environments

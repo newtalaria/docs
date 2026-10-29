@@ -33,23 +33,6 @@
   icon: Boxes
   order: 30
   path: features
-  subgroups:
-    - id: integrations
-      label: Integrations
-      path: features/integrations
-
-- id: deploy-ci
-  label: Deploy & CI
-  icon: Rocket
-  order: 35
-  path: deploy
-  subgroups:
-    - id: ci-providers
-      label: CI Providers
-      path: deploy/ci
-    - id: hosts
-      label: Hosts & Runtimes
-      path: deploy/hosts
 
 - id: agents
   label: Agents and MCP
@@ -63,6 +46,19 @@
   icon: BookOpen
   order: 50
   path: guides
+
+- id: deploy
+  label: Deploy & CI
+  icon: Workflow
+  order: 55
+  path: deploy
+  subgroups:
+    - id: ci-providers
+      label: CI providers
+      path: deploy/ci
+    - id: hosts
+      label: Hosts & runtimes
+      path: deploy/hosts
 
 - id: reference
   label: Reference

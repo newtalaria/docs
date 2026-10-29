@@ -7,7 +7,7 @@
 import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { join, relative } from "node:path";
 import matter from "gray-matter";
-import { stringify as stringifyYaml } from "yaml";
+import { stringify as stringifyYaml, parse as parseYaml } from "yaml";
 
 const DOCS_ROOT = join(import.meta.dirname, "..");
 const MANIFEST_PATH = join(DOCS_ROOT, "manifest.yaml");
@@ -26,6 +26,7 @@ interface Page {
   clients?: string[];
   status?: string;
   tags?: string[];
+  order?: number; // for sorting within section
 }
 
 interface Manifest {
@@ -112,6 +113,9 @@ export function buildManifest(): Manifest {
     if (fm.tags && Array.isArray(fm.tags) && fm.tags.length > 0) {
       page.tags = fm.tags;
     }
+    if (typeof fm.order === "number") {
+      page.order = fm.order;
+    }
     
     pages.push(page);
   }
@@ -124,25 +128,29 @@ export function buildManifest(): Manifest {
     process.exit(1);
   }
   
-  // Sort by section, then by id for stable output
+  // Load sections.yaml to get section order
+  const sectionsYamlPath = join(DOCS_ROOT, "_registry", "sections.yaml");
+  const sectionsYaml = readFileSync(sectionsYamlPath, "utf-8");
+  const sections = parseYaml(sectionsYaml) as Array<{ id: string; order: number }>;
+  const sectionOrderMap: Record<string, number> = {};
+  for (const section of sections) {
+    sectionOrderMap[section.id] = section.order;
+  }
+  
+  // Sort by section order, then by page order, then by id
   pages.sort((a, b) => {
-    const sectionOrder = (s: string | undefined) => {
-      if (!s) return 999;
-      const order: Record<string, number> = {
-        "get-started": 1,
-        "platforms": 2,
-        "features": 3,
-        "deploy-ci": 4,
-        "agents": 5,
-        "guides": 6,
-        "reference": 7,
-      };
-      return order[s] || 999;
-    };
-    
-    const sectionDiff = sectionOrder(a.section) - sectionOrder(b.section);
+    const sectionOrderA = sectionOrderMap[a.section || ""] || 999;
+    const sectionOrderB = sectionOrderMap[b.section || ""] || 999;
+    const sectionDiff = sectionOrderA - sectionOrderB;
     if (sectionDiff !== 0) return sectionDiff;
     
+    // Within same section, sort by page order
+    const orderA = a.order ?? 999;
+    const orderB = b.order ?? 999;
+    const orderDiff = orderA - orderB;
+    if (orderDiff !== 0) return orderDiff;
+    
+    // Finally by id for stable output
     return a.id.localeCompare(b.id);
   });
   
@@ -174,44 +182,6 @@ function validateManifest(manifest: Manifest): void {
       errors.push(`Duplicate id: ${page.id}`);
     }
     ids.add(page.id);
-  }
-  
-  // Load old manifest if exists and check all old paths resolve
-  const oldManifestPath = MANIFEST_PATH;
-  if (existsSync(oldManifestPath)) {
-    const oldContent = readFileSync(oldManifestPath, "utf-8");
-    const oldManifest = matter(oldContent).data as any;
-    
-    if (oldManifest && oldManifest.pages) {
-      console.log(`Checking ${oldManifest.pages.length} old manifest paths resolve...\n`);
-      
-      // Build resolution map: paths point to pages (no aliases)
-      const resolutionMap = new Map<string, string>();
-      
-      for (const page of manifest.pages) {
-        // Current path resolves to itself
-        resolutionMap.set(page.path, page.id);
-        resolutionMap.set(page.path.replace(/\.md$/, ""), page.id);
-      }
-      
-      // Check each old path
-      let unresolved = 0;
-      for (const oldPage of oldManifest.pages) {
-        const oldPath = oldPage.path;
-        const oldPathNoExt = oldPath.replace(/\.md$/, "");
-        
-        if (!resolutionMap.has(oldPath) && !resolutionMap.has(oldPathNoExt)) {
-          console.log(`  ⚠️  Old path unresolved: ${oldPath} (id: ${oldPage.id})`);
-          unresolved++;
-        }
-      }
-      
-      if (unresolved > 0) {
-        console.log(`⚠️  ${unresolved} old manifest paths do not resolve (greenfield docs, no aliases needed)\n`);
-      } else {
-        console.log(`✅ All old paths resolve\n`);
-      }
-    }
   }
   
   if (errors.length > 0) {

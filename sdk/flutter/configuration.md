@@ -1,5 +1,5 @@
 ---
-title: Flutter best practices
+title: Flutter configuration
 description: >-
   Release, sampling, analytics, feature flags, and screen heatmap consent for
   talaria_flutter.

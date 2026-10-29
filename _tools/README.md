@@ -133,7 +133,6 @@ Per the binding PM decisions:
 - ✅ Section name is **Features** (not Capabilities)
 - ✅ Minimal `owners.yaml` with single `docs` owner (no per-page owners)
 - ✅ MCP tool count is 44 (documented, not invented)
-- ✅ No Cursor Marketplace claims anywhere
 - ✅ **Greenfield docs:** No redirects or aliases (no live external users per Heath decision 29 Oct 2026)
 
 ## Build tools

@@ -37,4 +37,13 @@ Each guide opens with a quick setup and a short map of what that package can do.
 
 JavaScript, React, and Next.js source maps: [Upload JavaScript source maps](../guides/upload-javascript-source-maps.md).
 
+## Upgrade guides
+
+SDK majors that change init or config have their own upgrade pages:
+
+| Package | Guide |
+| --- | --- |
+| `talaria/talaria`, and the Laravel pair | [PHP upgrade](php/upgrade.md) |
+| `talaria/silverstripe` with `talaria/talaria` | [Silverstripe upgrade](silverstripe/upgrade.md) |
+
 Agents: filter `docs_search` / `docs_list` with an `sdk` value matching the table. After the hub, `docs_get` `sdk/<id>/instrumentation` and `sdk/<id>/errors`. Search `analytics` or `feature flags` for [best practices](javascript/configuration.md) on that sdk.

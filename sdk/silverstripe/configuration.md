@@ -1,5 +1,5 @@
 ---
-title: Silverstripe best practices
+title: Silverstripe configuration
 description: >-
   Release, sampling, analytics, feature flags, and injected browser replay,
   heatmaps, and consent for talaria/silverstripe.

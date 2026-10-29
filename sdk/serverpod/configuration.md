@@ -1,5 +1,5 @@
 ---
-title: Serverpod best practices
+title: Serverpod configuration
 description: 'Release, sampling, analytics, and TalariaServerpodFlags for talaria_serverpod.'
 package: talaria_serverpod
 tags:

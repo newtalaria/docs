@@ -4,7 +4,7 @@ title: SiteHost containers
 navTitle: SiteHost
 description: Tail container logs and run supervisord health checks on SiteHost PHP hosting.
 type: guide
-section: deploy-ci
+section: deploy
 platform:
   - php
   - laravel

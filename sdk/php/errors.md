@@ -1,5 +1,5 @@
 ---
-title: 'Php errors, logs, and breadcrumbs'
+title: 'PHP errors, logs, and breadcrumbs'
 description: 'Capture exceptions, logs, breadcrumbs, and user context in php with Talaria.'
 package: talaria/talaria
 tags:

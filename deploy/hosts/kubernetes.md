@@ -3,7 +3,7 @@ id: kubernetes-collector
 title: Kubernetes
 description: Deploy the OpenTelemetry Collector on Kubernetes to send traces, logs, and metrics to Talaria.
 type: guide
-section: deploy-ci
+section: deploy
 platform: []
 feature: []
 host: kubernetes
