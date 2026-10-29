@@ -35,7 +35,7 @@ If Codex opens a browser for OAuth, sign in to Talaria and **Allow** install sco
 
 ## Personal token
 
-1. Dashboard **Settings → Integrations → Create personal token**. Choose 30 days, 90 days, or until you revoke it.
+1. Dashboard **Workspace › Integrations → Create personal token**. Choose 30 days, 90 days, or until you revoke it.
 2. Export the token, then point Codex at the variable name. Restart Codex after the variable is set so the process can see it.
 
 ```bash

@@ -22,7 +22,7 @@ lastReviewed: '2026-10-29'
 owner: docs
 ---
 
-# Serverpod best practices
+# Serverpod configuration
 
 ## Release
 
@@ -63,7 +63,7 @@ await TalariaServerpodFlags.ensureLocalDefinitions();
 final on = await TalariaServerpodFlags.boolVariation('new-checkout', false);
 ```
 
-`stringVariation` and `jsonVariation` take a key and a default. `setContext` sets the user, organization, and attributes used for evaluation. When the flag is off, or definitions have not loaded, the default is returned.
+`stringVariation` and `jsonVariation` take a key and a default. `setContext` sets the user, organisation, and attributes used for evaluation. When the flag is off, or definitions have not loaded, the default is returned.
 
 ## Privacy in events
 

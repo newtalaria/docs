@@ -27,7 +27,7 @@ lastReviewed: '2026-10-29'
 owner: docs
 ---
 
-# Laravel best practices
+# Laravel configuration
 
 ## Release
 

@@ -46,7 +46,7 @@ Local API: `http://{{mcpUrl}}/mcp`.
 
 ## Personal token (if OAuth stalls)
 
-1. Dashboard **Settings → Integrations → Create personal token**. Choose 30 days, 90 days, or until you revoke it.
+1. Dashboard **Workspace › Integrations → Create personal token**. Choose 30 days, 90 days, or until you revoke it.
 2. Pass the header on the CLI, or set `headers` in settings.
 
 ```bash

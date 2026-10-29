@@ -26,7 +26,7 @@ owner: docs
 ## Create a project and API key
 
 1. Sign in to the [dashboard](https://one.newtalaria.com).
-2. Create an organization (if needed) and a **project**.
+2. Create an organisation (if needed) and a **project**.
 3. Open **Project settings › Client keys** and create a key. The prefix shows its environment (`tal_dev_…` for local).
 4. Copy the raw `tal_dev_…` value **once** (shown only at creation). It is a **public client ingest credential** — pass it via env / `--dart-define` / `.env` as you prefer. The key decides the environment. SDKs do not send it.
 

@@ -38,13 +38,13 @@ owner: docs
 3. Cursor requests `tools/list`, receives HTTP 401, and opens consent. Sign in to Talaria if needed, then **Allow** install scopes (`mcp:read mcp:write mcp:keys`).
 4. After approve you should see the full tool catalogue (not only `docs_*`). Call `get_connection` and announce identity before creating projects or minting keys.
 
-You can also copy the same file from the dashboard: **Settings → Integrations → Copy Cursor mcp.json (OAuth)**.
+You can also copy the same file from the dashboard: **Workspace › Integrations → Copy Cursor mcp.json (OAuth)**.
 
 Local API: `http://{{mcpUrl}}/mcp`.
 
 ## Personal token (if OAuth stalls)
 
-1. Dashboard **Settings → Integrations → Create personal MCP token**.
+1. Dashboard **Workspace › Integrations → Create personal MCP token**.
 2. Prefer **Copy Cursor mcp.json** (shown once). Choose 30 days, 90 days, or until you revoke it. Or paste Bearer yourself:
 
    ```json

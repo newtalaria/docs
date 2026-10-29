@@ -112,7 +112,7 @@ Set `metrics:write` scope on your API key to receive these metrics.
 After deployment:
 
 1. Check `/container/logs/talaria-otelcol.log` for collector status
-2. View logs in your Talaria project dashboard under **Logs**
+2. View logs in your Talaria project dashboard under **Events**
 3. Filter by `service.name`, `container.name`, or `deployment.environment.name`
 
 ## Troubleshooting

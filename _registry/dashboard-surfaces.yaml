@@ -37,7 +37,7 @@
 - { id: project-settings-inbound,  label: Inbound filters,      parent: project-settings, kind: tab, route: "<P>/settings?tab=inbound", icon: Settings,  order: 235 }
 - { id: project-settings-access,   label: Access,               parent: project-settings, kind: tab, route: "<P>/settings?tab=access",  icon: Settings,  order: 236 }
 # Org: Workspace
-- { id: org-projects,          label: Projects,                 nav: workspace, kind: page,    route: "/projects",                    icon: Folder,         order: 300 }  # header subtitle "Workspace pulse for your organization"
+- { id: org-projects,          label: Projects,                 nav: workspace, kind: page,    route: "/projects",                    icon: Folder,         order: 300 }  # header subtitle "Workspace pulse for your organisation"
 - { id: org-dashboards,        label: Dashboards,               nav: workspace, kind: page,    route: "/dashboards",                  icon: LayoutDashboard, order: 310 } # boards open at /dashboards/<id>
 - { id: org-groups,            label: Groups,                   nav: workspace, kind: page,    route: "/settings/groups",             icon: FolderTree,     order: 320 }
 - { id: org-team,              label: Team,                     nav: workspace, kind: page,    route: "/settings/team",               icon: Users,          order: 330 }

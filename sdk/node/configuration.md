@@ -22,7 +22,7 @@ lastReviewed: '2026-10-29'
 owner: docs
 ---
 
-# Node.js best practices
+# Node.js configuration
 
 ## Release
 

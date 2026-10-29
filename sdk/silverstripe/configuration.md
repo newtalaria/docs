@@ -27,7 +27,7 @@ lastReviewed: '2026-10-29'
 owner: docs
 ---
 
-# Silverstripe best practices
+# Silverstripe configuration
 
 ## Release
 

@@ -26,7 +26,7 @@ Windsurf Cascade reads MCP servers from `~/.codeium/windsurf/mcp_config.json` (W
 
 Talaria's published remote-HTTP path for Windsurf is a personal token in `headers`.
 
-1. Dashboard **Settings → Integrations → Create personal token**. Choose 30 days, 90 days, or until you revoke it.
+1. Dashboard **Workspace › Integrations → Create personal token**. Choose 30 days, 90 days, or until you revoke it.
 2. Add Talaria and refresh the MCP toolbar:
 
 ```json

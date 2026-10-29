@@ -27,7 +27,7 @@ lastReviewed: '2026-10-29'
 owner: docs
 ---
 
-# Next.js best practices
+# Next.js configuration
 
 ## Release
 

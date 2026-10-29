@@ -16,6 +16,8 @@ owner: docs
 
 # Feature flags
 
+Feature flags let you control feature rollouts remotely without deploying code. Use them to test new features with a subset of users, enable functionality for specific environments, or quickly disable features when issues arise.
+
 ## Turn it on
 
 Create flags in **Flags** and evaluate them from your SDK.
@@ -41,6 +43,8 @@ Pass a key and a default value. When the flag is off or undefined, the default i
 Coding agents can manage flags via MCP. Ask your agent to list all feature flags, check the state of a specific flag, turn a flag off, or roll out a flag to a percentage of users. The tools are `list_feature_flags`, `get_feature_flag`, `set_feature_flag_off`, and `set_feature_flag_percent`. See the [MCP tools reference](../agents/mcp/README.md).
 
 ## Limits and billing
+
+Feature flag evaluations are included in all plans. See [pricing](/pricing) for plan details.
 
 - **`flags:evaluate`** — Evaluate flags (browser-safe)
 - **`flags:read`** — Read flag definitions

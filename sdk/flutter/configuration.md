@@ -25,7 +25,7 @@ lastReviewed: '2026-10-29'
 owner: docs
 ---
 
-# Flutter best practices
+# Flutter configuration
 
 ## Release
 

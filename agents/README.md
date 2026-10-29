@@ -54,7 +54,7 @@ Each skill focuses on one phase, hands off to the next when appropriate, and con
 
 ### From the Talaria plugin
 
-Install the **[Talaria plugin](https://github.com/newtalaria/cursor-plugin)**. The plugin includes:
+Install the **[Talaria plugin](https://github.com/newtalaria/talaria-agent-plugin)**. The plugin includes:
 
 - `mcp.json` pointing at `https://api.newtalaria.com/mcp`
 - Five skill `SKILL.md` files in `skills/` with YAML frontmatter

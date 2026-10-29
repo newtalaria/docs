@@ -22,7 +22,7 @@ lastReviewed: '2026-10-29'
 owner: docs
 ---
 
-# PHP best practices
+# PHP configuration
 
 ## Release
 

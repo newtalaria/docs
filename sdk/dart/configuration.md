@@ -22,7 +22,7 @@ lastReviewed: '2026-10-29'
 owner: docs
 ---
 
-# Dart best practices
+# Dart configuration
 
 ## Release
 

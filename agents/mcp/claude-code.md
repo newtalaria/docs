@@ -51,7 +51,7 @@ Local API: `http://{{mcpUrl}}/mcp`.
 
 ## Personal token (if OAuth stalls)
 
-1. Dashboard **Settings → Integrations → Create personal token**. Choose 30 days, 90 days, or until you revoke it.
+1. Dashboard **Workspace › Integrations → Create personal token**. Choose 30 days, 90 days, or until you revoke it.
 2. Add the header. The dashboard **Copy Cursor mcp.json** button is the Cursor file and is missing `type`, so do not paste it here.
 
 ```bash

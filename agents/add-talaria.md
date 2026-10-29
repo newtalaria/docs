@@ -47,7 +47,7 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 | Silverstripe | `talaria/silverstripe` → [sdk/silverstripe](../sdk/silverstripe/README.md) |
 | PHP | `talaria/talaria` → [sdk/php](../sdk/php/README.md) |
 
-3. `docs_search` with `sdk` filter and query `install` / `init` / `bootstrap`, then `docs_get` the stack README and [configuration](../get-started/project-settings.md). Also `docs_get` `sdk/<id>/instrumentation` and `sdk/<id>/errors` for that stack (`javascript`, `react`, `nextjs`, `node`, `php`, `laravel`, `silverstripe`, `dart`, `flutter`, `serverpod`).
+3. `docs_search` with `sdk` filter and query `install` / `init` / `bootstrap`, then `docs_get` the stack README and [configuration](../get-started/project-settings.md). Also `docs_get` `sdk/<id>/errors` and `sdk/<id>/tracing` for that stack (`javascript`, `react`, `nextjs`, `node`, `php`, `laravel`, `silverstripe`, `dart`, `flutter`, `serverpod`).
 
 ### 2. Authenticate and announce identity
 
@@ -55,7 +55,7 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 2. Call **`get_connection`** immediately after auth.
 3. **Announce to the user** (mandatory, before any mutate):
 
-> You’re connected as **{name}** (`{email}`) under organization **{orgName}**.  
+> You’re connected as **{name}** (`{email}`) under organisation **{orgName}**.  
 > This connection can {install capabilities}.  
 > You also belong to {otherOrganizations}. Wrong org? Say which to switch to. Wrong account? Disconnect Talaria MCP and sign in as the other user.
 
@@ -76,7 +76,7 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 1. On yes / reuse → **`setup_project`** with `confirmed: true` and either `name` or `projectId`. Prefer this over separate `create_project` + `create_api_key`. This mints a **development** key. Production shipping is a second key, created when someone is actually shipping.
 2. Put the one-time `apiKey` only in env / `--dart-define` / ignored local config. Never commit `tal_prod_…`. Do not echo the key later. The key decides the environment. Do not pass `environment` in SDK init.
 3. Edit the app from the SDK docs (dependency, init, framework hooks). Local runs still send a version or SHA as `release`.
-4. If Node or Next.js server code talks to a database, `docs_get` path `sdk/node/instrumentation` and follow the snippet for that library. Wrap the object that runs the SQL, after `Talaria.init`:
+4. If Node or Next.js server code talks to a database, `docs_get` path `sdk/node/tracing` and follow the snippet for that library. Wrap the object that runs the SQL, after `Talaria.init`:
    - `pg` → `wrapPg` on the `Pool` or `Client`.
    - `mysql2` → `wrapMysql2` on the pool.
    - `redis` or `ioredis` → `wrapRedis`. The span uses the command name. Leave the key and the value off the span.
@@ -119,7 +119,7 @@ Until remote config arrives, SDKs send **errors only**. Flutter does not support
 
 1. `search_issues` with `environment: production` (the default once a production key exists) → `get_issue` → optional `get_trace` / `search_sessions` in that same environment.
 2. Fix code locally.
-3. Instrument more using docs. `docs_search` with the stack `sdk` filter for `instrumentation`, `tracing`, `errors`, or `analytics`, then `docs_get` the top hit. Analytics and feature flags are on `sdk/<id>/best-practices`.
+3. Instrument more using docs. `docs_search` with the stack `sdk` filter for `tracing`, `errors`, or `analytics`, then `docs_get` the top hit. Analytics and feature flags are on `sdk/<id>/configuration`.
 4. Re-verify with stats and search tools.
 
 ## Do not automate blindly

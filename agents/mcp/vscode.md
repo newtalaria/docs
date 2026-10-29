@@ -48,7 +48,7 @@ Local API: `http://{{mcpUrl}}/mcp`.
 
 ## Personal token (if OAuth stalls)
 
-1. Dashboard **Settings → Integrations → Create personal token**. Choose 30 days, 90 days, or until you revoke it.
+1. Dashboard **Workspace › Integrations → Create personal token**. Choose 30 days, 90 days, or until you revoke it.
 2. Put the bearer in `headers`. VS Code can prompt for it with `${input:talaria-mcp-token}` so the token stays out of the file you commit.
 
 ```json
