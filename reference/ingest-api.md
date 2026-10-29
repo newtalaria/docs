@@ -56,7 +56,7 @@ The local and CI walkthrough is [Upload JavaScript source maps](../guides/upload
 - `anonymousId` (optional) — Anonymous user identifier
 - `userId` (optional) — Authenticated user identifier
 - `organizationId` (optional) — Organization identifier
-- `attributes` (optional) — JSON-encoded string of additional targeting attributes
+- `attributes` (optional) — JSON-encoded string of additional attributes
 - `keys` (optional) — Comma-separated list of flag keys to evaluate (omit to evaluate all)
 
 **Response:** `{"evaluations":[{"key","variationKey","valueJson","version","reason"}]}`

@@ -95,7 +95,7 @@
 - id: feature-flags
   label: Feature flags
   icon: Flag
-  summary: Toggle features remotely with targeting rules
+  summary: Turn features on or off remotely from your SDK
   productHref: /product
   page: true
   mcpTools:
