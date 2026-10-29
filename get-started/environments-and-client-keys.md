@@ -118,11 +118,11 @@ The server reads the key, looks up its environment, and stamps every ingested re
 
 When your app has both server and browser code (Next.js, Vite, etc.), use framework-specific prefixes for browser environment variables:
 
-- **Next.js**: `NEXT_PUBLIC_TALARIA_URL`, `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY`, optionally `NEXT_PUBLIC_TALARIA_RELEASE`
-- **Vite**: `VITE_TALARIA_URL`, `VITE_TALARIA_BROWSER_API_KEY`, `VITE_TALARIA_RELEASE`
+- **Next.js**: `NEXT_PUBLIC_TALARIA_URL`, `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY`, optionally `NEXT_PUBLIC_TALARIA_RELEASE`, `NEXT_PUBLIC_TALARIA_COMMIT_SHA`
+- **Vite**: `VITE_TALARIA_URL`, `VITE_TALARIA_BROWSER_API_KEY`, `VITE_TALARIA_RELEASE`, `VITE_TALARIA_COMMIT_SHA`
 
 > [!CAUTION]
-> `TALARIA_API_KEY` and `TALARIA_RELEASE_KEY` **must never carry a public prefix** (`NEXT_PUBLIC_` or `VITE_`). Server code uses the unprefixed variables. Only `TALARIA_BROWSER_API_KEY` gets the public prefix for browser bundles.
+> `TALARIA_API_KEY` and `TALARIA_RELEASE_KEY` **must never carry a public prefix** (`NEXT_PUBLIC_` or `VITE_`). Server code uses the unprefixed variables. Only `TALARIA_BROWSER_API_KEY`, `TALARIA_URL`, `TALARIA_RELEASE`, and `TALARIA_COMMIT_SHA` get the public prefix for browser bundles.
 
 ## Changing environments
 

@@ -45,7 +45,7 @@ All registries follow the spec in IA_SPEC.md §11:
 - **`validate.ts`** - CLI validator that checks:
   1. Registry validity
   2. Frontmatter schema compliance
-  3. Unique IDs and aliases
+  3. Unique IDs
   4. Content rules (no localhost, harness paths, prices)
   5. Freshness warnings (180-day lastReviewed)
   
