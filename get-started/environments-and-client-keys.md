@@ -114,6 +114,16 @@ Authorization: Bearer tal_prod_...
 
 The server reads the key, looks up its environment, and stamps every ingested record with that environment. The app never sends it separately.
 
+### Framework public prefixes for browser keys
+
+When your app has both server and browser code (Next.js, Vite, etc.), use framework-specific prefixes for browser environment variables:
+
+- **Next.js**: `NEXT_PUBLIC_TALARIA_URL`, `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY`, optionally `NEXT_PUBLIC_TALARIA_RELEASE`
+- **Vite**: `VITE_TALARIA_URL`, `VITE_TALARIA_BROWSER_API_KEY`, `VITE_TALARIA_RELEASE`
+
+> [!CAUTION]
+> `TALARIA_API_KEY` and `TALARIA_RELEASE_KEY` **must never carry a public prefix** (`NEXT_PUBLIC_` or `VITE_`). Server code uses the unprefixed variables. Only `TALARIA_BROWSER_API_KEY` gets the public prefix for browser bundles.
+
 ## Changing environments
 
 To move an app from development to production:
