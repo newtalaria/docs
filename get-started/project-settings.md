@@ -29,7 +29,7 @@ Official SDKs load tracing, analytics, heatmaps, and session replay from the pro
 After init, the SDK calls:
 
 ```http
-POST {dsn}/sdk/getConfig
+GET https://ingest-nz1.newtalaria.com/v1/sdk-config
 ```
 
 with the project API key. The response is a read-only document. The SDK caches it and refreshes after `ttlSeconds` (default 300 seconds, clamped between one minute and one hour).
@@ -63,7 +63,7 @@ The server also applies the plan and organization analytics when it builds the d
 
 ## What stays in init
 
-Talaria Cloud ingest is `https://ingest.newtalaria.com`. Pass that URL as `url` unless the API is not Talaria Cloud.
+Talaria Cloud ingest is `https://ingest-nz1.newtalaria.com`. Pass that URL as `url` unless the API is not Talaria Cloud.
 
 Init still takes:
 
@@ -78,7 +78,7 @@ Browser privacy options such as `blockSelector` and `maskAllInputs` stay on the 
 
 ## Environment
 
-The API key decides the environment. See [Environments and client keys](environments-and-client-keys.md).
+The API key decides the environment. See [Environments and API keys](environments-and-api-keys.md).
 
 ## Consent
 

@@ -40,8 +40,7 @@ import 'package:talaria_flutter/talaria_flutter.dart';
 Future<void> main() async {
   await TalariaFlutter.runZonedApp(
     TalariaOptions(
-      dsn: 'https://ingest.newtalaria.com',
-      apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
+      apiKey: const String.fromEnvironment('TALARIA_BROWSER_API_KEY'),
       release: const String.fromEnvironment('APP_RELEASE'),
       minLevel: SeverityLevel.warning,
     ),
@@ -64,7 +63,7 @@ class MyApp extends StatelessWidget {
 
 ```bash
 flutter run \
-  --dart-define=TALARIA_API_KEY=tal_live_… \
+  --dart-define=TALARIA_BROWSER_API_KEY=tal_pk_prod_nz1_… \
   --dart-define=APP_RELEASE=1.4.2+42
 ```
 
@@ -78,7 +77,7 @@ await Talaria.captureException(
 await Talaria.flush();
 ```
 
-The key decides the environment. A local run uses a development key. Confirm with `search_errors` and `environment: development`. `minLevel: warning` drops info messages. `captureException` is an error, so Issues still shows it.
+The key decides the environment. This SDK refuses a secret `tal_sk_` key or a `tal_mon_` token at init. A local run uses a development key. Confirm with `search_issues` and `environment: development`. `minLevel: warning` drops info messages. `captureException` is an error, so Issues still shows it.
 
 ## What you can do
 
@@ -110,20 +109,20 @@ A staging flavor uses a staging key. A production flavor uses a production key. 
 
 | App init (`TalariaOptions`) | Project settings |
 | --- | --- |
-| `dsn`, `apiKey`, `release`, `minLevel` | Tracing enabled and the traces sample rate |
+| `url`, `apiKey`, `release`, `minLevel` | Tracing enabled and the traces sample rate |
 | Tags, `beforeSend` | Analytics and heatmaps |
 
 See [Project configuration](../../get-started/project-settings.md).
 
 ## API key
 
-`tal_live_…` keys are public client ingest credentials. Pass the key with `--dart-define`. The server stamps the key's environment on events, spans, analytics, and heatmaps. DSN for Talaria Cloud is `https://ingest.newtalaria.com`.
+`tal_pk_prod_nz1_…` keys are public client ingest credentials. Pass the key with `--dart-define`. The server stamps the key's environment on events, spans, analytics, and heatmaps. Talaria Cloud ingest is `https://ingest-nz1.newtalaria.com`.
 
 ## Verification
 
 1. Run with a valid development key.
 2. Trigger a framework error or call `Talaria.captureException`.
-3. Dashboard Issues (switch the shell to Development) or MCP `search_errors` / `search_events`.
+3. Dashboard Issues (switch the shell to Development) or MCP `search_issues` / `search_events`.
 
 ## Troubleshooting
 

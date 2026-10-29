@@ -79,9 +79,9 @@ jobs:
 
       - name: Upload source maps
         id: maps
-        uses: newtalaria/source-maps@v1
+        uses: newtalaria/release@v1
         with:
-          path: dist
+          source-maps: dist
         env:
           TALARIA_RELEASE_KEY: ${{ secrets.TALARIA_RELEASE_KEY }}
 ```

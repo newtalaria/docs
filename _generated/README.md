@@ -22,7 +22,7 @@ pages:
     tags: [errors, breadcrumbs]
 ```
 
-The MCP server reads this to serve `docs_list` and `docs_search`.
+The MCP server reads this to serve `list_docs` and `search_docs`.
 
 **Greenfield docs:** No redirects or aliases needed (no live external users per Heath decision 29 Oct 2026).
 

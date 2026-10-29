@@ -31,14 +31,13 @@ owner: docs
 npm install @newtalaria/react
 ```
 
-Init once, before `createRoot`. The API key is a public client ingest credential. A bundler may inline it at build time. The key decides the environment.
+Init once, before `createRoot`. The API key is a public client ingest credential. A bundler may inline it at build time. The key decides the environment. This SDK refuses a secret `tal_sk_` key or a `tal_mon_` token at init.
 
 ```javascript
 import { Talaria } from '@newtalaria/react';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  apiKey: 'tal_pk_prod_nz1_…',
   release: '1.0.0',
   minLevel: 'warning',
 });
@@ -54,7 +53,7 @@ import { ErrorBoundary } from '@newtalaria/react';
 </ErrorBoundary>
 ```
 
-Confirm with MCP `search_errors` and `environment: development`.
+Confirm with MCP `search_issues` and `environment: development`.
 
 ## What you can do
 
@@ -79,8 +78,7 @@ npm install @newtalaria/react
 import { Talaria } from '@newtalaria/react';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  apiKey: 'tal_pk_prod_nz1_…',
   release: '1.4.2',
   minLevel: 'warning',
 });
@@ -88,7 +86,7 @@ Talaria.init({
 
 ## App init vs Project settings
 
-Init holds `dsn`, `apiKey`, `release`, and `minLevel`. The API key decides the environment. Tracing, analytics, heatmaps, and session replay follow Project settings. Set `remoteConfig: false` only when you want errors without fetching that document.
+Init holds `url`, `apiKey`, `release`, and `minLevel`. The API key decides the environment. Tracing, analytics, heatmaps, and session replay follow Project settings. Set `remoteConfig: false` only when you want errors without fetching that document.
 
 ## API key
 
@@ -96,7 +94,7 @@ Pass the key from the build, not from a Node `process.env` read at runtime in th
 
 ## Verification
 
-Trigger a render error inside `ErrorBoundary`, or call `Talaria.captureException`. Look in Issues, or call `search_errors` with `environment: development`.
+Trigger a render error inside `ErrorBoundary`, or call `Talaria.captureException`. Look in Issues, or call `search_issues` with `environment: development`.
 
 ## Troubleshooting
 

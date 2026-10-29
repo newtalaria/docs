@@ -35,7 +35,7 @@ Set `TALARIA_RELEASE` to the version or commit of this deploy. The PHP client an
 
 ## API key and environment
 
-`TALARIA_API_KEY` chooses the environment. Use a development key on a laptop and a production key on the live server. `TALARIA_BROWSER_API_KEY` is optional and applies only to the browser script. A value that is not a `tal_live_` key turns browser inject off. `TALARIA_BROWSER_DSN` is for the case where the browser cannot reach the PHP DSN.
+`TALARIA_API_KEY` chooses the environment. Use a development key on a laptop and a production key on the live server. `TALARIA_BROWSER_API_KEY` is optional and applies only to the browser script. A value that is not a `tal_pk_` key turns browser inject off. `TALARIA_URL` is for the case where the browser cannot reach the PHP URL.
 
 ## Sampling
 

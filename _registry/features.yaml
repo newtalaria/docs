@@ -5,12 +5,12 @@
   productHref: /product
   page: true
   mcpTools:
-    - search_errors
-    - get_error
+    - search_issues
+    - get_issue
     - update_issue_status
     - add_issue_comment
     - verify_fix
-    - get_suspect_commits
+    - list_suspect_commits
   skills:
     - talaria-triage-issue
     - talaria-verify-fix
@@ -39,7 +39,7 @@
   productHref: /product
   page: false
   mcpTools:
-    - get_logs
+    - search_logs
   status: stable
   order: 30
 
@@ -95,7 +95,7 @@
 - id: feature-flags
   label: Feature flags
   icon: Flag
-  summary: Toggle features remotely with targeting rules
+  summary: Turn features on or off, or roll out by percentage
   productHref: /product
   page: false
   mcpTools:

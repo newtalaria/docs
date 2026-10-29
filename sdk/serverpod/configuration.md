@@ -71,7 +71,7 @@ Database spans omit bind values. Do not put tokens in breadcrumb data or in a di
 
 ## Verify
 
-`search_errors` and, after tracing is on, a trace for one endpoint call in the same environment as the key. `get_project_stats` analytics counts stay at 0 while analytics is off.
+`search_issues` and, after tracing is on, a trace for one endpoint call in the same environment as the key. `get_project_stats` analytics counts stay at 0 while analytics is off.
 
 ## Related
 

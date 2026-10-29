@@ -37,7 +37,7 @@ Set `TALARIA_RELEASE` to the version or git SHA of this deploy. Local `.env` sho
 
 `TALARIA_API_KEY` chooses the environment. Do not add an environment field. Use a development key locally and a production key in production `.env`. Run `php artisan config:clear` after a change, and restart Octane workers.
 
-`TALARIA_BROWSER_API_KEY` and `TALARIA_BROWSER_DSN` override the key and DSN for the injected script only. Leave them empty to share the PHP key. Use them when the browser cannot reach the PHP DSN (a Docker-internal host, for example).
+`TALARIA_BROWSER_API_KEY` and `TALARIA_URL` override the key and URL for the injected script only. Leave them empty to share the PHP key. Use them when the browser cannot reach the PHP URL (a Docker-internal host, for example).
 
 ## Sampling
 

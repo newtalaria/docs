@@ -36,18 +36,18 @@ Talaria::monitor('process-job-queue', [
 
 ## Check in from cron
 
-Register the schedule once with the API key. The response includes `pingToken` a single time. Store it outside the repository.
+Register the schedule once with the API key. The response includes `monitorToken` a single time. Store it outside the repository.
 
 ```bash
-curl -fsS -X POST "$TALARIA_DSN/monitors/ping" \
-  -H "X-Monitor-Token: $TALARIA_PING_TOKEN" \
+curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
+  -H "Authorization: Bearer $TALARIA_MONITOR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"status":"ok"}'
 ```
 
-`status` is `in_progress`, `ok`, or `error`. Optional fields are `checkInId`, `durationSeconds`, and `logTail`.
+`status` is `in_progress`, `ok`, or `error`. Optional fields are `runId`, `durationSeconds`, and `logTail`.
 
-The SiteHost deploy action writes these lines when the app contains `talaria/sitehost/monitors.json`:
+The SiteHost deploy action writes these lines when the app contains `talaria/monitors.yaml`:
 
 ```json
 {
@@ -88,7 +88,7 @@ The SiteHost deploy action writes these lines when the app contains `talaria/sit
 }
 ```
 
-Pass `TALARIA_DSN` and `TALARIA_API_KEY` into the deploy. The action stores the ping token on the container and re-applies the crontab after an image replacement.
+Pass `TALARIA_URL` and `TALARIA_API_KEY` into the deploy. The action stores the ping token on the container and re-applies the crontab after an image replacement.
 
 ## What opens an issue
 
@@ -103,4 +103,4 @@ A later `ok` resolves the open issue. Check-ins are not billed. The miss, timeou
 
 ## Dashboard and MCP
 
-The project **Monitors** page lists the schedule, timezone, last run, duration, and status. `list_monitors` answers whether a job ran before an issue exists. `get_error` includes the monitor slug and a redacted log tail when the issue came from a check-in.
+The project **Monitors** page lists the schedule, timezone, last run, duration, and status. `list_monitors` answers whether a job ran before an issue exists. `get_issue` includes the monitor slug and a redacted log tail when the issue came from a check-in.

@@ -75,6 +75,118 @@ function checkFreshnessWarnings(pages: PageFile[]): void {
   }
 }
 
+function namingPatterns(): { pattern: RegExp; name: string; allowNever?: boolean }[] {
+  const lit = (parts: string[], flags = "g") => new RegExp(parts.join(""), flags);
+  return [
+    { pattern: lit(["tal_", "(?:prod|stg|test|dev)_"]), name: "class-less key prefix" },
+    { pattern: lit(["tal_", "live_"]), name: "retired live key prefix" },
+    { pattern: lit(["ingest\\.", "talaria\\.dev"]), name: "retired ingest host" },
+    { pattern: lit(["(?<![\\w-])ingest\\.", "newtalaria\\.com"]), name: "plain ingest host" },
+    { pattern: lit(["client-", "keys"]), name: "retired settings surface id" },
+    { pattern: lit(["docs_", "get"]), name: "retired MCP docs tool" },
+    { pattern: lit(["docs_", "list"]), name: "retired MCP docs tool" },
+    { pattern: lit(["docs_", "search"]), name: "retired MCP docs tool" },
+    { pattern: lit(["ingest-", "key"]), name: "retired credential id" },
+    { pattern: lit(["api\\.newtalaria\\.com/", "v1"]), name: "ingest on the api host" },
+    { pattern: lit(["api\\.newtalaria\\.com/", "otlp"]), name: "OTLP on the api host" },
+    { pattern: lit(["\\b", "target", "ing\\b"], "gi"), name: "disallowed rollout claim" },
+    { pattern: lit(["(?:NEXT_PUBLIC_|VITE_)", "TALARIA_API_KEY"]), name: "public-prefixed secret API key var", allowNever: true },
+    { pattern: lit(["(?:NEXT_PUBLIC_|VITE_)", "TALARIA_RELEASE_KEY"]), name: "public-prefixed release key var", allowNever: true },
+    { pattern: lit(["(?:NEXT_PUBLIC_|VITE_)", "TALARIA_MONITOR_TOKEN"]), name: "public-prefixed monitor token var", allowNever: true },
+    { pattern: lit(["--dart-define=", "TALARIA_API_KEY"]), name: "dart-define of a secret API key var", allowNever: true },
+    { pattern: lit(["--dart-define=", "TALARIA_RELEASE_KEY"]), name: "dart-define of a release key var", allowNever: true },
+    { pattern: lit(["--dart-define=", "TALARIA_MONITOR_TOKEN"]), name: "dart-define of a monitor token", allowNever: true },
+    { pattern: /X-API-Key/g, name: "retired X-API-Key header" },
+    { pattern: lit(["X-", "Talaria-Monitor-Token"]), name: "retired monitor header" },
+    { pattern: lit(["X-", "Monitor-Token"]), name: "retired monitor header" },
+    { pattern: lit(["TALARIA_", "DSN"]), name: "retired DSN env var" },
+    { pattern: lit(["TALARIA_", "SERVICE_NAME"]), name: "retired service name env var" },
+    { pattern: lit(["TALARIA_", "ENVIRONMENT"]), name: "retired environment env var" },
+    { pattern: lit(["TALARIA_", "CONTAINER_NAME"]), name: "retired container name env var" },
+    { pattern: lit(["search_", "errors"]), name: "retired MCP tool" },
+    { pattern: lit(["\\bget_", "error\\b"]), name: "retired MCP tool" },
+    { pattern: lit(["get_", "projects"]), name: "retired MCP tool" },
+    { pattern: lit(["\\bsdk/", "getConfig\\b"]), name: "retired RPC path" },
+    { pattern: lit(["/source", "Maps/"]), name: "retired source map RPC" },
+    { pattern: lit(["/monitors/", "ping"]), name: "retired monitor ping path" },
+    { pattern: /\/v1\/deploys\b/g, name: "deploys route (501 only)" },
+  ];
+}
+
+function sentenceAround(body: string, index: number, length: number): string {
+  let start = index;
+  for (let i = index - 1; i >= 0; i--) {
+    if (body[i] === "\n" || (body[i] === "." && body[i - 1] !== ".")) {
+      start = i + 1;
+      break;
+    }
+    if (i === 0) start = 0;
+  }
+  let end = index + length;
+  for (let i = end; i < body.length; i++) {
+    if (body[i] === "\n" || (body[i] === "." && (i === body.length - 1 || body[i + 1] === " " || body[i + 1] === "\n"))) {
+      end = i + 1;
+      break;
+    }
+    if (i === body.length - 1) end = body.length;
+  }
+  return body.slice(start, end);
+}
+
+function checkNamingStandards(pages: PageFile[]): void {
+  const patterns = namingPatterns();
+  const files: { label: string; body: string }[] = [];
+  for (const page of pages) {
+    if (page.frontmatter.visibility === "contributor") continue;
+    const raw = readFileSync(page.path, "utf-8");
+    files.push({ label: page.relativePath, body: matter(raw).content });
+  }
+  const registryDir = join(DOCS_ROOT, "_registry");
+  try {
+    for (const file of readdirSync(registryDir).filter((f) => f.endsWith(".yaml"))) {
+      files.push({
+        label: `_registry/${file}`,
+        body: readFileSync(join(registryDir, file), "utf-8"),
+      });
+    }
+  } catch {
+    // no registry dir
+  }
+
+  for (const file of files) {
+    for (const { pattern, name, allowNever } of patterns) {
+      pattern.lastIndex = 0;
+      const matches = Array.from(file.body.matchAll(pattern));
+      for (const match of matches) {
+        const index = match.index ?? 0;
+        if (name.startsWith("deploys") && file.body.slice(Math.max(0, index - 80), index + 80).includes("501")) {
+          continue;
+        }
+        if (allowNever) {
+          const sentence = sentenceAround(file.body, index, match[0].length);
+          const warned =
+            sentence.includes("**Never**") ||
+            sentence.includes("must never") ||
+            (sentence.trim().startsWith(">") && sentence.includes("Never"));
+          if (warned) continue;
+        }
+        errors.push(`🚫 ${file.label}: contains ${name} (${match[0]})`);
+        break;
+      }
+    }
+    if (file.label.startsWith("agents/mcp/") && !file.body.includes("api-key-warning")) {
+      const cred = litSafe(file.body);
+      if (cred) errors.push(`🚫 ${file.label}: API key literal on an MCP page (${cred})`);
+    }
+  }
+}
+
+function litSafe(body: string): string | null {
+  const re = new RegExp("tal_" + "(?:pk|sk|mon)_");
+  const m = body.match(re);
+  return m ? m[0] : null;
+}
+
 function checkContentRules(pages: PageFile[]): void {
   const forbiddenPatterns = [
     { pattern: /localhost:\d+/gi, name: "localhost URLs" },
@@ -241,6 +353,7 @@ function main() {
   // Step 4: Content rules
   console.log("4️⃣  Checking content rules...");
   checkContentRules(pages);
+  checkNamingStandards(pages);
   if (errors.length === 0) {
     console.log("   ✅ Content rules pass\n");
   }

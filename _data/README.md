@@ -20,7 +20,7 @@ This file should be generated from the MCP server tool registry and committed he
   "count": 44,
   "tools": [
     {
-      "name": "docs_get",
+      "name": "get_doc",
       "title": "Get documentation page",
       "description": "Fetch a docs page by id, path, or alias",
       "toolset": "docs",

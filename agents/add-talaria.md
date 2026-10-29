@@ -31,7 +31,7 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 
 ### 1. Load this playbook and detect the stack
 
-1. `docs_get` path `agents/add-talaria` (public).
+1. `get_doc` path `agents/add-talaria` (public).
 2. Inspect the local repo with IDE tools. Map the stack:
 
 | Signal | Likely SDK |
@@ -47,7 +47,7 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 | Silverstripe | `talaria/silverstripe` → [sdk/silverstripe](../sdk/silverstripe/README.md) |
 | PHP | `talaria/talaria` → [sdk/php](../sdk/php/README.md) |
 
-3. `docs_search` with `sdk` filter and query `install` / `init` / `bootstrap`, then `docs_get` the stack README and [configuration](../get-started/project-settings.md). Also `docs_get` `sdk/<id>/instrumentation` and `sdk/<id>/errors` for that stack (`javascript`, `react`, `nextjs`, `node`, `php`, `laravel`, `silverstripe`, `dart`, `flutter`, `serverpod`).
+3. `search_docs` with `sdk` filter and query `install` / `init` / `bootstrap`, then `get_doc` the stack README and [configuration](../get-started/project-settings.md). Also `get_doc` `sdk/<id>/instrumentation` and `sdk/<id>/errors` for that stack (`javascript`, `react`, `nextjs`, `node`, `php`, `laravel`, `silverstripe`, `dart`, `flutter`, `serverpod`).
 
 ### 2. Authenticate and announce identity
 
@@ -65,7 +65,7 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 ### 3. Ask before creating
 
 1. Suggest a project name from the local app (e.g. package name / folder).
-2. List existing projects from `get_connection.projects` or `get_projects`.
+2. List existing projects from `get_connection.projects` or `list_projects`.
 3. **Ask** (never auto-create):
 
 > Create a new Talaria project named **{suggested}** in **{orgName}**, wire the SDK, mint an ingest key, and send a first test event?  
@@ -74,9 +74,9 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 ### 4. Bootstrap only after yes
 
 1. On yes / reuse → **`setup_project`** with `confirmed: true` and either `name` or `projectId`. Prefer this over separate `create_project` + `create_api_key`. This mints a **development** key. Production shipping is a second key, created when someone is actually shipping.
-2. Put the one-time `apiKey` only in env / `--dart-define` / ignored local config. Never commit `tal_live_…`. Do not echo the key later. The key decides the environment. Do not pass `environment` in SDK init.
+2. Put the one-time `apiKey` only in env / `--dart-define` / ignored local config. Never commit `tal_pk_dev_nz1_…`. Do not echo the key later. The key decides the environment. Do not pass `environment` in SDK init.
 3. Edit the app from the SDK docs (dependency, init, framework hooks). Local runs still send a version or SHA as `release`.
-4. If Node or Next.js server code talks to a database, `docs_get` path `sdk/node/instrumentation` and follow the snippet for that library. Wrap the object that runs the SQL, after `Talaria.init`:
+4. If Node or Next.js server code talks to a database, `get_doc` path `sdk/node/instrumentation` and follow the snippet for that library. Wrap the object that runs the SQL, after `Talaria.init`:
    - `pg` → `wrapPg` on the `Pool` or `Client`.
    - `mysql2` → `wrapMysql2` on the pool.
    - `redis` or `ioredis` → `wrapRedis`. The span uses the command name. Leave the key and the value off the span.
@@ -87,7 +87,7 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
    - MongoDB, `better-sqlite3`, and `node:sqlite` have no wrapper. Open a CLIENT span around the call.
    Leave bound values, documents, and result rows in the app.
 5. Call **`send_test_event`** on the real `projectId`.
-6. Verify with `search_events` / `search_errors`, passing `environment: development`. A just-installed project has no production key, and these tools default to development in that case; pass `development` anyway so a later production key does not hide the local traffic. Install success is `search_errors` or `search_events` on development. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
+6. Verify with `search_events` / `search_issues`, passing `environment: development`. A just-installed project has no production key, and these tools default to development in that case; pass `development` anyway so a later production key does not hide the local traffic. Install success is `search_issues` or `search_events` on development. `get_project_stats` `countsByEnvironment` is analytics volume and stays 0 when analytics is off.
 7. Close with the `dashboardUrl` and how to run the app with the key. The dashboard shell reads one environment at a time and defaults to production when a production key exists, otherwise development. Switch to Development to see this install.
 
 Do **not** claim “Talaria is wired” until step 6 returns the test event.
@@ -96,17 +96,17 @@ Do **not** claim “Talaria is wired” until step 6 returns the test event.
 
 After init, a minified stack stays minified until maps are uploaded for the same release.
 
-1. `docs_get` path `guides/upload-javascript-source-maps` (command reference: `sdk/javascript/source-maps`).
+1. `get_doc` path `guides/upload-javascript-source-maps` (command reference: `sdk/javascript/source-maps`).
 2. Set `Talaria.init({ release: 'local' })` for a local run, or the git SHA in CI. The release string on events must match the upload.
 3. Ask before minting a second key. Call `create_api_key` with `scopes: ["releases:write"]` and a name like `source maps`. Do not add that scope to the browser key from `setup_project`.
-4. Put the raw key only in `TALARIA_RELEASE_KEY`. Then run `npx talaria sourcemaps upload ./dist` (local default is `http://{{mcpUrl}}` and release `local`).
+4. Put the raw key only in `TALARIA_RELEASE_KEY`. Then run `npx talaria source-maps upload ./dist` (local default is `http://{{mcpUrl}}` and release `local`).
 5. Open the event with `get_event`. If a frame is still a hashed `*.js` file, call `get_source_map` and upload the `fileName` it returns.
 
 ## App init vs Project settings
 
 | In app init | In Project settings (remote `getConfig`) |
 | ----------- | ---------------------------------------- |
-| DSN / base URL | Tracing on/off + sample rate |
+| URL | Tracing on/off + sample rate |
 | API key (this chooses the environment) | Analytics on/off |
 | release (version or SHA) | Heatmaps on/off |
 | minLevel, beforeSend, tags | Session replay on/off + rates |
@@ -117,9 +117,9 @@ Until remote config arrives, SDKs send **errors only**. Flutter does not support
 
 ## Production loop (after install)
 
-1. `search_errors` with `environment: production` (the default once a production key exists) → `get_error` → optional `get_trace` / `search_sessions` in that same environment.
+1. `search_issues` with `environment: production` (the default once a production key exists) → `get_issue` → optional `get_trace` / `search_sessions` in that same environment.
 2. Fix code locally.
-3. Instrument more using docs. `docs_search` with the stack `sdk` filter for `instrumentation`, `tracing`, `errors`, or `analytics`, then `docs_get` the top hit. Analytics and feature flags are on `sdk/<id>/best-practices`.
+3. Instrument more using docs. `search_docs` with the stack `sdk` filter for `instrumentation`, `tracing`, `errors`, or `analytics`, then `get_doc` the top hit. Analytics and feature flags are on `sdk/<id>/best-practices`.
 4. Re-verify with stats and search tools.
 
 ## Do not automate blindly

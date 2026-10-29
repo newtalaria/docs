@@ -32,8 +32,7 @@ Initialize Talaria as usual:
 import { Talaria } from '@newtalaria/browser';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  apiKey: 'tal_pk_prod_nz1_…',
   release: '1.4.2',
 });
 ```

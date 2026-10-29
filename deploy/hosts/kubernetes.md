@@ -15,7 +15,7 @@ owner: docs
 ---
 # Kubernetes Collector
 
-Install the OpenTelemetry Collector with the upstream Helm chart or Operator. Talaria does not ship an operator. The chart needs the OTLP endpoint and the project API key.
+Install the OpenTelemetry Collector with the upstream Helm chart or Operator. Talaria does not ship an operator. The chart needs the OTLP endpoint and a secret key (`tal_sk_<env>_nz1_…`). OTLP export is HTTP only (`otlp_http`). gRPC is not supported.
 
 ```yaml
 mode: daemonset
@@ -28,10 +28,10 @@ presets:
     enabled: true
 config:
   exporters:
-    otlphttp:
-      endpoint: https://api.newtalaria.com
+    otlp_http:
+      endpoint: https://ingest-nz1.newtalaria.com/otlp
       headers:
-        X-API-Key: ${env:TALARIA_API_KEY}
+        Authorization: Bearer ${env:TALARIA_API_KEY}
       compression: gzip
   processors:
     resource:
@@ -43,12 +43,12 @@ config:
   service:
     pipelines:
       logs:
-        exporters: [otlphttp]
+        exporters: [otlp_http]
       metrics:
-        exporters: [otlphttp]
+        exporters: [otlp_http]
 ```
 
-Add a Deployment-mode Collector for cluster receivers. `k8scluster` supplies pod phase, restarts, and CronJob success. Point that pipeline at the same exporter.
+Add a Deployment-mode Collector for cluster receivers. `k8s_cluster` supplies pod phase, restarts, and CronJob success. Point that pipeline at the same exporter.
 
 Drop `debug` severity in the Collector. Keep `warn` and `error`.
 
@@ -72,35 +72,33 @@ spec:
             - name: import
               image: example/import:1
               env:
-                - name: TALARIA_DSN
-                  value: https://api.newtalaria.com
-                - name: TALARIA_PING_TOKEN
+                - name: TALARIA_MONITOR_TOKEN
                   valueFrom:
                     secretKeyRef:
                       name: talaria-import
-                      key: pingToken
+                      key: monitor-token
               command:
                 - /bin/sh
                 - -c
                 - |
-                  curl -fsS -X POST "$TALARIA_DSN/monitors/ping" \
-                    -H "X-Monitor-Token: $TALARIA_PING_TOKEN" \
+                  curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
+                    -H "Authorization: Bearer $TALARIA_MONITOR_TOKEN" \
                     -H "Content-Type: application/json" \
                     -d '{"status":"in_progress"}'
                   /app/import
                   status=$?
                   if [ "$status" -eq 0 ]; then
-                    curl -fsS -X POST "$TALARIA_DSN/monitors/ping" \
-                      -H "X-Monitor-Token: $TALARIA_PING_TOKEN" \
+                    curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
+                      -H "Authorization: Bearer $TALARIA_MONITOR_TOKEN" \
                       -H "Content-Type: application/json" \
                       -d '{"status":"ok"}'
                   else
-                    curl -fsS -X POST "$TALARIA_DSN/monitors/ping" \
-                      -H "X-Monitor-Token: $TALARIA_PING_TOKEN" \
+                    curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
+                      -H "Authorization: Bearer $TALARIA_MONITOR_TOKEN" \
                       -H "Content-Type: application/json" \
                       -d '{"status":"error"}'
                   fi
                   exit "$status"
 ```
 
-Register the monitor from the dashboard or `monitors/checkIn` with `crontab: "0 2 * * *"`, `timezone`, `marginSeconds`, and `maxRuntimeSeconds` before the first run. The ping token comes back once.
+Register the monitor from the dashboard or `POST /v1/monitors/{slug}/check-ins` with `crontab: "0 2 * * *"`, `timezone`, `marginSeconds`, and `maxRuntimeSeconds` before the first run. The ping token comes back once.

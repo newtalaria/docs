@@ -36,8 +36,7 @@ import 'package:talaria/talaria.dart';
 
 Future<void> main() async {
   await Talaria.init(TalariaOptions(
-    dsn: 'https://ingest.newtalaria.com',
-    apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
+    apiKey: const String.fromEnvironment('TALARIA_BROWSER_API_KEY'),
     release: const String.fromEnvironment('APP_RELEASE'),
     minLevel: SeverityLevel.warning,
   ));
@@ -53,11 +52,11 @@ Future<void> main() async {
 
 ```bash
 dart run \
-  --dart-define=TALARIA_API_KEY=tal_live_… \
+  --dart-define=TALARIA_BROWSER_API_KEY=tal_pk_prod_nz1_… \
   --dart-define=APP_RELEASE=dev
 ```
 
-The key decides the environment. Do not pass `environment`. Confirm with `search_errors` and `environment: development`.
+The key decides the environment. This SDK refuses a secret `tal_sk_` key or a `tal_mon_` token at init. Do not pass `environment`. Confirm with `search_issues` and `environment: development`.
 
 ## What you can do
 
@@ -82,8 +81,7 @@ Then `dart pub get`.
 
 ```dart
 await Talaria.init(TalariaOptions(
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
+  apiKey: const String.fromEnvironment('TALARIA_BROWSER_API_KEY'),
   release: const String.fromEnvironment('APP_RELEASE'),
   commitSha: const String.fromEnvironment('APP_COMMIT'),
   minLevel: SeverityLevel.warning,
@@ -95,15 +93,15 @@ A second `init` is ignored.
 
 ## App init vs Project settings
 
-Init holds the DSN, API key, release, minimum level, and tags. Tracing and analytics turn on from Project settings. There is no `remoteConfig: false` on Dart.
+Init holds the URL, API key, release, minimum level, and tags. Tracing and analytics turn on from Project settings. There is no `remoteConfig: false` on Dart.
 
 ## API key
 
-Pass `TALARIA_API_KEY` with `--dart-define` or from the environment your process already uses. The prefix stays `tal_live_`. A development key is for local runs. A deployed process that should report production uses a production key. Send `release` as a version or SHA.
+Pass `TALARIA_BROWSER_API_KEY` with `--dart-define` or from the environment your process already uses. Publishable keys look like `tal_pk_<env>_nz1_…` and secret keys look like `tal_sk_<env>_nz1_…`. A development key is for local runs. A deployed process that should report production uses a production key. Send `release` as a version or SHA.
 
 ## Verification
 
-`captureException` then `flush`. MCP `search_errors` with `environment: development`.
+`captureException` then `flush`. MCP `search_issues` with `environment: development`.
 
 ## Troubleshooting
 

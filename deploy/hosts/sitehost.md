@@ -29,7 +29,7 @@ Forward logs from your SiteHost PHP container to Talaria using the OpenTelemetry
 
 ### 1. Create monitor configuration
 
-Add `talaria/sitehost/monitors.json` to your repository root:
+Add `talaria/monitors.yaml` to your repository root:
 
 ```json
 {
@@ -43,11 +43,10 @@ This enables the OpenTelemetry Collector in your container.
 
 Configure these in your SiteHost control panel:
 
-- `TALARIA_API_KEY` – Your project API key
-- `TALARIA_DSN` – Your Talaria endpoint (e.g., `https://api.newtalaria.com`)
-- `TALARIA_SERVICE_NAME` – Service name (defaults to `silverstripe`)
-- `TALARIA_ENVIRONMENT` – Environment name (defaults to `production`)
-- `TALARIA_CONTAINER_NAME` – Container identifier (defaults to hostname)
+- `TALARIA_API_KEY` – A secret key (`tal_sk_<env>_nz1_…`). The key's environment is stamped on ingest.
+- Leave `TALARIA_URL` unset on Talaria Cloud. The SDK and the collector preset derive `https://ingest-nz1.newtalaria.com` from the key. Set `TALARIA_URL` only for self-host or a custom domain.
+- `OTEL_SERVICE_NAME` – Service name (defaults to `silverstripe`)
+- `OTEL_RESOURCE_ATTRIBUTES` – Resource attributes, including `container.name` (defaults to the hostname)
 
 ### 3. (Optional) Customize log collection
 
@@ -121,7 +120,7 @@ After deployment:
 ## Troubleshooting
 
 **Logs not appearing:**
-- Verify `TALARIA_API_KEY` and `TALARIA_DSN` are set
+- Verify `TALARIA_API_KEY` and `TALARIA_URL` are set
 - Check collector logs for authentication errors
 - Ensure API key has `logs:write` scope
 
@@ -130,5 +129,5 @@ After deployment:
 - Review `/container/logs/talaria-otelcol.log` for validation errors
 
 **Collector not starting:**
-- Verify `talaria/sitehost/monitors.json` exists in your repository
+- Verify `talaria/monitors.yaml` exists in your repository
 - Check supervisord status with `supervisorctl status talaria-otelcol`

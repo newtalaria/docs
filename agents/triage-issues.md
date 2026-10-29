@@ -26,15 +26,15 @@ owner: docs
 
 ---
 
-Use this after you have a real `projectId` from `get_connection` or `get_projects`. One issue at a time. Include `dashboardUrl` when you tell the human what you changed.
+Use this after you have a real `projectId` from `get_connection` or `list_projects`. One issue at a time. Include `dashboardUrl` when you tell the human what you changed.
 
 ## 1. Find open issues
 
-`search_errors` with `projectId`, `status: open`, and `environment`. Use `development` for a local key and `production` for a live failure.
+`search_issues` with `projectId`, `status: open`, and `environment`. Use `development` for a local key and `production` for a live failure.
 
 ## 2. Read the issue
 
-`get_error` with `issueId`. The result has the latest instance (stack, release, environment, `lastSeenAt`) and `comments` from earlier notes.
+`get_issue` with `issueId`. The result has the latest instance (stack, release, environment, `lastSeenAt`) and `comments` from earlier notes.
 
 ## 3. See whether it is still firing
 

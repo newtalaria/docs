@@ -39,7 +39,7 @@ The API key chooses the environment. Do not pass `environment` in `Talaria.init`
 
 ## Sampling
 
-Event sampling and trace sampling come from Project settings after `sdk/getConfig`. Successful traces follow the traces sample rate. Error traces stay. A response with `retry: false` stops that signal until the page reloads.
+Event sampling and trace sampling come from Project settings after `GET /v1/sdk-config`. Successful traces follow the traces sample rate. Error traces stay. A response with `retry: false` stops that signal until the page reloads.
 
 ## Project settings
 
@@ -96,7 +96,7 @@ Do not put tokens, passwords, or raw card numbers in `extra`, tags, or breadcrum
 
 ## Verify
 
-After a change, `search_errors` or `search_events` with the environment of the key you used. `get_project_stats` counts analytics volume and stays at 0 for that environment while analytics is off.
+After a change, `search_issues` or `search_events` with the environment of the key you used. `get_project_stats` counts analytics volume and stays at 0 for that environment while analytics is off.
 
 ## Related
 

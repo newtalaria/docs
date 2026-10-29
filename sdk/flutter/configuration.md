@@ -33,7 +33,7 @@ Pass `APP_RELEASE` as the build name and number (`1.4.2+42`) or the git SHA. Eac
 
 ## API key and environment
 
-The API key chooses the environment. Do not pass `environment` in `TalariaOptions`. `--dart-define=TALARIA_API_KEY=…` is compiled in. Rebuild after you change it. A rejected key is cached for about 24 hours.
+The API key chooses the environment. Do not pass `environment` in `TalariaOptions`. `--dart-define=TALARIA_BROWSER_API_KEY=…` is compiled in. Rebuild after you change it. A rejected key is cached for about 24 hours.
 
 ## Sampling
 
@@ -41,7 +41,7 @@ Successful traces follow the traces sample rate from Project settings. Error tra
 
 ## Project settings
 
-Tracing, analytics, and heatmaps follow [Project configuration](../../get-started/project-settings.md). Dart always fetches `sdk/getConfig`.
+Tracing, analytics, and heatmaps follow [Project configuration](../../get-started/project-settings.md). Dart always fetches `GET /v1/sdk-config`.
 
 ## Analytics
 
@@ -85,7 +85,7 @@ Prefer an opaque user id in `setUser`. Do not put tokens into `setExtra` or brea
 
 ## Verify
 
-`search_errors` with `environment: development` after a local run. Switch the dashboard shell to Development when the project also has a production key.
+`search_issues` with `environment: development` after a local run. Switch the dashboard shell to Development when the project also has a production key.
 
 ## Related
 

@@ -29,7 +29,7 @@ owner: docs
 
 1. Install the package and init once, before the rest of the app runs.
 2. Send one exception.
-3. Confirm it with MCP `search_errors` and `environment: development`, or open Issues in the dashboard.
+3. Confirm it with MCP `search_issues` and `environment: development`, or open Issues in the dashboard.
 
 ```bash
 npm install @newtalaria/browser
@@ -39,8 +39,7 @@ npm install @newtalaria/browser
 import { Talaria } from '@newtalaria/browser';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  apiKey: 'tal_pk_prod_nz1_…',
   release: '1.0.0',
   minLevel: 'warning',
 });
@@ -49,7 +48,7 @@ await Talaria.captureException(new Error('talaria hello'));
 await Talaria.flush();
 ```
 
-`tal_live_…` keys are public client ingest credentials. Put the key in the bundle through your build (an env var replaced at build time is fine). The key decides the environment. A local install uses a development key. Do not pass `environment` in init.
+`tal_pk_prod_nz1_…` keys are public client ingest credentials. Put the key in the bundle through your build (an env var replaced at build time is fine). The key decides the environment. This SDK refuses a secret `tal_sk_` key or a `tal_mon_` token at init. A local install uses a development key. Do not pass `environment` in init.
 
 `minLevel: 'warning'` drops info and debug messages. `captureException` is an error, so this setup still shows up in Issues.
 
@@ -80,8 +79,7 @@ Call `Talaria.init` once. Later calls are ignored.
 import { Talaria } from '@newtalaria/browser';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  apiKey: 'tal_pk_prod_nz1_…',
   release: '1.4.2',
   commitSha: 'abc123',
   minLevel: 'warning',
@@ -89,25 +87,25 @@ Talaria.init({
 });
 ```
 
-Set `remoteConfig: false` only when this page should send errors and skip `sdk/getConfig`.
+Set `remoteConfig: false` only when this page should send errors and skip `GET /v1/sdk-config`.
 
 ## App init vs Project settings
 
 | App init | Project settings |
 | --- | --- |
-| `dsn`, `apiKey`, `release`, `commitSha`, `minLevel`, `tags` | Tracing on/off and the traces sample rate |
+| `url`, `apiKey`, `release`, `commitSha`, `minLevel`, `tags` | Tracing on/off and the traces sample rate |
 | `networkErrorOrigins`, `beforeSend` | Analytics, heatmaps, and session replay |
 | `publicAnalytics` when the page has no banner Talaria reads | Sample rates for replay |
 
 ## API key
 
-The key decides the environment. Each key is bound to development, test, staging, or production, and the prefix stays `tal_live_`. The server stamps that value on ingest. A deployed app that should report production uses a production key. Local install, including `setup_project`, uses a development key. Send `release` as a version or git SHA. The same string is the release you upload source maps for.
+The key decides the environment. Each key is bound to development, test, staging, or production, Publishable keys look like `tal_pk_<env>_nz1_…` and secret keys look like `tal_sk_<env>_nz1_…`. The server stamps that value on ingest. A deployed app that should report production uses a production key. Local install, including `setup_project`, uses a development key. Send `release` as a version or git SHA. The same string is the release you upload source maps for.
 
 ## Verification
 
 1. Run the page with a development key.
 2. Call `Talaria.captureException` (or throw from `window`).
-3. MCP `search_errors` with `environment: development`, or open Issues and switch the shell to Development.
+3. MCP `search_issues` with `environment: development`, or open Issues and switch the shell to Development.
 
 ## Troubleshooting
 

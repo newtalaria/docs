@@ -25,7 +25,7 @@ owner: docs
 
 # JavaScript instrumentation and tracing
 
-Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Until `sdk/getConfig` allows it, the page records errors and does not open spans. Successful transactions follow the traces sample rate. Error transactions are always sent.
+Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Until `GET /v1/sdk-config` allows it, the page records errors and does not open spans. Successful transactions follow the traces sample rate. Error transactions are always sent.
 
 Talaria uses the OpenTelemetry span model (a trace of spans with a span kind) and W3C Trace Context (`traceparent`) on outbound HTTP.
 
@@ -50,8 +50,7 @@ With tracing on, `fetch` and XHR to the same origin, and to origins listed in `n
 
 ```javascript
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  apiKey: 'tal_pk_prod_nz1_…',
   release: '1.4.2',
   networkErrorOrigins: ['https://api.example.com'],
 });

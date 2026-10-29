@@ -38,7 +38,7 @@ Successful traces follow the traces sample rate from Project settings. Error tra
 
 ## Project settings
 
-Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Dart always fetches `sdk/getConfig`.
+Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Dart always fetches `GET /v1/sdk-config`.
 
 ## Analytics
 
@@ -69,7 +69,7 @@ final on = await Talaria.flags.boolVariation('new-checkout', false);
 
 ## Verify
 
-`search_errors` with `environment: development` for a local key. `get_project_stats` analytics counts stay at 0 while analytics is off.
+`search_issues` with `environment: development` for a local key. `get_project_stats` analytics counts stay at 0 while analytics is off.
 
 ## Related
 

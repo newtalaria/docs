@@ -65,7 +65,7 @@ Do not put tokens or raw SQL parameters into `extra` or breadcrumb `data`. Datab
 
 ## Verify
 
-`search_errors` and `search_events` with the environment of the key this process used. `get_project_stats` analytics counts stay at 0 while analytics is off.
+`search_issues` and `search_events` with the environment of the key this process used. `get_project_stats` analytics counts stay at 0 while analytics is off.
 
 ## Related
 
