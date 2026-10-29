@@ -63,7 +63,7 @@ The server also applies the plan and organization analytics when it builds the d
 
 ## What stays in init
 
-Talaria Cloud ingest is `https://ingest.newtalaria.com`. Pass that URL as `dsn` (or `baseUrl`) unless the API is not Talaria Cloud.
+Talaria Cloud ingest is `https://ingest.newtalaria.com`. Pass that URL as `url` unless the API is not Talaria Cloud.
 
 Init still takes:
 
@@ -78,15 +78,7 @@ Browser privacy options such as `blockSelector` and `maskAllInputs` stay on the 
 
 ## Environment
 
-The API key decides the environment. See [API overview](../api/overview.md).
-
-The dashboard reads one environment at a time: Production, Staging, Test, Development, or All. The shell defaults to production when the project has a production key, otherwise development. All is an explicit choice.
-
-Alerts with no environment evaluate as production. An alert that should cover every environment names that scope explicitly.
-
-Feature flags stay one definition per project. Evaluation uses the key's environment. Rules can target development, test, staging, or production.
-
-Test, staging, and production use the plan meters, including pay-as-you-go. Development has its own included cap equal to that signal's plan inclusion, hard-stops, and does not create overage.
+The API key decides the environment. See [Environments and client keys](environments-and-client-keys.md).
 
 ## Consent
 

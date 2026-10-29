@@ -13,10 +13,10 @@ feature: []
 order: 10
 lastReviewed: '2026-10-29'
 owner: docs
-  - "getting-started/README.md"
 ---
 
 # Getting started
 
 - [Quickstart](quickstart.md) — account, project, API key, first event
-- [Project configuration](configuration.md) — app init vs Project settings / `getConfig`
+- [Environments and client keys](environments-and-client-keys.md) — how keys decide environments
+- [Project settings](project-settings.md) — remote configuration for tracing, analytics, and replay

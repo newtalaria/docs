@@ -9,6 +9,16 @@ pages:
     tags:
       - hub
       - agents
+  - id: environments-and-client-keys
+    path: get-started/environments-and-client-keys.md
+    title: Environments and client keys
+    description: How API keys decide environments, what environments control, and when to use multiple keys.
+    type: concept
+    section: get-started
+    tags:
+      - environments
+      - api-keys
+      - configuration
   - id: get-started
     path: get-started/README.md
     title: Get started

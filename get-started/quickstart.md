@@ -42,16 +42,16 @@ Use the cloud ingest URL as `dsn` unless you self-host:
 https://ingest.newtalaria.com
 ```
 
-Pass the API key from environment / `--dart-define` / `.env`, or embed it in the client — `tal_live_…` keys are designed to be public.
+Pass the API key from environment / `--dart-define` / `.env`, or embed it in the client — `tal_prod_…` / `tal_dev_…` keys are designed to be public. See [Environments and client keys](environments-and-client-keys.md) for key prefixes.
 
 ## Enable optional features
 
-Tracing, analytics, heatmaps, and session replay are controlled in **Project settings**, not only in app init. See [Project configuration](configuration.md).
+Tracing, analytics, heatmaps, and session replay are controlled in **Project settings**, not only in app init. See [Project settings](project-settings.md).
 
 ## Verify
 
 1. Trigger an error or send a test event from the app.
-2. Open **Issues** in the dashboard on the key's environment, or use MCP `search_errors` / `search_events` / `get_project_stats`. After a local install, pass `environment: development`.
+2. Open **Issues** in the dashboard on the key's environment, or use MCP `search_issues` / `get_project`. After a local install with a development key (`tal_dev_...`), select the Development environment in the dashboard.
 
 ## Related
 
