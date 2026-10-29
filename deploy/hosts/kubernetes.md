@@ -57,7 +57,7 @@ The OpenTelemetry Collector runs as a DaemonSet (logs, kubelet metrics, and trac
 
 ## Steps
 
-### 1. Create a Kubernetes Secret for your Talaria key
+### 1. Set the environment variables
 
 Store your ingest key as a Secret so the Collector can reference it:
 
@@ -69,7 +69,7 @@ kubectl create secret generic talaria-ingest \
 
 Replace `tal_prod_YOUR_KEY_HERE` with your actual key.
 
-### 2. Install the OpenTelemetry Collector Helm chart
+### 2. Pass the release to the runtime
 
 Add the OpenTelemetry Helm repository:
 
@@ -148,7 +148,7 @@ helm install opentelemetry-collector open-telemetry/opentelemetry-collector \
   --values values.yaml
 ```
 
-### 3. (Optional) Install a Deployment-mode Collector for cluster metrics
+### 3. Collect logs
 
 For cluster-wide metrics (pod phase, CronJob success/failure), add a second Collector in Deployment mode with the `k8s_cluster` receiver:
 
@@ -222,7 +222,7 @@ helm install opentelemetry-cluster open-telemetry/opentelemetry-collector \
 
 This receiver emits `k8s.job.failed_pods` and `k8s.cronjob.active_jobs`, which you can alert on.
 
-### 4. (Optional) Wire CronJob check-ins to Monitors
+### 4. Check in from scheduled jobs
 
 For explicit job health tracking beyond metrics, have your CronJob send check-ins to Talaria Monitors. Create a monitor token from the dashboard (Monitors › Create monitor), then add it as a Secret:
 
@@ -361,12 +361,6 @@ Replace `<your-deployment-name>` with your actual deployment name. The `service`
 2. Verify the endpoint is `https://ingest.newtalaria.com/v1/check-ins`.
 3. Verify the header is `X-Talaria-Monitor-Token`.
 4. Regenerate the monitor token from the dashboard if it was revoked.
-
-## Next steps
-
-- **Create alerts**: Set up metric alerts for `k8s.container.restarts > 0` or `k8s.job.failed_pods > 0` (Alerts page)
-- **Monitor your CronJobs**: Go to Monitors and confirm check-ins are arriving
-- **Instrument your apps**: Add a Talaria SDK or OpenTelemetry instrumentation to your pods for error tracking and distributed tracing
 
 ## For agents
 

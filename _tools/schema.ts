@@ -171,9 +171,9 @@ export function frontmatterSchema(reg: Registries) {
 
       // Section-specific validation
       // Determine if this is a task page (v1.2 §6.0.2)
-      const isTaskPage = 
+      const isTaskPage =
         (fm.section === "guides" && fm.type === "guide") ||
-        (fm.section === "deploy-ci" && fm.type === "guide") ||
+        (fm.section === "deploy" && fm.type === "guide") ||
         (fm.section === "agents" && (fm.type === "guide" || fm.type === "quickstart")) ||
         (fm.section === "platforms" && (fm.type === "quickstart" || fm.type === "guide"));
       
@@ -213,7 +213,7 @@ export function frontmatterSchema(reg: Registries) {
         fail("Feature pages document exactly one feature", "feature");
       }
 
-      if (fm.section === "deploy-ci") {
+      if (fm.section === "deploy") {
         const ciCount = fm.ci?.length || 0;
         const hostCount = fm.host ? 1 : 0;
         if (fm.type === "guide" && (ciCount + hostCount) !== 1) {

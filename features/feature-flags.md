@@ -16,29 +16,33 @@ owner: docs
 
 # Feature flags
 
-Feature flags let you control feature availability remotely without deploying new code. Create flags in the dashboard and evaluate them from your SDK.
+## Turn it on
 
-## Evaluating flags
+Create flags in **Flags** and evaluate them from your SDK.
+
+## How it works
 
 SDKs evaluate flags through `GET /v1/flags` using an API key with the `flags:evaluate` scope. Evaluate flags with `boolVariation`, `stringVariation`, or `jsonVariation`:
 
-```javascript
+```javascript platform=javascript
 // JavaScript/React/Next.js
 const on = await Talaria.flags.boolVariation('new-checkout', false);
 ```
 
-```dart
+```dart platform=flutter
 // Dart/Flutter
 final on = await Talaria.flags.boolVariation('new-checkout', false);
 ```
 
 Pass a key and a default value. When the flag is off or undefined, the default is returned. See the [JavaScript SDK configuration](../sdk/javascript/configuration.md#feature-flags) and [Flutter SDK configuration](../sdk/flutter/configuration.md#feature-flags) pages for full code examples.
 
-## API key scopes
+## Use it with an agent
+
+Coding agents can read and update flags with MCP tools: `get_feature_flag`, `list_feature_flags`, `set_feature_flag_off`, and `set_feature_flag_percent`. See the [MCP tools reference](../agents/mcp/README.md).
+
+## Limits and billing
 
 - **`flags:evaluate`** — Evaluate flags (browser-safe)
 - **`flags:read`** — Read flag definitions
-
-## Full API contract
 
 See [GET /v1/flags](../reference/ingest-api.md#feature-flags) in the Ingest API reference for the complete endpoint specification.

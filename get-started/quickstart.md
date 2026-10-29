@@ -27,8 +27,8 @@ owner: docs
 
 1. Sign in to the [dashboard](https://one.newtalaria.com).
 2. Create an organization (if needed) and a **project**.
-3. Open the project → **API keys** → create a key with ingest scopes (default includes events and spans). Each key is bound to one environment: development, test, staging, or production. The prefix stays `tal_prod_`. Existing keys default to development. A deployed app that should report production needs a production key. MCP `setup_project` uses a development key. Production shipping is a second key.
-4. Copy the raw `tal_prod_…` value **once** (shown only at creation). It is a **public client ingest credential** — pass it via env / `--dart-define` / `.env` as you prefer. The key decides the environment. SDKs do not send it.
+3. Open **Project settings › Client keys** and create a key. The prefix shows its environment (`tal_dev_…` for local).
+4. Copy the raw `tal_dev_…` value **once** (shown only at creation). It is a **public client ingest credential** — pass it via env / `--dart-define` / `.env` as you prefer. The key decides the environment. SDKs do not send it.
 
 ## Pick an SDK
 
