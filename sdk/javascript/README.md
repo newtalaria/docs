@@ -51,6 +51,9 @@ await Talaria.flush();
 
 `tal_prod_…` keys are public client ingest credentials. Put the key in the bundle through your build (an env var replaced at build time is fine). The key decides the environment. A local install uses a development key. Do not pass `environment` in init.
 
+> [!CAUTION]
+> When using Vite, use `VITE_TALARIA_BROWSER_API_KEY` for browser code. **Never** use `VITE_TALARIA_API_KEY` or `VITE_TALARIA_RELEASE_KEY`—server keys must not carry a public prefix. For server code, use the unprefixed variables.
+
 `minLevel: 'warning'` drops info and debug messages. `captureException` is an error, so this setup still shows up in Issues.
 
 ## What you can do
