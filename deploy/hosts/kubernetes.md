@@ -16,8 +16,8 @@ notFor:
   - when: You're using a Talaria SDK directly in your app
     href: ../sdk/README.md
 prereqs:
-  - text: A Kubernetes cluster with kubectl access
-  - text: Helm 3 installed
+  - label: A Kubernetes cluster with kubectl access
+  - label: Helm 3 installed
 credentials:
   - ingest-key
 scopes:
@@ -30,9 +30,6 @@ verify:
   expect: Service rows appear for your cluster namespaces and deployments
   mcp:
     tool: search_logs
-    params:
-      service: k8s-collector
-      limit: 10
     expect: Log records with k8s.namespace.name and k8s.pod.name attributes
 next:
   - monitors

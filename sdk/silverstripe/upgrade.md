@@ -134,7 +134,7 @@ Turn the features on in [Project settings](../../get-started/project-settings.md
 | 2.0.0 | `^2.0.0` | `environment` removed. Browser SDK 0.5.0. |
 | 2.0.1 | `^2.0.0` | Browser SDK 0.5.3. |
 
-From 1.2.1, a blank `TALARIA_URL` sends to Talaria Cloud. Set `dsn` in YAML, or `TALARIA_URL`, when the API is somewhere else. If PHP talks to a host the browser cannot reach (a Docker-internal URL, or HTTP behind an HTTPS site), set `TALARIA_BROWSER_API_KEY` for the injected script only. PHP keeps its own URL.
+From 1.2.1, a blank `TALARIA_URL` sends to Talaria Cloud. Set `url` in YAML, or `TALARIA_URL`, when the API is somewhere else. If PHP talks to a host the browser cannot reach (a Docker-internal URL, or HTTP behind an HTTPS site), set `TALARIA_BROWSER_API_KEY` for the injected script only. PHP keeps its own URL.
 
 `TALARIA_BROWSER_API_KEY` is optional. When it is a `tal_prod_` key, CMS and public pages report with that key and PHP keeps `TALARIA_API_KEY`. When it is unset, the script uses the PHP key. When it is non-empty and not a `tal_prod_` key, the script is not injected.
 

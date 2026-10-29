@@ -881,7 +881,7 @@ pages:
   - id: kubernetes-collector
     path: deploy/hosts/kubernetes.md
     title: Kubernetes
-    description: Deploy the OpenTelemetry Collector on Kubernetes with Helm values and a CronJob health check-in.
+    description: Deploy the OpenTelemetry Collector on Kubernetes to send traces, logs, and metrics to Talaria.
     type: guide
     section: deploy-ci
   - id: sitehost-collector
@@ -1042,7 +1042,6 @@ pages:
       - javascript
       - react
       - nextjs
-    package: "@newtalaria/cli"
     type: guide
     section: guides
     features:
@@ -1079,10 +1078,6 @@ pages:
     description: Send traces, logs, and metrics via OpenTelemetry Protocol (OTLP) over HTTP to ingest.newtalaria.com/otlp. HTTP/protobuf recommended, gRPC not supported.
     type: reference
     section: reference
-    features:
-      - traces
-      - logs
-      - metrics
     tags:
       - otlp
       - opentelemetry

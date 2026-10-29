@@ -36,7 +36,7 @@ TALARIA_API_KEY=tal_prod_…
 TALARIA_RELEASE=1.4.2
 ```
 
-The URL defaults to `https://ingest.newtalaria.com`. Set `Talaria\SilverStripe\Config.dsn` in YAML only when the API is somewhere else. Flush the manifest after install (`vendor/bin/sake dev/build flush=1`, or your usual flush). Log an error or throw. Confirm with MCP `search_issues` and `environment: development`.
+The URL defaults to `https://ingest.newtalaria.com`. Set `Talaria\SilverStripe\Config.url` in YAML only when the API is somewhere else. Flush the manifest after install (`vendor/bin/sake dev/build flush=1`, or your usual flush). Log an error or throw. Confirm with MCP `search_issues` and `environment: development`.
 
 ## What you can do
 

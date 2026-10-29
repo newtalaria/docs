@@ -110,7 +110,7 @@ A staging flavor uses a staging key. A production flavor uses a production key. 
 
 | App init (`TalariaOptions`) | Project settings |
 | --- | --- |
-| `dsn`, `apiKey`, `release`, `minLevel` | Tracing enabled and the traces sample rate |
+| `url`, `apiKey`, `release`, `minLevel` | Tracing enabled and the traces sample rate |
 | Tags, `beforeSend` | Analytics and heatmaps |
 
 See [Project configuration](../../get-started/project-settings.md).

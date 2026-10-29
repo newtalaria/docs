@@ -139,8 +139,18 @@ function checkContentRules(pages: PageFile[]): void {
       const matches = body.match(pattern);
       if (matches && matches.length > 0) {
         // Allow-list warning sentences about public prefixes
-        if (name.includes("public-prefixed") && body.includes("must never carry a public prefix")) {
-          continue;
+        if (name.includes("public-prefixed")) {
+          // Check if the match is within a warning block about not using these vars
+          const matchIndex = body.indexOf(matches[0]);
+          const contextStart = Math.max(0, matchIndex - 200);
+          const contextEnd = Math.min(body.length, matchIndex + 200);
+          const context = body.substring(contextStart, contextEnd);
+          
+          if (context.includes("must never carry a public prefix") || 
+              context.includes("Never** use") ||
+              context.includes("**Never**")) {
+            continue;
+          }
         }
         errors.push(
           `🚫 ${page.relativePath}: contains ${name} (${matches[0]})`
@@ -351,7 +361,7 @@ function validateManifestFresh() {
     const currentManifest = readFileSync(join(DOCS_ROOT, "manifest.yaml"), "utf-8");
     
     // Run build-manifest.ts
-    execSync("tsx build-manifest.ts", { 
+    execSync("./node_modules/.bin/tsx build-manifest.ts", { 
       cwd: join(DOCS_ROOT, "_tools"),
       stdio: "pipe"
     });
@@ -363,13 +373,6 @@ function validateManifestFresh() {
     }
   } catch (e) {
     errors.push(`📦 manifest.yaml freshness check failed: ${e}`);
-  }
-}
-  const manifestPath = join(DOCS_ROOT, "manifest.yaml");
-  try {
-    readFileSync(manifestPath, "utf-8");
-  } catch {
-    errors.push("manifest.yaml is missing - run 'cd _tools && npm run build:manifest'");
   }
 }
 

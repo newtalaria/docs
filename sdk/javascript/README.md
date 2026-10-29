@@ -98,7 +98,7 @@ Set `remoteConfig: false` only when this page should send errors and skip `sdk/g
 
 | App init | Project settings |
 | --- | --- |
-| `dsn`, `apiKey`, `release`, `commitSha`, `minLevel`, `tags` | Tracing on/off and the traces sample rate |
+| `url`, `apiKey`, `release`, `commitSha`, `minLevel`, `tags` | Tracing on/off and the traces sample rate |
 | `networkErrorOrigins`, `beforeSend` | Analytics, heatmaps, and session replay |
 | `publicAnalytics` when the page has no banner Talaria reads | Sample rates for replay |
 

@@ -36,7 +36,7 @@ See the [SDK hub](../sdk/README.md). For Flutter, start at [Flutter SDK](../sdk/
 
 ## Wire init
 
-Use the cloud ingest URL as `dsn` unless you self-host:
+Use the cloud ingest URL as `url` unless you self-host:
 
 ```text
 https://ingest.newtalaria.com

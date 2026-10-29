@@ -36,7 +36,7 @@ composer require talaria/talaria
 use Talaria\Talaria;
 
 Talaria::init([
-    'dsn' => 'https://ingest.newtalaria.com',
+    'url' => 'https://ingest.newtalaria.com',
     'apiKey' => getenv('TALARIA_API_KEY'),
     'release' => getenv('TALARIA_RELEASE') ?: 'dev',
     'minLevel' => 'warning',
@@ -76,7 +76,7 @@ composer require talaria/talaria
 
 ```php
 Talaria::init([
-    'dsn' => 'https://ingest.newtalaria.com',
+    'url' => 'https://ingest.newtalaria.com',
     'apiKey' => getenv('TALARIA_API_KEY'),
     'release' => getenv('TALARIA_RELEASE') ?: null,
     'commitSha' => getenv('TALARIA_COMMIT_SHA') ?: null,
