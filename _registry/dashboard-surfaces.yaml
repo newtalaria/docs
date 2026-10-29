@@ -1,73 +1,50 @@
-# Dashboard surface registry for task-page verify blocks (v1.2)
-# Names match exactly as shown in the Talaria dashboard
-# PM to confirm against the app in Q3
-
-- id: issues
-  label: Issues
-  icon: Bug
-  order: 10
-
-- id: issue-detail
-  label: Issues › issue detail
-  icon: Bug
-  order: 11
-
-- id: performance
-  label: Performance
-  icon: Gauge
-  order: 20
-
-- id: logs
-  label: Logs
-  icon: ScrollText
-  order: 30
-
-- id: runtime
-  label: Runtime
-  icon: Activity
-  order: 40
-
-- id: replays
-  label: Session replays
-  icon: Film
-  order: 50
-
-- id: analytics
-  label: Analytics
-  icon: ChartLine
-  order: 60
-
-- id: flags
-  label: Feature flags
-  icon: Flag
-  order: 70
-
-- id: releases
-  label: Releases
-  icon: Tag
-  order: 80
-
-- id: alerts
-  label: Alerts
-  icon: Bell
-  order: 90
-
-- id: monitors
-  label: Monitors
-  icon: Timer
-  order: 100
-
-- id: project-settings
-  label: Project settings
-  icon: Settings
-  order: 110
-
-- id: api-keys
-  label: Project › API keys
-  icon: KeyRound
-  order: 120
-
-- id: settings-integrations
-  label: Settings › Integrations
-  icon: Plug
-  order: 130
+# dashboard-surfaces.yaml: exact live labels. Changing a label here updates every chip.
+# Verified live 29 Oct 2026 by Dashboard Tester (dashboard-surfaces-verified.md)
+# kind: page | subpage | tab | detail | drawer
+# Project: Observe
+- { id: overview,              label: Overview,                 nav: observe,   kind: page,    route: "<P>",                          icon: LayoutGrid,     order: 10 }
+- { id: dashboards,            label: Dashboards,               nav: observe,   kind: page,    route: "<P>/dashboards",               icon: LayoutDashboard, order: 20 }
+- { id: issues,                label: Issues,                   nav: observe,   kind: page,    route: "<P>/issues",                   icon: Bug,            order: 30 }
+- { id: issue-detail,          label: issue detail,             parent: issues, kind: detail,  route: "<P>/issues/<issueId>",         icon: Bug,            order: 31 }   # tabs Details · Events · Replays · Activity; Logs block lives on Details
+- { id: events,                label: Events,                   nav: observe,   kind: page,    route: "<P>/events",                   icon: Zap,            order: 40 }   # live stream of ingested telemetry
+- { id: replays,               label: Replays,                  nav: observe,   kind: page,    route: "<P>/replays",                  icon: CirclePlay,     order: 50 }
+- { id: whiteboards,           label: Whiteboards,              nav: observe,   kind: page,    route: "<P>/whiteboards",              icon: PenLine,        order: 60 }
+# Project: Analyse
+- { id: performance,           label: Performance,              nav: analyse,   kind: page,    route: "<P>/performance",              icon: Gauge,          order: 100 }  # its first child is Overview, same route
+- { id: performance-map,       label: Map,                      parent: performance, kind: subpage, route: "<P>/performance/map",          icon: Waypoints,  order: 101 }
+- { id: performance-queries,   label: Queries,                  parent: performance, kind: subpage, route: "<P>/performance/queries",      icon: List,       order: 102 }
+- { id: performance-dependencies, label: Dependencies,          parent: performance, kind: subpage, route: "<P>/performance/dependencies", icon: Network,    order: 103 }
+- { id: performance-vitals,    label: Web Vitals,               parent: performance, kind: subpage, route: "<P>/performance/vitals",       icon: Activity,   order: 104 }
+- { id: analytics,             label: Analytics,                nav: analyse,   kind: page,    route: "<P>/analytics",                icon: ChartColumn,    order: 110 }  # "Analytics is off" empty state still counts
+- { id: analytics-events,      label: Analytics events,         parent: analytics, kind: subpage, route: "<P>/analytics/events",   icon: ChartColumn, order: 111 }  # chip: Analytics › Analytics events
+- { id: analytics-paths,       label: Paths,                    parent: analytics, kind: subpage, route: "<P>/analytics/paths",    icon: ChartColumn, order: 112 }
+- { id: analytics-funnels,     label: Funnels,                  parent: analytics, kind: subpage, route: "<P>/analytics/funnels",  icon: ChartColumn, order: 113 }
+- { id: analytics-heatmaps,    label: Heatmaps,                 parent: analytics, kind: subpage, route: "<P>/analytics/heatmaps", icon: ChartColumn, order: 114 }
+- { id: releases,              label: Releases,                 nav: analyse,   kind: page,    route: "<P>/releases",                 icon: Rocket,         order: 120 }  # list rows are 12-char commit hashes
+- { id: release-detail,        label: release detail,           parent: releases, kind: detail, route: "<P>/releases/<hash>",         icon: Rocket,         order: 121 }  # header "Release health"
+- { id: runtime,               label: Runtime,                  nav: analyse,   kind: page,    route: "<P>/runtime",                  icon: Globe,          order: 130 }
+# Project: Configure
+- { id: alerts,                label: Alerts,                   nav: configure, kind: page,    route: "<P>/alerts",                   icon: Siren,          order: 200 }
+- { id: monitors,              label: Monitors,                 nav: configure, kind: page,    route: "<P>/monitors",                 icon: MonitorCheck,   order: 210 }
+- { id: flags,                 label: Flags,                    nav: configure, kind: page,    route: "<P>/flags",                    icon: Flag,           order: 220 }
+- { id: flags-experiments,     label: Experiments,              parent: flags,  kind: subpage, route: "<P>/flags/experiments",        icon: Flag,           order: 221 }
+- { id: flags-segments,        label: Segments,                 parent: flags,  kind: subpage, route: "<P>/flags/segments",           icon: Flag,           order: 222 }
+- { id: project-settings,      label: Project settings,         nav: configure, kind: page,    route: "<P>/settings",                 icon: Settings,       order: 230 }  # sidebar item reads "Settings"; page header reads "Project settings"
+- { id: project-settings-capture,  label: Capture,              parent: project-settings, kind: tab, route: "<P>/settings?tab=capture", icon: Settings,  order: 231 }
+- { id: client-keys,           label: Client keys,              parent: project-settings, kind: tab, route: "<P>/settings?tab=keys",    icon: KeyRound,  order: 232 }
+- { id: project-settings-source,   label: Source code,          parent: project-settings, kind: tab, route: "<P>/settings?tab=source",  icon: Settings,  order: 233 }
+- { id: project-settings-maps,     label: Source maps,          parent: project-settings, kind: tab, route: "<P>/settings?tab=maps",    icon: Settings,  order: 234 }
+- { id: project-settings-inbound,  label: Inbound filters,      parent: project-settings, kind: tab, route: "<P>/settings?tab=inbound", icon: Settings,  order: 235 }
+- { id: project-settings-access,   label: Access,               parent: project-settings, kind: tab, route: "<P>/settings?tab=access",  icon: Settings,  order: 236 }
+# Org: Workspace
+- { id: org-projects,          label: Projects,                 nav: workspace, kind: page,    route: "/projects",                    icon: Folder,         order: 300 }  # header subtitle "Workspace pulse for your organisation"
+- { id: org-dashboards,        label: Dashboards,               nav: workspace, kind: page,    route: "/dashboards",                  icon: LayoutDashboard, order: 310 } # boards open at /dashboards/<id>
+- { id: org-groups,            label: Groups,                   nav: workspace, kind: page,    route: "/settings/groups",             icon: FolderTree,     order: 320 }
+- { id: org-team,              label: Team,                     nav: workspace, kind: page,    route: "/settings/team",               icon: Users,          order: 330 }
+- { id: org-billing,           label: Billing,                  nav: workspace, kind: page,    route: "/settings/billing",            icon: CreditCard,     order: 340 }
+- { id: settings-integrations, label: Integrations,             nav: workspace, kind: page,    route: "/settings/integrations",       icon: Plug,           order: 350 }
+- { id: integrations-mcp,      label: MCP and agents,           parent: settings-integrations, kind: subpage, route: "/settings/integrations/mcp", icon: Plug, order: 351 }  # tabs Connect · Clients · Tool calls · Tokens and sessions
+- { id: ai-chat,               label: AI Chat,                  nav: workspace, kind: page,    route: "/ai",                          icon: Sparkles,       order: 360 }
+- { id: account,               label: Account,                  nav: workspace, kind: page,    route: "/settings",                    icon: CircleUser,     order: 370 }  # Appearance · Profile · Organisation
+# Overlays
+- { id: ai-drawer,             label: Talaria AI,               kind: drawer,   route: "…&uiSheet=ai-drawer&panel=ai",                icon: Sparkles,       order: 400 }  # opened by "Ask AI about this view", "Explain", "Investigate with Talaria AI"
