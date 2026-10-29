@@ -105,7 +105,7 @@ An event that used to be labelled by that string now shows up under the key's en
 
 ## 1.1 to 1.2.0
 
-1.2.0 reads tracing, analytics, and the event sample rate from `POST /sdk/getConfig`. These init options no longer change that behaviour:
+1.2.0 reads tracing, analytics, and the event sample rate from the SDK's project configuration fetch. These init options no longer change that behaviour:
 
 - `enableTracing`
 - `tracesSampleRate`

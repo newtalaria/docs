@@ -46,6 +46,12 @@ The body is Serverpod `UploadSourceMapInput`: `release`, `fileName` (minified ba
 
 The local and CI walkthrough is [Upload JavaScript source maps](../guides/upload-javascript-source-maps.md).
 
+## Feature flags
+
+`GET /v1/flags` on the API base URL. Send `X-API-Key` from a key with `flags:read` scope. Returns SDK flag definitions as JSON, filtered by the key's environment.
+
+SDKs use this endpoint to fetch feature flag configuration at initialization. The response includes flag keys, targeting rules, and default values. Evaluation happens client-side based on user context.
+
 Issues stay separate per environment because the fingerprint includes environment. Each issue stores that environment. A sibling key links the same failure across environments, and issue detail lists those other environments. Clients never send a fingerprint.
 
 The dashboard reads one environment at a time: Production, Staging, Test, Development, or All. The shell defaults to production when the project has a production key, otherwise development. All is an explicit choice.

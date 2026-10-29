@@ -26,13 +26,7 @@ Official SDKs load tracing, analytics, heatmaps, and session replay from the pro
 
 ## How the SDK applies it
 
-After init, the SDK calls:
-
-```http
-POST {url}/sdk/getConfig
-```
-
-with the project API key. The response is a read-only document. The SDK caches it and refreshes after `ttlSeconds` (default 300 seconds, clamped between one minute and one hour).
+After init, the SDK fetches its project configuration using the API key. The response is a read-only document. The SDK caches it and refreshes after `ttlSeconds` (default 300 seconds, clamped between one minute and one hour).
 
 Until the first document arrives, the SDK sends **errors only**. Spans, analytics, heatmaps, and replay start only when the document allows them. Saving Project settings shows up on the next refresh.
 

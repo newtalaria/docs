@@ -47,6 +47,21 @@ curl -fsS -X POST "$TALARIA_URL/v1/check-ins" \
 
 `status` is `in_progress`, `ok`, or `error`. Optional fields are `runId`, `durationSeconds`, and `logTail`.
 
+### Rotating a monitor token
+
+To rotate a monitor token, include `"rotateMonitorToken": true` in the check-in request body. Works on both routes:
+- `POST /v1/check-ins` with `X-Talaria-Monitor-Token` header
+- `POST /v1/monitors/{slug}/check-ins` with an API key
+
+```bash
+curl -fsS -X POST "$TALARIA_URL/v1/check-ins" \
+  -H "X-Talaria-Monitor-Token: $TALARIA_MONITOR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"status":"ok","rotateMonitorToken":true}'
+```
+
+The response includes the new token (`tal_mon_...`) **only once**. Store it immediately—the old token stops working after rotation. If the response is lost, create a new monitor or use the API key route with `rotateMonitorToken: true` to mint another token.
+
 The SiteHost deploy action writes these lines when the app contains `talaria/monitors.yaml`:
 
 ```yaml
