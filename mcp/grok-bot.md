@@ -35,7 +35,7 @@ The **Talaria** plugin in Cursor Marketplace brings the same MCP plus five close
 | `talaria-triage-issue` | Investigate one issue (pack → trace/replay/suspects → optional GitHub) |
 | `talaria-verify-fix` | After release: `verify_fix` verdict, optional status update |
 
-Install the plugin or load it from the [GitHub repo](https://github.com/newtalaria/talaria-grok-plugin). Skills guide agents through the complete workflow: get-started → instrument → observe → triage → verify-fix.
+Install the plugin or load it from the [GitHub repo](https://github.com/newtalaria/talaria-agent-plugin). Skills guide agents through the complete workflow: get-started → instrument → observe → triage → verify-fix.
 
 **Listing:** [cursor.directory/plugins/talaria](https://cursor.directory/plugins/talaria)
 
