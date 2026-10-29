@@ -24,7 +24,7 @@ pages:
 
 The MCP server reads this to serve `docs_list` and `docs_search`.
 
-**Greenfield docs:** No redirects or aliases needed (no live external users per Heath decision 29 Oct 2026).
+**Greenfield docs:** Pages are addressed only by their current path.
 
 ## `search-facets.json`
 

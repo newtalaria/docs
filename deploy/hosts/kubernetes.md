@@ -46,7 +46,7 @@ The OpenTelemetry Collector runs as a DaemonSet (logs, kubelet metrics, and trac
 
 - **Logs**: Automatically collect container stdout/stderr from all pods
 - **Metrics**: Pod CPU, memory, restarts, and CronJob success/failure. **Note**: Gauge alerts use the latest value over 15 minutes. LogRate alerts count error-level logs only (severity ≥ 17), have no environment filter, and filter on service only. Logs and metrics cannot be filtered by environment.
-- **Traces**: Relay OTLP traces from instrumented apps to Talaria
+- **Traces**: Relay OTLP traces from instrumented apps to Talaria. **Note**: OTLP export uses HTTP only (`otlp_http`); gRPC is not supported.
 - **Resource enrichment**: Attach `k8s.namespace.name`, `k8s.deployment.name`, `k8s.pod.name` to every signal
 
 ## Before you start

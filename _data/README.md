@@ -22,13 +22,13 @@ This file should be generated from the MCP server tool registry and committed he
     {
       "name": "docs_get",
       "title": "Get documentation page",
-      "description": "Fetch a docs page by id, path, or alias",
+      "description": "Fetch a docs page by id or path",
       "toolset": "docs",
       "scope": "read:docs",
       "readOnlyHint": true,
       "destructiveHint": false,
       "params": [
-        { "name": "idOrPath", "type": "string", "required": true, "description": "Page id, path, or alias" }
+        { "name": "idOrPath", "type": "string", "required": true, "description": "Page id or path" }
       ]
     }
   ]

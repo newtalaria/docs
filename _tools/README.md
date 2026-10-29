@@ -82,7 +82,7 @@ Pages in this section use either `ci:` or `host:` (mutually exclusive):
 ---
 id: github-actions-deploy
 title: GitHub Actions
-section: deploy-ci
+section: deploy
 ci: github-actions
 type: guide
 # ...
@@ -92,7 +92,7 @@ type: guide
 ---
 id: kubernetes-collector
 title: Kubernetes
-section: deploy-ci
+section: deploy
 host: kubernetes
 type: guide
 # ...
@@ -100,7 +100,7 @@ type: guide
 ```
 
 The schema enforces:
-- Pages in `deploy-ci` section must have either `ci` or `host`
+- Pages in `deploy` section must have either `ci` or `host`
 - Cannot have both `ci` and `host`
 - Values must exist in `ci-providers.yaml` or `hosts.yaml`
 
@@ -111,7 +111,7 @@ The schema enforces:
 - `sdk/collector/kubernetes.md` → `deploy/hosts/kubernetes.md`
 - `sdk/collector/sitehost.md` → `deploy/hosts/sitehost.md`
 
-**Greenfield docs:** No redirects or aliases needed (no live external users per Heath decision 29 Oct 2026).
+**Greenfield docs:** Pages are addressed only by their current path.
 
 ## Current validation status
 
@@ -133,7 +133,7 @@ Per the binding PM decisions:
 - ✅ Section name is **Features** (not Capabilities)
 - ✅ Minimal `owners.yaml` with single `docs` owner (no per-page owners)
 - ✅ MCP tool count is 44 (documented, not invented)
-- ✅ **Greenfield docs:** No redirects or aliases (no live external users per Heath decision 29 Oct 2026)
+- ✅ **Greenfield docs:** Pages are addressed only by their current path
 
 ## Build tools
 
