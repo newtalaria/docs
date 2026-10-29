@@ -89,7 +89,7 @@ Some apps need two keys:
 
 Both can be the same environment (e.g., both `tal_prod_...`), or you can use `tal_dev_...` for the browser during development and `tal_prod_...` for the server.
 
-PHP, Laravel, and Silverstripe support `TALARIA_BROWSER_API_KEY` to inject a different key into pages. Other platforms pass the browser key as a build-time variable (e.g., `NEXT_PUBLIC_TALARIA_API_KEY`).
+PHP, Laravel, and Silverstripe support `TALARIA_BROWSER_API_KEY` to inject a different key into pages. Other platforms pass the browser key as a build-time variable (e.g., `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY`).
 
 ### CI release uploads
 
@@ -118,17 +118,17 @@ The server reads the key, looks up its environment, and stamps every ingested re
 
 When your app has both server and browser code (Next.js, Vite, etc.), use framework-specific prefixes for browser environment variables:
 
-- **Next.js**: `NEXT_PUBLIC_TALARIA_URL`, `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY`, optionally `NEXT_PUBLIC_TALARIA_RELEASE`
-- **Vite**: `VITE_TALARIA_URL`, `VITE_TALARIA_BROWSER_API_KEY`, `VITE_TALARIA_RELEASE`
+- **Next.js**: `NEXT_PUBLIC_TALARIA_URL`, `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY`, optionally `NEXT_PUBLIC_TALARIA_RELEASE`, `NEXT_PUBLIC_TALARIA_COMMIT_SHA`
+- **Vite**: `VITE_TALARIA_URL`, `VITE_TALARIA_BROWSER_API_KEY`, `VITE_TALARIA_RELEASE`, `VITE_TALARIA_COMMIT_SHA`
 
 > [!CAUTION]
-> `TALARIA_API_KEY` and `TALARIA_RELEASE_KEY` **must never carry a public prefix** (`NEXT_PUBLIC_` or `VITE_`). Server code uses the unprefixed variables. Only `TALARIA_BROWSER_API_KEY` gets the public prefix for browser bundles.
+> `TALARIA_API_KEY` and `TALARIA_RELEASE_KEY` **must never carry a public prefix** (`NEXT_PUBLIC_` or `VITE_`). Server code uses the unprefixed variables. Only `TALARIA_BROWSER_API_KEY`, `TALARIA_URL`, `TALARIA_RELEASE`, and `TALARIA_COMMIT_SHA` get the public prefix for browser bundles.
 
 ## Changing environments
 
 To move an app from development to production:
 1. Create a production key in the dashboard
-2. Replace `TALARIA_API_KEY` (or the framework public prefix like `NEXT_PUBLIC_TALARIA_API_KEY`)
+2. Replace `TALARIA_API_KEY` (or the framework public prefix like `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY`)
 3. Deploy or restart the app
 
 The new key's environment applies immediately to all new data.

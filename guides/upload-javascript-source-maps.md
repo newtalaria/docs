@@ -3,6 +3,7 @@ title: Upload JavaScript source maps
 description: >-
   Upload minified bundle source maps in local dev and CI so stack frames show
   original files and line numbers.
+package: "@newtalaria/cli"
 tags:
   - javascript
   - source-maps
