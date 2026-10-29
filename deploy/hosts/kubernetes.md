@@ -69,7 +69,30 @@ kubectl create secret generic talaria-ingest \
 
 Replace `tal_prod_YOUR_KEY_HERE` with your actual key.
 
+If your application pods send telemetry directly (not just via the collector), they need the ingest key too. Add it to their Deployment `env:`:
+
+```yaml
+env:
+  - name: TALARIA_API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: talaria-ingest
+        key: api-key
+```
+
 ### 2. Pass the release to the runtime
+
+Set the release on your application pods so events are tagged with the deployed version. Use `service.version` in OpenTelemetry resource attributes or the `OTEL_RESOURCE_ATTRIBUTES` environment variable:
+
+```yaml
+env:
+  - name: OTEL_RESOURCE_ATTRIBUTES
+    value: "service.version=v1.2.3"
+```
+
+This tags traces, logs, and errors with the release, making it easier to correlate issues with deployments.
+
+### 3. Collect logs
 
 Add the OpenTelemetry Helm repository:
 
@@ -148,7 +171,7 @@ helm install opentelemetry-collector open-telemetry/opentelemetry-collector \
   --values values.yaml
 ```
 
-### 3. Collect logs
+#### Optional: Cluster-wide metrics
 
 For cluster-wide metrics (pod phase, CronJob success/failure), add a second Collector in Deployment mode with the `k8s_cluster` receiver:
 

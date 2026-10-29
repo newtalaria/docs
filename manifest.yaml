@@ -1164,7 +1164,7 @@ pages:
     order: 10
   - id: otlp-endpoint
     path: reference/otlp.md
-    title: OTLP Endpoint
+    title: OTLP endpoint
     description: Send traces, logs, and metrics via OpenTelemetry Protocol (OTLP) over HTTP to ingest.newtalaria.com/otlp. HTTP/protobuf recommended, gRPC not supported.
     type: reference
     section: reference

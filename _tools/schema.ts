@@ -108,6 +108,26 @@ export function frontmatterSchema(reg: Registries) {
       owner,
       nav: z.boolean().default(true),
       noindex: z.boolean().default(false),
+      // Task page fields
+      outcome: z.string().optional(),
+      why: z.string().optional(),
+      notFor: z.array(z.object({
+        when: z.string(),
+        href: z.string()
+      })).optional(),
+      prereqs: z.array(z.object({
+        label: z.string(),
+        href: z.string().optional()
+      })).optional(),
+      credentials: z.array(z.string()).optional(),
+      scopes: z.array(z.string()).optional(),
+      timeMinutes: z.number().int().min(1).max(999).optional(),
+      verify: z.object({
+        surface: z.string(),
+        path: z.string(),
+        expect: z.string()
+      }).optional(),
+      next: z.array(z.string().regex(kebab)).optional(),
     })
     .strict() // Reject unknown keys (including legacy `sdk:`)
     .superRefine((fm, ctx) => {
