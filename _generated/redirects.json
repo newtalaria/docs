@@ -1,0 +1,222 @@
+[
+  {
+    "source": "/docs/getting-started",
+    "destination": "/docs/get-started",
+    "permanent": true
+  },
+  {
+    "source": "/docs/getting-started/quickstart",
+    "destination": "/docs/get-started/quickstart",
+    "permanent": true
+  },
+  {
+    "source": "/docs/getting-started/configuration",
+    "destination": "/docs/get-started/project-settings",
+    "permanent": true
+  },
+  {
+    "source": "/docs/guides/add-talaria-with-an-agent",
+    "destination": "/docs/agents/add-talaria",
+    "permanent": true
+  },
+  {
+    "source": "/docs/guides/triage-issues-with-an-agent",
+    "destination": "/docs/agents/triage-issues",
+    "permanent": true
+  },
+  {
+    "source": "/docs/guides/agent-skills",
+    "destination": "/docs/agents",
+    "permanent": true
+  },
+  {
+    "source": "/docs/guides/releases",
+    "destination": "/docs/features/releases",
+    "permanent": true
+  },
+  {
+    "source": "/docs/guides/monitors",
+    "destination": "/docs/features/monitors",
+    "permanent": true
+  },
+  {
+    "source": "/docs/guides/runtime",
+    "destination": "/docs/features/runtime",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/collector/kubernetes",
+    "destination": "/docs/deploy/hosts/kubernetes",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/collector/sitehost",
+    "destination": "/docs/deploy/hosts/sitehost",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/flutter/instrumentation",
+    "destination": "/docs/sdk/flutter/tracing",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/flutter/best-practices",
+    "destination": "/docs/sdk/flutter/configuration",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/dart/instrumentation",
+    "destination": "/docs/sdk/dart/tracing",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/dart/best-practices",
+    "destination": "/docs/sdk/dart/configuration",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/serverpod/instrumentation",
+    "destination": "/docs/sdk/serverpod/tracing",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/serverpod/best-practices",
+    "destination": "/docs/sdk/serverpod/configuration",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/javascript/instrumentation",
+    "destination": "/docs/sdk/javascript/tracing",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/javascript/best-practices",
+    "destination": "/docs/sdk/javascript/configuration",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/javascript/source-maps",
+    "destination": "/docs/guides/upload-javascript-source-maps",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/react/instrumentation",
+    "destination": "/docs/sdk/react/tracing",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/react/best-practices",
+    "destination": "/docs/sdk/react/configuration",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/nextjs/instrumentation",
+    "destination": "/docs/sdk/nextjs/tracing",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/nextjs/best-practices",
+    "destination": "/docs/sdk/nextjs/configuration",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/node/instrumentation",
+    "destination": "/docs/sdk/node/tracing",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/node/best-practices",
+    "destination": "/docs/sdk/node/configuration",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/php/instrumentation",
+    "destination": "/docs/sdk/php/tracing",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/php/best-practices",
+    "destination": "/docs/sdk/php/configuration",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/laravel/instrumentation",
+    "destination": "/docs/sdk/laravel/tracing",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/laravel/best-practices",
+    "destination": "/docs/sdk/laravel/configuration",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/silverstripe/instrumentation",
+    "destination": "/docs/sdk/silverstripe/tracing",
+    "permanent": true
+  },
+  {
+    "source": "/docs/sdk/silverstripe/best-practices",
+    "destination": "/docs/sdk/silverstripe/configuration",
+    "permanent": true
+  },
+  {
+    "source": "/docs/mcp/cursor",
+    "destination": "/docs/agents/mcp/cursor",
+    "permanent": true
+  },
+  {
+    "source": "/docs/mcp/grok-bot",
+    "destination": "/docs/agents/mcp/grok-bot",
+    "permanent": true
+  },
+  {
+    "source": "/docs/mcp/claude-code",
+    "destination": "/docs/agents/mcp/claude-code",
+    "permanent": true
+  },
+  {
+    "source": "/docs/mcp/vscode",
+    "destination": "/docs/agents/mcp/vscode",
+    "permanent": true
+  },
+  {
+    "source": "/docs/mcp/codex",
+    "destination": "/docs/agents/mcp/codex",
+    "permanent": true
+  },
+  {
+    "source": "/docs/mcp/gemini-cli",
+    "destination": "/docs/agents/mcp/gemini-cli",
+    "permanent": true
+  },
+  {
+    "source": "/docs/mcp/windsurf",
+    "destination": "/docs/agents/mcp/windsurf",
+    "permanent": true
+  },
+  {
+    "source": "/docs/mcp",
+    "destination": "/docs/agents/mcp",
+    "permanent": true
+  },
+  {
+    "source": "/docs/analytics/setup",
+    "destination": "/docs/features/analytics",
+    "permanent": true
+  },
+  {
+    "source": "/docs/analytics/consent",
+    "destination": "/docs/guides/cookie-banners",
+    "permanent": true
+  },
+  {
+    "source": "/docs/api/overview",
+    "destination": "/docs/reference/ingest-api",
+    "permanent": true
+  },
+  {
+    "source": "/docs/migration",
+    "destination": "/docs/sdk#upgrade-guides",
+    "permanent": true
+  }
+]

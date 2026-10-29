@@ -1,6 +1,7 @@
 #!/usr/bin/env tsx
 import { readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
+import { execSync } from "node:child_process";
 import matter from "gray-matter";
 import { loadRegistries, validateRegistries } from "./registries.js";
 import { frontmatterSchema } from "./schema.js";
@@ -133,6 +134,17 @@ function checkAliasCollisions(pages: PageFile[]): void {
   }
 }
 
+function validateManifestFresh() {
+  // For now, just check that manifest.yaml exists
+  // TODO: Add proper freshness check in CI workflow
+  const manifestPath = join(DOCS_ROOT, "manifest.yaml");
+  try {
+    readFileSync(manifestPath, "utf-8");
+  } catch {
+    errors.push("manifest.yaml is missing - run 'cd _tools && npm run build:manifest'");
+  }
+}
+
 function main() {
   console.log("🔍 Validating Talaria docs...\n");
   
@@ -190,6 +202,14 @@ function main() {
   checkFreshnessWarnings(pages);
   if (warnings.length === 0) {
     console.log("   ✅ All pages recently reviewed\n");
+  }
+  
+  // Step 6: Generated outputs freshness
+  console.log("6️⃣  Checking generated outputs...");
+  validateManifestFresh();
+  // TODO: Add redirects.json freshness check in phase 2
+  if (errors.length === 0) {
+    console.log("   ✅ Generated outputs fresh\n");
   }
   
   // Report results

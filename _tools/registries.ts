@@ -158,7 +158,6 @@ export interface Registries {
   platformFamilies: z.infer<typeof platformFamilySchema>[];
   platforms: z.infer<typeof platformSchema>[];
   features: z.infer<typeof featureSchema>[];
-  integrations: z.infer<typeof integrationSchema>[];
   ciProviders: z.infer<typeof ciProviderSchema>[];
   hosts: z.infer<typeof hostSchema>[];
   mcpClients: z.infer<typeof mcpClientSchema>[];
@@ -187,7 +186,6 @@ export function loadRegistries(): Registries {
     platformFamilies: loadYaml("platform-families.yaml", z.array(platformFamilySchema)),
     platforms: loadYaml("platforms.yaml", z.array(platformSchema)),
     features: loadYaml("features.yaml", z.array(featureSchema)),
-    integrations: loadYaml("integrations.yaml", z.array(integrationSchema)),
     ciProviders: loadYaml("ci-providers.yaml", z.array(ciProviderSchema)),
     hosts: loadYaml("hosts.yaml", z.array(hostSchema)),
     mcpClients: loadYaml("mcp-clients.yaml", z.array(mcpClientSchema)),
@@ -219,7 +217,6 @@ export function validateRegistries(reg: Registries): void {
   checkDuplicates(reg.platformFamilies, "platform family");
   checkDuplicates(reg.platforms, "platform");
   checkDuplicates(reg.features, "feature");
-  checkDuplicates(reg.integrations, "integration");
   checkDuplicates(reg.ciProviders, "CI provider");
   checkDuplicates(reg.hosts, "host");
   checkDuplicates(reg.mcpClients, "MCP client");

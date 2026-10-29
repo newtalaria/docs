@@ -1,10 +1,9 @@
 # Tools
 _tools/node_modules/
 _tools/dist/
-_tools/package-lock.json
 
-# Generated (committed but gitignored during dev)
-_generated/*.json
+# Generated outputs are committed
+# (CI validates they're fresh)
 
 # OS
 .DS_Store

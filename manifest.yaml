@@ -1,519 +1,1152 @@
-revision: "0.3.0"
-pages:
-  - id: hub
-    path: README.md
-    title: Talaria docs
-    description: Canonical Markdown docs for humans and coding agents.
-    tags: [hub, agents]
-
-  - id: getting-started
-    path: getting-started/README.md
-    title: Getting started
-    description: Quickstart and project configuration.
-    tags: [getting-started]
-
-  - id: quickstart
-    path: getting-started/quickstart.md
-    title: Quickstart
-    description: Create an account, project, and API key — send your first event.
-    tags: [getting-started, quickstart]
-
-  - id: configuration
-    path: getting-started/configuration.md
-    title: Project configuration
-    description: App init vs Project settings — how SDKs load tracing, analytics, heatmaps, and replay.
-    tags: [configuration, getConfig, remote-config]
-
-  - id: agent-playbook
-    path: guides/add-talaria-with-an-agent.md
-    title: Add Talaria with an agent
-    description: Agent playbook — detect stack, docs_*, wire API key + init, verify ingest.
-    tags: [agents, mcp, playbook]
-
-  - id: triage-issues-with-an-agent
-    path: guides/triage-issues-with-an-agent.md
-    title: Triage issues with an agent
-    description: Check an open issue, then resolve or ignore it with a note.
-    tags: [agents, mcp, issues, playbook]
-
-  - id: agent-skills
-    path: guides/agent-skills.md
-    title: Agent skills overview
-    description: Talaria plugin skills closed loop — how they map to MCP tools and existing playbooks.
-    tags: [agents, skills, mcp, playbook]
-
-  - id: upload-javascript-source-maps
-    path: guides/upload-javascript-source-maps.md
-    title: Upload JavaScript source maps
-    description: Local and CI upload so a minified browser stack shows the original file.
-    sdk: javascript
-    package: "@newtalaria/cli"
-    tags: [javascript, source-maps, release, cli, guide]
-
-  - id: releases
-    path: guides/releases.md
-    title: Releases
-    description: Stamp every event with the git ref and commit that produced the deploy.
-    tags: [release, ci, github-actions, guide]
-
-  - id: monitors
-    path: guides/monitors.md
-    title: Job monitors
-    description: Check in from cron or PHP so a job that never starts opens an issue.
-    tags: [monitors, cron, check-in, guide]
-
-  - id: runtime
-    path: guides/runtime.md
-    title: Runtime
-    description: Service, environment, and deployment health from check-ins, logs, and gauges.
-    tags: [runtime, logs, metrics, kubernetes, guide]
-
-  - id: collector-kubernetes
-    path: sdk/collector/kubernetes.md
-    title: Kubernetes Collector
-    description: Helm values and a CronJob check-in for the OpenTelemetry Collector.
-    tags: [collector, kubernetes, otlp, logs, metrics]
-
-  - id: collector-sitehost
-    path: sdk/collector/sitehost.md
-    title: SiteHost logs
-    description: Tail /container/logs and run the supervisord probe inside the container.
-    tags: [collector, sitehost, logs, probe]
-
-  - id: sdk-hub
-    path: sdk/README.md
-    title: SDKs
-    description: Stack picker for official Talaria SDKs.
-    tags: [sdk]
-
-  - id: flutter
-    path: sdk/flutter/README.md
-    title: Flutter SDK
-    description: Install talaria_flutter, bootstrap with runZonedApp, capture errors and routes.
-    sdk: flutter
-    package: talaria_flutter
-    tags: [flutter, dart, install, init, errors]
-
-  - id: flutter-errors
-    path: sdk/flutter/errors.md
-    title: Flutter errors, logs, and breadcrumbs
-    description: FlutterError, platform, zone, and ErrorWidget capture, plus logs, breadcrumbs, and setUser.
-    sdk: flutter
-    package: talaria_flutter
-    tags: [flutter, errors, logs, breadcrumbs, identity]
-
-  - id: flutter-navigation
-    path: sdk/flutter/navigation.md
-    title: Navigation and screens
-    description: TalariaNavigatorObserver, setScreen, and short screen transactions.
-    sdk: flutter
-    package: talaria_flutter
-    tags: [flutter, navigation, tracing]
-
-  - id: flutter-instrumentation
-    path: sdk/flutter/instrumentation.md
-    title: Flutter instrumentation and tracing
-    description: Screen transactions, wrapHttpClient, and W3C traceparent from talaria_flutter.
-    sdk: flutter
-    package: talaria_flutter
-    tags: [flutter, instrumentation, tracing, spans, http]
-
-  - id: flutter-best-practices
-    path: sdk/flutter/best-practices.md
-    title: Flutter best practices
-    description: Release, sampling, analytics, feature flags, and screen heatmaps for talaria_flutter.
-    sdk: flutter
-    package: talaria_flutter
-    tags: [flutter, analytics, feature-flags, heatmaps, sampling, release]
-
-  - id: flutter-troubleshooting
-    path: sdk/flutter/troubleshooting.md
-    title: Flutter troubleshooting
-    description: Common Flutter integration mistakes and how to verify.
-    sdk: flutter
-    package: talaria_flutter
-    tags: [flutter, troubleshooting]
-
-  - id: dart
-    path: sdk/dart/README.md
-    title: Dart SDK
-    description: Install talaria — exceptions, scoped logging, breadcrumbs, and optional APM spans.
-    sdk: dart
-    package: talaria
-    tags: [dart, install, init]
-
-  - id: dart-instrumentation
-    path: sdk/dart/instrumentation.md
-    title: Dart instrumentation and tracing
-    description: Manual spans, DbSpan, and wrapHttpClient with W3C traceparent.
-    sdk: dart
-    package: talaria
-    tags: [dart, instrumentation, tracing, spans, http]
-
-  - id: dart-errors
-    path: sdk/dart/errors.md
-    title: Dart errors, logs, and breadcrumbs
-    description: captureException, runZonedTalaria, TalariaLogger, breadcrumbs, and setUser.
-    sdk: dart
-    package: talaria
-    tags: [dart, errors, logs, breadcrumbs, identity]
-
-  - id: dart-best-practices
-    path: sdk/dart/best-practices.md
-    title: Dart best practices
-    description: Release, sampling, analytics, and feature flags for the talaria package.
-    sdk: dart
-    package: talaria
-    tags: [dart, analytics, feature-flags, sampling, release]
-
-  - id: serverpod
-    path: sdk/serverpod/README.md
-    title: Serverpod SDK
-    description: Wire talaria_serverpod — Relic SERVER spans, Postgres CLIENT spans, FutureCall CONSUMER roots.
-    sdk: serverpod
-    package: talaria_serverpod
-    tags: [serverpod, dart, install, init]
-
-  - id: serverpod-instrumentation
-    path: sdk/serverpod/instrumentation.md
-    title: Serverpod instrumentation and tracing
-    description: Relic SERVER spans, Postgres CLIENT spans, FutureCall CONSUMER traces, and outbound HttpClient.
-    sdk: serverpod
-    package: talaria_serverpod
-    tags: [serverpod, instrumentation, tracing, spans, http, postgres]
-
-  - id: serverpod-errors
-    path: sdk/serverpod/errors.md
-    title: Serverpod errors, logs, and breadcrumbs
-    description: Diagnostic exception capture, logs, per-request breadcrumbs, and bindRequestUser.
-    sdk: serverpod
-    package: talaria_serverpod
-    tags: [serverpod, errors, logs, breadcrumbs, identity]
-
-  - id: serverpod-best-practices
-    path: sdk/serverpod/best-practices.md
-    title: Serverpod best practices
-    description: Release, sampling, analytics, and TalariaServerpodFlags.
-    sdk: serverpod
-    package: talaria_serverpod
-    tags: [serverpod, analytics, feature-flags, sampling, release]
-
-  - id: javascript
-    path: sdk/javascript/README.md
-    title: JavaScript SDK
-    description: Install @newtalaria/browser and capture errors with Talaria.
-    sdk: javascript
-    package: "@newtalaria/browser"
-    tags: [javascript, install, init]
-
-  - id: javascript-instrumentation
-    path: sdk/javascript/instrumentation.md
-    title: JavaScript instrumentation and tracing
-    description: Pageload, history, fetch/XHR, web vitals, manual spans, and W3C traceparent in @newtalaria/browser.
-    sdk: javascript
-    package: "@newtalaria/browser"
-    tags: [javascript, instrumentation, tracing, spans, http, vitals]
-
-  - id: javascript-errors
-    path: sdk/javascript/errors.md
-    title: JavaScript errors, logs, and breadcrumbs
-    description: captureException, logger, breadcrumbs, setUser, and release on @newtalaria/browser.
-    sdk: javascript
-    package: "@newtalaria/browser"
-    tags: [javascript, errors, logs, breadcrumbs, identity]
-
-  - id: javascript-best-practices
-    path: sdk/javascript/best-practices.md
-    title: JavaScript best practices
-    description: Release, sampling, analytics, feature flags, session replay, heatmaps, and consent.
-    sdk: javascript
-    package: "@newtalaria/browser"
-    tags: [javascript, analytics, feature-flags, replay, heatmaps, consent, sampling, release]
-
-  - id: javascript-source-maps
-    path: sdk/javascript/source-maps.md
-    title: JavaScript source maps
-    description: Upload minified bundle maps for a release so stack frames show original files.
-    sdk: javascript
-    package: "@newtalaria/cli"
-    tags: [javascript, source-maps, release, cli]
-
-  - id: react
-    path: sdk/react/README.md
-    title: React SDK
-    description: Install @newtalaria/react and capture errors with Talaria.
-    sdk: react
-    package: "@newtalaria/react"
-    tags: [react, javascript, install, init]
-
-  - id: react-instrumentation
-    path: sdk/react/instrumentation.md
-    title: React instrumentation and tracing
-    description: Browser spans, React Profiler commit spans, and React Router navigation.
-    sdk: react
-    package: "@newtalaria/react"
-    tags: [react, instrumentation, tracing, spans, http, profiler]
-
-  - id: react-errors
-    path: sdk/react/errors.md
-    title: React errors, logs, and breadcrumbs
-    description: ErrorBoundary, the React 19 error handler, captureException, logger, and setUser.
-    sdk: react
-    package: "@newtalaria/react"
-    tags: [react, errors, logs, breadcrumbs, identity]
-
-  - id: react-best-practices
-    path: sdk/react/best-practices.md
-    title: React best practices
-    description: Release, sampling, analytics, feature flags, session replay, heatmaps, and consent.
-    sdk: react
-    package: "@newtalaria/react"
-    tags: [react, analytics, feature-flags, replay, heatmaps, consent, sampling, release]
-
-  - id: nextjs
-    path: sdk/nextjs/README.md
-    title: Next.js SDK
-    description: Install @newtalaria/nextjs and capture errors with Talaria.
-    sdk: nextjs
-    package: "@newtalaria/nextjs"
-    tags: [nextjs, javascript, install, init]
-
-  - id: nextjs-instrumentation
-    path: sdk/nextjs/instrumentation.md
-    title: Next.js instrumentation and tracing
-    description: Client pageload, server actions, route handlers, and outgoing Node HTTP. Edge does not record spans.
-    sdk: nextjs
-    package: "@newtalaria/nextjs"
-    tags: [nextjs, instrumentation, tracing, spans, http]
-
-  - id: nextjs-errors
-    path: sdk/nextjs/errors.md
-    title: Next.js errors, logs, and breadcrumbs
-    description: Client, server, and edge captureException, logs, breadcrumbs, and user context.
-    sdk: nextjs
-    package: "@newtalaria/nextjs"
-    tags: [nextjs, errors, logs, breadcrumbs, identity]
-
-  - id: nextjs-best-practices
-    path: sdk/nextjs/best-practices.md
-    title: Next.js best practices
-    description: Release, sampling, analytics, feature flags, session replay, heatmaps, and consent.
-    sdk: nextjs
-    package: "@newtalaria/nextjs"
-    tags: [nextjs, analytics, feature-flags, replay, heatmaps, consent, sampling, release]
-
-  - id: node
-    path: sdk/node/README.md
-    title: Node.js SDK
-    description: Install @newtalaria/node and capture errors with Talaria.
-    sdk: node
-    package: "@newtalaria/node"
-    tags: [node, javascript, install, init]
-
-  - id: node-instrumentation
-    path: sdk/node/instrumentation.md
-    title: Node.js instrumentation and tracing
-    description: Incoming and outgoing HTTP, W3C traceparent, and how to wrap pg, mysql2, Redis, DuckDB, Prisma, Drizzle, Kysely, Knex, and Sequelize.
-    sdk: node
-    package: "@newtalaria/node"
-    tags: [node, instrumentation, tracing, spans, http, pg, mysql, redis, duckdb, prisma, drizzle, knex, kysely, sequelize]
-
-  - id: node-errors
-    path: sdk/node/errors.md
-    title: Node.js errors, logs, and breadcrumbs
-    description: uncaughtException, captureException, captureMessage, breadcrumbs, and setUser.
-    sdk: node
-    package: "@newtalaria/node"
-    tags: [node, errors, logs, breadcrumbs, identity]
-
-  - id: node-best-practices
-    path: sdk/node/best-practices.md
-    title: Node.js best practices
-    description: Release, sampling, analytics, and feature flags for @newtalaria/node.
-    sdk: node
-    package: "@newtalaria/node"
-    tags: [node, analytics, feature-flags, sampling, release]
-
-  - id: php
-    path: sdk/php/README.md
-    title: PHP SDK
-    description: Install talaria/talaria — initialize with a project API key and capture exceptions.
-    sdk: php
-    package: talaria/talaria
-    tags: [php, install, init]
-
-  - id: php-instrumentation
-    path: sdk/php/instrumentation.md
-    title: PHP instrumentation and tracing
-    description: Incoming HTTP, PSR-15, Guzzle, PDO, mysqli, and Redis spans in talaria/talaria.
-    sdk: php
-    package: talaria/talaria
-    tags: [php, instrumentation, tracing, spans, http, guzzle, pdo, redis]
-
-  - id: php-errors
-    path: sdk/php/errors.md
-    title: PHP errors, logs, and breadcrumbs
-    description: captureException, PSR-3 logger, breadcrumbs, and user context.
-    sdk: php
-    package: talaria/talaria
-    tags: [php, errors, logs, breadcrumbs, identity]
-
-  - id: php-best-practices
-    path: sdk/php/best-practices.md
-    title: PHP best practices
-    description: Release, sampling, analytics, and feature flags for talaria/talaria.
-    sdk: php
-    package: talaria/talaria
-    tags: [php, analytics, feature-flags, sampling, release]
-
-  - id: php-upgrade
-    path: sdk/php/upgrade.md
-    title: PHP upgrade
-    description: Upgrade talaria/talaria with Composer, commit the lock file, and apply the 1.2 and 2.0 config changes. Silverstripe and Laravel upgrade with the core they require.
-    sdk: php
-    package: talaria/talaria
-    tags: [php, upgrade, composer, silverstripe, laravel]
-
-  - id: laravel
-    path: sdk/laravel/README.md
-    title: Laravel SDK
-    description: Install talaria/laravel — Laravel integration for Talaria ingest.
-    sdk: laravel
-    package: talaria/laravel
-    tags: [laravel, php, install, init]
-
-  - id: laravel-instrumentation
-    path: sdk/laravel/instrumentation.md
-    title: Laravel instrumentation and tracing
-    description: HTTP, QueryExecuted, queues, HTTP client, and Artisan spans, plus Octane, Horizon, and Livewire.
-    sdk: laravel
-    package: talaria/laravel
-    tags: [laravel, instrumentation, tracing, spans, http, queues, database]
-
-  - id: laravel-errors
-    path: sdk/laravel/errors.md
-    title: Laravel errors, logs, and breadcrumbs
-    description: reportable captureException, the talaria log channel, breadcrumbs, and the authenticated user.
-    sdk: laravel
-    package: talaria/laravel
-    tags: [laravel, errors, logs, breadcrumbs, identity]
-
-  - id: laravel-best-practices
-    path: sdk/laravel/best-practices.md
-    title: Laravel best practices
-    description: Release, sampling, analytics, feature flags, and the injected browser replay and heatmaps.
-    sdk: laravel
-    package: talaria/laravel
-    tags: [laravel, analytics, feature-flags, replay, heatmaps, consent, sampling, release]
-
-  - id: silverstripe
-    path: sdk/silverstripe/README.md
-    title: Silverstripe SDK
-    description: Install talaria/silverstripe — Silverstripe CMS integration for Talaria.
-    sdk: silverstripe
-    package: talaria/silverstripe
-    tags: [silverstripe, php, install, init]
-
-  - id: silverstripe-instrumentation
-    path: sdk/silverstripe/instrumentation.md
-    title: Silverstripe instrumentation and tracing
-    description: HTTP middleware, MySQL, Guzzle, and queued-job traces, plus the injected browser SDK.
-    sdk: silverstripe
-    package: talaria/silverstripe
-    tags: [silverstripe, instrumentation, tracing, spans, http, mysql, guzzle, queues]
-
-  - id: silverstripe-errors
-    path: sdk/silverstripe/errors.md
-    title: Silverstripe errors, logs, and breadcrumbs
-    description: Monolog handlers, captureException, breadcrumbs, and Member user context.
-    sdk: silverstripe
-    package: talaria/silverstripe
-    tags: [silverstripe, errors, logs, breadcrumbs, identity]
-
-  - id: silverstripe-best-practices
-    path: sdk/silverstripe/best-practices.md
-    title: Silverstripe best practices
-    description: Release, sampling, analytics, feature flags, and injected browser replay and heatmaps.
-    sdk: silverstripe
-    package: talaria/silverstripe
-    tags: [silverstripe, analytics, feature-flags, replay, heatmaps, consent, sampling, release]
-
-  - id: silverstripe-upgrade
-    path: sdk/silverstripe/upgrade.md
-    title: Silverstripe upgrade
-    description: Upgrade talaria/silverstripe and talaria/talaria together, flush with sake, and apply the 1.x and 2.0 module changes.
-    sdk: silverstripe
-    package: talaria/silverstripe
-    tags: [silverstripe, php, upgrade, composer, flush]
-
-  - id: mcp
-    path: mcp/README.md
-    title: MCP
-    description: Hosted Talaria MCP — docs tools, investigation, and integration scopes.
-    tags: [mcp, agents]
-
-  - id: mcp-cursor
-    path: mcp/cursor.md
-    title: Cursor
-    description: Add the Talaria MCP server in Cursor and use it for install and production investigation.
-    tags: [mcp, cursor]
-
-  - id: mcp-grok-bot
-    path: mcp/grok-bot.md
-    title: Grok Bot
-    description: Add the Talaria MCP server in Grok Bot with OAuth or a Bearer token. Cursor plugin adds skills.
-    tags: [mcp, grok, grok-bot]
-
-  - id: mcp-claude-code
-    path: mcp/claude-code.md
-    title: Claude Code
-    description: Add the Talaria MCP server in Claude Code with type http.
-    tags: [mcp, claude-code]
-
-  - id: mcp-vscode
-    path: mcp/vscode.md
-    title: VS Code
-    description: Add the Talaria MCP server in VS Code mcp.json with type http.
-    tags: [mcp, vscode]
-
-  - id: mcp-codex
-    path: mcp/codex.md
-    title: Codex
-    description: Add the Talaria MCP server in Codex config.toml.
-    tags: [mcp, codex]
-
-  - id: mcp-gemini-cli
-    path: mcp/gemini-cli.md
-    title: Gemini CLI
-    description: Add the Talaria MCP server in Gemini CLI with httpUrl.
-    tags: [mcp, gemini-cli]
-
-  - id: mcp-windsurf
-    path: mcp/windsurf.md
-    title: Windsurf
-    description: Add the Talaria MCP server in Windsurf with serverUrl.
-    tags: [mcp, windsurf]
-
-  - id: analytics-setup
-    path: analytics/setup.md
-    title: Product analytics setup
-    description: Enable analytics, then send track, page, screen, and identify events.
-    tags: [analytics]
-
-  - id: analytics-consent
-    path: analytics/consent.md
-    title: Cookie banners
-    description: How the browser SDK follows CookieYes, Cookiebot, and Google Consent Mode.
-    tags: [analytics, consent, javascript]
-
-  - id: api-overview
-    path: api/overview.md
-    title: API overview
-    description: Ingest auth, event shape, and how the API key sets environment and release.
-    tags: [api, ingest]
-
-  - id: migration
-    path: migration/README.md
-    title: Migration
-    description: Upgrade guides when an SDK major breaks, including PHP and Silverstripe.
-    tags: [migration, upgrade, php, silverstripe]
+"revision": "1.0.0"
+"pages":
+  - "id": "docs"
+    "path": "README.md"
+    "title": "Talaria docs"
+    "description": "Canonical Markdown docs for humans and coding agents: install SDKs, switch on features, or let your agent set it up."
+    "type": "hub"
+    "section": "get-started"
+    "tags":
+      - "hub"
+      - "agents"
+  - "id": "get-started"
+    "path": "get-started/README.md"
+    "title": "Get started"
+    "description": "Create an account, set up your first project, and send events from your app with Talaria."
+    "type": "hub"
+    "section": "get-started"
+    "tags":
+      - "getting-started"
+    "aliases":
+      - "getting-started/index"
+      - "getting-started/index.md"
+  - "id": "project-settings"
+    "path": "get-started/project-settings.md"
+    "title": "Project settings"
+    "description": "Remote configuration: how SDKs load tracing, analytics, heatmaps, replay, and consent settings from your Talaria project."
+    "type": "concept"
+    "section": "get-started"
+    "tags":
+      - "configuration"
+      - "remote-config"
+    "aliases":
+      - "getting-started/configuration"
+      - "getting-started/configuration.md"
+  - "id": "quickstart"
+    "path": "get-started/quickstart.md"
+    "title": "Quickstart"
+    "description": "Create an account, project, and API key—send your first event in under 5 minutes."
+    "type": "quickstart"
+    "section": "get-started"
+    "tags":
+      - "getting-started"
+      - "quickstart"
+    "aliases":
+      - "getting-started/quickstart"
+      - "getting-started/quickstart.md"
+  - "id": "dart"
+    "path": "sdk/dart/README.md"
+    "title": "Dart SDK"
+    "description": "Install the Talaria dart SDK and capture errors, logs, and traces from your dart application."
+    "sdk": "dart"
+    "platforms":
+      - "dart"
+    "type": "quickstart"
+    "section": "platforms"
+    "tags":
+      - "dart"
+      - "install"
+      - "init"
+  - "id": "dart-configuration"
+    "path": "sdk/dart/configuration.md"
+    "title": "Dart best practices"
+    "description": "Release, sampling, analytics, and feature flags for the talaria package."
+    "sdk": "dart"
+    "platforms":
+      - "dart"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "analytics"
+      - "feature-flags"
+    "tags":
+      - "dart"
+      - "analytics"
+      - "feature-flags"
+      - "sampling"
+      - "release"
+    "aliases":
+      - "sdk/dart/best-practices"
+      - "sdk/dart/best-practices.md"
+  - "id": "dart-errors"
+    "path": "sdk/dart/errors.md"
+    "title": "Dart errors, logs, and breadcrumbs"
+    "description": "Capture exceptions, logs, breadcrumbs, and user context in dart with Talaria."
+    "sdk": "dart"
+    "platforms":
+      - "dart"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "issues"
+      - "logs"
+    "tags":
+      - "dart"
+      - "errors"
+      - "logs"
+      - "breadcrumbs"
+      - "identity"
+  - "id": "dart-tracing"
+    "path": "sdk/dart/tracing.md"
+    "title": "Dart instrumentation and tracing"
+    "description": "Manual spans, DbSpan, and Talaria.wrapHttpClient with W3C traceparent in the talaria package."
+    "sdk": "dart"
+    "platforms":
+      - "dart"
+    "type": "guide"
+    "section": "platforms"
+    "tags":
+      - "dart"
+      - "instrumentation"
+      - "tracing"
+      - "spans"
+      - "http"
+    "aliases":
+      - "sdk/dart/instrumentation"
+      - "sdk/dart/instrumentation.md"
+  - "id": "flutter"
+    "path": "sdk/flutter/README.md"
+    "title": "Flutter SDK"
+    "description": "Install the Talaria flutter SDK and capture errors, logs, and traces from your flutter application."
+    "sdk": "flutter"
+    "platforms":
+      - "flutter"
+    "type": "quickstart"
+    "section": "platforms"
+    "tags":
+      - "flutter"
+      - "dart"
+      - "install"
+      - "init"
+      - "errors"
+  - "id": "flutter-configuration"
+    "path": "sdk/flutter/configuration.md"
+    "title": "Flutter best practices"
+    "description": "Release, sampling, analytics, feature flags, and screen heatmap consent for talaria_flutter."
+    "sdk": "flutter"
+    "platforms":
+      - "flutter"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "analytics"
+      - "feature-flags"
+    "tags":
+      - "flutter"
+      - "analytics"
+      - "feature-flags"
+      - "heatmaps"
+      - "sampling"
+      - "release"
+    "aliases":
+      - "sdk/flutter/best-practices"
+      - "sdk/flutter/best-practices.md"
+  - "id": "flutter-errors"
+    "path": "sdk/flutter/errors.md"
+    "title": "Flutter errors, logs, and breadcrumbs"
+    "description": "Capture exceptions, logs, breadcrumbs, and user context in flutter with Talaria."
+    "sdk": "flutter"
+    "platforms":
+      - "flutter"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "issues"
+      - "logs"
+    "tags":
+      - "flutter"
+      - "errors"
+      - "logs"
+      - "breadcrumbs"
+      - "identity"
+  - "id": "flutter-navigation"
+    "path": "sdk/flutter/navigation.md"
+    "title": "Flutter navigation and screens"
+    "description": "Track screen navigation and short transactions with TalariaNavigatorObserver in Flutter."
+    "sdk": "flutter"
+    "platforms":
+      - "flutter"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "performance"
+    "tags":
+      - "flutter"
+      - "navigation"
+      - "tracing"
+  - "id": "flutter-tracing"
+    "path": "sdk/flutter/tracing.md"
+    "title": "Flutter instrumentation and tracing"
+    "description": "Screen transactions, Talaria.wrapHttpClient, and W3C traceparent from talaria_flutter into a Serverpod API."
+    "sdk": "flutter"
+    "platforms":
+      - "flutter"
+    "type": "guide"
+    "section": "platforms"
+    "tags":
+      - "flutter"
+      - "instrumentation"
+      - "tracing"
+      - "spans"
+      - "http"
+    "aliases":
+      - "sdk/flutter/instrumentation"
+      - "sdk/flutter/instrumentation.md"
+  - "id": "flutter-troubleshooting"
+    "path": "sdk/flutter/troubleshooting.md"
+    "title": "Flutter troubleshooting"
+    "description": "Common Flutter integration mistakes and how to verify Talaria is working correctly."
+    "sdk": "flutter"
+    "platforms":
+      - "flutter"
+    "type": "troubleshooting"
+    "section": "platforms"
+    "tags":
+      - "flutter"
+      - "troubleshooting"
+  - "id": "javascript"
+    "path": "sdk/javascript/README.md"
+    "title": "Javascript SDK"
+    "description": "Install the Talaria javascript SDK and capture errors, logs, and traces from your javascript application."
+    "sdk": "javascript"
+    "platforms":
+      - "javascript"
+    "type": "quickstart"
+    "section": "platforms"
+    "tags":
+      - "javascript"
+      - "install"
+      - "init"
+      - "browser"
+  - "id": "javascript-configuration"
+    "path": "sdk/javascript/configuration.md"
+    "title": "JavaScript best practices"
+    "description": "Release, sampling, analytics, feature flags, session replay, heatmaps, web vitals, and consent for @newtalaria/browser."
+    "sdk": "javascript"
+    "platforms":
+      - "javascript"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "analytics"
+      - "feature-flags"
+    "tags":
+      - "javascript"
+      - "analytics"
+      - "feature-flags"
+      - "replay"
+      - "heatmaps"
+      - "consent"
+      - "sampling"
+      - "release"
+    "aliases":
+      - "sdk/javascript/best-practices"
+      - "sdk/javascript/best-practices.md"
+  - "id": "javascript-errors"
+    "path": "sdk/javascript/errors.md"
+    "title": "Javascript errors, logs, and breadcrumbs"
+    "description": "Capture exceptions, logs, breadcrumbs, and user context in javascript with Talaria."
+    "sdk": "javascript"
+    "platforms":
+      - "javascript"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "issues"
+      - "logs"
+    "tags":
+      - "javascript"
+      - "errors"
+      - "logs"
+      - "breadcrumbs"
+      - "identity"
+  - "id": "javascript-tracing"
+    "path": "sdk/javascript/tracing.md"
+    "title": "JavaScript instrumentation and tracing"
+    "description": "Automatic pageload, history, fetch/XHR, and web vital spans in @newtalaria/browser, plus manual spans and W3C traceparent."
+    "sdk": "javascript"
+    "platforms":
+      - "javascript"
+    "type": "guide"
+    "section": "platforms"
+    "tags":
+      - "javascript"
+      - "instrumentation"
+      - "tracing"
+      - "spans"
+      - "http"
+      - "vitals"
+    "aliases":
+      - "sdk/javascript/instrumentation"
+      - "sdk/javascript/instrumentation.md"
+  - "id": "laravel"
+    "path": "sdk/laravel/README.md"
+    "title": "Laravel SDK"
+    "description": "Install the Talaria laravel SDK and capture errors, logs, and traces from your laravel application."
+    "sdk": "laravel"
+    "platforms":
+      - "laravel"
+    "type": "quickstart"
+    "section": "platforms"
+    "tags":
+      - "laravel"
+      - "php"
+      - "install"
+      - "init"
+  - "id": "laravel-configuration"
+    "path": "sdk/laravel/configuration.md"
+    "title": "Laravel best practices"
+    "description": "Release, sampling, analytics, feature flags, and the injected browser session replay, heatmaps, and consent for talaria/laravel."
+    "sdk": "laravel"
+    "platforms":
+      - "laravel"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "analytics"
+      - "feature-flags"
+    "tags":
+      - "laravel"
+      - "analytics"
+      - "feature-flags"
+      - "replay"
+      - "heatmaps"
+      - "consent"
+      - "sampling"
+      - "release"
+    "aliases":
+      - "sdk/laravel/best-practices"
+      - "sdk/laravel/best-practices.md"
+  - "id": "laravel-errors"
+    "path": "sdk/laravel/errors.md"
+    "title": "Laravel errors, logs, and breadcrumbs"
+    "description": "Capture exceptions, logs, breadcrumbs, and user context in laravel with Talaria."
+    "sdk": "laravel"
+    "platforms":
+      - "laravel"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "issues"
+      - "logs"
+    "tags":
+      - "laravel"
+      - "errors"
+      - "logs"
+      - "breadcrumbs"
+      - "identity"
+  - "id": "laravel-tracing"
+    "path": "sdk/laravel/tracing.md"
+    "title": "Laravel instrumentation and tracing"
+    "description": "Automatic HTTP, QueryExecuted, queues, HTTP client, and Artisan spans in talaria/laravel, plus Octane, Horizon, and Livewire."
+    "sdk": "laravel"
+    "platforms":
+      - "laravel"
+    "type": "guide"
+    "section": "platforms"
+    "tags":
+      - "laravel"
+      - "instrumentation"
+      - "tracing"
+      - "spans"
+      - "http"
+      - "queues"
+      - "database"
+    "aliases":
+      - "sdk/laravel/instrumentation"
+      - "sdk/laravel/instrumentation.md"
+  - "id": "nextjs"
+    "path": "sdk/nextjs/README.md"
+    "title": "Nextjs SDK"
+    "description": "Install the Talaria nextjs SDK and capture errors, logs, and traces from your nextjs application."
+    "sdk": "nextjs"
+    "platforms":
+      - "nextjs"
+    "type": "quickstart"
+    "section": "platforms"
+    "tags":
+      - "nextjs"
+      - "javascript"
+      - "install"
+      - "init"
+  - "id": "nextjs-configuration"
+    "path": "sdk/nextjs/configuration.md"
+    "title": "Next.js best practices"
+    "description": "Release, sampling, analytics, feature flags, session replay, heatmaps, and consent for @newtalaria/nextjs."
+    "sdk": "nextjs"
+    "platforms":
+      - "nextjs"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "analytics"
+      - "feature-flags"
+    "tags":
+      - "nextjs"
+      - "analytics"
+      - "feature-flags"
+      - "replay"
+      - "heatmaps"
+      - "consent"
+      - "sampling"
+      - "release"
+    "aliases":
+      - "sdk/nextjs/best-practices"
+      - "sdk/nextjs/best-practices.md"
+  - "id": "nextjs-errors"
+    "path": "sdk/nextjs/errors.md"
+    "title": "Nextjs errors, logs, and breadcrumbs"
+    "description": "Capture exceptions, logs, breadcrumbs, and user context in nextjs with Talaria."
+    "sdk": "nextjs"
+    "platforms":
+      - "nextjs"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "issues"
+      - "logs"
+    "tags":
+      - "nextjs"
+      - "errors"
+      - "logs"
+      - "breadcrumbs"
+      - "identity"
+  - "id": "nextjs-tracing"
+    "path": "sdk/nextjs/tracing.md"
+    "title": "Next.js instrumentation and tracing"
+    "description": "Client pageload and App Router navigation, server actions, route handlers, and outgoing Node HTTP in @newtalaria/nextjs. Edge does not record spans."
+    "sdk": "nextjs"
+    "platforms":
+      - "nextjs"
+    "type": "guide"
+    "section": "platforms"
+    "tags":
+      - "nextjs"
+      - "instrumentation"
+      - "tracing"
+      - "spans"
+      - "http"
+    "aliases":
+      - "sdk/nextjs/instrumentation"
+      - "sdk/nextjs/instrumentation.md"
+  - "id": "node"
+    "path": "sdk/node/README.md"
+    "title": "Node SDK"
+    "description": "Install the Talaria node SDK and capture errors, logs, and traces from your node application."
+    "sdk": "node"
+    "platforms":
+      - "node"
+    "type": "quickstart"
+    "section": "platforms"
+    "tags":
+      - "node"
+      - "javascript"
+      - "install"
+      - "init"
+  - "id": "node-configuration"
+    "path": "sdk/node/configuration.md"
+    "title": "Node.js best practices"
+    "description": "Release, sampling, analytics, and feature flags for @newtalaria/node."
+    "sdk": "node"
+    "platforms":
+      - "node"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "analytics"
+      - "feature-flags"
+    "tags":
+      - "node"
+      - "analytics"
+      - "feature-flags"
+      - "sampling"
+      - "release"
+    "aliases":
+      - "sdk/node/best-practices"
+      - "sdk/node/best-practices.md"
+  - "id": "node-errors"
+    "path": "sdk/node/errors.md"
+    "title": "Node errors, logs, and breadcrumbs"
+    "description": "Capture exceptions, logs, breadcrumbs, and user context in node with Talaria."
+    "sdk": "node"
+    "platforms":
+      - "node"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "issues"
+      - "logs"
+    "tags":
+      - "node"
+      - "errors"
+      - "logs"
+      - "breadcrumbs"
+      - "identity"
+  - "id": "node-tracing"
+    "path": "sdk/node/tracing.md"
+    "title": "Node.js instrumentation and tracing"
+    "description": "Incoming and outgoing HTTP, W3C traceparent, and optional pg, mysql2, Redis, and DuckDB wrappers in @newtalaria/node."
+    "sdk": "node"
+    "platforms":
+      - "node"
+    "type": "guide"
+    "section": "platforms"
+    "tags":
+      - "node"
+      - "instrumentation"
+      - "tracing"
+      - "spans"
+      - "http"
+      - "pg"
+      - "mysql"
+      - "redis"
+      - "duckdb"
+      - "prisma"
+      - "drizzle"
+      - "knex"
+      - "kysely"
+      - "sequelize"
+    "aliases":
+      - "sdk/node/instrumentation"
+      - "sdk/node/instrumentation.md"
+  - "id": "php"
+    "path": "sdk/php/README.md"
+    "title": "Php SDK"
+    "description": "Install the Talaria php SDK and capture errors, logs, and traces from your php application."
+    "sdk": "php"
+    "platforms":
+      - "php"
+    "type": "quickstart"
+    "section": "platforms"
+    "tags":
+      - "php"
+      - "install"
+      - "init"
+  - "id": "php-configuration"
+    "path": "sdk/php/configuration.md"
+    "title": "PHP best practices"
+    "description": "Release, sampling, analytics, and feature flags for talaria/talaria."
+    "sdk": "php"
+    "platforms":
+      - "php"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "analytics"
+      - "feature-flags"
+    "tags":
+      - "php"
+      - "analytics"
+      - "feature-flags"
+      - "sampling"
+      - "release"
+    "aliases":
+      - "sdk/php/best-practices"
+      - "sdk/php/best-practices.md"
+  - "id": "php-errors"
+    "path": "sdk/php/errors.md"
+    "title": "Php errors, logs, and breadcrumbs"
+    "description": "Capture exceptions, logs, breadcrumbs, and user context in php with Talaria."
+    "sdk": "php"
+    "platforms":
+      - "php"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "issues"
+      - "logs"
+    "tags":
+      - "php"
+      - "errors"
+      - "logs"
+      - "breadcrumbs"
+      - "identity"
+  - "id": "php-tracing"
+    "path": "sdk/php/tracing.md"
+    "title": "PHP instrumentation and tracing"
+    "description": "Manual spans, incoming HTTP, PSR-15, Guzzle, PDO, mysqli, and Redis in talaria/talaria, with W3C traceparent."
+    "sdk": "php"
+    "platforms":
+      - "php"
+    "type": "guide"
+    "section": "platforms"
+    "tags":
+      - "php"
+      - "instrumentation"
+      - "tracing"
+      - "spans"
+      - "http"
+      - "guzzle"
+      - "pdo"
+      - "redis"
+    "aliases":
+      - "sdk/php/instrumentation"
+      - "sdk/php/instrumentation.md"
+  - "id": "php-upgrade"
+    "path": "sdk/php/upgrade.md"
+    "title": "Php upgrade guide"
+    "description": "Upgrade the Talaria php SDK with breaking changes for major versions."
+    "sdk": "php"
+    "platforms":
+      - "php"
+    "type": "guide"
+    "section": "platforms"
+    "tags":
+      - "php"
+      - "upgrade"
+      - "composer"
+      - "silverstripe"
+      - "laravel"
+  - "id": "react"
+    "path": "sdk/react/README.md"
+    "title": "React SDK"
+    "description": "Install the Talaria react SDK and capture errors, logs, and traces from your react application."
+    "sdk": "react"
+    "platforms":
+      - "react"
+    "type": "quickstart"
+    "section": "platforms"
+    "tags":
+      - "react"
+      - "javascript"
+      - "install"
+      - "init"
+  - "id": "react-configuration"
+    "path": "sdk/react/configuration.md"
+    "title": "React best practices"
+    "description": "Release, sampling, analytics, feature flags, session replay, heatmaps, and consent for @newtalaria/react."
+    "sdk": "react"
+    "platforms":
+      - "react"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "analytics"
+      - "feature-flags"
+    "tags":
+      - "react"
+      - "analytics"
+      - "feature-flags"
+      - "replay"
+      - "heatmaps"
+      - "consent"
+      - "sampling"
+      - "release"
+    "aliases":
+      - "sdk/react/best-practices"
+      - "sdk/react/best-practices.md"
+  - "id": "react-errors"
+    "path": "sdk/react/errors.md"
+    "title": "React errors, logs, and breadcrumbs"
+    "description": "Capture exceptions, logs, breadcrumbs, and user context in react with Talaria."
+    "sdk": "react"
+    "platforms":
+      - "react"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "issues"
+      - "logs"
+    "tags":
+      - "react"
+      - "errors"
+      - "logs"
+      - "breadcrumbs"
+      - "identity"
+  - "id": "react-tracing"
+    "path": "sdk/react/tracing.md"
+    "title": "React instrumentation and tracing"
+    "description": "Browser pageload and fetch spans, React Profiler commit spans, and React Router navigation in @newtalaria/react."
+    "sdk": "react"
+    "platforms":
+      - "react"
+    "type": "guide"
+    "section": "platforms"
+    "tags":
+      - "react"
+      - "instrumentation"
+      - "tracing"
+      - "spans"
+      - "http"
+      - "profiler"
+    "aliases":
+      - "sdk/react/instrumentation"
+      - "sdk/react/instrumentation.md"
+  - "id": "sdk"
+    "path": "sdk/README.md"
+    "title": "Platforms"
+    "description": "Official Talaria SDKs for Flutter, Dart, Serverpod, JavaScript, React, Next.js, Node.js, PHP, Laravel, and Silverstripe."
+    "type": "hub"
+    "section": "platforms"
+    "tags":
+      - "sdk"
+  - "id": "serverpod"
+    "path": "sdk/serverpod/README.md"
+    "title": "Serverpod SDK"
+    "description": "Install the Talaria serverpod SDK and capture errors, logs, and traces from your serverpod application."
+    "sdk": "serverpod"
+    "platforms":
+      - "serverpod"
+    "type": "quickstart"
+    "section": "platforms"
+    "tags":
+      - "serverpod"
+      - "dart"
+      - "install"
+      - "init"
+  - "id": "serverpod-configuration"
+    "path": "sdk/serverpod/configuration.md"
+    "title": "Serverpod best practices"
+    "description": "Release, sampling, analytics, and TalariaServerpodFlags for talaria_serverpod."
+    "sdk": "serverpod"
+    "platforms":
+      - "serverpod"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "analytics"
+      - "feature-flags"
+    "tags":
+      - "serverpod"
+      - "analytics"
+      - "feature-flags"
+      - "sampling"
+      - "release"
+    "aliases":
+      - "sdk/serverpod/best-practices"
+      - "sdk/serverpod/best-practices.md"
+  - "id": "serverpod-errors"
+    "path": "sdk/serverpod/errors.md"
+    "title": "Serverpod errors, logs, and breadcrumbs"
+    "description": "Capture exceptions, logs, breadcrumbs, and user context in serverpod with Talaria."
+    "sdk": "serverpod"
+    "platforms":
+      - "serverpod"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "issues"
+      - "logs"
+    "tags":
+      - "serverpod"
+      - "errors"
+      - "logs"
+      - "breadcrumbs"
+      - "identity"
+  - "id": "serverpod-tracing"
+    "path": "sdk/serverpod/tracing.md"
+    "title": "Serverpod instrumentation and tracing"
+    "description": "Relic SERVER spans, Postgres CLIENT spans, FutureCall CONSUMER traces, and outbound HttpClient traceparent in talaria_serverpod."
+    "sdk": "serverpod"
+    "platforms":
+      - "serverpod"
+    "type": "guide"
+    "section": "platforms"
+    "tags":
+      - "serverpod"
+      - "instrumentation"
+      - "tracing"
+      - "spans"
+      - "http"
+      - "postgres"
+    "aliases":
+      - "sdk/serverpod/instrumentation"
+      - "sdk/serverpod/instrumentation.md"
+  - "id": "silverstripe"
+    "path": "sdk/silverstripe/README.md"
+    "title": "Silverstripe SDK"
+    "description": "Install the Talaria silverstripe SDK and capture errors, logs, and traces from your silverstripe application."
+    "sdk": "silverstripe"
+    "platforms":
+      - "silverstripe"
+    "type": "quickstart"
+    "section": "platforms"
+    "tags":
+      - "silverstripe"
+      - "php"
+      - "install"
+      - "init"
+  - "id": "silverstripe-configuration"
+    "path": "sdk/silverstripe/configuration.md"
+    "title": "Silverstripe best practices"
+    "description": "Release, sampling, analytics, feature flags, and injected browser replay, heatmaps, and consent for talaria/silverstripe."
+    "sdk": "silverstripe"
+    "platforms":
+      - "silverstripe"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "analytics"
+      - "feature-flags"
+    "tags":
+      - "silverstripe"
+      - "analytics"
+      - "feature-flags"
+      - "replay"
+      - "heatmaps"
+      - "consent"
+      - "sampling"
+      - "release"
+    "aliases":
+      - "sdk/silverstripe/best-practices"
+      - "sdk/silverstripe/best-practices.md"
+  - "id": "silverstripe-errors"
+    "path": "sdk/silverstripe/errors.md"
+    "title": "Silverstripe errors, logs, and breadcrumbs"
+    "description": "Capture exceptions, logs, breadcrumbs, and user context in silverstripe with Talaria."
+    "sdk": "silverstripe"
+    "platforms":
+      - "silverstripe"
+    "type": "guide"
+    "section": "platforms"
+    "features":
+      - "issues"
+      - "logs"
+    "tags":
+      - "silverstripe"
+      - "errors"
+      - "logs"
+      - "breadcrumbs"
+      - "identity"
+  - "id": "silverstripe-tracing"
+    "path": "sdk/silverstripe/tracing.md"
+    "title": "Silverstripe instrumentation and tracing"
+    "description": "HTTP middleware, MySQL query spans, Guzzle, and queued-job traces in talaria/silverstripe, plus the injected browser SDK."
+    "sdk": "silverstripe"
+    "platforms":
+      - "silverstripe"
+    "type": "guide"
+    "section": "platforms"
+    "tags":
+      - "silverstripe"
+      - "instrumentation"
+      - "tracing"
+      - "spans"
+      - "http"
+      - "mysql"
+      - "guzzle"
+      - "queues"
+    "aliases":
+      - "sdk/silverstripe/instrumentation"
+      - "sdk/silverstripe/instrumentation.md"
+  - "id": "silverstripe-upgrade"
+    "path": "sdk/silverstripe/upgrade.md"
+    "title": "Silverstripe upgrade guide"
+    "description": "Upgrade the Talaria silverstripe SDK with breaking changes for major versions."
+    "sdk": "silverstripe"
+    "platforms":
+      - "silverstripe"
+    "type": "guide"
+    "section": "platforms"
+    "tags":
+      - "silverstripe"
+      - "php"
+      - "upgrade"
+      - "composer"
+      - "flush"
+  - "id": "analytics"
+    "path": "features/analytics.md"
+    "title": "Product analytics"
+    "description": "Track user behavior, page views, and custom events with product analytics."
+    "type": "feature"
+    "section": "features"
+    "features":
+      - "analytics"
+    "tags":
+      - "analytics"
+    "aliases":
+      - "analytics/setup"
+      - "analytics/setup.md"
+  - "id": "monitors"
+    "path": "features/monitors.md"
+    "title": "Cron and job monitors"
+    "description": "Check in from cron or scheduled jobs so a missed run opens an issue automatically."
+    "type": "feature"
+    "section": "features"
+    "features":
+      - "monitors"
+    "aliases":
+      - "guides/monitors"
+      - "guides/monitors.md"
+  - "id": "releases"
+    "path": "features/releases.md"
+    "title": "Releases"
+    "description": "Track deploys and stamp every event with the git ref and commit that produced the build."
+    "type": "feature"
+    "section": "features"
+    "features":
+      - "releases"
+    "tags":
+      - "release"
+      - "ci"
+      - "github-actions"
+      - "guide"
+    "aliases":
+      - "guides/releases"
+      - "guides/releases.md"
+  - "id": "runtime"
+    "path": "features/runtime.md"
+    "title": "Runtime health"
+    "description": "Service, environment, and deployment health from check-ins, logs, and gauges."
+    "type": "feature"
+    "section": "features"
+    "features":
+      - "runtime"
+    "aliases":
+      - "guides/runtime"
+      - "guides/runtime.md"
+  - "id": "kubernetes-collector"
+    "path": "deploy/hosts/kubernetes.md"
+    "title": "Kubernetes"
+    "description": "Deploy the OpenTelemetry Collector on Kubernetes with Helm values and a CronJob health check-in."
+    "type": "guide"
+    "section": "deploy-ci"
+    "aliases":
+      - "sdk/collector/kubernetes"
+      - "sdk/collector/kubernetes.md"
+  - "id": "sitehost-collector"
+    "path": "deploy/hosts/sitehost.md"
+    "title": "SiteHost containers"
+    "description": "Tail container logs and run supervisord health checks on SiteHost PHP hosting."
+    "sdk": "php"
+    "platforms":
+      - "php"
+      - "laravel"
+      - "silverstripe"
+    "type": "guide"
+    "section": "deploy-ci"
+    "aliases":
+      - "sdk/collector/sitehost"
+      - "sdk/collector/sitehost.md"
+  - "id": "agent-playbook"
+    "path": "agents/add-talaria.md"
+    "title": "Add Talaria with an agent"
+    "description": "Agent playbook: detect stack, fetch docs, wire API key and init, then verify ingest."
+    "type": "guide"
+    "section": "agents"
+    "tags":
+      - "agents"
+      - "mcp"
+      - "playbook"
+    "aliases":
+      - "guides/add-talaria-with-an-agent"
+      - "guides/add-talaria-with-an-agent.md"
+  - "id": "agents"
+    "path": "agents/README.md"
+    "title": "Agents and MCP"
+    "description": "Connect coding agents to Talaria: skills are the playbook, MCP is the tool belt. Get started, instrument, observe, triage, verify."
+    "type": "hub"
+    "section": "agents"
+    "tags":
+      - "agents"
+      - "skills"
+      - "mcp"
+      - "playbook"
+    "aliases":
+      - "guides/agent-skills"
+      - "guides/agent-skills.md"
+  - "id": "mcp"
+    "path": "agents/mcp/README.md"
+    "title": "Talaria MCP server"
+    "description": "Hosted Talaria MCP server: docs tools, investigation, integration scopes, and authentication."
+    "type": "hub"
+    "section": "agents"
+    "tags":
+      - "mcp"
+      - "agents"
+    "aliases":
+      - "mcp/index"
+      - "mcp/index.md"
+  - "id": "mcp-claude-code"
+    "path": "agents/mcp/claude-code.md"
+    "title": "Claude Code"
+    "description": "Add the Talaria MCP server in Claude Code to access docs, investigation, and integration tools."
+    "type": "guide"
+    "section": "agents"
+    "clients":
+      - "claude-code"
+    "tags":
+      - "mcp"
+      - "claude-code"
+    "aliases":
+      - "mcp/claude-code"
+      - "mcp/claude-code.md"
+  - "id": "mcp-codex"
+    "path": "agents/mcp/codex.md"
+    "title": "Codex"
+    "description": "Add the Talaria MCP server in Codex to access docs, investigation, and integration tools."
+    "type": "guide"
+    "section": "agents"
+    "clients":
+      - "codex"
+    "tags":
+      - "mcp"
+      - "codex"
+    "aliases":
+      - "mcp/codex"
+      - "mcp/codex.md"
+  - "id": "mcp-cursor"
+    "path": "agents/mcp/cursor.md"
+    "title": "Cursor"
+    "description": "Add the Talaria MCP server in Cursor to access docs, investigation, and integration tools."
+    "type": "guide"
+    "section": "agents"
+    "clients":
+      - "cursor"
+    "tags":
+      - "mcp"
+      - "cursor"
+    "aliases":
+      - "mcp/cursor"
+      - "mcp/cursor.md"
+  - "id": "mcp-gemini-cli"
+    "path": "agents/mcp/gemini-cli.md"
+    "title": "Gemini CLI"
+    "description": "Add the Talaria MCP server in Gemini CLI to access docs, investigation, and integration tools."
+    "type": "guide"
+    "section": "agents"
+    "clients":
+      - "gemini-cli"
+    "tags":
+      - "mcp"
+      - "gemini-cli"
+    "aliases":
+      - "mcp/gemini-cli"
+      - "mcp/gemini-cli.md"
+  - "id": "mcp-grok-bot"
+    "path": "agents/mcp/grok-bot.md"
+    "title": "Grok Bot"
+    "description": "Add the Talaria MCP server in Grok Bot to access docs, investigation, and integration tools."
+    "type": "guide"
+    "section": "agents"
+    "clients":
+      - "grok-bot"
+    "tags":
+      - "mcp"
+      - "grok"
+      - "grok-bot"
+    "aliases":
+      - "mcp/grok-bot"
+      - "mcp/grok-bot.md"
+  - "id": "mcp-vscode"
+    "path": "agents/mcp/vscode.md"
+    "title": "VS Code and GitHub Copilot"
+    "description": "Add the Talaria MCP server in VS Code and GitHub Copilot to access docs, investigation, and integration tools."
+    "type": "guide"
+    "section": "agents"
+    "clients":
+      - "vscode"
+    "tags":
+      - "mcp"
+      - "vscode"
+    "aliases":
+      - "mcp/vscode"
+      - "mcp/vscode.md"
+  - "id": "mcp-windsurf"
+    "path": "agents/mcp/windsurf.md"
+    "title": "Windsurf"
+    "description": "Add the Talaria MCP server in Windsurf to access docs, investigation, and integration tools."
+    "type": "guide"
+    "section": "agents"
+    "clients":
+      - "windsurf"
+    "tags":
+      - "mcp"
+      - "windsurf"
+    "aliases":
+      - "mcp/windsurf"
+      - "mcp/windsurf.md"
+  - "id": "triage-issues-with-an-agent"
+    "path": "agents/triage-issues.md"
+    "title": "Triage issues with an agent"
+    "description": "Check an open issue, then resolve or ignore it with a note using agent tools."
+    "type": "guide"
+    "section": "agents"
+    "features":
+      - "issues"
+    "tags":
+      - "agents"
+      - "mcp"
+      - "issues"
+      - "playbook"
+    "aliases":
+      - "guides/triage-issues-with-an-agent"
+      - "guides/triage-issues-with-an-agent.md"
+  - "id": "analytics-consent"
+    "path": "guides/cookie-banners.md"
+    "title": "Cookie banners and consent"
+    "description": "How the browser SDK follows CookieYes, Cookiebot, and Google Consent Mode for GDPR compliance."
+    "sdk": "javascript"
+    "platforms":
+      - "javascript"
+      - "react"
+      - "nextjs"
+    "type": "guide"
+    "section": "guides"
+    "features":
+      - "analytics"
+    "tags":
+      - "analytics"
+      - "consent"
+      - "javascript"
+    "aliases":
+      - "analytics/consent"
+      - "analytics/consent.md"
+  - "id": "upload-javascript-source-maps"
+    "path": "guides/upload-javascript-source-maps.md"
+    "title": "Upload JavaScript source maps"
+    "description": "Upload minified bundle source maps in local dev and CI so stack frames show original files and line numbers."
+    "sdk": "javascript"
+    "platforms":
+      - "javascript"
+      - "react"
+      - "nextjs"
+    "type": "guide"
+    "section": "guides"
+    "features":
+      - "issues"
+    "tags":
+      - "javascript"
+      - "source-maps"
+      - "release"
+      - "cli"
+      - "guide"
+    "aliases":
+      - "sdk/javascript/source-maps"
+      - "sdk/javascript/source-maps.md"
+  - "id": "ingest-api"
+    "path": "reference/ingest-api.md"
+    "title": "Ingest API reference"
+    "description": "Ingest authentication, event shape, and how the API key sets environment and release."
+    "type": "reference"
+    "section": "reference"
+    "tags":
+      - "api"
+      - "ingest"
+    "aliases":
+      - "api/overview"
+      - "api/overview.md"
+  - "id": "migration"
+    "path": "migration/README.md"
+    "title": "Migration and upgrade guides"
+    "description": "Upgrade guides for Talaria SDK major versions with breaking changes."
+    "type": "reference"
+    "section": "reference"
+    "tags":
+      - "migration"
+      - "upgrade"
+      - "php"
+      - "silverstripe"
+    "aliases":
+      - "migration/index"
+      - "migration/index.md"

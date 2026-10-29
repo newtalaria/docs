@@ -42,10 +42,6 @@ export function frontmatterSchema(reg: Registries) {
     reg.mcpClients.map((c) => c.id),
     "MCP client"
   );
-  const integration = enumOf(
-    reg.integrations.map((i) => i.id),
-    "integration"
-  );
   const ci = enumOf(
     reg.ciProviders.map((c) => c.id),
     "CI provider"
@@ -81,7 +77,6 @@ export function frontmatterSchema(reg: Registries) {
       section,
       platform: z.array(platform).default([]),
       feature: z.array(feature).default([]),
-      integration: integration.optional(),
       ci: ci.optional(),
       host: host.optional(),
       clients: z.array(client).default([]),
@@ -145,10 +140,6 @@ export function frontmatterSchema(reg: Registries) {
 
       if (fm.type === "feature" && fm.feature.length !== 1) {
         fail("Feature pages document exactly one feature", "feature");
-      }
-
-      if (fm.section === "features" && fm.integration && fm.type === "feature") {
-        fail("Integration pages are type guide", "type");
       }
 
       if (fm.section === "deploy-ci") {
