@@ -1,0 +1,23 @@
+{
+  "name": "@newtalaria/docs-tools",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "tsx validate.ts",
+    "build:manifest": "tsx build-manifest.ts",
+    "sync:snippets": "tsx sync-snippets.ts",
+    "check:snippets": "tsx sync-snippets.ts --check"
+  },
+  "dependencies": {
+    "zod": "^3.23.8",
+    "yaml": "^2.5.1",
+    "glob": "^10.4.5",
+    "gray-matter": "^4.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

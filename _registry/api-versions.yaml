@@ -1,0 +1,27 @@
+- id: ingest-v1
+  surface: ingest
+  label: v1
+  status: stable
+  current: true
+  order: 10
+
+- id: mcp-2025-11-25
+  surface: mcp
+  label: "MCP 2025-11-25"
+  status: stable
+  current: true
+  order: 10
+
+- id: mcp-2025-06-18
+  surface: mcp
+  label: "MCP 2025-06-18"
+  status: stable
+  current: false
+  order: 20
+
+- id: mcp-2025-03-26
+  surface: mcp
+  label: "MCP 2025-03-26"
+  status: stable
+  current: false
+  order: 30

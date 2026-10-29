@@ -1,0 +1,72 @@
+- id: get-started
+  label: Get started
+  icon: Rocket
+  order: 10
+  path: get-started
+
+- id: platforms
+  label: Platforms
+  icon: Code2
+  order: 20
+  path: sdk
+  pageSet:
+    - overview
+    - errors
+    - tracing
+    - navigation
+    - configuration
+    - analytics-and-flags
+    - troubleshooting
+    - upgrade
+  pageSetLabels:
+    overview: Overview
+    errors: Errors and logs
+    tracing: Tracing
+    navigation: Navigation and screens
+    configuration: Configuration
+    analytics-and-flags: Analytics and flags
+    troubleshooting: Troubleshooting
+    upgrade: Upgrade
+
+- id: features
+  label: Features
+  icon: Boxes
+  order: 30
+  path: features
+  subgroups:
+    - id: integrations
+      label: Integrations
+      path: features/integrations
+
+- id: deploy-ci
+  label: Deploy & CI
+  icon: Rocket
+  order: 35
+  path: deploy
+  subgroups:
+    - id: ci-providers
+      label: CI Providers
+      path: deploy/ci
+    - id: hosts
+      label: Hosts & Runtimes
+      path: deploy/hosts
+
+- id: agents
+  label: Agents and MCP
+  icon: Sparkles
+  order: 40
+  path: agents
+  tone: ai
+
+- id: guides
+  label: Guides
+  icon: BookOpen
+  order: 50
+  path: guides
+
+- id: reference
+  label: Reference
+  icon: Braces
+  order: 60
+  path: reference
+  versioned: true

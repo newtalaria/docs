@@ -1,0 +1,23 @@
+# CI provider registry for Deploy & CI section
+# Awaiting UX's updated paths - do not create pages yet
+
+- id: github-actions
+  label: GitHub Actions
+  icon: Github
+  summary: Set release, upload source maps, and store API keys in GitHub Actions.
+  status: stable
+  order: 10
+
+- id: gitlab-ci
+  label: GitLab CI
+  icon: Gitlab
+  summary: Set release and upload source maps in GitLab CI pipelines.
+  status: hidden
+  order: 20
+
+- id: bitbucket-pipelines
+  label: Bitbucket Pipelines
+  icon: BitbucketIcon
+  summary: Set release and upload source maps in Bitbucket Pipelines.
+  status: hidden
+  order: 30

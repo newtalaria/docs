@@ -1,0 +1,156 @@
+- id: flutter
+  label: Flutter
+  family: dart
+  kind: framework
+  parent: dart
+  package: talaria_flutter
+  packageManager: pub
+  version: "0.2.7"
+  install:
+    language: yaml
+    template: pubspec
+  icon: flutter
+  accent: "#02569B"
+  status: stable
+  order: 10
+
+- id: dart
+  label: Dart
+  family: dart
+  kind: language
+  package: talaria
+  packageManager: pub
+  version: "0.3.7"
+  install:
+    language: yaml
+    template: pubspec
+  icon: dart
+  accent: "#0175C2"
+  status: stable
+  order: 20
+
+- id: serverpod
+  label: Serverpod
+  family: dart
+  kind: framework
+  parent: dart
+  package: talaria_serverpod
+  packageManager: pub
+  version: "0.1.0"
+  install:
+    language: yaml
+    template: pubspec
+  icon: serverpod
+  accent: "#2E3440"
+  status: stable
+  order: 30
+
+- id: javascript
+  label: JavaScript
+  family: javascript
+  kind: language
+  package: "@newtalaria/browser"
+  packageManager: npm
+  version: "1.2.0"
+  install:
+    language: bash
+    template: npm
+  icon: javascript
+  accent: "#F7DF1E"
+  status: stable
+  order: 40
+
+- id: react
+  label: React
+  family: javascript
+  kind: framework
+  parent: javascript
+  package: "@newtalaria/react"
+  packageManager: npm
+  version: "1.2.0"
+  install:
+    language: bash
+    template: npm
+  icon: react
+  accent: "#61DAFB"
+  status: stable
+  order: 50
+
+- id: nextjs
+  label: Next.js
+  family: javascript
+  kind: framework
+  parent: react
+  package: "@newtalaria/nextjs"
+  packageManager: npm
+  version: "1.2.0"
+  install:
+    language: bash
+    template: npm
+  icon: nextjs
+  accent: "#000000"
+  status: stable
+  order: 60
+
+- id: node
+  label: Node.js
+  family: javascript
+  kind: runtime
+  parent: javascript
+  package: "@newtalaria/node"
+  packageManager: npm
+  version: "1.2.0"
+  install:
+    language: bash
+    template: npm
+  icon: nodejs
+  accent: "#339933"
+  status: stable
+  order: 70
+
+- id: php
+  label: PHP
+  family: php
+  kind: language
+  package: talaria/talaria
+  packageManager: composer
+  version: "2.1.0"
+  install:
+    language: bash
+    template: composer
+  icon: php
+  accent: "#777BB4"
+  status: stable
+  order: 80
+
+- id: laravel
+  label: Laravel
+  family: php
+  kind: framework
+  parent: php
+  package: talaria/laravel
+  packageManager: composer
+  version: "2.1.0"
+  install:
+    language: bash
+    template: composer
+  icon: laravel
+  accent: "#FF2D20"
+  status: stable
+  order: 90
+
+- id: silverstripe
+  label: Silverstripe
+  family: php
+  kind: framework
+  parent: php
+  package: talaria/silverstripe
+  packageManager: composer
+  version: "2.1.0"
+  install:
+    language: bash
+    template: composer
+  icon: silverstripe
+  accent: "#0D67BF"
+  status: stable
+  order: 100
