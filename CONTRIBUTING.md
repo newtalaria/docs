@@ -50,7 +50,7 @@ Use GitHub admonitions:
 > Helpful context.
 
 > [!NOTE]
-> `tal_live_…` keys are public client ingest credentials (browser/mobile safe).
+> `tal_prod_…` keys are public client ingest credentials (browser/mobile safe).
 ```
 
 ## Links

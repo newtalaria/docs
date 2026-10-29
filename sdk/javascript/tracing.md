@@ -54,8 +54,8 @@ With tracing on, `fetch` and XHR to the same origin, and to origins listed in `n
 
 ```javascript
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  url: 'https://ingest.newtalaria.com',
+  apiKey: 'tal_prod_…',
   release: '1.4.2',
   networkErrorOrigins: ['https://api.example.com'],
 });

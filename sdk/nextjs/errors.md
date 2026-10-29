@@ -64,7 +64,7 @@ Talaria.setContext('order', { id: 'ord_1' });
 import { Talaria } from '@newtalaria/nextjs/edge';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
+  url: 'https://ingest.newtalaria.com',
   apiKey: process.env.TALARIA_API_KEY,
   release: process.env.TALARIA_RELEASE,
 });

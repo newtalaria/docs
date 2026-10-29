@@ -39,8 +39,8 @@ npm install @newtalaria/browser
 import { Talaria } from '@newtalaria/browser';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  url: 'https://ingest.newtalaria.com',
+  apiKey: 'tal_prod_…',
   release: '1.0.0',
   minLevel: 'warning',
 });
@@ -49,7 +49,7 @@ await Talaria.captureException(new Error('talaria hello'));
 await Talaria.flush();
 ```
 
-`tal_live_…` keys are public client ingest credentials. Put the key in the bundle through your build (an env var replaced at build time is fine). The key decides the environment. A local install uses a development key. Do not pass `environment` in init.
+`tal_prod_…` keys are public client ingest credentials. Put the key in the bundle through your build (an env var replaced at build time is fine). The key decides the environment. A local install uses a development key. Do not pass `environment` in init.
 
 `minLevel: 'warning'` drops info and debug messages. `captureException` is an error, so this setup still shows up in Issues.
 
@@ -80,8 +80,8 @@ Call `Talaria.init` once. Later calls are ignored.
 import { Talaria } from '@newtalaria/browser';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  url: 'https://ingest.newtalaria.com',
+  apiKey: 'tal_prod_…',
   release: '1.4.2',
   commitSha: 'abc123',
   minLevel: 'warning',
@@ -101,7 +101,7 @@ Set `remoteConfig: false` only when this page should send errors and skip `sdk/g
 
 ## API key
 
-The key decides the environment. Each key is bound to development, test, staging, or production, and the prefix stays `tal_live_`. The server stamps that value on ingest. A deployed app that should report production uses a production key. Local install, including `setup_project`, uses a development key. Send `release` as a version or git SHA. The same string is the release you upload source maps for.
+The key decides the environment. Each key is bound to development, test, staging, or production, and the prefix stays `tal_prod_`. The server stamps that value on ingest. A deployed app that should report production uses a production key. Local install, including `setup_project`, uses a development key. Send `release` as a version or git SHA. The same string is the release you upload source maps for.
 
 ## Verification
 

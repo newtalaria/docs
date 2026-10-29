@@ -69,7 +69,7 @@ vendor/bin/sake dev/build flush=all
 
 `dev/build` builds the database. `flush=all` clears the manifest cache, so the new module YAML (Injector services, browser version, removed keys) replaces the cached copy. Run that command as the same system user that serves the site. A flush owned by another user leaves the web process on the old manifest. If the site still behaves as the previous module, delete the `silverstripe-cache` directory the web user reads and flush again.
 
-Then use the site. Log an error through the framework logger, or throw, and open a public HTML page and a CMS page. Confirm with MCP `search_errors` and `environment: development` when the key is a development key. A page with no browser script usually means `enableBrowserFrontend` is false, the response is not HTML, or `TALARIA_BROWSER_API_KEY` is set to something that is not a `tal_live_` key. A non-empty browser key in the wrong shape disables browser inject.
+Then use the site. Log an error through the framework logger, or throw, and open a public HTML page and a CMS page. Confirm with MCP `search_errors` and `environment: development` when the key is a development key. A page with no browser script usually means `enableBrowserFrontend` is false, the response is not HTML, or `TALARIA_BROWSER_API_KEY` is set to something that is not a `tal_prod_` key. A non-empty browser key in the wrong shape disables browser inject.
 
 Restart PHP-FPM after the code is deployed so OPcache loads the new files. A rejected key stays cached for about 24 hours until that restart.
 
@@ -134,9 +134,9 @@ Turn the features on in [Project settings](../../getting-started/configuration.m
 | 2.0.0 | `^2.0.0` | `environment` removed. Browser SDK 0.5.0. |
 | 2.0.1 | `^2.0.0` | Browser SDK 0.5.3. |
 
-From 1.2.1, a blank `TALARIA_DSN` sends to Talaria Cloud. Set `dsn` in YAML, or `TALARIA_DSN`, when the API is somewhere else. If PHP talks to a host the browser cannot reach (a Docker-internal URL, or HTTP behind an HTTPS site), set `TALARIA_BROWSER_DSN` for the injected script only. PHP keeps its own DSN.
+From 1.2.1, a blank `TALARIA_URL` sends to Talaria Cloud. Set `dsn` in YAML, or `TALARIA_URL`, when the API is somewhere else. If PHP talks to a host the browser cannot reach (a Docker-internal URL, or HTTP behind an HTTPS site), set `TALARIA_BROWSER_DSN` for the injected script only. PHP keeps its own DSN.
 
-`TALARIA_BROWSER_API_KEY` is optional. When it is a `tal_live_` key, CMS and public pages report with that key and PHP keeps `TALARIA_API_KEY`. When it is unset, the script uses the PHP key. When it is non-empty and not a `tal_live_` key, the script is not injected.
+`TALARIA_BROWSER_API_KEY` is optional. When it is a `tal_prod_` key, CMS and public pages report with that key and PHP keeps `TALARIA_API_KEY`. When it is unset, the script uses the PHP key. When it is non-empty and not a `tal_prod_` key, the script is not injected.
 
 Query spans from 1.2.3 roll identical SQL into one span under the same parent. A waterfall that used to show one bar per query now shows a count. Queries of 200ms or more, and failed queries, stay separate. A transaction stores at most 200 spans.
 

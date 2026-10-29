@@ -59,7 +59,7 @@ void run(List<String> args) async {
   );
 
   await TalariaServerpod.init(TalariaOptions(
-    dsn: 'https://ingest.newtalaria.com',
+    url: 'https://ingest.newtalaria.com',
     apiKey: Platform.environment['TALARIA_API_KEY'] ?? '',
     release: Platform.environment['TALARIA_RELEASE'] ?? 'dev',
     minLevel: SeverityLevel.warning,
@@ -106,7 +106,7 @@ DSN, API key, release, and tags belong in `TalariaOptions`. Tracing sample rates
 
 ## API key
 
-Load `TALARIA_API_KEY` from the server environment. The prefix stays `tal_live_`. Use a development key locally and a production key on the deployed server. Send `TALARIA_RELEASE` as a version or SHA.
+Load `TALARIA_API_KEY` from the server environment. The prefix stays `tal_prod_`. Use a development key locally and a production key on the deployed server. Send `TALARIA_RELEASE` as a version or SHA.
 
 ## Verification
 

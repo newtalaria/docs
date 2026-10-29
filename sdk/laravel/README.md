@@ -32,7 +32,7 @@ composer require talaria/laravel
 ```
 
 ```env
-TALARIA_API_KEY=tal_live_…
+TALARIA_API_KEY=tal_prod_…
 TALARIA_RELEASE=1.4.2
 ```
 
@@ -67,7 +67,7 @@ The provider builds the client from `config/talaria.php`. You configure the app 
 | Variable | Role |
 | --- | --- |
 | `TALARIA_API_KEY` | Ingest key. Chooses the environment |
-| `TALARIA_DSN` | Defaults to `https://ingest.newtalaria.com` |
+| `TALARIA_URL` | Defaults to `https://ingest.newtalaria.com` |
 | `TALARIA_RELEASE` | Version or SHA |
 | `TALARIA_COMMIT_SHA` | Commit on events |
 | `TALARIA_SERVICE` | `service` tag. Defaults to `APP_NAME` |
@@ -80,7 +80,7 @@ Leave tracing, analytics, and replay to Project settings. The adapter still send
 
 ## API key
 
-A development key is what local install should use. Production uses a production key. The prefix stays `tal_live_`. Do not commit the key. Send `TALARIA_RELEASE` on every environment, including local.
+A development key is what local install should use. Production uses a production key. The prefix stays `tal_prod_`. Do not commit the key. Send `TALARIA_RELEASE` on every environment, including local.
 
 ## Verification
 

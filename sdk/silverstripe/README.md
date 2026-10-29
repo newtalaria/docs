@@ -32,7 +32,7 @@ composer require talaria/silverstripe
 ```
 
 ```env
-TALARIA_API_KEY=tal_live_…
+TALARIA_API_KEY=tal_prod_…
 TALARIA_RELEASE=1.4.2
 ```
 
@@ -63,7 +63,7 @@ YAML and environment are the setup. The module reads:
 | --- | --- |
 | `TALARIA_API_KEY` | Ingest key. Chooses the environment |
 | `TALARIA_RELEASE` | Version or SHA |
-| `TALARIA_DSN` | Optional. Default `https://ingest.newtalaria.com` |
+| `TALARIA_URL` | Optional. Default `https://ingest.newtalaria.com` |
 | `TALARIA_BROWSER_DSN` | Browser script only, when the PHP DSN is not reachable from the browser |
 | `TALARIA_BROWSER_API_KEY` | Browser script only. PHP keeps `apiKey` |
 | `enableBrowserCms` / `enableBrowserFrontend` | Default true |
@@ -76,7 +76,7 @@ Tracing, analytics, heatmaps, and replay follow [Project configuration](../../ge
 
 ## API key
 
-Use a development key locally and a production key on the live site. The prefix stays `tal_live_`. A non-empty `TALARIA_BROWSER_API_KEY` that is not a `tal_live_` key disables browser inject. Leave it unset to share the PHP key.
+Use a development key locally and a production key on the live site. The prefix stays `tal_prod_`. A non-empty `TALARIA_BROWSER_API_KEY` that is not a `tal_prod_` key disables browser inject. Leave it unset to share the PHP key.
 
 ## Verification
 

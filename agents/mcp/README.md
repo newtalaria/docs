@@ -23,7 +23,7 @@ redirectFrom:
 
 # MCP
 
-Hosted MCP at `https://api.newtalaria.com/mcp` (local: `http://{{mcpUrl}}/mcp`). Transport is Streamable HTTP. Auth is OAuth (the client discovers `/.well-known/oauth-protected-resource`, registers at `/oauth/register`, and you approve consent) or a personal token from **Settings → Integrations**. Install scopes are `mcp:read mcp:write mcp:keys`. A personal token lasts 30 days, 90 days, or until you revoke it. It is opaque base64url JSON (one segment, not a three-part JWT). Never use an ingest key (`tal_live_…`).
+Hosted MCP at `https://api.newtalaria.com/mcp` (local: `http://{{mcpUrl}}/mcp`). Transport is Streamable HTTP. Auth is OAuth (the client discovers `/.well-known/oauth-protected-resource`, registers at `/oauth/register`, and you approve consent) or a personal token from **Settings → Integrations**. Install scopes are `mcp:read mcp:write mcp:keys`. A personal token lasts 30 days, 90 days, or until you revoke it. It is opaque base64url JSON (one segment, not a three-part JWT). Never use an ingest key (`tal_<env>_…`).
 
 `tools/list` requires a grant. `docs_*` tools/call still work without auth when called by name. After connect, call `get_connection` before mutating.
 

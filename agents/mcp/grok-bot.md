@@ -63,7 +63,7 @@ Install the plugin or load it from the [GitHub repo](https://github.com/newtalar
 1. Dashboard **Settings → Integrations → Create personal MCP token**. Choose 30 days, 90 days, or until you revoke it.
 2. Add the server manually with the custom MCP prompt and include the Bearer token in your authentication setup. Custom header configuration is client-dependent; OAuth is preferred for Grok Bot.
 
-The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. Never use an ingest key (`tal_live_…`).
+The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. Never use an ingest key (`tal_<env>_…`).
 
 ## After connect
 

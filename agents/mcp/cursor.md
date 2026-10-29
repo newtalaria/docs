@@ -64,7 +64,7 @@ Local API: `http://{{mcpUrl}}/mcp`.
    }
    ```
 
-3. The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never use an ingest key (`tal_live_…`).
+3. The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never use an ingest key (`tal_<env>_…`).
 
 ## Install Talaria into a repo
 

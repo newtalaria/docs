@@ -35,7 +35,7 @@ npm install @newtalaria/node
 import { Talaria } from '@newtalaria/node';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
+  url: 'https://ingest.newtalaria.com',
   apiKey: process.env.TALARIA_API_KEY,
   release: process.env.TALARIA_RELEASE ?? 'dev',
   minLevel: 'warning',
@@ -71,7 +71,7 @@ npm install @newtalaria/node
 import { Talaria } from '@newtalaria/node';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
+  url: 'https://ingest.newtalaria.com',
   apiKey: process.env.TALARIA_API_KEY,
   release: process.env.TALARIA_RELEASE,
   commitSha: process.env.TALARIA_COMMIT_SHA,
@@ -91,7 +91,7 @@ import { DuckDBInstance } from '@duckdb/node-api';
 import { Talaria, getNodeClient, wrapDuckDB } from '@newtalaria/node';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
+  url: 'https://ingest.newtalaria.com',
   apiKey: process.env.TALARIA_API_KEY,
   release: process.env.TALARIA_RELEASE,
 });
@@ -123,7 +123,7 @@ Init holds the DSN, API key, release, and tags. Tracing and analytics turn on fr
 
 ## API key
 
-Store `TALARIA_API_KEY` in the environment. The prefix stays `tal_live_`. The server stamps the key's environment on ingest. Send `release` as a version or SHA on every process, including local runs.
+Store `TALARIA_API_KEY` in the environment. The prefix stays `tal_prod_`. The server stamps the key's environment on ingest. Send `release` as a version or SHA on every process, including local runs.
 
 ## Verification
 

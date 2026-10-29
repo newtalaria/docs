@@ -35,7 +35,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await TalariaFlutter.init(TalariaOptions(
-    dsn: 'https://ingest.newtalaria.com',
+    url: 'https://ingest.newtalaria.com',
     apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
     release: const String.fromEnvironment('APP_RELEASE'),
     minLevel: SeverityLevel.warning,

@@ -99,7 +99,7 @@ Restart PHP after the new code is on disk so OPcache loads it. A rejected API ke
 - On Silverstripe, delete the `environment` key under `Talaria\SilverStripe\Config`. Details are on the [Silverstripe upgrade](../silverstripe/upgrade.md) page.
 - On Laravel, delete the `environment` key from a published `config/talaria.php` and run `php artisan config:clear`. `APP_ENV` is not a substitute.
 
-An event that used to be labelled by that string now shows up under the key's environment (development, test, staging, or production). Use a development key locally and a production key on the deployed app. The prefix stays `tal_live_`.
+An event that used to be labelled by that string now shows up under the key's environment (development, test, staging, or production). Use a development key locally and a production key on the deployed app. The prefix stays `tal_prod_`.
 
 `talaria/silverstripe` 2.0.0 and `talaria/laravel` 2.0.0 require `talaria/talaria` ^2.0.0. A 1.x adapter does not install against 2.0.0 core, and a 2.0 adapter does not install against 1.x core. Upgrade the pair together.
 

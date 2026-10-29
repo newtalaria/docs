@@ -48,7 +48,7 @@ This enables the OpenTelemetry Collector in your container.
 Configure these in your SiteHost control panel:
 
 - `TALARIA_API_KEY` – Your project API key
-- `TALARIA_DSN` – Your Talaria endpoint (e.g., `https://api.newtalaria.com`)
+- `TALARIA_URL` – Your Talaria endpoint (e.g., `https://api.newtalaria.com`)
 - `TALARIA_SERVICE_NAME` – Service name (defaults to `silverstripe`)
 - `TALARIA_ENVIRONMENT` – Environment name (defaults to `production`)
 - `TALARIA_CONTAINER_NAME` – Container identifier (defaults to hostname)
@@ -125,7 +125,7 @@ After deployment:
 ## Troubleshooting
 
 **Logs not appearing:**
-- Verify `TALARIA_API_KEY` and `TALARIA_DSN` are set
+- Verify `TALARIA_API_KEY` and `TALARIA_URL` are set
 - Check collector logs for authentication errors
 - Ensure API key has `logs:write` scope
 

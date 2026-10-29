@@ -40,7 +40,7 @@ import 'package:talaria_flutter/talaria_flutter.dart';
 Future<void> main() async {
   await TalariaFlutter.runZonedApp(
     TalariaOptions(
-      dsn: 'https://ingest.newtalaria.com',
+      url: 'https://ingest.newtalaria.com',
       apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
       release: const String.fromEnvironment('APP_RELEASE'),
       minLevel: SeverityLevel.warning,
@@ -64,7 +64,7 @@ class MyApp extends StatelessWidget {
 
 ```bash
 flutter run \
-  --dart-define=TALARIA_API_KEY=tal_live_… \
+  --dart-define=TALARIA_API_KEY=tal_prod_… \
   --dart-define=APP_RELEASE=1.4.2+42
 ```
 
@@ -117,7 +117,7 @@ See [Project configuration](../../getting-started/configuration.md).
 
 ## API key
 
-`tal_live_…` keys are public client ingest credentials. Pass the key with `--dart-define`. The server stamps the key's environment on events, spans, analytics, and heatmaps. DSN for Talaria Cloud is `https://ingest.newtalaria.com`.
+`tal_prod_…` keys are public client ingest credentials. Pass the key with `--dart-define`. The server stamps the key's environment on events, spans, analytics, and heatmaps. DSN for Talaria Cloud is `https://ingest.newtalaria.com`.
 
 ## Verification
 

@@ -46,7 +46,7 @@ Client (`instrumentation-client.ts`). `NEXT_PUBLIC_` values are inlined into the
 import { initClient } from '@newtalaria/nextjs/client';
 
 initClient({
-  dsn: 'https://ingest.newtalaria.com',
+  url: 'https://ingest.newtalaria.com',
   apiKey: process.env.NEXT_PUBLIC_TALARIA_API_KEY,
   release: process.env.NEXT_PUBLIC_TALARIA_RELEASE,
   minLevel: 'warning',
@@ -60,7 +60,7 @@ export async function register() {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
     const { initServer } = await import('@newtalaria/nextjs/server');
     initServer({
-      dsn: 'https://ingest.newtalaria.com',
+      url: 'https://ingest.newtalaria.com',
       apiKey: process.env.TALARIA_API_KEY,
       release: process.env.TALARIA_RELEASE,
     });

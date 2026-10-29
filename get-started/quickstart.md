@@ -31,8 +31,8 @@ redirectFrom:
 
 1. Sign in to the [dashboard](https://one.newtalaria.com).
 2. Create an organization (if needed) and a **project**.
-3. Open the project → **API keys** → create a key with ingest scopes (default includes events and spans). Each key is bound to one environment: development, test, staging, or production. The prefix stays `tal_live_`. Existing keys default to development. A deployed app that should report production needs a production key. MCP `setup_project` uses a development key. Production shipping is a second key.
-4. Copy the raw `tal_live_…` value **once** (shown only at creation). It is a **public client ingest credential** — pass it via env / `--dart-define` / `.env` as you prefer. The key decides the environment. SDKs do not send it.
+3. Open the project → **API keys** → create a key with ingest scopes (default includes events and spans). Each key is bound to one environment: development, test, staging, or production. The prefix stays `tal_prod_`. Existing keys default to development. A deployed app that should report production needs a production key. MCP `setup_project` uses a development key. Production shipping is a second key.
+4. Copy the raw `tal_prod_…` value **once** (shown only at creation). It is a **public client ingest credential** — pass it via env / `--dart-define` / `.env` as you prefer. The key decides the environment. SDKs do not send it.
 
 ## Pick an SDK
 
@@ -46,7 +46,7 @@ Use the cloud ingest URL as `dsn` unless you self-host:
 https://ingest.newtalaria.com
 ```
 
-Pass the API key from environment / `--dart-define` / `.env`, or embed it in the client — `tal_live_…` keys are designed to be public.
+Pass the API key from environment / `--dart-define` / `.env`, or embed it in the client — `tal_prod_…` keys are designed to be public.
 
 ## Enable optional features
 

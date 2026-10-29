@@ -37,8 +37,8 @@ Init once, before `createRoot`. The API key is a public client ingest credential
 import { Talaria } from '@newtalaria/react';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  url: 'https://ingest.newtalaria.com',
+  apiKey: 'tal_prod_…',
   release: '1.0.0',
   minLevel: 'warning',
 });
@@ -79,8 +79,8 @@ npm install @newtalaria/react
 import { Talaria } from '@newtalaria/react';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  url: 'https://ingest.newtalaria.com',
+  apiKey: 'tal_prod_…',
   release: '1.4.2',
   minLevel: 'warning',
 });

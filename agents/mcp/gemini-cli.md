@@ -70,7 +70,7 @@ gemini mcp add --transport http --header "Authorization: Bearer YOUR_TOKEN" Tala
 }
 ```
 
-The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never use an ingest key (`tal_live_…`).
+The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. One space after `Bearer`. Never use an ingest key (`tal_<env>_…`).
 
 ## After connect
 

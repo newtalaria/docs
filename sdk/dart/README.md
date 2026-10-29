@@ -36,7 +36,7 @@ import 'package:talaria/talaria.dart';
 
 Future<void> main() async {
   await Talaria.init(TalariaOptions(
-    dsn: 'https://ingest.newtalaria.com',
+    url: 'https://ingest.newtalaria.com',
     apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
     release: const String.fromEnvironment('APP_RELEASE'),
     minLevel: SeverityLevel.warning,
@@ -53,7 +53,7 @@ Future<void> main() async {
 
 ```bash
 dart run \
-  --dart-define=TALARIA_API_KEY=tal_live_… \
+  --dart-define=TALARIA_API_KEY=tal_prod_… \
   --dart-define=APP_RELEASE=dev
 ```
 
@@ -82,7 +82,7 @@ Then `dart pub get`.
 
 ```dart
 await Talaria.init(TalariaOptions(
-  dsn: 'https://ingest.newtalaria.com',
+  url: 'https://ingest.newtalaria.com',
   apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
   release: const String.fromEnvironment('APP_RELEASE'),
   commitSha: const String.fromEnvironment('APP_COMMIT'),
@@ -99,7 +99,7 @@ Init holds the DSN, API key, release, minimum level, and tags. Tracing and analy
 
 ## API key
 
-Pass `TALARIA_API_KEY` with `--dart-define` or from the environment your process already uses. The prefix stays `tal_live_`. A development key is for local runs. A deployed process that should report production uses a production key. Send `release` as a version or SHA.
+Pass `TALARIA_API_KEY` with `--dart-define` or from the environment your process already uses. The prefix stays `tal_prod_`. A development key is for local runs. A deployed process that should report production uses a production key. Send `release` as a version or SHA.
 
 ## Verification
 

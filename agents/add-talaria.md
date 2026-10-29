@@ -78,7 +78,7 @@ Design centre: a developer connects Talaria MCP and says **“Add Talaria to thi
 ### 4. Bootstrap only after yes
 
 1. On yes / reuse → **`setup_project`** with `confirmed: true` and either `name` or `projectId`. Prefer this over separate `create_project` + `create_api_key`. This mints a **development** key. Production shipping is a second key, created when someone is actually shipping.
-2. Put the one-time `apiKey` only in env / `--dart-define` / ignored local config. Never commit `tal_live_…`. Do not echo the key later. The key decides the environment. Do not pass `environment` in SDK init.
+2. Put the one-time `apiKey` only in env / `--dart-define` / ignored local config. Never commit `tal_prod_…`. Do not echo the key later. The key decides the environment. Do not pass `environment` in SDK init.
 3. Edit the app from the SDK docs (dependency, init, framework hooks). Local runs still send a version or SHA as `release`.
 4. If Node or Next.js server code talks to a database, `docs_get` path `sdk/node/instrumentation` and follow the snippet for that library. Wrap the object that runs the SQL, after `Talaria.init`:
    - `pg` → `wrapPg` on the `Pool` or `Client`.

@@ -93,7 +93,7 @@ Init holds the DSN, API key, release, minimum level, and tags. Tracing, analytic
 
 ## API key
 
-`TALARIA_API_KEY` is a `tal_live_…` key. It is safe to load from the environment. The server stamps the key's environment on ingest. Use a development key locally and a production key on the deployed app. Send `release` as a version or SHA, including for local runs.
+`TALARIA_API_KEY` is a `tal_prod_…` key. It is safe to load from the environment. The server stamps the key's environment on ingest. Use a development key locally and a production key on the deployed app. Send `release` as a version or SHA, including for local runs.
 
 ## Verification
 

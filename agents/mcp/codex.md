@@ -58,7 +58,7 @@ Do not write:
 bearer_token = "YOUR_TOKEN"
 ```
 
-The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. Never use an ingest key (`tal_live_…`).
+The token is an **opaque single-segment** base64url JSON payload (starts with `eyJzdWIi…`), not a three-part JWT. Never use an ingest key (`tal_<env>_…`).
 
 ## After connect
 

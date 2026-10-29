@@ -32,7 +32,7 @@ Turn **Tracing** on in [Project settings](../../getting-started/configuration.md
 
 ```dart
 await TalariaFlutter.init(TalariaOptions(
-  dsn: 'https://ingest.newtalaria.com',
+  url: 'https://ingest.newtalaria.com',
   apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
   release: const String.fromEnvironment('APP_RELEASE'),
 ));
@@ -78,7 +78,7 @@ Error events from Flutter hooks attach `traceId` and `spanId` when a screen or H
 
 ```bash
 flutter run \
-  --dart-define=TALARIA_API_KEY=tal_live_… \
+  --dart-define=TALARIA_API_KEY=tal_prod_… \
   --dart-define=APP_RELEASE=1.4.2+42
 ```
 
