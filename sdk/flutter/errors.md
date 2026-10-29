@@ -117,5 +117,5 @@ Init sets `platform: flutter` and a `flutter: true` tag. Runtime extras include 
 
 - [Flutter SDK](README.md)
 - [Navigation and screens](navigation.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)

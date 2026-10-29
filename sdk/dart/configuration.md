@@ -38,7 +38,7 @@ Successful traces follow the traces sample rate from Project settings. Error tra
 
 ## Project settings
 
-Tracing and analytics follow [Project configuration](../../getting-started/configuration.md). Dart always fetches `sdk/getConfig`.
+Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Dart always fetches `sdk/getConfig`.
 
 ## Analytics
 
@@ -53,7 +53,7 @@ await Talaria.analytics.track(
 );
 ```
 
-`page` and `screen` are on the same client. See [Product analytics setup](../../analytics/setup.md).
+`page` and `screen` are on the same client. See [Product analytics setup](../../features/analytics.md).
 
 ## Feature flags
 
@@ -74,5 +74,5 @@ final on = await Talaria.flags.boolVariation('new-checkout', false);
 ## Related
 
 - [Dart SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)

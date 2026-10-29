@@ -55,5 +55,5 @@ Tracing, analytics, heatmaps, and session replay are controlled in **Project set
 
 ## Related
 
-- [Add Talaria with an agent](../guides/add-talaria-with-an-agent.md)
-- [MCP](../mcp/README.md)
+- [Add Talaria with an agent](../agents/add-talaria.md)
+- [MCP](../agents/mcp/README.md)

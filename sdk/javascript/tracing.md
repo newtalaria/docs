@@ -25,7 +25,7 @@ owner: docs
 
 # JavaScript instrumentation and tracing
 
-Turn **Tracing** on in [Project settings](../../getting-started/configuration.md). Until `sdk/getConfig` allows it, the page records errors and does not open spans. Successful transactions follow the traces sample rate. Error transactions are always sent.
+Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Until `sdk/getConfig` allows it, the page records errors and does not open spans. Successful transactions follow the traces sample rate. Error transactions are always sent.
 
 Talaria uses the OpenTelemetry span model (a trace of spans with a span kind) and W3C Trace Context (`traceparent`) on outbound HTTP.
 
@@ -93,5 +93,5 @@ The traces sample rate in Project settings applies to successful transactions. A
 
 - [JavaScript SDK](README.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Best practices](configuration.md)
+- [Configuration](../../get-started/project-settings.md)

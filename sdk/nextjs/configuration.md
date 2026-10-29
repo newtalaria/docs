@@ -43,7 +43,7 @@ On the client and the Node server, successful traces follow the project traces s
 
 ## Project settings
 
-Client and server tracing, analytics, heatmaps, and replay follow [Project configuration](../../getting-started/configuration.md). Edge ignores that document.
+Client and server tracing, analytics, heatmaps, and replay follow [Project configuration](../../get-started/project-settings.md). Edge ignores that document.
 
 ## Analytics
 
@@ -55,7 +55,7 @@ Talaria.analytics.page('Pricing');
 Talaria.analytics.track('Checkout Started', { plan: 'pro' });
 ```
 
-Enable Analytics in Project settings. The client still waits for [consent](../../analytics/consent.md). The server follows the project document and has no document consent step. Server calls should pass the user id you already know. See [Product analytics setup](../../analytics/setup.md).
+Enable Analytics in Project settings. The client still waits for [consent](../../guides/cookie-banners.md). The server follows the project document and has no document consent step. Server calls should pass the user id you already know. See [Product analytics setup](../../features/analytics.md).
 
 ## Feature flags
 
@@ -69,7 +69,7 @@ Edge has no flag client. Read the flag on the server and pass the result down.
 
 ## Session replay
 
-Replay runs in the browser client when session replay is enabled in Project settings. It uses the same masking and consent rules as [`@newtalaria/browser`](../javascript/best-practices.md). The server and edge do not record replays.
+Replay runs in the browser client when session replay is enabled in Project settings. It uses the same masking and consent rules as [`@newtalaria/browser`](../javascript/configuration.md). The server and edge do not record replays.
 
 ## Heatmaps
 
@@ -90,5 +90,5 @@ Keep secrets out of server action arguments that you copy into `extra`. The comp
 ## Related
 
 - [Next.js SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)

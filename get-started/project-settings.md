@@ -68,7 +68,7 @@ Talaria Cloud ingest is `https://ingest.newtalaria.com`. Pass that URL as `url` 
 Init still takes:
 
 - API key
-- [release / commit SHA](../guides/releases.md)
+- [release / commit SHA](../features/../features/releases.md)
 - tags
 - minimum log level
 - ignore lists
@@ -86,10 +86,10 @@ Analytics and heatmaps in Project settings allow the product to collect them. **
 
 For any other banner, call `analytics.optIn()` after the visitor agrees, and `analytics.optOut()` to stop. A page with no banner can set `publicAnalytics: true` so the browser opts in when the project allows analytics. Leave that unset when a banner Talaria reads is on the page.
 
-See [Cookie banners](../analytics/consent.md) and [Product analytics setup](../analytics/setup.md).
+See [Cookie banners](../guides/cookie-banners.md) and [Product analytics setup](../features/analytics.md).
 
 ## Related
 
 - [Quickstart](quickstart.md)
 - [SDK hub](../sdk/README.md)
-- [Agent playbook](../guides/add-talaria-with-an-agent.md)
+- [Agent playbook](../agents/add-talaria.md)

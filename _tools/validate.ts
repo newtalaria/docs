@@ -100,6 +100,71 @@ function checkContentRules(pages: PageFile[]): void {
   }
 }
 
+function checkLinks(pages: PageFile[]): void {
+  const pathMap = new Set<string>();
+  
+  // Build map of valid paths
+  for (const page of pages) {
+    pathMap.add(page.relativePath);
+    // Also accept without .md extension
+    pathMap.add(page.relativePath.replace(/\.md$/, ""));
+    // README.md can be referenced as directory
+    if (page.relativePath.endsWith("/README.md")) {
+      pathMap.add(page.relativePath.replace(/\/README\.md$/, ""));
+    }
+  }
+  
+  for (const page of pages) {
+    if (page.frontmatter.visibility === "contributor") continue;
+    
+    const content = readFileSync(page.path, "utf-8");
+    const { content: body } = matter(content);
+    
+    // Find markdown links: [text](url)
+    const linkPattern = /\[([^\]]+)\]\(([^)]+)\)/g;
+    let match;
+    
+    while ((match = linkPattern.exec(body)) !== null) {
+      const url = match[2];
+      
+      // Skip external URLs, anchors, and mailto
+      if (url.startsWith("http") || url.startsWith("#") || url.startsWith("mailto:")) {
+        continue;
+      }
+      
+      // Check /docs absolute paths
+      if (url.startsWith("/docs/")) {
+        const docPath = url.replace(/^\/docs\//, "").split("#")[0].split("?")[0];
+        if (!pathMap.has(docPath) && !pathMap.has(docPath + ".md")) {
+          errors.push(
+            `🔗 ${page.relativePath}: broken /docs link: ${url}`
+          );
+        }
+        continue;
+      }
+      
+      // Check relative paths
+      if (!url.startsWith("/")) {
+        const urlPath = url.split("#")[0].split("?")[0];
+        if (!urlPath) continue; // Just an anchor
+        
+        // Resolve relative to current file
+        const dir = page.relativePath.includes("/") 
+          ? page.relativePath.substring(0, page.relativePath.lastIndexOf("/"))
+          : "";
+        
+        const resolved = join(dir, urlPath).replace(/\\/g, "/");
+        
+        if (!pathMap.has(resolved) && !pathMap.has(resolved + ".md") && !pathMap.has(resolved + "/README.md")) {
+          errors.push(
+            `🔗 ${page.relativePath}: broken relative link: ${url} (resolves to ${resolved})`
+          );
+        }
+      }
+    }
+  }
+}
+
 function checkDuplicateIds(pages: PageFile[]): void {
   const ids = new Map<string, string>();
   
@@ -178,6 +243,13 @@ function main() {
   checkContentRules(pages);
   if (errors.length === 0) {
     console.log("   ✅ Content rules pass\n");
+  }
+  
+  // Step 4b: Link validation
+  console.log("4️⃣b Checking links...");
+  checkLinks(pages);
+  if (errors.length === 0) {
+    console.log("   ✅ All links valid\n");
   }
   
   // Step 5: Freshness warnings

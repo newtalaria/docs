@@ -64,7 +64,7 @@ Local API: `http://{{mcpUrl}}/mcp`.
 
 ## Install Talaria into a repo
 
-1. `docs_get` → `guides/add-talaria-with-an-agent`
+1. `docs_get` → `agents/add-talaria`
 2. Detect stack; `docs_search` / `docs_get` for the SDK hub (e.g. Flutter under `sdk/flutter`)
 3. `get_connection` → announce user + org; ask before create
 4. On yes: `setup_project` with `confirmed: true` (tracing + one-time key)
@@ -79,10 +79,10 @@ Harness path for local Flutter install tests: `
 2. `search_errors` with `environment: production` (the default once a production key exists) → `get_error`
 3. Follow `traceId` / `sessionId` when present
 4. Include `dashboardUrl` from tool results when citing an issue
-5. When the failure is already fixed, follow [Triage issues with an agent](../guides/triage-issues-with-an-agent.md): `update_issue_status` with a note
+5. When the failure is already fixed, follow [Triage issues with an agent](../triage-issues.md): `update_issue_status` with a note
 
 ## Related
 
 - [MCP overview](README.md)
-- [Configuration](../getting-started/configuration.md)
-- [Flutter SDK](../sdk/flutter/README.md)
+- [Configuration](../../get-started/project-settings.md)
+- [Flutter SDK](../../sdk/flutter/README.md)

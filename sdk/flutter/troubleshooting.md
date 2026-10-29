@@ -33,7 +33,7 @@ owner: docs
 1. Enable tracing in **Project settings** (remote config). Init alone is not enough.
 2. Wait for `getConfig` refresh (up to `ttlSeconds`, default ~5 minutes) or restart the app after saving settings.
 3. Confirm you are not wrapping the Talaria ingest client.
-4. Screen spans finish on idle. They are short by design. See [Instrumentation and tracing](instrumentation.md).
+4. Screen spans finish on idle. They are short by design. See [Instrumentation and tracing](tracing.md).
 
 ## Analytics / heatmaps not firing
 
@@ -44,7 +44,7 @@ owner: docs
 ## Related
 
 - [Flutter hub](README.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
-- [Configuration](../../getting-started/configuration.md)
-- [Agent playbook](../../guides/add-talaria-with-an-agent.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)
+- [Configuration](../../get-started/project-settings.md)
+- [Agent playbook](../../agents/add-talaria.md)

@@ -38,7 +38,7 @@ Successful traces follow the traces sample rate from Project settings. Error tra
 
 ## Project settings
 
-Tracing, analytics, and feature flags follow [Project configuration](../../getting-started/configuration.md). The client clears those switches until `sdk/getConfig` returns. Session replay, heatmaps, and web vitals are recorded by `@newtalaria/browser` when [Laravel](../laravel/README.md) or [Silverstripe](../silverstripe/README.md) injects it.
+Tracing, analytics, and feature flags follow [Project configuration](../../get-started/project-settings.md). The client clears those switches until `sdk/getConfig` returns. Session replay, heatmaps, and web vitals are recorded by `@newtalaria/browser` when [Laravel](../laravel/README.md) or [Silverstripe](../silverstripe/README.md) injects it.
 
 ## Analytics
 
@@ -50,7 +50,7 @@ Talaria::analytics()->track('Invoice Sent', ['plan' => 'pro']);
 Talaria::analytics()->page('Pricing');
 ```
 
-`screen` is on the same client. The server has no cookie banner. Pass the user id you already have. See [Product analytics setup](../../analytics/setup.md).
+`screen` is on the same client. The server has no cookie banner. Pass the user id you already have. See [Product analytics setup](../../features/analytics.md).
 
 ## Feature flags
 
@@ -71,5 +71,5 @@ Do not put tokens or card numbers in breadcrumb `data` or capture `extra`. Query
 ## Related
 
 - [PHP SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)

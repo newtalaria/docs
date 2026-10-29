@@ -64,10 +64,10 @@ The key decides the environment. Do not pass `environment`. Confirm with `search
 | Capability | Where |
 | --- | --- |
 | Exceptions, logs, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
-| Manual spans, database helpers, and `wrapHttpClient` | [Instrumentation and tracing](instrumentation.md) |
-| Analytics and feature flags | [Best practices](best-practices.md) |
+| Manual spans, database helpers, and `wrapHttpClient` | [Instrumentation and tracing](tracing.md) |
+| Analytics and feature flags | [Best practices](configuration.md) |
 
-`runZonedTalaria` catches zone errors. There is no isolate error listener. Heatmap upload exists on this package. Screen capture is [Flutter](../flutter/navigation.md). Tracing and analytics follow [Project configuration](../../getting-started/configuration.md). Dart always fetches that document.
+`runZonedTalaria` catches zone errors. There is no isolate error listener. Heatmap upload exists on this package. Screen capture is [Flutter](../flutter/navigation.md). Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Dart always fetches that document.
 
 ## Install
 
@@ -111,9 +111,9 @@ An empty `fromEnvironment` string means the define was missing at compile time. 
 
 ## Related docs
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
+- [Best practices](configuration.md)
 - [Flutter](../flutter/README.md)
 - [Serverpod](../serverpod/README.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Configuration](../../get-started/project-settings.md)

@@ -58,11 +58,11 @@ await Talaria.flush();
 | Capability | Where |
 | --- | --- |
 | Errors, logs, breadcrumbs, user, tags, and release | [Errors, logs, and breadcrumbs](errors.md) |
-| Pageload, navigation, fetch/XHR, web vitals, and manual spans | [Instrumentation and tracing](instrumentation.md) |
-| Analytics, feature flags, session replay, heatmaps, and consent | [Best practices](best-practices.md) |
-| Source maps for a minified stack | [Source maps](source-maps.md) |
+| Pageload, navigation, fetch/XHR, web vitals, and manual spans | [Instrumentation and tracing](tracing.md) |
+| Analytics, feature flags, session replay, heatmaps, and consent | [Best practices](configuration.md) |
+| Source maps for a minified stack | [Source maps](../../guides/upload-javascript-source-maps.md) |
 
-Tracing, analytics, heatmaps, and session replay follow [Project configuration](../../getting-started/configuration.md). Until that document arrives, the page sends errors only.
+Tracing, analytics, heatmaps, and session replay follow [Project configuration](../../get-started/project-settings.md). Until that document arrives, the page sends errors only.
 
 ## Install
 
@@ -115,10 +115,10 @@ A rejected key is cached for about 24 hours. Rotate the key and reload the page.
 
 ## Related docs
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
-- [Source maps](source-maps.md)
+- [Best practices](configuration.md)
+- [Source maps](../../guides/upload-javascript-source-maps.md)
 - [Upload JavaScript source maps](../../guides/upload-javascript-source-maps.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Configuration](../../get-started/project-settings.md)
 - [SDK hub](../README.md)

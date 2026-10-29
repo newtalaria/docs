@@ -84,6 +84,6 @@ Set `release` in init. Fingerprints are computed on the server. Call `await Tala
 ## Related
 
 - [Serverpod SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)
 - [Dart errors](../dart/errors.md)

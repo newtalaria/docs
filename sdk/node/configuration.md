@@ -38,7 +38,7 @@ Successful traces follow the traces sample rate from Project settings. Error tra
 
 ## Project settings
 
-Tracing and analytics follow [Project configuration](../../getting-started/configuration.md). Init does not turn them on. Session replay, heatmaps, and web vitals are recorded by `@newtalaria/browser` in the page, not by this process.
+Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Init does not turn them on. Session replay, heatmaps, and web vitals are recorded by `@newtalaria/browser` in the page, not by this process.
 
 ## Analytics
 
@@ -49,7 +49,7 @@ Talaria.analytics.identify('user_42', { plan: 'pro' });
 Talaria.analytics.track('Invoice Sent', { plan: 'pro' });
 ```
 
-Pass the user id you already have. `page` and `screen` exist on the same client when you are recording a view from the server. See [Product analytics setup](../../analytics/setup.md).
+Pass the user id you already have. `page` and `screen` exist on the same client when you are recording a view from the server. See [Product analytics setup](../../features/analytics.md).
 
 ## Feature flags
 
@@ -70,5 +70,5 @@ Do not put tokens or raw SQL parameters into `extra` or breadcrumb `data`. Datab
 ## Related
 
 - [Node.js SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)

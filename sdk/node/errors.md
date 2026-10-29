@@ -80,5 +80,5 @@ In a short-lived script, `await Talaria.flush()` before exit so the batch is sen
 ## Related
 
 - [Node.js SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)

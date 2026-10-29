@@ -58,11 +58,11 @@ The key decides the environment. Do not pass `environment`. Confirm with MCP `se
 | Capability | Where |
 | --- | --- |
 | Exceptions, PSR-3 logs, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
-| Incoming HTTP, PSR-15, Guzzle, PDO, mysqli, and Redis | [Instrumentation and tracing](instrumentation.md) |
-| Analytics and feature flags | [Best practices](best-practices.md) |
+| Incoming HTTP, PSR-15, Guzzle, PDO, mysqli, and Redis | [Instrumentation and tracing](tracing.md) |
+| Analytics and feature flags | [Best practices](configuration.md) |
 | Move between package versions | [Upgrade](upgrade.md) |
 
-Tracing and analytics follow [Project configuration](../../getting-started/configuration.md). Framework wiring lives in [Laravel](../laravel/README.md) and [Silverstripe](../silverstripe/README.md).
+Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Framework wiring lives in [Laravel](../laravel/README.md) and [Silverstripe](../silverstripe/README.md).
 
 ## Install
 
@@ -105,10 +105,10 @@ Confirm the env vars are loaded in the SAPI you are running (FPM and CLI do not 
 
 ## Related docs
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
+- [Best practices](configuration.md)
 - [Upgrade](upgrade.md)
 - [Laravel](../laravel/README.md)
 - [Silverstripe](../silverstripe/README.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Configuration](../../get-started/project-settings.md)

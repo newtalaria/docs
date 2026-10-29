@@ -24,7 +24,7 @@ owner: docs
 
 # Dart instrumentation and tracing
 
-Turn **Tracing** on in [Project settings](../../getting-started/configuration.md). Successful transactions follow the traces sample rate. Error transactions are always sent. Spans use the OpenTelemetry span model. `wrapHttpClient` sets W3C `traceparent` on outbound requests.
+Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Successful transactions follow the traces sample rate. Error transactions are always sent. Spans use the OpenTelemetry span model. `wrapHttpClient` sets W3C `traceparent` on outbound requests.
 
 Do not pass a wrapped client in as the SDK's own ingest client.
 
@@ -79,7 +79,7 @@ The span is CLIENT, with `db.system.name` and a sanitized statement. A query bre
 
 - [Dart SDK](README.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
-- [Flutter tracing](../flutter/instrumentation.md)
-- [Serverpod tracing](../serverpod/instrumentation.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Best practices](configuration.md)
+- [Flutter tracing](../flutter/tracing.md)
+- [Serverpod tracing](../serverpod/tracing.md)
+- [Configuration](../../get-started/project-settings.md)

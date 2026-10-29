@@ -24,7 +24,7 @@ owner: docs
 
 # Flutter instrumentation and tracing
 
-Turn **Tracing** on in [Project settings](../../getting-started/configuration.md). Span APIs match the [Dart SDK](../dart/instrumentation.md). Successful transactions follow the traces sample rate. Error transactions are always sent. HTTP uses W3C `traceparent`.
+Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Span APIs match the [Dart SDK](../dart/tracing.md). Successful transactions follow the traces sample rate. Error transactions are always sent. HTTP uses W3C `traceparent`.
 
 ```dart
 await TalariaFlutter.init(TalariaOptions(
@@ -85,7 +85,7 @@ The API key decides the environment. Give each flavor its own key so those issue
 - [Flutter SDK](README.md)
 - [Navigation and screens](navigation.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Dart instrumentation](../dart/instrumentation.md)
-- [Serverpod instrumentation](../serverpod/instrumentation.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Dart instrumentation](../dart/tracing.md)
+- [Serverpod instrumentation](../serverpod/tracing.md)
+- [Configuration](../../get-started/project-settings.md)
 - [Troubleshooting](troubleshooting.md)

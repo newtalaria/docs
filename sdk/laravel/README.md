@@ -49,10 +49,10 @@ Throw in a route. The exception handler's `reportable` hook calls `captureExcept
 | Capability | Where |
 | --- | --- |
 | Exceptions, the `talaria` log channel, breadcrumbs, and the authenticated user | [Errors, logs, and breadcrumbs](errors.md) |
-| HTTP, database queries, queues, the HTTP client, and Artisan | [Instrumentation and tracing](instrumentation.md) |
-| Analytics, feature flags, and the injected browser script (replay, heatmaps, web vitals, consent) | [Best practices](best-practices.md) |
+| HTTP, database queries, queues, the HTTP client, and Artisan | [Instrumentation and tracing](tracing.md) |
+| Analytics, feature flags, and the injected browser script (replay, heatmaps, web vitals, consent) | [Best practices](configuration.md) |
 
-Octane, Horizon, and Livewire spans register when those packages are installed. Tracing and analytics follow [Project configuration](../../getting-started/configuration.md).
+Octane, Horizon, and Livewire spans register when those packages are installed. Tracing and analytics follow [Project configuration](../../get-started/project-settings.md).
 
 ## Install
 
@@ -92,8 +92,8 @@ Hit a route that throws. `search_errors` with `environment: development`. The da
 
 ## Related docs
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
+- [Best practices](configuration.md)
 - [PHP SDK](../php/README.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Configuration](../../get-started/project-settings.md)

@@ -57,7 +57,7 @@ Skills are available from:
 - **cursor.directory:** [cursor.directory/plugins/talaria](https://cursor.directory/plugins/talaria)
 - **GitHub:** [newtalaria/talaria-agent-plugin](https://github.com/newtalaria/talaria-agent-plugin)
 
-Agents can also follow the Markdown playbooks via `docs_get`: [Add Talaria with an agent](../guides/add-talaria-with-an-agent.md) (≈ instrument), [Triage issues with an agent](../guides/triage-issues-with-an-agent.md) (≈ triage). See [Agent skills overview](../guides/agent-skills.md) for the skills → playbooks map.
+Agents can also follow the Markdown playbooks via `docs_get`: [Add Talaria with an agent](../add-talaria.md) (≈ instrument), [Triage issues with an agent](../triage-issues.md) (≈ triage). See [Agent skills overview](../README.md) for the skills → playbooks map.
 
 ## Tool catalogue
 
@@ -69,7 +69,7 @@ Agents can also follow the Markdown playbooks via `docs_get`: [Add Talaria with 
 | `docs_search` | Ranked search over title, path, tags, headings, body |
 | `docs_get` | Full Markdown for a path/id |
 
-For install tasks, start with `docs_get` on `guides/add-talaria-with-an-agent`.
+For install tasks, start with `docs_get` on `agents/add-talaria`.
 
 ### Authenticated (`mcp:read` and above)
 
@@ -101,7 +101,7 @@ For install tasks, start with `docs_get` on `guides/add-talaria-with-an-agent`.
 
 ## Integration workflow
 
-See [Add Talaria with an agent](../guides/add-talaria-with-an-agent.md), [Triage issues with an agent](../guides/triage-issues-with-an-agent.md), and the client pages above.
+See [Add Talaria with an agent](../add-talaria.md), [Triage issues with an agent](../triage-issues.md), and the client pages above.
 
 ## Environment on read tools
 
@@ -113,7 +113,7 @@ See [Add Talaria with an agent](../guides/add-talaria-with-an-agent.md), [Triage
 
 1. `get_projects` → real `projectId`
 2. `search_errors` (pass `environment`; use `development` right after install, `production` for a live failure) → `get_error`
-3. A JavaScript frame that is still a hashed `*.js` file needs a source map for that release. Follow [Upload JavaScript source maps](../guides/upload-javascript-source-maps.md), then `get_event` or `get_source_map`.
+3. A JavaScript frame that is still a hashed `*.js` file needs a source map for that release. Follow [Upload JavaScript source maps](../../guides/upload-javascript-source-maps.md), then `get_event` or `get_source_map`.
 4. Optional `get_trace` / `search_sessions` in the same environment
 5. Fix locally → verify with `search_events` (`issueId` set) / `search_errors` on `development`
 6. When the issue has stopped firing, `update_issue_status` to `resolved` with a note. Noise is `ignored` with a note. A later event with the same fingerprint reopens a resolved issue. An ignored issue reopens when the project's reopen-ignored setting is on (the default). `resolved` and `ignored` can only return to `open`.

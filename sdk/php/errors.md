@@ -91,5 +91,5 @@ Call `Talaria::flush()` before a CLI script exits.
 ## Related
 
 - [PHP SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)

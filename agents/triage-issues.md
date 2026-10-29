@@ -22,7 +22,7 @@ owner: docs
 
 # Triage issues with an agent
 
-**Skills:** Cursor and Grok Bot agents can use `talaria-triage-issue` from the Talaria plugin for guided investigation. This playbook is the detailed how-to that skills reference. See [Agent skills overview](agent-skills.md).
+**Skills:** Cursor and Grok Bot agents can use `talaria-triage-issue` from the Talaria plugin for guided investigation. This playbook is the detailed how-to that skills reference. See [Agent skills overview](README.md).
 
 ---
 

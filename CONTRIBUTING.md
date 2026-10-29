@@ -11,7 +11,7 @@ description: Install talaria_flutter, bootstrap with runZonedApp, capture errors
 sdk: flutter          # required on SDK pages
 package: talaria_flutter  # install hubs
 tags: [flutter, dart, install]
-# related: [sdk/dart/README.md, getting-started/configuration.md]
+# related: [sdk/dart/README.md, get-started/project-settings.md]
 ---
 ```
 
@@ -22,11 +22,11 @@ Every public SDK folder (`sdk/<id>/`) has these pages:
 | File | Opens with | Search words in the title, tags, and h2s |
 | --- | --- | --- |
 | `README.md` | Quick setup, then What you can do | `install`, `init` |
-| `instrumentation.md` | What Project settings turns on, then each automatic integration | `instrumentation`, `tracing` |
+| `tracing.md` | What Project settings turns on, then each automatic integration | `instrumentation`, `tracing` |
 | `errors.md` | capture, logs, breadcrumbs, user | `errors`, `logs`, `breadcrumbs` |
-| `best-practices.md` | release, sampling, then Analytics and Feature flags | `analytics`, `feature-flags` |
+| `configuration.md` | release, sampling, then Analytics and Feature flags | `analytics`, `feature-flags` |
 
-Browser packages also use h2s for Session replay, Heatmaps, Web Vitals, and Consent on `best-practices.md`, with a `replay` tag. Laravel and Silverstripe document the injected `@newtalaria/browser` script there.
+Browser packages also use h2s for Session replay, Heatmaps, Web Vitals, and Consent on `configuration.md`, with a `replay` tag. Laravel and Silverstripe document the injected `@newtalaria/browser` script there.
 
 The hub keeps these headings so `docs_search` for `install` and `init` still lands on the README:
 

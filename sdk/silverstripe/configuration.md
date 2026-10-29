@@ -43,7 +43,7 @@ Successful traces follow the project traces sample rate. Error traces stay. A re
 
 ## Project settings
 
-Tracing, analytics, heatmaps, and session replay follow [Project configuration](../../getting-started/configuration.md). Turn analytics on there for PHP `Talaria::analytics()` and for the public-site browser script. The CMS admin is not opted into browser analytics.
+Tracing, analytics, heatmaps, and session replay follow [Project configuration](../../get-started/project-settings.md). Turn analytics on there for PHP `Talaria::analytics()` and for the public-site browser script. The CMS admin is not opted into browser analytics.
 
 ## Analytics
 
@@ -51,7 +51,7 @@ Tracing, analytics, heatmaps, and session replay follow [Project configuration](
 Talaria::analytics()->track('Enquiry Sent', ['form' => 'contact']);
 ```
 
-On public pages the injected script can send `page` and `track` after consent. See [Product analytics setup](../../analytics/setup.md).
+On public pages the injected script can send `page` and `track` after consent. See [Product analytics setup](../../features/analytics.md).
 
 ## Feature flags
 
@@ -75,7 +75,7 @@ LCP, INP, CLS, and TTFB are child spans of the browser pageload when tracing is 
 
 ## Consent
 
-The browser script follows CookieYes, Cookiebot, and Google Consent Mode. Any other banner calls `analytics.optIn()` on the page. See [Cookie banners](../../analytics/consent.md). PHP analytics does not read that banner.
+The browser script follows CookieYes, Cookiebot, and Google Consent Mode. Any other banner calls `analytics.optIn()` on the page. See [Cookie banners](../../guides/cookie-banners.md). PHP analytics does not read that banner.
 
 ## Privacy in events
 
@@ -84,6 +84,6 @@ Do not log passwords or card data through the framework logger. Query spans incl
 ## Related
 
 - [Silverstripe SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Browser best practices](../javascript/best-practices.md)
+- [Browser best practices](../javascript/configuration.md)

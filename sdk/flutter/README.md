@@ -85,11 +85,11 @@ The key decides the environment. A local run uses a development key. Confirm wit
 | Capability | Where |
 | --- | --- |
 | Framework, platform, zone, and widget-build errors, plus logs and breadcrumbs | [Errors, logs, and breadcrumbs](errors.md) |
-| Screen transactions and `wrapHttpClient` | [Instrumentation and tracing](instrumentation.md) |
+| Screen transactions and `wrapHttpClient` | [Instrumentation and tracing](tracing.md) |
 | Routes, `setScreen`, and screen heatmaps | [Navigation and screens](navigation.md) |
-| Analytics, feature flags, and consent | [Best practices](best-practices.md) |
+| Analytics, feature flags, and consent | [Best practices](configuration.md) |
 
-Tracing, analytics, and heatmaps follow [Project configuration](../../getting-started/configuration.md). Screen heatmaps need `TalariaScreenCapture` in the tree. Automatic screen views use the route name. Unnamed routes are skipped.
+Tracing, analytics, and heatmaps follow [Project configuration](../../get-started/project-settings.md). Screen heatmaps need `TalariaScreenCapture` in the tree. Automatic screen views use the route name. Unnamed routes are skipped.
 
 ## Install
 
@@ -113,7 +113,7 @@ A staging flavor uses a staging key. A production flavor uses a production key. 
 | `dsn`, `apiKey`, `release`, `minLevel` | Tracing enabled and the traces sample rate |
 | Tags, `beforeSend` | Analytics and heatmaps |
 
-See [Project configuration](../../getting-started/configuration.md).
+See [Project configuration](../../get-started/project-settings.md).
 
 ## API key
 
@@ -133,8 +133,8 @@ See [troubleshooting](troubleshooting.md).
 
 - [Errors, logs, and breadcrumbs](errors.md)
 - [Navigation and screens](navigation.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)
 - [Troubleshooting](troubleshooting.md)
-- [Configuration](../../getting-started/configuration.md)
-- [Agent playbook](../../guides/add-talaria-with-an-agent.md)
+- [Configuration](../../get-started/project-settings.md)
+- [Agent playbook](../../agents/add-talaria.md)

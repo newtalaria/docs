@@ -43,7 +43,7 @@ Event sampling and trace sampling come from Project settings after `sdk/getConfi
 
 ## Project settings
 
-Tracing, analytics, heatmaps, and session replay stay off until the project document allows them. Init cannot turn those signals on by itself. See [Project configuration](../../getting-started/configuration.md).
+Tracing, analytics, heatmaps, and session replay stay off until the project document allows them. Init cannot turn those signals on by itself. See [Project configuration](../../get-started/project-settings.md).
 
 ## Analytics
 
@@ -55,7 +55,7 @@ Talaria.analytics.page('Pricing');
 Talaria.analytics.track('Checkout Started', { plan: 'pro' });
 ```
 
-Browser analytics wait for consent unless you opt the page in. See [Product analytics setup](../../analytics/setup.md).
+Browser analytics wait for consent unless you opt the page in. See [Product analytics setup](../../features/analytics.md).
 
 ## Feature flags
 
@@ -77,7 +77,7 @@ Enable heatmaps and analytics in Project settings. The SDK records clicks, scrol
 
 ## Web Vitals
 
-LCP, INP, CLS, and TTFB are child spans of the pageload transaction. They show up when tracing is on and that pageload was sampled. See [Instrumentation and tracing](instrumentation.md).
+LCP, INP, CLS, and TTFB are child spans of the pageload transaction. They show up when tracing is on and that pageload was sampled. See [Instrumentation and tracing](tracing.md).
 
 ## Consent
 
@@ -88,7 +88,7 @@ Talaria.analytics.optIn();
 Talaria.analytics.optOut();
 ```
 
-A page with no banner can set `publicAnalytics: true` so the browser opts in when the project allows analytics. Leave it unset when a banner Talaria already reads is on the page. Details: [Cookie banners](../../analytics/consent.md).
+A page with no banner can set `publicAnalytics: true` so the browser opts in when the project allows analytics. Leave it unset when a banner Talaria already reads is on the page. Details: [Cookie banners](../../guides/cookie-banners.md).
 
 ## Privacy in events
 
@@ -101,5 +101,5 @@ After a change, `search_errors` or `search_events` with the environment of the k
 ## Related
 
 - [JavaScript SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)

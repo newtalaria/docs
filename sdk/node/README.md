@@ -52,10 +52,10 @@ The key decides the environment. Do not pass `environment`. A local `setup_proje
 | Capability | Where |
 | --- | --- |
 | Process errors, `captureMessage`, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
-| Incoming HTTP, outgoing HTTP, `pg`, `mysql2`, Redis, and DuckDB | [Instrumentation and tracing](instrumentation.md) |
-| Analytics and feature flags | [Best practices](best-practices.md) |
+| Incoming HTTP, outgoing HTTP, `pg`, `mysql2`, Redis, and DuckDB | [Instrumentation and tracing](tracing.md) |
+| Analytics and feature flags | [Best practices](configuration.md) |
 
-`logger()` is the browser API. On Node, record a message with `captureMessage`. Tracing and analytics follow [Project configuration](../../getting-started/configuration.md).
+`logger()` is the browser API. On Node, record a message with `captureMessage`. Tracing and analytics follow [Project configuration](../../get-started/project-settings.md).
 
 `@newtalaria/node/api` is the HTTP-free facade used by Next.js. It does not patch HTTP. Application code should import `@newtalaria/node`.
 
@@ -80,7 +80,7 @@ Talaria.init({
 });
 ```
 
-Init installs outgoing HTTP instrumentation that waits until project config enables tracing. Call `handleHttpRequest` on each incoming request. If the process imports `pg`, `mysql2`, `ioredis`, `@duckdb/node-api`, Prisma, Drizzle, Kysely, Knex, or Sequelize, wrap the client that runs the SQL after it is created. See [Instrumentation and tracing](instrumentation.md).
+Init installs outgoing HTTP instrumentation that waits until project config enables tracing. Call `handleHttpRequest` on each incoming request. If the process imports `pg`, `mysql2`, `ioredis`, `@duckdb/node-api`, Prisma, Drizzle, Kysely, Knex, or Sequelize, wrap the client that runs the SQL after it is created. See [Instrumentation and tracing](tracing.md).
 
 ## DuckDB
 
@@ -103,7 +103,7 @@ const reader = await connection.runAndReadAll(
 );
 ```
 
-`run`, `stream`, `prepare`, and `runAndRead*` become CLIENT spans. Bound parameter values and result rows stay in the app. The full request example is on [Instrumentation and tracing](instrumentation.md).
+`run`, `stream`, `prepare`, and `runAndRead*` become CLIENT spans. Bound parameter values and result rows stay in the app. The full request example is on [Instrumentation and tracing](tracing.md).
 
 ## Other database libraries
 
@@ -115,7 +115,7 @@ Knex and Sequelize open their own connections. A second pool wrapped with `wrapP
 
 MongoDB, `better-sqlite3`, and `node:sqlite` have no wrapper. Open a CLIENT span around the call and set `db.system.name`. Leave filters, documents, bound values, and result rows off the span.
 
-Each snippet is on [Instrumentation and tracing](instrumentation.md).
+Each snippet is on [Instrumentation and tracing](tracing.md).
 
 ## App init vs Project settings
 
@@ -135,7 +135,7 @@ A rejected key is cached for about 24 hours. Restart the process after rotating 
 
 ## Related docs
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Best practices](configuration.md)
+- [Configuration](../../get-started/project-settings.md)

@@ -27,7 +27,7 @@ owner: docs
 
 # PHP instrumentation and tracing
 
-Turn **Tracing** on in [Project settings](../../getting-started/configuration.md). Successful transactions follow the traces sample rate. Error transactions are always sent. Spans use the OpenTelemetry span model. Outgoing Guzzle requests that go through `GuzzleMiddleware` set W3C `traceparent`.
+Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Successful transactions follow the traces sample rate. Error transactions are always sent. Spans use the OpenTelemetry span model. Outgoing Guzzle requests that go through `GuzzleMiddleware` set W3C `traceparent`.
 
 Do not attach tracing middleware to Talaria's own ingest client.
 
@@ -126,5 +126,5 @@ Commands become CLIENT spans named `redis GET` plus a query breadcrumb. `inner()
 
 - [PHP SDK](README.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Best practices](configuration.md)
+- [Configuration](../../get-started/project-settings.md)
