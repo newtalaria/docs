@@ -38,7 +38,7 @@ Pass a key and a default value. When the flag is off or undefined, the default i
 
 ## Use it with an agent
 
-Coding agents can read and update flags with MCP tools: `get_feature_flag`, `list_feature_flags`, `set_feature_flag_off`, and `set_feature_flag_percent`. See the [MCP tools reference](../agents/mcp/README.md).
+Coding agents can manage flags via MCP. Ask your agent to list all feature flags, check the state of a specific flag, turn a flag off, or roll out a flag to a percentage of users. The tools are `list_feature_flags`, `get_feature_flag`, `set_feature_flag_off`, and `set_feature_flag_percent`. See the [MCP tools reference](../agents/mcp/README.md).
 
 ## Limits and billing
 

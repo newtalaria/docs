@@ -1,6 +1,6 @@
 ---
 id: otlp-endpoint
-title: OTLP Endpoint
+title: OTLP endpoint
 description: >-
   Send traces, logs, and metrics via OpenTelemetry Protocol (OTLP) over HTTP
   to ingest.newtalaria.com/otlp. HTTP/protobuf recommended, gRPC not supported.
@@ -9,7 +9,7 @@ tags:
   - opentelemetry
   - ingest
   - collector
-navTitle: OTLP Endpoint
+navTitle: OTLP endpoint
 type: reference
 section: reference
 platform: []
@@ -19,7 +19,7 @@ lastReviewed: '2026-10-29'
 owner: docs
 ---
 
-# OTLP Endpoint
+# OTLP endpoint
 
 Talaria accepts OpenTelemetry Protocol (OTLP) data over **HTTP only** (protobuf or JSON). gRPC is not supported.
 

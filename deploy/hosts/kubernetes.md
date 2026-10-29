@@ -362,6 +362,11 @@ Replace `<your-deployment-name>` with your actual deployment name. The `service`
 3. Verify the header is `X-Talaria-Monitor-Token`.
 4. Regenerate the monitor token from the dashboard if it was revoked.
 
+## Next steps
+
+- [Monitors](../../features/monitors.md) — Track job health with check-ins
+- [Runtime health](../../features/runtime.md) — Monitor app health and performance
+
 ## For agents
 
 This task includes MCP tool verification. Use `search_logs` with `service: "<your-deployment-name>"` (matching your actual deployment name) to confirm log ingestion from the Kubernetes collector. The `service` value comes from `service.name`, which is set from `k8s.deployment.name` by the resource processor.
