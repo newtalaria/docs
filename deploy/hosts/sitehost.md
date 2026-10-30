@@ -35,13 +35,22 @@ The collector tails Apache error logs, PHP-FPM logs, cron task logs, and your ap
 
 ### 1. Create monitor configuration
 
-Add `talaria/monitors.yaml` to your repository root:
+Add `talaria/sitehost/monitors.json` to your application:
 
-```yaml
-monitors: []
+```json
+{
+  "jobs": [
+    {
+      "slug": "process-job-queue",
+      "crontab": "* * * * *",
+      "timezone": "Pacific/Auckland",
+      "command": "cd /container/application && vendor/bin/sake dev/tasks/ProcessJobQueueTask"
+    }
+  ]
+}
 ```
 
-This enables the OpenTelemetry Collector in your container.
+When this file is present, the SiteHost deploy action runs `vendor/bin/talaria-sitehost install` and installs the OpenTelemetry Collector in your container. `jobs` must not be empty. See [Monitors](../../features/monitors.md) for every job field.
 
 ### 2. Set environment variables
 
@@ -115,7 +124,7 @@ Set `metrics:write` scope on your API key to receive these metrics.
 
 ### 7. Cron monitors (Silverstripe only)
 
-`vendor/bin/talaria-sitehost install` reconciles one crontab block and the supervisord probe. It registers each monitor with the secret `tal_sk_` key (`monitors:write`) on `POST /v1/monitors/{slug}/check-ins` and stores the returned `tal_mon_<cell>_…` token. Cron lines check in with that token on `POST /v1/check-ins` (`Authorization: Bearer`), so the crontab never holds the secret key. A second run reuses the stored tokens. See [Monitors](../../features/monitors.md).
+`vendor/bin/talaria-sitehost install` reads `talaria/sitehost/monitors.json` and reconciles one crontab block and the supervisord probe. It registers each monitor with the secret `tal_sk_` key (`monitors:write`) on `POST /v1/monitors/{slug}/check-ins` and stores the returned `tal_mon_<cell>_…` token. Cron lines check in with that token on `POST /v1/check-ins` (`Authorization: Bearer`), so the crontab never holds the secret key. A second run reuses the stored tokens. See [Monitors](../../features/monitors.md).
 
 ## Check it worked
 
@@ -148,11 +157,11 @@ After deployment:
 
 ### Collector not starting
 
-**Cause:** `talaria/monitors.yaml` is missing, or supervisord did not start `talaria-otelcol`.
+**Cause:** `talaria/sitehost/monitors.json` is missing, or supervisord did not start `talaria-otelcol`.
 
 **Fix:**
 
-- Verify `talaria/monitors.yaml` exists in your repository
+- Verify `talaria/sitehost/monitors.json` exists in your application
 - Check supervisord status with `supervisorctl status talaria-otelcol`
 
 ## Next steps

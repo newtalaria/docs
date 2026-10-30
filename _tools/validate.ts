@@ -232,7 +232,7 @@ function checkContentRules(pages: PageFile[]): void {
     { pattern: /\bget_suspect_commits\b/g, name: "get_suspect_commits MCP tool (use list_suspect_commits)" },
     { pattern: /\bget_issue_links\b/g, name: "get_issue_links MCP tool (use list_issue_links)" },
     { pattern: /newtalaria\/source-maps@v1/g, name: "newtalaria/source-maps@v1 action (use newtalaria/release@v1)" },
-    { pattern: /talaria\/sitehost\/monitors\.json/g, name: "talaria/sitehost/monitors.json (use talaria/monitors.yaml)" },
+    { pattern: /talaria\/monitors\.ya?ml/g, name: "talaria/monitors.yaml (use talaria/sitehost/monitors.json)" },
     { pattern: /\/otlp\/mcp\b/g, name: "/otlp/mcp (MCP stays on the api host /mcp path)" },
     { pattern: /\bk8scluster\b/g, name: "k8scluster (use k8s_cluster)" },
     { pattern: /\botlphttp\b/g, name: "otlphttp (use otlp_http)" },
