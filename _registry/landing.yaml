@@ -1,0 +1,13 @@
+hero:
+  title: "Talaria docs"
+  lede: "Install an SDK, switch on a feature, or let your agent set it up."
+  primary: quickstart
+  secondary: mcp
+
+popular:
+  - quickstart
+  - upload-javascript-source-maps
+  - releases
+  - session-replay
+  - triage-issues-with-an-agent
+  - analytics-consent

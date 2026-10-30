@@ -1,0 +1,92 @@
+---
+title: Dart instrumentation and tracing
+description: >-
+  Manual spans, DbSpan, and Talaria.wrapHttpClient with W3C traceparent in the
+  talaria package.
+package: talaria
+tags:
+  - dart
+  - instrumentation
+  - tracing
+  - spans
+  - http
+id: dart-tracing
+navTitle: Tracing
+type: guide
+section: platforms
+platform:
+  - dart
+feature: []
+order: 30
+lastReviewed: '2026-10-29'
+owner: docs
+---
+# Dart instrumentation and tracing
+
+## What you're setting up
+
+Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Successful transactions follow the traces sample rate. Error transactions are always sent. Spans use the OpenTelemetry span model. `wrapHttpClient` sets W3C `traceparent` on outbound requests.
+
+Do not pass a wrapped client in as the SDK's own ingest client.
+
+## Steps
+
+### 1. Manual spans
+
+```dart
+final span = Talaria.startSpan('charge', kind: SpanKind.client);
+try {
+  await charge();
+  span.setStatus(SpanStatus.ok);
+} catch (error, stackTrace) {
+  span.markError(message: error.toString());
+  await Talaria.captureException(error, stackTrace: stackTrace);
+  rethrow;
+} finally {
+  span.finish();
+}
+```
+
+`startTransaction` opens a root span (`SpanKind.internal` by default). Pass `parent: Traceparent.parse(...)` to continue a trace you read from an incoming header. `getTraceparent()` returns the active header, or null when tracing is idle.
+
+`setRecordQuerySpans(false)` pauses query spans. `withoutQuerySpans` pauses them for one callback.
+
+### 2. HTTP
+
+```dart
+import 'package:http/http.dart' as http;
+
+final httpClient = Talaria.wrapHttpClient(http.Client());
+final response = await httpClient.get(Uri.parse('https://api.example.com/health'));
+```
+
+The wrapper records a CLIENT span and sets `traceparent` while a trace is active and tracing is on. Ingest URLs are skipped.
+
+### 3. Database
+
+There is no automatic ORM hook in this package. Time a query with `DbSpan`:
+
+```dart
+final client = Talaria.getClient()!;
+await DbSpan.trace(
+  client,
+  system: 'postgresql',
+  sql: 'SELECT id FROM accounts WHERE id = @id',
+  run: () => database.query(sql),
+);
+```
+
+The span is CLIENT, with `db.system.name` and a sanitized statement. A query breadcrumb is added. `DbSpan.traceOperation` is the same helper when you already know the operation and table and do not want to pass SQL.
+
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
+
+- [Dart SDK](README.md)
+- [Errors, logs, and breadcrumbs](errors.md)
+- [Best practices](configuration.md)
+- [Flutter tracing](../flutter/tracing.md)
+- [Serverpod tracing](../serverpod/tracing.md)
+- [Configuration](../../get-started/project-settings.md)

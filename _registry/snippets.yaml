@@ -1,0 +1,89 @@
+# Shared snippets from IA_SPEC §12. Files are never routed.
+
+- id: api-key-warning
+  path: _snippets/api-key-warning/_default.md
+
+- id: publishable-key-public
+  path: _snippets/publishable-key-public/_default.md
+
+- id: mcp-url
+  path: _snippets/mcp-url/_default.md
+
+- id: dsn
+  path: _snippets/dsn/_default.md
+
+- id: init-vs-project-settings
+  path: _snippets/init-vs-project-settings/_default.md
+
+- id: release-format
+  path: _snippets/release-format/_default.md
+
+- id: personal-token
+  path: _snippets/personal-token/_default.md
+
+- id: project-settings-switch
+  path: _snippets/project-settings-switch/_default.md
+
+- id: skills-loop
+  path: _snippets/skills-loop/_default.md
+
+- id: oauth-stalls
+  path: _snippets/troubleshooting/oauth-stalls.md
+
+- id: api-key-on-mcp
+  path: _snippets/troubleshooting/api-key-on-mcp.md
+
+- id: release-key-scope
+  path: _snippets/troubleshooting/release-key-scope.md
+
+- id: release-mismatch
+  path: _snippets/troubleshooting/release-mismatch.md
+
+- id: no-events-arrive
+  path: _snippets/troubleshooting/no-events-arrive.md
+
+- id: wrong-environment
+  path: _snippets/troubleshooting/wrong-environment.md
+
+- id: consent-blocks-analytics
+  path: _snippets/troubleshooting/consent-blocks-analytics.md
+
+- id: install
+  path: _snippets/install/dart.md
+  platform: dart
+
+- id: install
+  path: _snippets/install/flutter.md
+  platform: flutter
+
+- id: install
+  path: _snippets/install/serverpod.md
+  platform: serverpod
+
+- id: install
+  path: _snippets/install/javascript.md
+  platform: javascript
+
+- id: install
+  path: _snippets/install/react.md
+  platform: react
+
+- id: install
+  path: _snippets/install/nextjs.md
+  platform: nextjs
+
+- id: install
+  path: _snippets/install/node.md
+  platform: node
+
+- id: install
+  path: _snippets/install/php.md
+  platform: php
+
+- id: install
+  path: _snippets/install/laravel.md
+  platform: laravel
+
+- id: install
+  path: _snippets/install/silverstripe.md
+  platform: silverstripe

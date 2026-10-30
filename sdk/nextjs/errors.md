@@ -1,14 +1,37 @@
 ---
-title: Next.js errors, logs, and breadcrumbs
-description: Client, server, and edge captureException, logs, breadcrumbs, and user context on @newtalaria/nextjs.
-sdk: nextjs
-package: "@newtalaria/nextjs"
-tags: [nextjs, errors, logs, breadcrumbs, identity]
+title: 'Next.js errors, logs, and breadcrumbs'
+description: >-
+  Capture exceptions, logs, breadcrumbs, and user context in nextjs with
+  Talaria.
+package: '@newtalaria/nextjs'
+tags:
+  - nextjs
+  - errors
+  - logs
+  - breadcrumbs
+  - identity
+id: nextjs-errors
+navTitle: Errors and logs
+type: guide
+section: platforms
+platform:
+  - nextjs
+feature:
+  - issues
+  - logs
+order: 20
+lastReviewed: '2026-10-29'
+owner: docs
 ---
-
 # Next.js errors, logs, and breadcrumbs
 
-## Client
+## What you're setting up
+
+Capture exceptions, logs, breadcrumbs, and user context in nextjs with Talaria.
+
+## Steps
+
+### 1. Client
 
 After `initClient`, browser `onerror` / `unhandledrejection` are active. `ErrorBoundary` and `reactErrorHandler` match [React errors](../react/errors.md).
 
@@ -22,7 +45,7 @@ Talaria.addBreadcrumb({ type: 'user', category: 'ui', message: 'Opened checkout'
 Talaria.setUser({ id: 'user_42' });
 ```
 
-## Server
+### 2. Server
 
 `initServer` captures `uncaughtException` and `unhandledRejection` through the Node SDK. There is no `logger()` on the server. Record a message with `captureMessage`.
 
@@ -40,13 +63,12 @@ Talaria.setContext('order', { id: 'ord_1' });
 
 `withServerAction` and `withRouteHandler` capture thrown errors and set the span status. `captureRequestError` records Next.js request errors.
 
-## Edge
+### 3. Edge
 
 ```javascript
 import { Talaria } from '@newtalaria/nextjs/edge';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
   apiKey: process.env.TALARIA_API_KEY,
   release: process.env.TALARIA_RELEASE,
 });
@@ -60,12 +82,16 @@ Talaria.setTags({ region: 'iad1' });
 
 Edge keeps a manual breadcrumb buffer and attaches it to errors. It has `setUser`, `setTags`, `setExtra`, and `setContext`. It has no `logger()`, no spans, and no analytics.
 
-## Release
+### 4. Release
 
 Use the same `release` on the client, server, and edge. Upload client source maps for that release. Fingerprints are computed on the server.
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [Next.js SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)

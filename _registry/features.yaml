@@ -1,0 +1,151 @@
+- id: issues
+  label: Issues
+  icon: Bug
+  summary: Grouped errors with stack, breadcrumbs and environment.
+  productHref: /product
+  page: true
+  mcpTools:
+    - search_issues
+    - get_issue
+    - update_issue_status
+    - add_issue_comment
+    - verify_fix
+    - list_suspect_commits
+  skills:
+    - talaria-triage-issue
+    - talaria-verify-fix
+  status: stable
+  order: 10
+
+- id: performance
+  label: Performance
+  icon: Gauge
+  summary: Distributed tracing, slow queries, and N+1 detection
+  productHref: /product
+  page: false
+  mcpTools:
+    - search_traces
+    - get_trace
+    - get_suspect_spans
+  skills:
+    - talaria-observe-performance
+  status: stable
+  order: 20
+
+- id: logs
+  label: Logs
+  icon: FileText
+  summary: Structured logs with error and performance context
+  productHref: /product
+  page: false
+  mcpTools:
+    - search_logs
+  status: stable
+  order: 30
+
+- id: runtime
+  label: Runtime
+  icon: Activity
+  summary: Service health from check-ins, logs, and gauges
+  productHref: /product
+  page: true
+  mcpTools:
+    - list_monitors
+    - check_in
+  status: stable
+  order: 40
+
+- id: session-replay
+  label: Session replay
+  icon: Video
+  summary: Browser session recordings linked to errors
+  productHref: /product
+  page: false
+  support:
+    flutter:
+      level: none
+      note: Browser only
+    dart:
+      level: none
+      note: Browser only
+    serverpod:
+      level: none
+      note: Browser only
+    node:
+      level: none
+      note: Browser only
+    php:
+      level: none
+      note: Browser only
+  status: stable
+  order: 50
+
+- id: analytics
+  label: Product analytics
+  icon: BarChart3
+  summary: Track user behavior, page views, and custom events
+  productHref: /product
+  page: true
+  mcpTools:
+    - track_event
+    - identify_user
+  status: stable
+  order: 60
+
+- id: feature-flags
+  label: Feature flags
+  icon: Flag
+  summary: Turn features on or off remotely from your SDK
+  productHref: /product
+  page: true
+  mcpTools:
+    - list_feature_flags
+    - get_feature_flag
+    - set_feature_flag_off
+    - set_feature_flag_percent
+  status: stable
+  order: 70
+
+- id: releases
+  label: Releases
+  icon: Package
+  summary: Track deploys and stamp events with git ref
+  productHref: /product
+  page: true
+  mcpTools:
+    - list_releases
+    - get_release
+  status: stable
+  order: 80
+
+- id: alerts
+  label: Alerts
+  icon: Bell
+  summary: Get notified when errors spike or monitors fail
+  productHref: /product
+  page: false
+  status: stable
+  order: 90
+
+- id: monitors
+  label: Cron monitors
+  icon: Clock
+  summary: Check in from scheduled jobs; missed runs open issues
+  productHref: /product
+  page: true
+  mcpTools:
+    - list_monitors
+    - check_in
+  status: stable
+  order: 100
+
+- id: dashboard-ai
+  label: AI investigation
+  icon: Bot
+  summary: Ask questions about errors and traces in natural language
+  productHref: /product
+  page: false
+  mcpTools:
+    - ask_question
+  status: stable
+  order: 110

@@ -1,30 +1,67 @@
 ---
 title: Dart SDK
-description: Quick setup for the talaria package — install, init, and capture the first exception. HTTP tracing, logs, analytics, and feature flags.
-sdk: dart
+description: >-
+  Install the Talaria dart SDK and capture errors, logs, and traces from your
+  dart application.
 package: talaria
-tags: [dart, install, init]
+tags:
+  - dart
+  - install
+  - init
+id: dart
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - dart
+feature: []
+order: 10
+lastReviewed: '2026-10-30'
+owner: docs
 ---
 
 # Dart SDK
 
-`talaria` (0.3.7) is the Dart client for CLI tools, VM services, and shared libraries. Flutter apps should start with [talaria_flutter](../flutter/README.md). Serverpod 4 servers should add [talaria_serverpod](../serverpod/README.md).
+## What you're setting up
 
-## Quick setup
+`talaria` (0.4.0) is the Dart client for CLI tools, VM services, and shared libraries.
+
+**What you can do**
+
+| Capability | Where |
+| --- | --- |
+| Exceptions, logs, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
+| Manual spans, database helpers, and `wrapHttpClient` | [Instrumentation and tracing](tracing.md) |
+| Analytics and feature flags | [Best practices](configuration.md) |
+
+`runZonedTalaria` catches zone errors. There is no isolate error listener. Heatmap upload exists on this package. Screen capture is [Flutter](../flutter/navigation.md). Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Dart always fetches that document.
+
+## Why use this
+
+Flutter apps should start with [talaria_flutter](../flutter/README.md). Serverpod 4 servers should add [talaria_serverpod](../serverpod/README.md).
+
+## Before you start
+
+A Dart VM service, CLI, or worker reads a secret `tal_sk_` key from `TALARIA_API_KEY` in its environment. Client code that ships to users (Flutter) takes a publishable `tal_pk_` key instead; use [talaria_flutter](../flutter/README.md) for that.
+
+## Steps
+
+### 1. Quick setup
 
 ```yaml
 dependencies:
-  talaria: ^0.3.7
+  talaria: ^0.4.0
 ```
 
 ```dart
+import 'dart:io';
+
 import 'package:talaria/talaria.dart';
 
 Future<void> main() async {
   await Talaria.init(TalariaOptions(
-    dsn: 'https://ingest.newtalaria.com',
-    apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
-    release: const String.fromEnvironment('APP_RELEASE'),
+    apiKey: Platform.environment['TALARIA_API_KEY'] ?? '',
+    release: Platform.environment['TALARIA_RELEASE'],
     minLevel: SeverityLevel.warning,
   ));
 
@@ -38,40 +75,27 @@ Future<void> main() async {
 ```
 
 ```bash
-dart run \
-  --dart-define=TALARIA_API_KEY=tal_live_… \
-  --dart-define=APP_RELEASE=dev
+TALARIA_API_KEY=tal_sk_dev_nz1_… TALARIA_RELEASE=dev dart run
 ```
 
-The key decides the environment. Do not pass `environment`. Confirm with `search_errors` and `environment: development`.
+The key decides the environment. Leave `TALARIA_URL` unset: the SDK derives `https://ingest-<cell>.newtalaria.com` from the key. The SDK checks the key grammar and checksum and refuses a `tal_mon_` token at init. Do not pass `environment`. Confirm with `search_issues` and `environment: development`.
 
-## What you can do
-
-| Capability | Where |
-| --- | --- |
-| Exceptions, logs, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
-| Manual spans, database helpers, and `wrapHttpClient` | [Instrumentation and tracing](instrumentation.md) |
-| Analytics and feature flags | [Best practices](best-practices.md) |
-
-`runZonedTalaria` catches zone errors. There is no isolate error listener. Heatmap upload exists on this package. Screen capture is [Flutter](../flutter/navigation.md). Tracing and analytics follow [Project configuration](../../getting-started/configuration.md). Dart always fetches that document.
-
-## Install
+### 2. Install
 
 ```yaml
 dependencies:
-  talaria: ^0.3.7
+  talaria: ^0.4.0
 ```
 
 Then `dart pub get`.
 
-## Initialization
+### 3. Initialization
 
 ```dart
 await Talaria.init(TalariaOptions(
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: const String.fromEnvironment('TALARIA_API_KEY'),
-  release: const String.fromEnvironment('APP_RELEASE'),
-  commitSha: const String.fromEnvironment('APP_COMMIT'),
+  apiKey: Platform.environment['TALARIA_API_KEY'] ?? '',
+  release: Platform.environment['TALARIA_RELEASE'],
+  commitSha: Platform.environment['TALARIA_COMMIT_SHA'],
   minLevel: SeverityLevel.warning,
   tags: {'service': 'worker'},
 ));
@@ -79,27 +103,27 @@ await Talaria.init(TalariaOptions(
 
 A second `init` is ignored.
 
-## App init vs Project settings
+### 4. App init vs Project settings
 
-Init holds the DSN, API key, release, minimum level, and tags. Tracing and analytics turn on from Project settings. There is no `remoteConfig: false` on Dart.
+Init holds the URL, API key, release, minimum level, and tags. Tracing and analytics turn on from Project settings. There is no `remoteConfig: false` on Dart.
 
-## API key
+### 5. API key
 
-Pass `TALARIA_API_KEY` with `--dart-define` or from the environment your process already uses. The prefix stays `tal_live_`. A development key is for local runs. A deployed process that should report production uses a production key. Send `release` as a version or SHA.
+Server and CI keys are secret: `tal_sk_<env>_<cell>_…` in `TALARIA_API_KEY`. A publishable `tal_pk_<env>_<cell>_…` key is accepted on the Dart VM and logs one warning: ingest works, but releases, flag definitions (`flags:read`), and monitors need a `tal_sk_` key. A `tal_mon_` token is refused; it is only for `POST /v1/check-ins`. Use a development key locally and a production key on the deployed service. Send `release` as a version or SHA.
 
-## Verification
+## Check it worked
 
-`captureException` then `flush`. MCP `search_errors` with `environment: development`.
+`captureException` then `flush`. MCP `search_issues` with `environment: development`.
 
 ## Troubleshooting
 
-An empty `fromEnvironment` string means the define was missing at compile time. Rebuild after you add it. A rejected key is cached for about 24 hours. Restart the process after rotating it.
+An empty `TALARIA_API_KEY` means the variable is not set in the process environment. A rejected key is cached for about 24 hours. Restart the process after rotating it.
 
-## Related docs
+## Next steps
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
+- [Best practices](configuration.md)
 - [Flutter](../flutter/README.md)
 - [Serverpod](../serverpod/README.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Configuration](../../get-started/project-settings.md)

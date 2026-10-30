@@ -1,19 +1,55 @@
 ---
 title: PHP SDK
-description: Quick setup for talaria/talaria — install, init, and capture the first exception. Tracing, PSR-3 logs, analytics, and feature flags.
-sdk: php
+description: >-
+  Install the Talaria php SDK and capture errors, logs, and traces from your php
+  application.
 package: talaria/talaria
-tags: [php, install, init]
+tags:
+  - php
+  - install
+  - init
+id: php
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - php
+feature: []
+order: 10
+lastReviewed: '2026-10-30'
+owner: docs
 ---
 
 # PHP SDK
 
-`talaria/talaria` (2.0.0) is the framework-agnostic PHP client. Laravel and Silverstripe apps should use those adapters instead of calling `Talaria::init` themselves.
+## What you're setting up
 
-## Quick setup
+`talaria/talaria` (3.0.0) is the framework-agnostic PHP client.
+
+**What you can do**
+
+| Capability | Where |
+| --- | --- |
+| Exceptions, PSR-3 logs, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
+| Incoming HTTP, PSR-15, Guzzle, PDO, mysqli, and Redis | [Instrumentation and tracing](tracing.md) |
+| Analytics and feature flags | [Best practices](configuration.md) |
+
+Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Framework wiring lives in [Laravel](../laravel/README.md) and [Silverstripe](../silverstripe/README.md).
+
+## Why use this
+
+Laravel and Silverstripe apps should use those adapters instead of calling `Talaria::init` themselves.
+
+## Before you start
+
+PHP 8.1 or newer.
+
+## Steps
+
+### 1. Quick setup
 
 ```bash
-composer require talaria/talaria
+composer require talaria/talaria:^3.0
 ```
 
 ```php
@@ -22,7 +58,6 @@ composer require talaria/talaria
 use Talaria\Talaria;
 
 Talaria::init([
-    'dsn' => 'https://ingest.newtalaria.com',
     'apiKey' => getenv('TALARIA_API_KEY'),
     'release' => getenv('TALARIA_RELEASE') ?: 'dev',
     'minLevel' => 'warning',
@@ -37,32 +72,18 @@ try {
 Talaria::flush();
 ```
 
-The key decides the environment. Do not pass `environment`. Confirm with MCP `search_errors` and `environment: development`. `flush()` matters in a short-lived CLI process. A web SAPI flushes on shutdown.
+The key decides the environment. Leave `TALARIA_URL` unset: the SDK sends to `https://ingest-<cell>.newtalaria.com` from the key. A malformed key or a bad checksum throws at init. A publishable `tal_pk_` key logs one warning: ingest and flag evaluation work, but monitors, releases, and flag definitions need a secret `tal_sk_` key. Do not pass `environment`. Confirm with MCP `search_issues` and `environment: development`. `flush()` matters in a short-lived CLI process. A web SAPI flushes on shutdown.
 
-## What you can do
-
-| Capability | Where |
-| --- | --- |
-| Exceptions, PSR-3 logs, breadcrumbs, user, and tags | [Errors, logs, and breadcrumbs](errors.md) |
-| Incoming HTTP, PSR-15, Guzzle, PDO, mysqli, and Redis | [Instrumentation and tracing](instrumentation.md) |
-| Analytics and feature flags | [Best practices](best-practices.md) |
-| Move between package versions | [Upgrade](upgrade.md) |
-
-Tracing and analytics follow [Project configuration](../../getting-started/configuration.md). Framework wiring lives in [Laravel](../laravel/README.md) and [Silverstripe](../silverstripe/README.md).
-
-## Install
-
-PHP 8.1 or newer.
+### 2. Install
 
 ```bash
-composer require talaria/talaria
+composer require talaria/talaria:^3.0
 ```
 
-## Initialization
+### 3. Initialization
 
 ```php
 Talaria::init([
-    'dsn' => 'https://ingest.newtalaria.com',
     'apiKey' => getenv('TALARIA_API_KEY'),
     'release' => getenv('TALARIA_RELEASE') ?: null,
     'commitSha' => getenv('TALARIA_COMMIT_SHA') ?: null,
@@ -73,28 +94,27 @@ Talaria::init([
 
 A second `init` is ignored. Uncaught errors are captured while default integrations are on (the default). Pass `'defaultIntegrations' => false` when an adapter installs its own handler.
 
-## App init vs Project settings
+### 4. App init vs Project settings
 
-Init holds the DSN, API key, release, minimum level, and tags. Tracing, analytics, and feature flags turn on from Project settings after `sdk/getConfig`. Init values for those switches are not what the process uses. Set `'remoteConfig' => false` only when this process should send errors and skip that fetch.
+Init holds the URL, API key, release, minimum level, and tags. Tracing, analytics, and feature flags turn on from Project settings after fetching project configuration. Init values for those switches are not what the process uses. Set `'remoteConfig' => false` only when this process should send errors and skip that fetch.
 
-## API key
+### 5. API key
 
-`TALARIA_API_KEY` is a `tal_live_…` key. It is safe to load from the environment. The server stamps the key's environment on ingest. Use a development key locally and a production key on the deployed app. Send `release` as a version or SHA, including for local runs.
+`TALARIA_API_KEY` is a secret `tal_sk_<env>_<cell>_…` key (`<env>` is `prod`, `stg`, `test`, or `dev`). Load it from the server environment and never ship it to a browser. `releases:write`, `flags:read`, and `monitors:write` work only with a secret key. `TALARIA_URL` (or the `url` option) is the only host override, for self-host or a custom domain. The server stamps the key's environment on ingest. Use a development key locally and a production key on the deployed app. Send `release` as a version or SHA, including for local runs.
 
-## Verification
+## Check it worked
 
-`Talaria::captureException($e)` then `Talaria::flush()`. MCP `search_errors` with `environment: development`.
+`Talaria::captureException($e)` then `Talaria::flush()`. MCP `search_issues` with `environment: development`.
 
 ## Troubleshooting
 
 Confirm the env vars are loaded in the SAPI you are running (FPM and CLI do not share a shell). A rejected key is cached for about 24 hours. Restart PHP after rotating it. Spans stay empty until tracing is on in Project settings.
 
-## Related docs
+## Next steps
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
-- [Upgrade](upgrade.md)
+- [Best practices](configuration.md)
 - [Laravel](../laravel/README.md)
 - [Silverstripe](../silverstripe/README.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Configuration](../../get-started/project-settings.md)

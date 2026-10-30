@@ -1,0 +1,97 @@
+---
+title: Flutter instrumentation and tracing
+description: >-
+  Screen transactions, Talaria.wrapHttpClient, and W3C traceparent from
+  talaria_flutter into a Serverpod API.
+package: talaria_flutter
+tags:
+  - flutter
+  - instrumentation
+  - tracing
+  - spans
+  - http
+id: flutter-tracing
+navTitle: Tracing
+type: guide
+section: platforms
+platform:
+  - flutter
+feature: []
+order: 30
+lastReviewed: '2026-10-29'
+owner: docs
+---
+# Flutter instrumentation and tracing
+
+## What you're setting up
+
+Turn **Tracing** on in [Project settings](../../get-started/project-settings.md). Span APIs match the [Dart SDK](../dart/tracing.md). Successful transactions follow the traces sample rate. Error transactions are always sent. HTTP uses W3C `traceparent`.
+
+```dart
+await TalariaFlutter.init(TalariaOptions(
+  apiKey: const String.fromEnvironment('TALARIA_BROWSER_API_KEY'),
+  release: const String.fromEnvironment('TALARIA_RELEASE'),
+));
+```
+
+## Steps
+
+### 1. Screen transactions
+
+[TalariaNavigatorObserver](navigation.md) and `TalariaFlutter.setScreen` start a short INTERNAL transaction and finish it on the next idle frame (10 second cap). Use them for page-load timing. Start your own transaction for a multi-step user action. A shell route does not stay open to parent later HTTP calls.
+
+### 2. Application HTTP
+
+```dart
+import 'package:http/http.dart' as http;
+
+final httpClient = Talaria.wrapHttpClient(http.Client());
+```
+
+Do not wrap Talaria's ingest client. There is no `talaria_dio` package. Wrap Dio with a CLIENT span and `traceparent` injection yourself when you need it, and skip Talaria ingest URLs.
+
+### 3. Manual spans
+
+```dart
+final span = Talaria.startTransaction('checkout');
+try {
+  await submit();
+  span.setStatus(SpanStatus.ok);
+} catch (error, stackTrace) {
+  span.markError(message: error.toString());
+  await Talaria.captureException(error, stackTrace: stackTrace);
+  rethrow;
+} finally {
+  span.finish();
+}
+```
+
+### 4. Continue into Serverpod
+
+When this app calls a Serverpod API that runs `talaria_serverpod`, outbound `traceparent` becomes the parent of the Relic SERVER span. The waterfall crosses the process boundary.
+
+Error events from Flutter hooks attach `traceId` and `spanId` when a screen or HTTP span is in scope, so Issues can open the trace.
+
+### 5. Flavors and dart-define
+
+```bash
+flutter run \
+  --dart-define=TALARIA_BROWSER_API_KEY=tal_pk_prod_nz1_… \
+  --dart-define=TALARIA_RELEASE=1.4.2+42
+```
+
+The API key decides the environment. Give each flavor its own key so those issues stay separate. Set `release` from the build number or commit SHA.
+
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
+
+- [Flutter SDK](README.md)
+- [Navigation and screens](navigation.md)
+- [Errors, logs, and breadcrumbs](errors.md)
+- [Dart instrumentation](../dart/tracing.md)
+- [Serverpod instrumentation](../serverpod/tracing.md)
+- [Configuration](../../get-started/project-settings.md)
+- [Troubleshooting](troubleshooting.md)
