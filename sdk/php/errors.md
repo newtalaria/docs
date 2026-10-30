@@ -1,14 +1,35 @@
 ---
-title: PHP errors, logs, and breadcrumbs
-description: captureException, PSR-3 Talaria\Logger, breadcrumbs, and user context on talaria/talaria.
-sdk: php
+title: 'PHP errors, logs, and breadcrumbs'
+description: 'Capture exceptions, logs, breadcrumbs, and user context in php with Talaria.'
 package: talaria/talaria
-tags: [php, errors, logs, breadcrumbs, identity]
+tags:
+  - php
+  - errors
+  - logs
+  - breadcrumbs
+  - identity
+id: php-errors
+navTitle: Errors and logs
+type: guide
+section: platforms
+platform:
+  - php
+feature:
+  - issues
+  - logs
+order: 20
+lastReviewed: '2026-10-29'
+owner: docs
 ---
-
 # PHP errors, logs, and breadcrumbs
 
-## Errors
+## What you're setting up
+
+Capture exceptions, logs, breadcrumbs, and user context in php with Talaria.
+
+## Steps
+
+### 1. Errors
 
 Uncaught throwables are captured when default integrations are on. Catch recoverable work yourself:
 
@@ -29,7 +50,7 @@ Talaria::captureMessage('Checkout failed closed', 'error');
 
 `minLevel` of `warning` drops info and debug messages. Exceptions are errors, so they still pass.
 
-## Logs
+### 2. Logs
 
 `Talaria\Logger` implements PSR-3. Severity methods on the facade send the same stream.
 
@@ -45,7 +66,7 @@ Talaria::error('Charge declined');
 
 Levels are `debug`, `info`, `warning`, `error`, and `fatal`. `warn` is `warning`. A scoped logger may use a lower `minLevel` than the client unless `enforceDefaultLevel` is true.
 
-## Breadcrumbs
+### 3. Breadcrumbs
 
 ```php
 Talaria::addBreadcrumb([
@@ -58,7 +79,7 @@ Talaria::addBreadcrumb([
 
 Guzzle, PDO, and Redis helpers add their own crumbs. The trail is attached to the next error (up to 50).
 
-## Identity and context
+### 4. Identity and context
 
 `setUser` and `setTags` live on the client. Prefer a processor when the PHP process is long-lived and the user changes every request. `resetRequestState()` clears request scope between requests.
 
@@ -72,8 +93,12 @@ Set `release` and `commitSha` in init. Fingerprints are computed on the server.
 
 Call `Talaria::flush()` before a CLI script exits.
 
-## Related
+## Check it worked
+
+Follow the verification on this platform's [overview](README.md).
+
+## Next steps
 
 - [PHP SDK](README.md)
-- [Instrumentation and tracing](instrumentation.md)
-- [Best practices](best-practices.md)
+- [Instrumentation and tracing](tracing.md)
+- [Best practices](configuration.md)

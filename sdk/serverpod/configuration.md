@@ -1,0 +1,86 @@
+---
+title: Serverpod configuration
+description: 'Release, sampling, analytics, and TalariaServerpodFlags for talaria_serverpod.'
+package: talaria_serverpod
+tags:
+  - serverpod
+  - analytics
+  - feature-flags
+  - sampling
+  - release
+id: serverpod-configuration
+navTitle: Configuration
+type: guide
+section: platforms
+platform:
+  - serverpod
+feature:
+  - analytics
+  - feature-flags
+order: 50
+lastReviewed: '2026-10-29'
+owner: docs
+---
+# Serverpod configuration
+
+## What you're setting up
+
+Release, sampling, analytics, and TalariaServerpodFlags for talaria_serverpod.
+
+## Steps
+
+### 1. Release
+
+Set `TALARIA_RELEASE` to the version or git SHA of this server build. Local runs should still send one. A Flutter client that calls this API should send its own release. The two strings describe different artifacts.
+
+### 2. API key and environment
+
+The API key chooses the environment. Keep it in the server environment, not in the Flutter app's define, unless you intend the app and the server to report as the same environment. Restart after rotating a rejected key. The failure is cached for about 24 hours.
+
+### 3. Sampling
+
+Successful traces follow the traces sample rate from Project settings. Error traces stay. A response with `retry: false` stops that signal until the process restarts.
+
+### 4. Project settings
+
+Tracing and analytics follow [Project configuration](../../get-started/project-settings.md). Register `databaseInterceptor` before the first request even though spans wait for that document. You cannot add the interceptor later.
+
+### 5. Analytics
+
+Enable Analytics in Project settings. Pass `userId` or `anonymousId` yourself. The server does not copy a Flutter client's anonymous id unless you send it on the call.
+
+```dart
+await Talaria.analytics.track(
+  'Invoice Sent',
+  properties: {'plan': 'pro'},
+  userId: userId,
+);
+```
+
+See [Product analytics setup](../../features/analytics.md).
+
+### 6. Feature flags
+
+Prefer local definitions so a mid-request read does not wait on the network. The API key needs `flags:read`. `GET /v1/flags` accepts a secret key only.
+
+```dart
+await TalariaServerpodFlags.ensureLocalDefinitions();
+final on = await TalariaServerpodFlags.boolVariation('new-checkout', false);
+```
+
+`stringVariation` and `jsonVariation` take a key and a default. `setContext` sets the user, organisation, and attributes used for evaluation. When the flag is off, or definitions have not loaded, the default is returned.
+
+### 7. Privacy in events
+
+Database spans omit bind values. Do not put tokens in breadcrumb data or in a diagnostic `extra` you add yourself. `bindRequestUser` stores the user id for that session only.
+
+## Check it worked
+
+`search_issues` and, after tracing is on, a trace for one endpoint call in the same environment as the key. `get_project_stats` analytics counts stay at 0 while analytics is off.
+
+## Next steps
+
+- [Serverpod SDK](README.md)
+- [Instrumentation and tracing](tracing.md)
+- [Errors, logs, and breadcrumbs](errors.md)
+- [Dart best practices](../dart/configuration.md)

@@ -1,0 +1,37 @@
+# Host/runtime registry for Deploy & CI section
+# Collectors moved here per PM decision - awaiting UX's updated paths
+
+- id: kubernetes
+  label: Kubernetes
+  icon: Container
+  summary: Deploy with Helm, collect logs via OpenTelemetry Collector.
+  status: stable
+  order: 10
+
+- id: sitehost
+  label: SiteHost
+  icon: Server
+  summary: Container logs and supervisord health checks on SiteHost.
+  status: stable
+  order: 20
+
+- id: docker
+  label: Docker
+  icon: Container
+  summary: Run in any container runtime with env vars and log forwarding.
+  status: hidden
+  order: 30
+
+- id: vercel
+  label: Vercel
+  icon: Triangle
+  summary: Deploy Next.js with env vars and release stamps.
+  status: hidden
+  order: 40
+
+- id: fly
+  label: Fly.io
+  icon: Plane
+  summary: Deploy with flyctl and forward logs to Talaria.
+  status: hidden
+  order: 50

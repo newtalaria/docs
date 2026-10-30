@@ -1,29 +1,66 @@
 ---
 title: React SDK
-description: Quick setup for @newtalaria/react — install, init, ErrorBoundary, and the first error. Tracing, replay, analytics, and feature flags.
-sdk: react
-package: "@newtalaria/react"
-tags: [react, javascript, install, init]
+description: >-
+  Install the Talaria react SDK and capture errors, logs, and traces from your
+  react application.
+package: '@newtalaria/react'
+tags:
+  - react
+  - javascript
+  - install
+  - init
+id: react
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - react
+feature: []
+order: 10
+lastReviewed: '2026-10-30'
+owner: docs
 ---
 
 # React SDK
 
-`@newtalaria/react` (0.5.3) re-exports `@newtalaria/browser` and adds an error boundary, the React 19 error handler, a Profiler, and a React Router helper.
+## What you're setting up
 
-## Quick setup
+`@newtalaria/react` (0.6.0) re-exports `@newtalaria/browser` and adds an error boundary, the React 19 error handler, a Profiler, and a React Router helper.
+
+**What you can do**
+
+| Capability | Where |
+| --- | --- |
+| Browser errors plus `ErrorBoundary` and the React 19 handler | [Errors, logs, and breadcrumbs](errors.md) |
+| Browser spans, Profiler commits, and React Router | [Instrumentation and tracing](tracing.md) |
+| Analytics, feature flags, session replay, heatmaps, and consent | [Best practices](configuration.md) |
+| Source maps | [JavaScript source maps](../javascript/../../guides/upload-javascript-source-maps.md) |
+
+Logs, breadcrumbs, identity, web vitals, replay, and heatmaps are the browser SDK. Tracing and the other product signals follow [Project configuration](../../get-started/project-settings.md).
+
+## Why use this
+
+Install the Talaria react SDK and capture errors, logs, and traces from your react application.
+
+## Before you start
+
+Pass the key from the build, not from a Node `process.env` read at runtime in the browser.
+
+## Steps
+
+### 1. Quick setup
 
 ```bash
 npm install @newtalaria/react
 ```
 
-Init once, before `createRoot`. The API key is a public client ingest credential. A bundler may inline it at build time. The key decides the environment.
+Init once, before `createRoot`. The API key is a public client ingest credential. A bundler may inline it at build time. The key decides the environment. This SDK refuses a secret `tal_sk_` key or a `tal_mon_` token at init.
 
 ```javascript
 import { Talaria } from '@newtalaria/react';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  apiKey: 'tal_pk_prod_nz1_…',
   release: '1.0.0',
   minLevel: 'warning',
 });
@@ -39,58 +76,49 @@ import { ErrorBoundary } from '@newtalaria/react';
 </ErrorBoundary>
 ```
 
-Confirm with MCP `search_errors` and `environment: development`.
+Confirm with MCP `search_issues` and `environment: development`.
 
-## What you can do
-
-| Capability | Where |
-| --- | --- |
-| Browser errors plus `ErrorBoundary` and the React 19 handler | [Errors, logs, and breadcrumbs](errors.md) |
-| Browser spans, Profiler commits, and React Router | [Instrumentation and tracing](instrumentation.md) |
-| Analytics, feature flags, session replay, heatmaps, and consent | [Best practices](best-practices.md) |
-| Source maps | [JavaScript source maps](../javascript/source-maps.md) |
-
-Logs, breadcrumbs, identity, web vitals, replay, and heatmaps are the browser SDK. Tracing and the other product signals follow [Project configuration](../../getting-started/configuration.md).
-
-## Install
+### 2. Install
 
 ```bash
 npm install @newtalaria/react
 ```
 
-## Initialization
+### 3. Initialization
 
 ```javascript
 import { Talaria } from '@newtalaria/react';
 
 Talaria.init({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: 'tal_live_…',
+  apiKey: 'tal_pk_prod_nz1_…',
   release: '1.4.2',
   minLevel: 'warning',
 });
 ```
 
-## App init vs Project settings
+### 4. App init vs Project settings
 
-Init holds `dsn`, `apiKey`, `release`, and `minLevel`. The API key decides the environment. Tracing, analytics, heatmaps, and session replay follow Project settings. Set `remoteConfig: false` only when you want errors without fetching that document.
+Init holds `url`, `apiKey`, `release`, and `minLevel`. The API key decides the environment. Tracing, analytics, heatmaps, and session replay follow Project settings. Set `remoteConfig: false` only when you want errors without fetching that document.
 
-## API key
+### 5. API key
 
-Pass the key from the build, not from a Node `process.env` read at runtime in the browser. A development key is what `setup_project` returns. A deployed app that should report production uses a production key. Send `release` as a version or SHA, and upload source maps for that same release.
+A development key is what `setup_project` returns. A deployed app that should report production uses a production key. Send `release` as a version or SHA, and upload source maps for that same release.
 
-## Verification
+> [!CAUTION]
+> When using Vite, use `VITE_TALARIA_BROWSER_API_KEY` for browser code. **Never** use `VITE_TALARIA_API_KEY` or `VITE_TALARIA_RELEASE_KEY`—server keys must not carry a public prefix. For server code, use the unprefixed variables.
 
-Trigger a render error inside `ErrorBoundary`, or call `Talaria.captureException`. Look in Issues, or call `search_errors` with `environment: development`.
+## Check it worked
+
+Trigger a render error inside `ErrorBoundary`, or call `Talaria.captureException`. Look in Issues, or call `search_issues` with `environment: development`.
 
 ## Troubleshooting
 
 A rejected key is cached for about 24 hours. Reload after you rotate it. Profiler spans and replay stay empty until Project settings allow them.
 
-## Related docs
+## Next steps
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
+- [Best practices](configuration.md)
 - [Browser SDK](../javascript/README.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Configuration](../../get-started/project-settings.md)

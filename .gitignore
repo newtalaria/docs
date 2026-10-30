@@ -1,0 +1,10 @@
+# Tools
+_tools/node_modules/
+_tools/dist/
+
+# Generated outputs are committed
+# (CI validates they're fresh)
+
+# OS
+.DS_Store
+Thumbs.db

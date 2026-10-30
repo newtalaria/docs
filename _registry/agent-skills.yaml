@@ -1,0 +1,34 @@
+- id: talaria-get-started
+  stage: get-started
+  label: Get started
+  description: Set up a new Talaria project and send your first event.
+  order: 10
+  playbook: null
+
+- id: talaria-instrument
+  stage: instrument
+  label: Instrument
+  description: Install Talaria SDK and wire errors, logs, and tracing.
+  order: 20
+  playbook: add-talaria
+
+- id: talaria-observe-performance
+  stage: observe
+  label: Observe performance
+  description: Identify slow queries, N+1s, and suspect spans.
+  order: 30
+  playbook: observe-performance
+
+- id: talaria-triage-issue
+  stage: triage
+  label: Triage issue
+  description: Check an open issue, then resolve or ignore it with a note.
+  order: 40
+  playbook: triage-issues
+
+- id: talaria-verify-fix
+  stage: verify
+  label: Verify fix
+  description: Confirm a fix deployed and the issue no longer occurs.
+  order: 50
+  playbook: verify-fix

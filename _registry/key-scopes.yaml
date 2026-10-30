@@ -1,0 +1,75 @@
+# API key scopes (v1.4.2)
+# pk or sk: data :write scopes and flags:evaluate
+# sk only: flags:read, monitors:write
+# releases:write: secret key and release key (a release key is an sk key)
+# MCP scopes stay on OAuth
+
+- id: events:write
+  label: events:write
+  credential:
+    - publishable-key
+    - secret-key
+
+- id: spans:write
+  label: spans:write
+  credential:
+    - publishable-key
+    - secret-key
+
+- id: logs:write
+  label: logs:write
+  credential:
+    - publishable-key
+    - secret-key
+
+- id: metrics:write
+  label: metrics:write
+  credential:
+    - publishable-key
+    - secret-key
+
+- id: replays:write
+  label: replays:write
+  credential:
+    - publishable-key
+    - secret-key
+
+- id: analytics:write
+  label: analytics:write
+  credential:
+    - publishable-key
+    - secret-key
+
+- id: flags:evaluate
+  label: flags:evaluate
+  credential:
+    - publishable-key
+    - secret-key
+
+- id: flags:read
+  label: flags:read
+  credential:
+    - secret-key
+
+- id: releases:write
+  label: releases:write
+  credential:
+    - secret-key
+    - release-key
+
+- id: monitors:write
+  label: monitors:write
+  credential:
+    - secret-key
+
+- id: mcp:read
+  label: mcp:read
+  credential: oauth
+
+- id: mcp:write
+  label: mcp:write
+  credential: oauth
+
+- id: mcp:keys
+  label: mcp:keys
+  credential: oauth

@@ -1,14 +1,31 @@
 ---
 title: Next.js SDK
-description: Quick setup for @newtalaria/nextjs — client, server, and edge init, then the first error. Tracing, replay, and analytics.
-sdk: nextjs
-package: "@newtalaria/nextjs"
-tags: [nextjs, javascript, install, init]
+description: >-
+  Install the Talaria nextjs SDK and capture errors, logs, and traces from your
+  nextjs application.
+package: '@newtalaria/nextjs'
+tags:
+  - nextjs
+  - javascript
+  - install
+  - init
+id: nextjs
+navTitle: Overview
+type: quickstart
+section: platforms
+platform:
+  - nextjs
+feature: []
+order: 10
+lastReviewed: '2026-10-30'
+owner: docs
 ---
 
 # Next.js SDK
 
-`@newtalaria/nextjs` (0.5.3) has three runtimes. Import the subpath for the runtime you are in.
+## What you're setting up
+
+`@newtalaria/nextjs` (0.6.0) has three runtimes. Import the subpath for the runtime you are in.
 
 | Runtime | Import |
 | --- | --- |
@@ -17,22 +34,43 @@ tags: [nextjs, javascript, install, init]
 | Edge | `@newtalaria/nextjs/edge` |
 | `next.config` | `@newtalaria/nextjs/config` |
 
+**What you can do**
+
+| Capability | Where |
+| --- | --- |
+| Client and server capture. Edge captures exceptions and messages | [Errors, logs, and breadcrumbs](errors.md) |
+| Client browser spans, server actions, route handlers, outgoing HTTP | [Instrumentation and tracing](tracing.md) |
+| Client analytics, flags, replay, heatmaps, and consent. Server analytics and flags | [Best practices](configuration.md) |
+| Client source maps | [Upload JavaScript source maps](../../guides/upload-javascript-source-maps.md) |
+
+Edge has a scope and breadcrumbs and does not open spans, read project config, or send analytics. Client replay, heatmaps, web vitals, and consent run in the browser.
+
+## Why use this
+
 The package root re-exports the client. Prefer the explicit subpath.
 
-## Quick setup
+## Before you start
+
+Do not pass `environment` in init.
+
+## Steps
+
+### 1. Quick setup
 
 ```bash
 npm install @newtalaria/nextjs
 ```
 
-Client (`instrumentation-client.ts`). `NEXT_PUBLIC_` values are inlined into the browser bundle. The key is a public client ingest credential and decides the environment.
+Client (`instrumentation-client.ts`). `NEXT_PUBLIC_` values are inlined into the browser bundle. The publishable key decides the environment. Leave `url` unset on Talaria Cloud. Set `url` or `NEXT_PUBLIC_TALARIA_URL` only for a custom domain.
+
+> [!CAUTION]
+> Use `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY` for the browser. **Never** use `NEXT_PUBLIC_TALARIA_API_KEY` or `NEXT_PUBLIC_TALARIA_RELEASE_KEY`—server keys must not carry a public prefix.
 
 ```javascript
 import { initClient } from '@newtalaria/nextjs/client';
 
 initClient({
-  dsn: 'https://ingest.newtalaria.com',
-  apiKey: process.env.NEXT_PUBLIC_TALARIA_API_KEY,
+  apiKey: process.env.NEXT_PUBLIC_TALARIA_BROWSER_API_KEY,
   release: process.env.NEXT_PUBLIC_TALARIA_RELEASE,
   minLevel: 'warning',
 });
@@ -45,7 +83,6 @@ export async function register() {
   if (process.env.NEXT_RUNTIME === 'nodejs') {
     const { initServer } = await import('@newtalaria/nextjs/server');
     initServer({
-      dsn: 'https://ingest.newtalaria.com',
       apiKey: process.env.TALARIA_API_KEY,
       release: process.env.TALARIA_RELEASE,
     });
@@ -68,50 +105,39 @@ export default withTalariaConfig({
 });
 ```
 
-Send a client exception and confirm with `search_errors` and `environment: development`.
+Send a client exception and confirm with `search_issues` and `environment: development`.
 
-## What you can do
-
-| Capability | Where |
-| --- | --- |
-| Client and server capture. Edge captures exceptions and messages | [Errors, logs, and breadcrumbs](errors.md) |
-| Client browser spans, server actions, route handlers, outgoing HTTP | [Instrumentation and tracing](instrumentation.md) |
-| Client analytics, flags, replay, heatmaps, and consent. Server analytics and flags | [Best practices](best-practices.md) |
-| Client source maps | [Upload JavaScript source maps](../../guides/upload-javascript-source-maps.md) |
-
-Edge has a scope and breadcrumbs and does not open spans, read project config, or send analytics. Client replay, heatmaps, web vitals, and consent run in the browser.
-
-## Install
+### 2. Install
 
 ```bash
 npm install @newtalaria/nextjs
 ```
 
-## Initialization
+### 3. Initialization
 
-Call `initClient` from `instrumentation-client.ts`, `initServer` from the Node branch of `instrumentation.ts`, and `initEdge` from the edge branch. Use a browser key (`NEXT_PUBLIC_TALARIA_API_KEY`) on the client and a server key (`TALARIA_API_KEY`) in Node and Edge. They can be the same project key or two keys. Each key's environment is what events from that runtime report.
+Call `initClient` from `instrumentation-client.ts`, `initServer` from the Node branch of `instrumentation.ts`, and `initEdge` from the edge branch. Use a publishable `tal_pk_` key (`NEXT_PUBLIC_TALARIA_BROWSER_API_KEY`) on the client and a secret `tal_sk_` key (`TALARIA_API_KEY`) in Node and Edge. The client refuses `tal_sk_` and `tal_mon_` values, and the secret key never reaches the browser bundle. Each key's environment is what events from that runtime report. Leave `TALARIA_URL` and `NEXT_PUBLIC_TALARIA_URL` unset on Talaria Cloud; the host is `https://ingest-<cell>.newtalaria.com` from each key.
 
 `withTalariaConfig` sets server externals so `@newtalaria/node` is not bundled into the browser. It does not upload source maps. Upload those with `@newtalaria/cli` for the same `release` as `initClient`.
 
-## App init vs Project settings
+### 4. App init vs Project settings
 
-Client and server load tracing, analytics, heatmaps, and replay from [Project settings](../../getting-started/configuration.md). Edge does not fetch that document. Set `remoteConfig: false` on the client or server only when that runtime should send errors without the document.
+Client and server load tracing, analytics, heatmaps, and replay from [Project settings](../../get-started/project-settings.md). Edge does not fetch that document. Set `remoteConfig: false` on the client or server only when that runtime should send errors without the document.
 
-## API key
+### 5. API key
 
-Do not pass `environment` in init. A local `setup_project` key is a development key. Production traffic needs a production key. Send `release` as a version or SHA.
+Next.js takes two keys: `TALARIA_API_KEY` (`tal_sk_<env>_<cell>_…`) on the server and `NEXT_PUBLIC_TALARIA_BROWSER_API_KEY` (`tal_pk_<env>_<cell>_…`) in the browser. Source map upload at build time uses `TALARIA_RELEASE_KEY`, a secret key with `releases:write`. A local `setup_project` key is a development key. Production traffic needs production keys. Send `release` as a version or SHA.
 
-## Verification
+## Check it worked
 
-Throw in a client component and in a server action you wrapped with `withServerAction`. `search_errors` with `environment: development` should show both.
+Throw in a client component and in a server action you wrapped with `withServerAction`. `search_issues` with `environment: development` should show both.
 
 ## Troubleshooting
 
 A rejected key is cached for about 24 hours. Reload the page or restart the server after rotating it. Server spans stay empty until tracing is on in Project settings and `initServer` has run.
 
-## Related docs
+## Next steps
 
-- [Instrumentation and tracing](instrumentation.md)
+- [Instrumentation and tracing](tracing.md)
 - [Errors, logs, and breadcrumbs](errors.md)
-- [Best practices](best-practices.md)
-- [Configuration](../../getting-started/configuration.md)
+- [Best practices](configuration.md)
+- [Configuration](../../get-started/project-settings.md)

@@ -1,0 +1,6 @@
+# Minimal stub per PM - single 'docs' owner for phase 1
+# Do not invent per-page owners until PM provides the list
+
+- id: docs
+  label: Docs
+  github: "@newtalaria/docs"
