@@ -11,7 +11,7 @@ platform: []
 feature:
   - monitors
 order: 100
-lastReviewed: '2026-10-29'
+lastReviewed: '2026-10-30'
 owner: docs
 ---
 # Job monitors
@@ -47,40 +47,48 @@ curl -fsS -X POST "https://ingest-nz1.newtalaria.com/v1/check-ins" \
 
 `status` is `in_progress`, `ok`, or `error`. Optional fields are `runId`, `durationSeconds`, and `logTail`. `POST /v1/check-ins` needs a monitor token (`tal_mon_`). `POST /v1/monitors/{slug}/check-ins` needs a **secret key** with `monitors:write`.
 
-The SiteHost deploy action writes these lines when the app contains `talaria/monitors.yaml`:
+The SiteHost deploy action runs `vendor/bin/talaria-sitehost install` (from `talaria/silverstripe`) when the app contains `talaria/sitehost/monitors.json`. The installer registers each job and writes one crontab block with these lines:
 
-```yaml
-version: 1
-monitors:
-  - slug: process-job-queue
-    schedule:
-      crontab: "* * * * *"
-      timezone: Pacific/Auckland
-    marginSeconds: 120
-    maxRuntimeSeconds: 55
-    command: "cd /container/application && vendor/bin/sake dev/tasks/ProcessJobQueueTask"
-  - slug: sync-careers
-    schedule:
-      crontab: "0 1 * * *"
-      timezone: Pacific/Auckland
-    marginSeconds: 120
-    maxRuntimeSeconds: 3600
-    command: "cd /container/application && vendor/bin/sake dev/tasks/SyncCareersDataTask w=1"
-  - slug: sync-businesses
-    schedule:
-      crontab: "0 2 * * *"
-      timezone: Pacific/Auckland
-    marginSeconds: 120
-    maxRuntimeSeconds: 3600
-    command: "cd /container/application && vendor/bin/sake dev/tasks/SyncBusinessesDataTask w=1"
-  - slug: sync-shopify
-    schedule:
-      crontab: "0 0,12 * * *"
-      timezone: Pacific/Auckland
-    marginSeconds: 120
-    maxRuntimeSeconds: 3600
-    command: "cd /container/application && vendor/bin/sake dev/tasks/SyncShopifyDataTask"
+```json
+{
+  "jobs": [
+    {
+      "slug": "process-job-queue",
+      "crontab": "* * * * *",
+      "timezone": "Pacific/Auckland",
+      "marginSeconds": 120,
+      "maxRuntimeSeconds": 55,
+      "command": "cd /container/application && vendor/bin/sake dev/tasks/ProcessJobQueueTask"
+    },
+    {
+      "slug": "sync-careers",
+      "crontab": "0 1 * * *",
+      "timezone": "Pacific/Auckland",
+      "marginSeconds": 120,
+      "maxRuntimeSeconds": 3600,
+      "command": "cd /container/application && vendor/bin/sake dev/tasks/SyncCareersDataTask w=1"
+    },
+    {
+      "slug": "sync-businesses",
+      "crontab": "0 2 * * *",
+      "timezone": "Pacific/Auckland",
+      "marginSeconds": 120,
+      "maxRuntimeSeconds": 3600,
+      "command": "cd /container/application && vendor/bin/sake dev/tasks/SyncBusinessesDataTask w=1"
+    },
+    {
+      "slug": "sync-shopify",
+      "crontab": "0 0,12 * * *",
+      "timezone": "Pacific/Auckland",
+      "marginSeconds": 120,
+      "maxRuntimeSeconds": 3600,
+      "command": "cd /container/application && vendor/bin/sake dev/tasks/SyncShopifyDataTask"
+    }
+  ]
+}
 ```
+
+`jobs` must be a non-empty array. Each job needs `slug`, `crontab` (5 fields), and `command`. `timezone` defaults to `UTC`. `marginSeconds` and `maxRuntimeSeconds` are optional integers.
 
 Pass a secret `TALARIA_API_KEY` into the deploy when the action registers monitors on `/v1/monitors/{slug}/check-ins`. Leave `TALARIA_URL` unset on Talaria Cloud. The action stores the monitor token on the container and re-applies the crontab after an image replacement. The token itself is only valid on `POST /v1/check-ins`.
 
