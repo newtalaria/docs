@@ -52,7 +52,7 @@ The **Talaria** plugin for Cursor and Grok Bot includes five closed-loop skills 
 | ----- | ----------- |
 | `talaria-get-started` | Connect, confirm org/project, first smoke read (`get_doc, list_docs, and search_docs` or `search_issues`) |
 | `talaria-instrument` | SDK install, create project/key (`setup_project`), send first test event |
-| `talaria-observe-performance` | Health (`get_project_stats`), traces, spans, queries, sessions, monitors |
+| `talaria-observe-performance` | Health (`get_project_stats`), traces, spans, queries, sessions, monitors, logs (`search_logs`) |
 | `talaria-triage-issue` | Investigate one issue (pack → trace/replay/suspects → optional GitHub issue) |
 | `talaria-verify-fix` | After release: `verify_fix` verdict, optional `update_issue_status` |
 
@@ -83,16 +83,24 @@ For install tasks, start with `get_doc` on `agents/add-talaria`.
 | `list_projects` | List org projects |
 | `get_project` | Safe project settings (tracing/analytics/replay/heatmaps/sample rates) — no webhook secrets |
 | `search_issues` / `get_issue` | Grouped issues and detail, including comments on `get_issue`. `get_issue` also returns `investigation`: issue, latest event, trace summary, replay summary, source slice, and breadcrumbs. `search_issues` takes `environment` |
-| `get_replay` | Replay summary (url, duration, status, dashboard URL). No recording bytes |
+| `get_replay` | Replay summary (url, duration, status, dashboard URL) for `projectId` and `replayId`. No recording bytes |
 | `get_source_context` | Commit-exact GitHub source for one stack frame (`projectId`, `eventId`, `frameIndex`) |
-| `search_events` / `get_event` | Event instances. `search_events` takes `environment` and `issueId`. `get_event` returns the rewritten JavaScript frame when a source map matches |
+| `search_events` / `get_event` | Event instances. `search_events` takes `projectId`, and optional `environment`, `issueId`, `query`, `userId`, `sessionId`, `release`, `traceId`, `from`, `to`, and `limit`. `get_event` takes `eventId` and returns that instance: stack, breadcrumbs, release, user, session, and a dashboard URL |
 | `get_source_map` | Original source window for one stored frame (`eventId`, `frameIndex`). `mapped: false` includes the `fileName` still to upload |
-| `search_traces` / `get_trace` | Transactions / waterfalls. `search_traces` takes `environment`. Set `grouped: true` and `sort` (`count`, `p95`, `impact`, `errorRate`) for one row per transaction name with count, error count, p50, and p95 |
+| `search_traces` / `get_trace` | Transactions / waterfalls. `search_traces` takes `projectId` and optional `environment`, `errorsOnly`, `grouped`, `sort` (only when grouped), `route`, `from`, `to`, and `limit`. Grouped rows include count, error count, p50, and p95. `get_trace` takes `projectId` and `traceId` |
 | `list_suspect_spans` | Child spans with the highest p95 in the window. Takes `environment` |
 | `list_database_queries` | Database statements grouped by text: calls, total time, p95, errors, and N+1 trace count. `nPlusOneOnly` keeps N+1 statements. Takes `environment` |
-| `search_sessions` | Product sessions. Takes `environment` |
+| `search_sessions` | Product sessions. Takes `projectId`, and optional `userId`, `sessionId`, `from`, `to`, `environment`, and `limit` |
 | `get_project_stats` | Health snapshot for one environment, plus per-environment counts. Takes `environment` |
-| Feature flag tools | List / get / kill-switch / percent rollout. One flag definition per project; evaluation uses the API key's environment |
+| `list_issue_links` | Linked GitHub issues for one `issueId` |
+| `verify_fix` | Whether a fix held after release. Required `issueId`. Optional `release` or `sha` |
+| `list_suspect_commits` | Suspect commits for one issue. Required `issueId`. Optional `eventId` |
+| `list_releases` / `get_release` | Project releases. `list_releases` takes `projectId`, and optional `environment` and `limit`. `get_release` takes `projectId`, `version`, and optional `environment` |
+| `wait_for_event` | Wait for a matching event. Required `projectId` and `since` (ISO-8601). Optional `issueId`, `release`, `environment`, `query`, `userId`, `sessionId`, and `timeoutSeconds` (default 15, clamped to 1–30) |
+| `list_feature_flags` / `get_feature_flag` | List flags, or one flag. `get_feature_flag` takes `flagId`, or `projectId` plus `key`. One flag definition per project; evaluation uses the API key's environment |
+| `list_monitors` / `list_monitor_runs` | `list_monitors` takes `projectId`. `list_monitor_runs` takes `monitorId` and optional `limit` (default 30, clamped to 1–50) |
+| `search_logs` | Recent log lines for `projectId`. Optional `traceId`, `serviceName`, `minSeverity`, and `limit` |
+| `list_agent_runs` | Recent agent runs for the organization. Optional `limit` (default 20, clamped to 1–50) |
 
 ### Elevated scopes
 
@@ -100,6 +108,8 @@ For install tasks, start with `get_doc` on `agents/add-talaria`.
 | ---- | ----- | ------- |
 | `update_project_settings` / `create_project` / `send_test_event` | `mcp:write` | Safe settings, create project, ingest a test event |
 | `update_issue_status` / `add_issue_comment` | `mcp:write` | Resolve, ignore, or reopen one issue (a note is required to resolve or ignore, and is stored as a comment), or add a comment without changing status |
+| `create_github_issue` / `link_github_issue` / `unlink_github_issue` | `mcp:write` | Create, link, or unlink one GitHub issue. `create_github_issue` takes `issueId` and optional `dry_run`. `link_github_issue` takes `issueId` and `reference` (URL, `owner/repo#123`, or `#123`) |
+| `set_feature_flag_off` / `set_feature_flag_percent` | `mcp:write` | Turn a flag off, or set `percent` (0–100). Both take `flagId`, or `projectId` plus `key` |
 | `create_api_key` / `setup_project` | `mcp:keys` | Mint a key once; never log or commit. Omit `scopes` for the publishable key (every publishable scope). `scopes: ["releases:write"]` is a release key for source-map upload. `setup_project` stays on the publishable key |
 
 ## Integration workflow
@@ -108,7 +118,7 @@ See [Add Talaria with an agent](../add-talaria.md), [Triage issues with an agent
 
 ## Environment on read tools
 
-`search_issues`, `search_events`, `search_traces`, `list_suspect_spans`, `list_database_queries`, `search_sessions`, and `get_project_stats` take `environment`: `development`, `test`, `staging`, or `production`. The default is production when the project has a production key, otherwise development. An agent that just installed should query development. `get_project_stats` `countsByEnvironment` is analytics volume for each environment and stays 0 when analytics is off. Install success is `search_issues` or `search_events`.
+`search_issues`, `search_events`, `search_traces`, `list_suspect_spans`, `list_database_queries`, `search_sessions`, `get_project_stats`, `list_releases`, `get_release`, and `wait_for_event` take `environment`: `development`, `test`, `staging`, or `production`. The default is production when the project has a production key, otherwise development. An agent that just installed should query development. `get_project_stats` `countsByEnvironment` is analytics volume for each environment and stays 0 when analytics is off. Install success is `search_issues` or `search_events`.
 
 `setup_project` mints a development key. Production shipping is a second key.
 
