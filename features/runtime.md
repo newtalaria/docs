@@ -30,7 +30,7 @@ The Collector stamps these on every log, metric, and check-in:
 
 `POST /otlp/v1/logs` accepts OTLP JSON and protobuf, gzip, and a project API key with `logs:write`. Lines keep `trace_id` and `span_id`. An error line opens an issue when that trace does not already have an SDK exception.
 
-`search_logs` reads lines by trace, service, severity, and time.
+`search_logs` reads lines by `traceId`, `serviceName`, and `minSeverity`.
 
 ## Gauges
 

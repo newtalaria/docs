@@ -44,8 +44,8 @@ Each skill focuses on one phase, hands off to the next when appropriate, and con
 | ----- | ------- | ---------- | ----------------- |
 | `talaria-get-started` | Connect MCP, confirm org/project, first smoke read | `get_connection`, `list_projects`, `get_doc, list_docs, and search_docs`, `search_issues` | *Orientation only — no dedicated playbook* |
 | `talaria-instrument` | SDK install, create project/key, send test event | `setup_project`, `send_test_event`, `search_events`, `get_doc` | [Add Talaria with an agent](add-talaria.md) |
-| `talaria-observe-performance` | Health, traces, spans, queries, sessions, monitors | `get_project_stats`, `search_traces`, `list_suspect_spans`, `list_database_queries` | *Read-only stats — extends playbook tools* |
-| `talaria-triage-issue` | Investigate one issue: pack → trace/replay → optional GitHub | `get_issue`, `get_trace`, `get_replay`, `list_suspect_commits`, `create_github_issue`, `update_issue_status` | [Triage issues with an agent](triage-issues.md) |
+| `talaria-observe-performance` | Health, traces, spans, queries, sessions, monitors | `get_project_stats`, `search_traces`, `list_suspect_spans`, `list_database_queries`, `search_logs`, `list_monitors` | *Read-only stats — extends playbook tools* |
+| `talaria-triage-issue` | Investigate one issue: pack → trace/replay → optional GitHub | `get_issue`, `get_trace`, `get_replay`, `list_suspect_commits`, `list_issue_links`, `create_github_issue`, `update_issue_status` | [Triage issues with an agent](triage-issues.md) |
 | `talaria-verify-fix` | After release: verdict + optional status update | `verify_fix`, `list_releases`, `get_release`, `wait_for_event`, `update_issue_status` | *Extends triage with release verification — see `verify_fix` tool in [MCP](mcp/README.md)* |
 
 ---
@@ -78,8 +78,8 @@ The playbooks are the **detailed how-to**; the skills are **workflow guardrails*
 
 | Scope | Includes |
 | ----- | -------- |
-| `mcp:read` | `get_connection`, `list_projects`, `get_project`, `search_issues`, `get_issue`, `search_events`, `get_event`, `search_traces`, `get_trace`, `get_replay`, `list_suspect_commits`, `get_source_context`, `get_source_map`, `list_suspect_spans`, `list_database_queries`, `search_sessions`, `get_project_stats`, feature flag reads, `list_releases`, `get_release`, `wait_for_event`, `verify_fix` |
-| `mcp:write` | All read tools plus `update_project_settings`, `create_project`, `send_test_event`, `update_issue_status`, `add_issue_comment`, `create_github_issue`, `link_github_issue`, `unlink_github_issue`, feature flag writes |
+| `mcp:read` | `get_connection`, `list_projects`, `get_project`, `search_issues`, `get_issue`, `search_events`, `get_event`, `search_traces`, `get_trace`, `get_replay`, `list_suspect_commits`, `list_issue_links`, `get_source_context`, `get_source_map`, `list_suspect_spans`, `list_database_queries`, `search_sessions`, `get_project_stats`, `list_feature_flags`, `get_feature_flag`, `list_releases`, `get_release`, `wait_for_event`, `verify_fix`, `list_monitors`, `list_monitor_runs`, `search_logs`, `list_agent_runs` |
+| `mcp:write` | All read tools plus `switch_organization`, `update_project_settings`, `create_project`, `send_test_event`, `update_issue_status`, `add_issue_comment`, `create_github_issue`, `link_github_issue`, `unlink_github_issue`, `set_feature_flag_off`, `set_feature_flag_percent` |
 | `mcp:keys` | All write tools plus `create_api_key`, `setup_project` |
 
 Install scopes are `mcp:read mcp:write mcp:keys`. Skills ask before using write tools.

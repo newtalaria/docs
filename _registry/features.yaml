@@ -9,6 +9,10 @@
     - get_issue
     - update_issue_status
     - add_issue_comment
+    - create_github_issue
+    - link_github_issue
+    - list_issue_links
+    - unlink_github_issue
     - verify_fix
     - list_suspect_commits
   skills:
@@ -26,7 +30,8 @@
   mcpTools:
     - search_traces
     - get_trace
-    - get_suspect_spans
+    - list_suspect_spans
+    - list_database_queries
   skills:
     - talaria-observe-performance
   status: stable
@@ -51,7 +56,7 @@
   page: true
   mcpTools:
     - list_monitors
-    - check_in
+    - list_monitor_runs
   status: stable
   order: 40
 
@@ -87,8 +92,8 @@
   productHref: /product
   page: true
   mcpTools:
-    - track_event
-    - identify_user
+    - search_sessions
+    - get_project_stats
   status: stable
   order: 60
 
@@ -135,7 +140,7 @@
   page: true
   mcpTools:
     - list_monitors
-    - check_in
+    - list_monitor_runs
   status: stable
   order: 100
 
@@ -146,6 +151,6 @@
   productHref: /product
   page: false
   mcpTools:
-    - ask_question
+    - list_agent_runs
   status: stable
   order: 110

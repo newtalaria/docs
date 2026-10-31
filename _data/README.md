@@ -6,7 +6,7 @@ Data files that drive generated content.
 
 **Status:** Awaiting export from platform  
 **Source:** `new_talaria_server/tool/gen_mcp_tools_doc.dart`  
-**Count:** 44 tools (platform main a22afa2f)
+**Count:** 44 tools (`dunatron/new_talaria` `docs/mcp-tools.json` at `8c50ec5a`)
 
 This file should be generated from the MCP server tool registry and committed here. The marketing site will import it from this location.
 
@@ -14,21 +14,19 @@ This file should be generated from the MCP server tool registry and committed he
 
 ```json
 {
-  "source": "https://github.com/newtalaria/server",
-  "generatedAt": "2026-10-29T06:00:00Z",
-  "protocolVersions": ["2025-11-25", "2025-06-18", "2025-03-26"],
+  "generatedBy": "new_talaria_server/tool/gen_mcp_tools_doc.dart",
+  "protocolVersions": ["2026-07-28", "2025-11-25", "2025-06-18", "2025-03-26"],
   "count": 44,
   "tools": [
     {
       "name": "get_doc",
-      "title": "Get documentation page",
-      "description": "Fetch a docs page by id or path",
+      "title": "Read a Talaria docs page",
+      "description": "Load one docs page as Markdown (frontmatter + body). Use path or id from list_docs or search_docs.",
       "toolset": "docs",
-      "scope": "read:docs",
-      "readOnlyHint": true,
-      "destructiveHint": false,
+      "scope": "public",
       "params": [
-        { "name": "idOrPath", "type": "string", "required": true, "description": "Page id or path" }
+        { "name": "path", "type": "string", "required": false },
+        { "name": "id", "type": "string", "required": false }
       ]
     }
   ]
