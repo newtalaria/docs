@@ -7,7 +7,7 @@ order: 40
 
 MCP uses **OAuth** or a **personal token** from **Settings › Integrations**. API keys (`tal_pk_…` or `tal_sk_…`) never work on `/mcp`. A personal token lasts 30 days, 90 days, or until you revoke it. Treat it as a secret. Install scopes are `mcp:read mcp:setup mcp:operate`; `mcp:keys` is off by default (add it only when the agent must handle secret or collector keys).
 
-Hosted URL: `https://api.newtalaria.com/mcp`. Transport is Streamable HTTP. The default protocol is `2026-07-28`. The dashboard and these snippets use the read-only project-scoped URL:
+The generated catalogue of the current server export is [MCP tools](/reference/mcp-tools/) (47 tools). Hosted URL: `https://api.newtalaria.com/mcp`. Transport is Streamable HTTP. The default protocol is `2026-07-28`. The dashboard and these snippets use the read-only project-scoped URL:
 
 ```
 https://api.newtalaria.com/mcp/{org}/{project}?readonly=true

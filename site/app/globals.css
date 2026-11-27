@@ -590,3 +590,48 @@ html:not(.has-js) .theme-btn, html:not(.has-js) .platform-switch { display: none
   .platform-switch select { height: var(--hit-target); font-size: 16px; }
   .page-helpful-btns .md-btn { min-height: var(--hit-target); min-width: 44px; }
 }
+
+/* Phase 8: handshake-only project chip */
+html:not(.has-js) .connect-chip { display: none; }
+.connect-chip-slot { display: inline-block; min-width: 8rem; min-height: var(--control-md); }
+.connect-chip-action {
+  font: var(--t-label);
+  color: var(--fg-default);
+  background: var(--bg-muted);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 6px 10px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.connect-chip-action:hover { background: var(--bg-emphasis); }
+.connect-chip-session {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: var(--t-caption);
+  color: var(--fg-muted);
+  border: 1px solid var(--border-default);
+  border-radius: 8px;
+  padding: 4px 8px;
+  max-width: 28rem;
+}
+.connect-chip-label { color: var(--fg-default); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 16rem; }
+.connect-chip-link {
+  font: var(--t-label);
+  color: var(--fg-muted);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.connect-chip-link:hover { color: var(--fg-default); }
+@media (max-width: 900px) {
+  .connect-chip-label { max-width: 8rem; }
+}
+@media (max-width: 600px) {
+  .connect-chip-session { max-width: 11rem; padding: 4px 6px; gap: 6px; }
+  .connect-chip-label { max-width: 5.5rem; }
+}

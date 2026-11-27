@@ -6,6 +6,8 @@ import { MenuToggle } from "@/components/MenuToggle";
 import { PlatformSwitcher } from "@/components/PlatformSwitcher";
 import { SearchDialog } from "@/components/SearchDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ConnectChip } from "@/components/ConnectChip";
+import { Personalize } from "@/components/Personalize";
 
 export function Shell({
   path,
@@ -30,6 +32,7 @@ export function Shell({
         Skip to content
       </a>
       <SearchDialog />
+      <Personalize />
       <header className="header">
         <MenuToggle />
         <a className="brand" href="/">
@@ -46,6 +49,7 @@ export function Shell({
         <div className="header-tools">
           <PlatformSwitcher path={path} sdkSlugs={sdkSlugs} placement="header" />
           {headerSearch ? <HeaderSearch /> : null}
+          <ConnectChip />
           <a className="header-link" href="https://one.newtalaria.com">Dashboard</a>
           <ThemeToggle />
         </div>

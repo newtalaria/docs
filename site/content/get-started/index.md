@@ -17,3 +17,5 @@ Then add a [collector](/guides/collectors/) if you want host or container logs, 
 - [Environments and API keys](/get-started/environments-and-api-keys/)
 - [Project settings](/get-started/project-settings/)
 - [Fail-safe](/get-started/fail-safe/)
+
+On [docs.newtalaria.com](https://docs.newtalaria.com), **Use my project** fills the publishable key, project, and ingest host from the dashboard. Secrets are never written into the page.

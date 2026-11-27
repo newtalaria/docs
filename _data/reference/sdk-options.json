@@ -1,0 +1,296 @@
+{
+  "javascript": {
+    "package": "@newtalaria/browser",
+    "options": [
+      {
+        "name": "apiKey",
+        "required": true,
+        "detail": "Publishable tal_pk_ key for browser and React; secret tal_sk_ key for Node."
+      },
+      {
+        "name": "url",
+        "required": false,
+        "detail": "Ingest origin. Leave unset on Talaria Cloud; derived from the key as https://ingest-<cell>.newtalaria.com."
+      },
+      {
+        "name": "release",
+        "required": false,
+        "detail": "Release name."
+      },
+      {
+        "name": "minLevel",
+        "required": false,
+        "detail": "Minimum severity for captured messages."
+      }
+    ],
+    "source": "site/content/sdk/javascript/configuration.md (SDK checkout was empty in this workspace; options taken from the shipped configuration page and matching official init)."
+  },
+  "php": {
+    "package": "talaria/talaria",
+    "options": [
+      {
+        "name": "apiKey",
+        "required": true,
+        "detail": "Secret tal_sk_ key (or publishable tal_pk_ where the page says so)."
+      },
+      {
+        "name": "url",
+        "required": false,
+        "detail": "Ingest origin, or TALARIA_URL. Leave unset on Talaria Cloud."
+      },
+      {
+        "name": "release",
+        "required": false,
+        "detail": "Release name. Omit in GitHub Actions or GitLab and the SDK sends <ref>@<shortsha>."
+      },
+      {
+        "name": "minLevel",
+        "required": false,
+        "detail": "Minimum severity for captured messages."
+      }
+    ],
+    "source": "site/content/sdk/php/configuration.md (SDK checkout was empty in this workspace)."
+  },
+  "dart": {
+    "package": "talaria",
+    "options": [
+      {
+        "name": "apiKey",
+        "required": true,
+        "detail": "Project API key. Must be present. Official SDKs accept tal_pk_ or tal_sk_ depending on the surface."
+      },
+      {
+        "name": "url",
+        "aliases": [
+          "baseUrl",
+          "dsn"
+        ],
+        "required": false,
+        "detail": "Ingest origin. Leave unset on Talaria Cloud; the SDK derives https://ingest-<cell>.newtalaria.com from the key."
+      },
+      {
+        "name": "release",
+        "required": false,
+        "detail": "Release name. Omit in CI and the SDK may send <ref>@<shortsha>."
+      },
+      {
+        "name": "commitSha",
+        "required": false,
+        "detail": "Optional commit SHA used when resolving the release identity."
+      },
+      {
+        "name": "environment",
+        "required": false,
+        "detail": "Accepted for compatibility; the API key decides the environment. Not stored or sent."
+      },
+      {
+        "name": "sampleRate",
+        "required": false,
+        "default": "1.0",
+        "detail": "Error sample rate, clamped to 0\u20131."
+      },
+      {
+        "name": "maxBatchSize",
+        "required": false,
+        "default": "50",
+        "detail": "Maximum events per flush."
+      },
+      {
+        "name": "flushIntervalMs",
+        "required": false,
+        "default": "2000",
+        "detail": "Flush interval in milliseconds."
+      },
+      {
+        "name": "defaultIntegrations",
+        "required": false,
+        "default": "true",
+        "detail": "Install the default integrations."
+      },
+      {
+        "name": "userId",
+        "required": false,
+        "detail": "Default user id attached to events."
+      },
+      {
+        "name": "tags",
+        "required": false,
+        "detail": "Default tags (string map)."
+      },
+      {
+        "name": "httpTimeoutSeconds",
+        "required": false,
+        "default": "3.0",
+        "detail": "HTTP timeout for ingest requests."
+      },
+      {
+        "name": "minLevel",
+        "required": false,
+        "default": "debug",
+        "detail": "Minimum log severity the SDK keeps."
+      },
+      {
+        "name": "enforceDefaultLevel",
+        "required": false,
+        "default": "false",
+        "detail": "When true, the default minLevel cannot be lowered by a logger preset."
+      },
+      {
+        "name": "loggers",
+        "required": false,
+        "detail": "Per-logger presets."
+      },
+      {
+        "name": "beforeSend",
+        "required": false,
+        "detail": "Callback that may drop or edit an event before send."
+      },
+      {
+        "name": "ignoreErrors",
+        "required": false,
+        "detail": "Error patterns the SDK drops."
+      },
+      {
+        "name": "ignoreUrls",
+        "required": false,
+        "detail": "URL patterns the SDK ignores."
+      },
+      {
+        "name": "platform",
+        "required": false,
+        "default": "dart",
+        "detail": "Wire platform field: dart or flutter."
+      },
+      {
+        "name": "storage",
+        "required": false,
+        "detail": "Optional identity storage override."
+      }
+    ],
+    "source": "sdks/dart packages/talaria/lib/src/config.dart TalariaOptions"
+  },
+  "flutter": {
+    "package": "talaria_flutter",
+    "options": [
+      {
+        "name": "apiKey",
+        "required": true,
+        "detail": "Project API key. Must be present. Official SDKs accept tal_pk_ or tal_sk_ depending on the surface."
+      },
+      {
+        "name": "url",
+        "aliases": [
+          "baseUrl",
+          "dsn"
+        ],
+        "required": false,
+        "detail": "Ingest origin. Leave unset on Talaria Cloud; the SDK derives https://ingest-<cell>.newtalaria.com from the key."
+      },
+      {
+        "name": "release",
+        "required": false,
+        "detail": "Release name. Omit in CI and the SDK may send <ref>@<shortsha>."
+      },
+      {
+        "name": "commitSha",
+        "required": false,
+        "detail": "Optional commit SHA used when resolving the release identity."
+      },
+      {
+        "name": "environment",
+        "required": false,
+        "detail": "Accepted for compatibility; the API key decides the environment. Not stored or sent."
+      },
+      {
+        "name": "sampleRate",
+        "required": false,
+        "default": "1.0",
+        "detail": "Error sample rate, clamped to 0\u20131."
+      },
+      {
+        "name": "maxBatchSize",
+        "required": false,
+        "default": "50",
+        "detail": "Maximum events per flush."
+      },
+      {
+        "name": "flushIntervalMs",
+        "required": false,
+        "default": "2000",
+        "detail": "Flush interval in milliseconds."
+      },
+      {
+        "name": "defaultIntegrations",
+        "required": false,
+        "default": "true",
+        "detail": "Install the default integrations."
+      },
+      {
+        "name": "userId",
+        "required": false,
+        "detail": "Default user id attached to events."
+      },
+      {
+        "name": "tags",
+        "required": false,
+        "detail": "Default tags (string map)."
+      },
+      {
+        "name": "httpTimeoutSeconds",
+        "required": false,
+        "default": "3.0",
+        "detail": "HTTP timeout for ingest requests."
+      },
+      {
+        "name": "minLevel",
+        "required": false,
+        "default": "debug",
+        "detail": "Minimum log severity the SDK keeps."
+      },
+      {
+        "name": "enforceDefaultLevel",
+        "required": false,
+        "default": "false",
+        "detail": "When true, the default minLevel cannot be lowered by a logger preset."
+      },
+      {
+        "name": "loggers",
+        "required": false,
+        "detail": "Per-logger presets."
+      },
+      {
+        "name": "beforeSend",
+        "required": false,
+        "detail": "Callback that may drop or edit an event before send."
+      },
+      {
+        "name": "ignoreErrors",
+        "required": false,
+        "detail": "Error patterns the SDK drops."
+      },
+      {
+        "name": "ignoreUrls",
+        "required": false,
+        "detail": "URL patterns the SDK ignores."
+      },
+      {
+        "name": "platform",
+        "required": false,
+        "default": "dart",
+        "detail": "Wire platform field: dart or flutter."
+      },
+      {
+        "name": "storage",
+        "required": false,
+        "detail": "Optional identity storage override."
+      },
+      {
+        "name": "platform",
+        "required": false,
+        "default": "flutter",
+        "detail": "Set to flutter by talaria_flutter."
+      }
+    ],
+    "source": "talaria_flutter wraps TalariaOptions from talaria; tracing, analytics, flags, and heatmaps come from project policy (GET /v1/sdk-config), not init."
+  }
+}
