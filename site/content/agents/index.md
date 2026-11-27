@@ -1,14 +1,36 @@
 ---
-title: MCP and agent skills
-description: Set up Talaria with an agent, then instrument, triage, and verify a fix.
+title: MCP and agents
+description: Add Talaria with an agent, connect the hosted MCP, and triage issues.
 section: agents
 order: 10
 ---
 
-Point your coding agent at Talaria instead of pasting a secret into chat.
+Point an agent at Talaria to install an SDK, investigate an issue, or read these docs.
 
-- **Docs MCP:** `search_docs` and `get_doc` read the same pages as this site. A full `llms.txt` and per-page `.md` twins ship in later phases; this shell already emits a Markdown file at each page URL (for example `/sdk/javascript.md`).
-- **Skills:** Cursor and Grok Bot can use the Talaria plugin skills (get-started → instrument → observe-performance → triage-issue → verify-fix).
-- **Keys:** browser and mobile code takes a publishable `tal_pk_…` key. Servers take a secret `tal_sk_…` key that never ships to a client.
+- [Add Talaria with an agent](/agents/add-talaria/)
+- [Triage issues](/agents/triage-issues/)
+- [MCP overview](/agents/mcp/)
 
-Existing client notes live in the repo under `agents/mcp/` and will be rewritten here in the content wave.
+Connect your client to the hosted MCP at `https://api.newtalaria.com/mcp` with OAuth or a personal token. API keys never work on `/mcp`. URLs, scopes and tokens: [MCP](/agents/mcp/).
+
+## Clients
+
+| Client | Config | Page |
+| --- | --- | --- |
+| Cursor | `~/.cursor/mcp.json` → `mcpServers` → `url` | [Cursor](/agents/mcp/cursor/) |
+| Claude Code | `claude mcp add --transport http` | [Claude Code](/agents/mcp/claude-code/) |
+| VS Code | `.vscode/mcp.json` → `servers` → `type: http` + `url` | [VS Code](/agents/mcp/vscode/) |
+| Codex | `codex mcp add --url` | [Codex](/agents/mcp/codex/) |
+| Gemini CLI | `mcpServers` → `httpUrl` | [Gemini CLI](/agents/mcp/gemini-cli/) |
+| Windsurf | `mcpServers` → `serverUrl` | [Windsurf](/agents/mcp/windsurf/) |
+| Grok | Add the MCP URL in Grok | [Grok](/agents/mcp/grok/) |
+
+`talaria mcp install` writes the URL form for Cursor, VS Code, Claude, Codex, and Gemini. It does not write Windsurf or Grok files. Clients that cannot do OAuth can run the stdio bridge:
+
+```json
+{ "command": "talaria", "args": ["mcp", "serve"] }
+```
+
+After connect, call `get_connection` before mutating. `search_docs` and `get_doc` can be called by name without org auth.
+
+The dashboard **Fix with your agent** button hands off `talaria://issue/{id}` and the `talaria-fix-issue` prompt. Other prompts: `talaria-setup`, `talaria-verify-release`, `talaria-investigate-performance`.

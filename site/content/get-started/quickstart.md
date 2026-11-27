@@ -1,33 +1,37 @@
 ---
 title: Quickstart
-description: Create an account and project, then send your first event in a few minutes.
+description: Send a first event into Talaria with an official SDK, the CLI, or an agent.
 section: get-started
-order: 15
+order: 20
 ---
 
-## Create a project
+Pick one path. Each ends with an event (or a log, or a span) in the [dashboard](https://one.newtalaria.com).
 
-Sign in at [one.newtalaria.com](https://one.newtalaria.com), create a project, and copy the right key:
+## 1. Official SDK
 
-- Browser and mobile: a publishable key, `tal_pk_<env>_<cell>_…`
-- Servers and collectors: a secret key, `tal_sk_<env>_<cell>_…`, stored only in environment variables
+Install the package for your stack from the [SDK hub](/sdk/), initialise with a project key, and trigger an error or a log.
 
-## Send an event
+- Browser, React, Next.js, and Node.js use the `@newtalaria/*` packages (current release **0.6.1**).
+- Dart is `talaria` **0.4.1**. Flutter is `talaria_flutter` **0.3.1** (publishable key only). Serverpod is `talaria_serverpod` **0.3.3**.
+- PHP is `talaria/talaria` **3.0.3**. Laravel and Silverstripe are the `talaria/laravel` and `talaria/silverstripe` adapters at the same version.
 
-Pick your platform from the [SDK hub](/sdk/) and init the SDK once, before the rest of the app runs. This browser example uses a placeholder — replace it with your publishable key, never a secret:
+The API key decides the environment and, on Talaria Cloud, the ingest host. Leave `url` / `TALARIA_URL` unset unless you are self-hosting or the key's cell is `self`.
 
-```javascript
-import { Talaria } from "@newtalaria/browser";
+## 2. CLI
 
-Talaria.init({
-  key: "tal_pk_…",
-});
+Install the CLI from [get.newtalaria.com/cli](https://get.newtalaria.com/cli), then run `talaria init` in your app. Official OpenTelemetry stacks (Python, FastAPI, Java, Go, .NET, or an existing OTel exporter) get the `OTEL_*` block described in the [collector guides](/guides/collectors/).
 
-throw new Error("Talaria quickstart");
+```bash
+curl -fsSL https://get.newtalaria.com/cli | sh
+talaria init
 ```
 
-## Confirm it arrived
+`talaria verify` probes ingest, or starts the app and waits for the first event.
 
-Open **Issues** in the dashboard, or ask an agent to call MCP `search_issues` with `environment: development`. The development key from project setup selects that environment automatically.
+## 3. Agent
 
-Next: [JavaScript SDK](/sdk/javascript/) or a [collector guide](/guides/).
+Point Cursor, Claude Code, VS Code, or another Streamable HTTP client at the hosted MCP, or run `talaria mcp serve` over stdio. See [MCP and agents](/agents/).
+
+## What you should see
+
+Open the project in the dashboard. A test error from `captureException` appears as an issue. A collector log or an OTLP span appears under logs or performance once those signals are enabled in [project settings](/get-started/project-settings/).

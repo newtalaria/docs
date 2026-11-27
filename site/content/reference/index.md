@@ -1,10 +1,14 @@
 ---
 title: API reference
-description: Ingest and OTLP, problem types, key scopes, and generated MCP tools.
+description: Ingest and OTLP, the organisation REST API, and key scopes.
 section: reference
 order: 10
 ---
 
-The public ingest endpoint is `https://ingest-<cell>.newtalaria.com/otlp` (OTLP/HTTP, protobuf or JSON, gzip allowed). There is no gRPC. Authenticate collectors with a secret key as `Authorization: Bearer tal_sk_…`.
+- [Ingest API](/reference/ingest-api/) — native `/v1` routes on the ingest host
+- [OTLP endpoint](/reference/otlp/) — HTTP ingest for traces, logs, and metrics
+- [Organisation REST API](/reference/openapi/) — OpenAPI document and org-token routes on `api.newtalaria.com`
+- [Environments and API keys](/get-started/environments-and-api-keys/) — key kinds and scopes
+- [MCP tools](/agents/mcp/) — tools, prompts, and resources
 
-Generated reference (MCP tools, problem types, OpenAPI from Serverpod types) is a later phase. Until then, the raw material is in `reference/` and `api/` at the repo root.
+Official SDKs send JSON batches to the API origin (`https://ingest-<cell>.newtalaria.com`), with `Authorization: Bearer`. Errors are `application/problem+json`. Remote config is `GET /v1/sdk-config`. Discard reports go to `POST /v1/client-reports`. Organisation reads use `https://api.newtalaria.com/api/v1` and a `tal_org_` token. Cloud OTLP is `https://ingest-nz1.newtalaria.com/otlp`.

@@ -14,61 +14,99 @@ redirects:
   - { from: /getting-started/configuration, to: /get-started/ }
   - { from: /get-started, to: /get-started/ }
   - { from: /get-started/quickstart, to: /get-started/quickstart/ }
-  - { from: /get-started/environments-and-api-keys, to: /get-started/ }
-  - { from: /get-started/project-settings, to: /get-started/ }
+  - { from: /get-started/environments-and-api-keys, to: /get-started/environments-and-api-keys/ }
+  - { from: /get-started/project-settings, to: /get-started/project-settings/ }
   - { from: /sdk, to: /sdk/ }
   - { from: /sdk/javascript, to: /sdk/javascript/ }
   - { from: /sdk/javascript/best-practices, to: /sdk/javascript/ }
-  - { from: /sdk/javascript/errors, to: /sdk/javascript/ }
+  - { from: /sdk/javascript/errors, to: /sdk/javascript/errors/ }
   - { from: /sdk/javascript/instrumentation, to: /sdk/javascript/ }
   - { from: /sdk/javascript/source-maps, to: /sdk/javascript/ }
-  - { from: /sdk/react, to: /sdk/javascript/ }
-  - { from: /sdk/nextjs, to: /sdk/javascript/ }
-  - { from: /sdk/node, to: /sdk/javascript/ }
-  - { from: /sdk/flutter, to: /sdk/ }
-  - { from: /sdk/dart, to: /sdk/ }
-  - { from: /sdk/php, to: /sdk/ }
-  - { from: /sdk/laravel, to: /sdk/ }
-  - { from: /sdk/silverstripe, to: /sdk/ }
-  - { from: /sdk/serverpod, to: /sdk/ }
-  - { from: /sdk/collector, to: /guides/ }
+  - { from: /sdk/react, to: /sdk/javascript/react/ }
+  - { from: /sdk/nextjs, to: /sdk/javascript/nextjs/ }
+  - { from: /sdk/node, to: /sdk/javascript/node/ }
+  - { from: /sdk/flutter, to: /sdk/flutter/ }
+  - { from: /sdk/dart, to: /sdk/dart/ }
+  - { from: /sdk/php, to: /sdk/php/ }
+  - { from: /sdk/laravel, to: /sdk/laravel/ }
+  - { from: /sdk/silverstripe, to: /sdk/silverstripe/ }
+  - { from: /sdk/serverpod, to: /sdk/serverpod/ }
+  - { from: /sdk/collector, to: /guides/collectors/ }
   - { from: /sdk/collector/sitehost, to: /guides/collectors/sitehost/ }
-  - { from: /sdk/collector/kubernetes, to: /guides/ }
+  - { from: /sdk/collector/kubernetes, to: /guides/collectors/kubernetes/ }
   - { from: /deploy, to: /deploy/ }
   - { from: /deploy/hosts, to: /deploy/ }
   - { from: /deploy/hosts/sitehost, to: /guides/collectors/sitehost/ }
-  - { from: /deploy/hosts/kubernetes, to: /guides/ }
-  - { from: /deploy/ci, to: /deploy/ }
+  - { from: /deploy/hosts/kubernetes, to: /guides/collectors/kubernetes/ }
+  - { from: /deploy/ci, to: /deploy/ci/ }
   - { from: /guides, to: /guides/ }
-  - { from: /guides/add-talaria-with-an-agent, to: /agents/ }
+  - { from: /guides/add-talaria-with-an-agent, to: /agents/add-talaria/ }
   - { from: /guides/agent-skills, to: /agents/ }
-  - { from: /guides/triage-issues-with-an-agent, to: /agents/ }
-  - { from: /guides/monitors, to: /guides/ }
-  - { from: /guides/releases, to: /guides/ }
-  - { from: /guides/runtime, to: /guides/ }
-  - { from: /guides/upload-javascript-source-maps, to: /sdk/javascript/ }
+  - { from: /guides/triage-issues-with-an-agent, to: /agents/triage-issues/ }
+  - { from: /guides/monitors, to: /guides/monitors/ }
+  - { from: /guides/releases, to: /guides/releases/ }
+  - { from: /guides/runtime, to: /guides/runtime/ }
+  - { from: /guides/upload-javascript-source-maps, to: /guides/source-maps/ }
   - { from: /mcp, to: /agents/ }
-  - { from: /mcp/cursor, to: /agents/ }
-  - { from: /mcp/claude-code, to: /agents/ }
-  - { from: /mcp/codex, to: /agents/ }
-  - { from: /mcp/gemini-cli, to: /agents/ }
-  - { from: /mcp/grok-bot, to: /agents/ }
-  - { from: /mcp/vscode, to: /agents/ }
-  - { from: /mcp/windsurf, to: /agents/ }
+  - { from: /mcp/cursor, to: /agents/mcp/cursor/ }
+  - { from: /mcp/claude-code, to: /agents/mcp/claude-code/ }
+  - { from: /mcp/codex, to: /agents/mcp/codex/ }
+  - { from: /mcp/gemini-cli, to: /agents/mcp/gemini-cli/ }
+  - { from: /mcp/grok-bot, to: /agents/mcp/grok/ }
+  - { from: /mcp/vscode, to: /agents/mcp/vscode/ }
+  - { from: /mcp/windsurf, to: /agents/mcp/windsurf/ }
   - { from: /agents, to: /agents/ }
-  - { from: /agents/add-talaria, to: /agents/ }
-  - { from: /agents/triage-issues, to: /agents/ }
-  - { from: /agents/mcp, to: /agents/ }
+  - { from: /agents/add-talaria, to: /agents/add-talaria/ }
+  - { from: /agents/triage-issues, to: /agents/triage-issues/ }
+  - { from: /agents/mcp, to: /agents/mcp/ }
   - { from: /features, to: /guides/ }
-  - { from: /features/analytics, to: /guides/ }
-  - { from: /features/feature-flags, to: /guides/ }
-  - { from: /features/monitors, to: /guides/ }
-  - { from: /analytics, to: /guides/ }
-  - { from: /analytics/setup, to: /guides/ }
-  - { from: /analytics/consent, to: /guides/ }
+  - { from: /features/analytics, to: /guides/analytics/ }
+  - { from: /features/feature-flags, to: /guides/feature-flags/ }
+  - { from: /features/monitors, to: /guides/monitors/ }
+  - { from: /analytics, to: /guides/analytics/ }
+  - { from: /analytics/setup, to: /guides/analytics/ }
+  - { from: /analytics/consent, to: /guides/cookie-banners/ }
   - { from: /api, to: /reference/ }
-  - { from: /api/overview, to: /reference/ }
+  - { from: /api/overview, to: /reference/openapi/ }
   - { from: /reference, to: /reference/ }
-  - { from: /reference/ingest-api, to: /reference/ }
-  - { from: /reference/otlp, to: /reference/ }
+  - { from: /reference/ingest-api, to: /reference/ingest-api/ }
+  - { from: /reference/otlp, to: /reference/otlp/ }
   - { from: /migration, to: /get-started/ }
+  - { from: /sdk/react/errors, to: /sdk/javascript/react/errors/ }
+  - { from: /sdk/react/configuration, to: /sdk/javascript/react/configuration/ }
+  - { from: /sdk/react/tracing, to: /sdk/javascript/react/tracing/ }
+  - { from: /sdk/nextjs/errors, to: /sdk/javascript/nextjs/errors/ }
+  - { from: /sdk/nextjs/configuration, to: /sdk/javascript/nextjs/configuration/ }
+  - { from: /sdk/nextjs/tracing, to: /sdk/javascript/nextjs/tracing/ }
+  - { from: /sdk/node/errors, to: /sdk/javascript/node/errors/ }
+  - { from: /sdk/node/configuration, to: /sdk/javascript/node/configuration/ }
+  - { from: /sdk/node/tracing, to: /sdk/javascript/node/tracing/ }
+  - { from: /sdk/javascript/configuration, to: /sdk/javascript/configuration/ }
+  - { from: /sdk/javascript/tracing, to: /sdk/javascript/tracing/ }
+  - { from: /sdk/flutter/configuration, to: /sdk/flutter/configuration/ }
+  - { from: /sdk/flutter/errors, to: /sdk/flutter/errors/ }
+  - { from: /sdk/flutter/tracing, to: /sdk/flutter/tracing/ }
+  - { from: /sdk/flutter/navigation, to: /sdk/flutter/navigation/ }
+  - { from: /sdk/flutter/troubleshooting, to: /sdk/flutter/troubleshooting/ }
+  - { from: /sdk/dart/configuration, to: /sdk/dart/configuration/ }
+  - { from: /sdk/dart/errors, to: /sdk/dart/errors/ }
+  - { from: /sdk/dart/tracing, to: /sdk/dart/tracing/ }
+  - { from: /sdk/php/configuration, to: /sdk/php/configuration/ }
+  - { from: /sdk/php/errors, to: /sdk/php/errors/ }
+  - { from: /sdk/php/tracing, to: /sdk/php/tracing/ }
+  - { from: /sdk/laravel/configuration, to: /sdk/laravel/configuration/ }
+  - { from: /sdk/laravel/errors, to: /sdk/laravel/errors/ }
+  - { from: /sdk/laravel/tracing, to: /sdk/laravel/tracing/ }
+  - { from: /sdk/silverstripe/configuration, to: /sdk/silverstripe/configuration/ }
+  - { from: /sdk/silverstripe/errors, to: /sdk/silverstripe/errors/ }
+  - { from: /sdk/silverstripe/tracing, to: /sdk/silverstripe/tracing/ }
+  - { from: /sdk/serverpod/configuration, to: /sdk/serverpod/configuration/ }
+  - { from: /sdk/serverpod/errors, to: /sdk/serverpod/errors/ }
+  - { from: /sdk/serverpod/tracing, to: /sdk/serverpod/tracing/ }
+  - { from: /reference/otlp/, to: /reference/otlp/ }
+  - { from: /get-started/fail-safe, to: /get-started/fail-safe/ }
+  - { from: /guides/cookie-banners, to: /guides/cookie-banners/ }
+  - { from: /guides/source-maps, to: /guides/source-maps/ }
+  - { from: /features/releases, to: /guides/releases/ }
+  - { from: /features/runtime, to: /guides/runtime/ }
+  - { from: /reference/openapi, to: /reference/openapi/ }
