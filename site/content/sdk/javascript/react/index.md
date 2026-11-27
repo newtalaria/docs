@@ -9,9 +9,13 @@ order: 30
 
 Building Next.js? Install [`@newtalaria/nextjs`](/sdk/javascript/nextjs/) instead.
 
+## Install
+
 ```bash
 npm install @newtalaria/react
 ```
+
+## Initialise
 
 ```tsx
 import { createRoot } from 'react-dom/client';
@@ -32,4 +36,16 @@ root.render(
 );
 ```
 
-The API key decides the environment. See [configuration](/sdk/javascript/react/configuration/), [errors](/sdk/javascript/react/errors/), and [tracing](/sdk/javascript/react/tracing/).
+The API key decides the environment.
+
+## Verify
+
+```ts
+Talaria.captureException(new Error('Talaria test error'));
+```
+
+Run this once, then open **Issues** in the [dashboard](https://one.newtalaria.com). The test error shows as a new issue in the key's environment. Nothing there? See [troubleshooting](/sdk/javascript/troubleshooting/).
+
+## Next
+
+See [configuration](/sdk/javascript/react/configuration/), [errors](/sdk/javascript/react/errors/), and [tracing](/sdk/javascript/react/tracing/).

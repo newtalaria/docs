@@ -12,10 +12,7 @@ export default function HomePage() {
   return (
     <Shell path="/" wide headerSearch={false}>
       <div className="hero" data-pagefind-body>
-        <div className="page-meta">
-          <p className="crumb">
-            <a href="/">Docs</a>
-          </p>
+        <div className="page-meta page-meta-end">
           <CopyMarkdown href="/index.md" />
         </div>
         <h1 data-pagefind-meta="title">Set up Talaria in your app</h1>

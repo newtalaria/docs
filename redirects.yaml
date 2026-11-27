@@ -43,10 +43,10 @@ redirects:
   - { from: /guides/add-talaria-with-an-agent, to: /agents/add-talaria/ }
   - { from: /guides/agent-skills, to: /agents/ }
   - { from: /guides/triage-issues-with-an-agent, to: /agents/triage-issues/ }
-  - { from: /guides/monitors, to: /guides/ }
-  - { from: /guides/releases, to: /guides/ }
-  - { from: /guides/runtime, to: /guides/ }
-  - { from: /guides/upload-javascript-source-maps, to: /sdk/javascript/nextjs/ }
+  - { from: /guides/monitors, to: /guides/monitors/ }
+  - { from: /guides/releases, to: /guides/releases/ }
+  - { from: /guides/runtime, to: /guides/runtime/ }
+  - { from: /guides/upload-javascript-source-maps, to: /guides/source-maps/ }
   - { from: /mcp, to: /agents/ }
   - { from: /mcp/cursor, to: /agents/mcp/cursor/ }
   - { from: /mcp/claude-code, to: /agents/mcp/claude-code/ }
@@ -60,19 +60,19 @@ redirects:
   - { from: /agents/triage-issues, to: /agents/triage-issues/ }
   - { from: /agents/mcp, to: /agents/mcp/ }
   - { from: /features, to: /guides/ }
-  - { from: /features/analytics, to: /guides/ }
-  - { from: /features/feature-flags, to: /guides/ }
-  - { from: /features/monitors, to: /guides/ }
-  - { from: /analytics, to: /guides/ }
-  - { from: /analytics/setup, to: /guides/ }
-  - { from: /analytics/consent, to: /guides/ }
+  - { from: /features/analytics, to: /guides/analytics/ }
+  - { from: /features/feature-flags, to: /guides/feature-flags/ }
+  - { from: /features/monitors, to: /guides/monitors/ }
+  - { from: /analytics, to: /guides/analytics/ }
+  - { from: /analytics/setup, to: /guides/analytics/ }
+  - { from: /analytics/consent, to: /guides/cookie-banners/ }
   - { from: /api, to: /reference/ }
-  - { from: /api/overview, to: /reference/ }
+  - { from: /api/overview, to: /reference/openapi/ }
   - { from: /reference, to: /reference/ }
-  - { from: /reference/ingest-api, to: /reference/ }
+  - { from: /reference/ingest-api, to: /reference/ingest-api/ }
   - { from: /reference/otlp, to: /reference/otlp/ }
   - { from: /migration, to: /get-started/ }
-- { from: /sdk/react/errors, to: /sdk/javascript/react/errors/ }
+  - { from: /sdk/react/errors, to: /sdk/javascript/react/errors/ }
   - { from: /sdk/react/configuration, to: /sdk/javascript/react/configuration/ }
   - { from: /sdk/react/tracing, to: /sdk/javascript/react/tracing/ }
   - { from: /sdk/nextjs/errors, to: /sdk/javascript/nextjs/errors/ }
@@ -105,6 +105,8 @@ redirects:
   - { from: /sdk/serverpod/tracing, to: /sdk/serverpod/tracing/ }
   - { from: /reference/otlp/, to: /reference/otlp/ }
   - { from: /get-started/fail-safe, to: /get-started/fail-safe/ }
-  - { from: /guides/cookie-banners, to: /guides/ }
-  - { from: /guides/source-maps, to: /sdk/javascript/nextjs/ }
-
+  - { from: /guides/cookie-banners, to: /guides/cookie-banners/ }
+  - { from: /guides/source-maps, to: /guides/source-maps/ }
+  - { from: /features/releases, to: /guides/releases/ }
+  - { from: /features/runtime, to: /guides/runtime/ }
+  - { from: /reference/openapi, to: /reference/openapi/ }

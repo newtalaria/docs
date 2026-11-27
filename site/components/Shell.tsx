@@ -65,15 +65,47 @@ export function Shell({
             <>
               <p className="sidebar-title">{current?.title ?? "Pages"}</p>
               <nav aria-label="Section pages">
-                {sidebar!.map((p) => {
-                  const href = `/${p.slug}/`;
-                  const active = path === href || path === `/${p.slug}`;
-                  return (
-                    <a key={p.slug} href={href} className={active ? "active" : undefined}>
-                      {p.slug === current?.id ? "Overview" : p.title}
-                    </a>
-                  );
-                })}
+                {(() => {
+                  const all = sidebar!;
+                  const slugs = new Set(all.map((p) => p.slug));
+                  const parentOf = (slug: string): string | null => {
+                    const parts = slug.split("/");
+                    while (parts.length > 1) {
+                      parts.pop();
+                      const s = parts.join("/");
+                      if (slugs.has(s)) return s;
+                    }
+                    return null;
+                  };
+                  const here = path.replace(/^\/+|\/+$/g, "");
+                  const inside = (slug: string) => here === slug || here.startsWith(`${slug}/`);
+                  const chain = (slug: string) => {
+                    const out: string[] = [];
+                    for (let p = parentOf(slug); p && p !== current?.id; p = parentOf(p)) out.push(p);
+                    return out;
+                  };
+                  const collapse = current?.id === "sdk";
+                  const label = (p: DocPage) => {
+                    if (p.slug === current?.id) return "Overview";
+                    const parent = parentOf(p.slug);
+                    const pt = parent && parent !== current?.id ? all.find((x) => x.slug === parent)?.title : undefined;
+                    if (!pt || !p.title.startsWith(`${pt} `)) return p.title;
+                    const rest = p.title.slice(pt.length + 1);
+                    return rest.charAt(0).toUpperCase() + rest.slice(1);
+                  };
+                  return all
+                    .filter((p) => !collapse || chain(p.slug).every(inside))
+                    .map((p) => {
+                      const active = here === p.slug;
+                      const depth = Math.min(chain(p.slug).length, 2);
+                      const cls = [active ? "active" : "", depth ? `depth-${depth}` : ""].join(" ").trim();
+                      return (
+                        <a key={p.slug} href={`/${p.slug}/`} className={cls || undefined} aria-current={active ? "page" : undefined}>
+                          {label(p)}
+                        </a>
+                      );
+                    });
+                })()}
               </nav>
             </>
           ) : null}

@@ -22,6 +22,9 @@ if (!fs.existsSync(out)) {
   process.exit(1);
 }
 
+const origin = "https://docs.newtalaria.com";
+const toMdLinks = (md) => md.replace(/\]\(\/([^)\s#]*?)\/?(#[^)\s]*)?\)/g, (_, p, hash = "") => `](${origin}/${p || "index"}.md${hash})`);
+
 // Markdown twins at the page URL: /sdk/javascript.md
 for (const file of walk(content)) {
   const rel = path.relative(content, file).replaceAll(path.sep, "/");
@@ -31,12 +34,12 @@ for (const file of walk(content)) {
   const raw = fs.readFileSync(file, "utf8");
   const { data, content: body } = matter(raw);
   const title = data.title ? `# ${data.title}\n\n` : "";
-  fs.writeFileSync(dest, title + body.trim() + "\n");
+  fs.writeFileSync(dest, title + toMdLinks(body.trim()) + "\n");
   fs.chmodSync(dest, 0o644);
 }
 
 // Home twin (keep in sync with site/lib/home.md and app/page.tsx)
-const homeMd = fs.readFileSync(path.join(root, "lib/home.md"), "utf8").trim() + "\n";
+const homeMd = toMdLinks(fs.readFileSync(path.join(root, "lib/home.md"), "utf8").trim()) + "\n";
 fs.writeFileSync(path.join(out, "index.md"), homeMd);
 fs.chmodSync(path.join(out, "index.md"), 0o644);
 
@@ -51,11 +54,11 @@ for (const file of walk(content)) {
   const description = data.description ? String(data.description) : "";
   const mdPath = `/${slug}.md`;
   const htmlPath = `/${slug}/`;
-  pages.push({ slug, title, description, mdPath, htmlPath, body: (data.title ? `# ${title}\n\n` : "") + body.trim() + "\n" });
+  pages.push({ slug, title, description, mdPath, htmlPath, section: String(data.section ?? slug.split("/")[0]), body: (data.title ? `# ${title}\n\n` : "") + toMdLinks(body.trim()) + "\n" });
 }
 pages.sort((a, b) => a.slug.localeCompare(b.slug));
 
-const origin = "https://docs.newtalaria.com";
+const sectionOrder = [["get-started", "Getting started"], ["guides", "Guides"], ["sdk", "SDKs"], ["cli", "CLI"], ["agents", "MCP and agents"], ["reference", "API reference"], ["deploy", "Self-host and deploy"], ["billing", "Billing"]];
 const llms = [
   "# Talaria documentation",
   "",
@@ -63,16 +66,17 @@ const llms = [
   "",
   "Each page has a Markdown twin at the same path with a `.md` suffix. Concatenated corpus: [llms-full.txt](https://docs.newtalaria.com/llms-full.txt).",
   "",
-  "## Docs",
-  "",
   `- [Set up Talaria in your app](${origin}/index.md): Get a first event into Talaria, then add a collector, a feature, or a fix.`,
-  ...pages.map((p) => `- [${p.title}](${origin}${p.mdPath}): ${p.description}`.replace(/: $/, "")),
   "",
+  ...sectionOrder.flatMap(([id, title]) => {
+    const list = pages.filter((p) => p.section === id);
+    return list.length ? [`## ${title}`, "", ...list.map((p) => `- [${p.title}](${origin}${p.mdPath}): ${p.description}`.replace(/: $/, "")), ""] : [];
+  }),
 ].join("\n");
 fs.writeFileSync(path.join(out, "llms.txt"), llms);
 fs.chmodSync(path.join(out, "llms.txt"), 0o644);
 
-const fullParts = [homeMd, ...pages.map((p) => p.body)];
+const fullParts = [homeMd, ...sectionOrder.flatMap(([id]) => pages.filter((p) => p.section === id)).map((p) => p.body)];
 fs.writeFileSync(path.join(out, "llms-full.txt"), fullParts.join("\n---\n\n"));
 fs.chmodSync(path.join(out, "llms-full.txt"), 0o644);
 

@@ -9,9 +9,13 @@ order: 50
 
 Building Next.js? Install [`@newtalaria/nextjs`](/sdk/javascript/nextjs/) instead.
 
+## Install
+
 ```bash
 npm install @newtalaria/node
 ```
+
+## Initialise
 
 ```ts
 import http from 'node:http';
@@ -28,4 +32,16 @@ http.createServer((req, res) => {
 }).listen(3000);
 ```
 
-The API key decides the environment. Long-lived workers should call `Talaria.resetRequestState()` between jobs. See [configuration](/sdk/javascript/node/configuration/), [errors](/sdk/javascript/node/errors/), and [tracing](/sdk/javascript/node/tracing/).
+The API key decides the environment. Long-lived workers should call `Talaria.resetRequestState()` between jobs.
+
+## Verify
+
+```ts
+Talaria.captureException(new Error('Talaria test error'));
+```
+
+Run this once, then open **Issues** in the [dashboard](https://one.newtalaria.com). The test error shows as a new issue in the key's environment. Nothing there? See [troubleshooting](/sdk/javascript/troubleshooting/).
+
+## Next
+
+See [configuration](/sdk/javascript/node/configuration/), [errors](/sdk/javascript/node/errors/), and [tracing](/sdk/javascript/node/tracing/).

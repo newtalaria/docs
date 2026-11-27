@@ -18,6 +18,6 @@ VS Code and GitHub Copilot read MCP servers from `mcp.json`. The top-level key i
 }
 ```
 
-Command Palette → **MCP: Add Server**, or `talaria mcp install`. VS Code tries Streamable HTTP on `POST /mcp`. A personal token goes in `headers.Authorization`. Never use an API key.
+Command Palette › **MCP: Add Server**, or `talaria mcp install`. VS Code tries Streamable HTTP on `POST /mcp`. A personal token goes in `headers.Authorization`. Never use an API key.
 
 See [MCP](/agents/mcp/).

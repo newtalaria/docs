@@ -26,6 +26,16 @@ These stacks do not have an official Talaria SDK. Point the upstream OpenTelemet
 
 If you already export OTLP, change only the endpoint, protocol, and headers — see [OTLP/HTTP](/guides/collectors/otlp/).
 
+## Features
+
+- [Analytics](/guides/analytics/)
+- [Feature flags](/guides/feature-flags/)
+- [Monitors](/guides/monitors/)
+- [Releases](/guides/releases/)
+- [Runtime](/guides/runtime/)
+- [Source maps](/guides/source-maps/)
+- [Cookie banners](/guides/cookie-banners/)
+
 ## Related
 
 - [Self-host and deploy](/deploy/)

@@ -7,7 +7,7 @@ order: 92
 
 ```php
 Talaria::captureException($exception);
-Talaria::captureMessage('checkout started', 'info');
+Talaria::captureMessage('Payment retry limit reached', 'warning');
 ```
 
 A disabled client is a no-op. See [fail-safe](/get-started/fail-safe/).

@@ -5,11 +5,11 @@ section: guides
 order: 50
 ---
 
-Forward logs from a SiteHost PHP container to Talaria with an **in-container** OpenTelemetry Collector under supervisord. Do not start with a sidecar: a second container does not automatically see `/container/logs`.
+Forward logs from a SiteHost PHP container to Talaria with an **in-container** OpenTelemetry Collector under supervisord. Run the collector inside the container; a sidecar container cannot read `/container/logs`.
 
 ## Supported baseline
 
-The supported image is **Ubuntu 24.04**, **PHP 8.2**, **Apache**, and **supervisord**, with application and web logs under `/container/logs`. Confirm any other organisation image, and outbound **443** to ingest, before calling that image supported.
+The supported image is **Ubuntu 24.04**, **PHP 8.2**, **Apache**, and **supervisord**, with application and web logs under `/container/logs`. Other images may work but are not tested. Check that the container can reach ingest on port **443**.
 
 ## Before you start
 
@@ -57,6 +57,8 @@ Set these in the SiteHost control panel (not in git):
 ## Logs
 
 The collector tails files under `/container/logs` (Apache, PHP-FPM, cron, and application logs on the supported image). Override includes with `talaria/collector.yaml` if you need a tighter set.
+
+## Verify
 
 After install, confirm `/container/logs/talaria-otelcol.log` and look for logs in the dashboard, filtered by `service.name` or `container.name`.
 

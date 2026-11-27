@@ -38,8 +38,6 @@ export OTEL_EXPORTER_OTLP_HEADERS="Authorization=Bearer ${TALARIA_API_KEY}"
 
 `TALARIA_API_KEY` must be a **secret** key (`tal_sk_<env>_<cell>_…`) when you send logs (`logs:write`). Leave the placeholder in the shell; do not commit a real key. Protocol is `http/protobuf` only for this recipe — Talaria does not accept gRPC. The endpoint is the OTLP **base** URL; the SDK or collector appends `/v1/traces`, `/v1/logs`, and `/v1/metrics`.
 
-`talaria init --stack <id>` writes the same `OTEL_*` block. An empty environment in that command defaults to `production`.
-
 ## Collector exporter
 
 The CLI generates this shape (encoding `proto`, gzip, Bearer token from `TALARIA_API_KEY`, HTTP/2 pings):

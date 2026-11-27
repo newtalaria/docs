@@ -17,4 +17,3 @@ Use this section for how you run Talaria next to a deployment. Collector how-tos
 
 When the collector is generated with deploy mode `self-host`, the exporter endpoint is `${env:TALARIA_URL}` and that value must end with `/otlp`. Official SDKs use `TALARIA_URL` or the `url` option as the API origin (no `/otlp` suffix). A `self` cell disables the official SDK until that URL is set.
 
-This page does not cover DNS, TLS, or nginx — those stay with the platform runbooks.

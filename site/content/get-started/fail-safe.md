@@ -5,7 +5,7 @@ section: get-started
 order: 50
 ---
 
-Official SDKs follow **D19**: a missing, empty, malformed, or wrong-checksum key, or a key of the wrong kind, **disables Talaria instead of throwing**. The app keeps running. Calls become no-ops. At most one warning is logged, and that warning shows no more than the first eight characters of the key.
+A missing, empty, malformed, or wrong-checksum key, or a key of the wrong kind, **disables Talaria instead of throwing**. The app keeps running. Calls become no-ops. At most one warning is logged, and that warning shows no more than the first eight characters of the key.
 
 This is true of:
 

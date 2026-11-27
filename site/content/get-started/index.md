@@ -16,4 +16,4 @@ Then add a [collector](/guides/collectors/) if you want host or container logs, 
 
 - [Environments and API keys](/get-started/environments-and-api-keys/)
 - [Project settings](/get-started/project-settings/)
-- [Fail-safe (D19)](/get-started/fail-safe/)
+- [Fail-safe](/get-started/fail-safe/)
