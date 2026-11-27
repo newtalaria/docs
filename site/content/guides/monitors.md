@@ -23,7 +23,7 @@ Talaria::monitor('nightly-backup', [
 });
 ```
 
-`$schedule` is an array (`crontab` or `intervalSeconds`, plus optional `timezone`, `marginSeconds`, and `maxRuntimeSeconds`). See the [PHP SDK](/sdk/php/).
+The second argument is the schedule: `crontab` or `intervalSeconds`, plus optional `timezone`, `marginSeconds`, and `maxRuntimeSeconds`. See the [PHP SDK](/sdk/php/).
 
 ## Check in
 
@@ -48,7 +48,7 @@ MCP can list monitors with `list_monitors` after you [connect](/agents/mcp/).
 
 ## SiteHost
 
-The Silverstripe SiteHost installer reads `talaria/sitehost/monitors.json` and reconciles one crontab block plus the supervisord probe. Run `vendor/bin/talaria-sitehost install`. Use a generic job name in that file (for example a nightly backup or a queue worker). Full steps: [SiteHost containers](/guides/collectors/sitehost/).
+The Silverstripe SiteHost installer reads `talaria/sitehost/monitors.json` and reconciles one crontab block plus the supervisord probe. Run `vendor/bin/talaria-sitehost install`. Full steps: [SiteHost containers](/guides/collectors/sitehost/).
 
 ## Related
 

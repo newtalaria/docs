@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
 import { sections, sectionForPath } from "@/lib/nav";
-import type { DocPage } from "@/lib/content";
+import { allDocs, type DocPage } from "@/lib/content";
+import { HeaderSearch } from "@/components/HeaderSearch";
 import { MenuToggle } from "@/components/MenuToggle";
-import { SearchForm } from "@/components/SearchForm";
-import { SearchShortcut } from "@/components/SearchShortcut";
+import { PlatformSwitcher } from "@/components/PlatformSwitcher";
+import { SearchDialog } from "@/components/SearchDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function Shell({
@@ -21,13 +22,14 @@ export function Shell({
 }) {
   const current = sectionForPath(path);
   const showSidebar = Boolean(sidebar && sidebar.length);
+  const sdkSlugs = allDocs().filter((p) => p.slug === "sdk" || p.slug.startsWith("sdk/")).map((p) => p.slug);
 
   return (
     <>
       <a className="skip-link" href="#content">
         Skip to content
       </a>
-      <SearchShortcut />
+      <SearchDialog />
       <header className="header">
         <MenuToggle />
         <a className="brand" href="/">
@@ -42,20 +44,15 @@ export function Shell({
           ))}
         </nav>
         <div className="header-tools">
-          {headerSearch ? (
-            <>
-              <SearchForm compact defaultQuery="" />
-              <a className="icon-btn search-link" href="/search/" aria-label="Search the docs">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-              </a>
-            </>
-          ) : null}
+          <PlatformSwitcher path={path} sdkSlugs={sdkSlugs} placement="header" />
+          {headerSearch ? <HeaderSearch /> : null}
           <a className="header-link" href="https://one.newtalaria.com">Dashboard</a>
           <ThemeToggle />
         </div>
       </header>
       <div className={showSidebar ? "frame" : "frame no-sidebar"}>
         <aside className="sidebar" id="docs-sidebar">
+          <PlatformSwitcher path={path} sdkSlugs={sdkSlugs} placement="sidebar" />
           <nav className="sidebar-sections" aria-label="All sections">
             {sections.map((s) => (
               <a key={s.id} href={s.href} className={current?.id === s.id ? "active" : undefined}>{s.title}</a>
