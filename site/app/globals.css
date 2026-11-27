@@ -290,6 +290,8 @@ a:hover { text-decoration: underline; }
 
 .copy-btn, .md-btn { height: var(--control-sm); padding: 0 8px; border: 1px solid var(--border-default); border-radius: var(--r-sm); background: var(--bg-surface); color: var(--fg-muted); font: var(--t-caption); cursor: pointer; }
 .copy-btn { position: absolute; top: 8px; right: 8px; }
+.prose figure[data-rehype-pretty-code-figure] pre { padding-top: 44px; }
+.copy-btn { top: 6px; right: 6px; }
 .copy-btn:hover, .md-btn:hover { color: var(--fg-default); background: var(--bg-muted); }
 
 .lede { color: var(--fg-muted); font: 400 16px/24px var(--font-geist-sans), sans-serif; margin: 0 0 24px; }
@@ -387,8 +389,6 @@ a:hover { text-decoration: underline; }
   .search-form input[type="search"] { height: var(--hit-target); font-size: 16px; }
   .search-kbd { display: none; }
   .header-link { display: none; }
-  .prose figure[data-rehype-pretty-code-figure] pre { padding-top: 44px; }
-  .copy-btn { top: 6px; right: 6px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -412,6 +412,8 @@ a:hover { text-decoration: underline; }
 /* Phase 4 site experience */
 .has-js .search-js-fallback { display: none; }
 html:not(.has-js) .search-js { display: none; }
+.search-js .search-form input[type="search"] { width: 100%; max-width: 480px; height: var(--control-lg); font: var(--t-body); }
+html:not(.has-js) .theme-btn, html:not(.has-js) .platform-switch { display: none; }
 .search-js-fallback .search-form { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; align-items: center; }
 .search-js-fallback input[type="search"], .search-js-fallback select {
   height: var(--control-lg);

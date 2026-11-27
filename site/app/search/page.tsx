@@ -45,8 +45,7 @@ export default function SearchPage() {
           </button>
         </form>
         <p className="lede">
-          Filtering by query needs JavaScript. Every page is grouped by section below, including the Laravel
-          quickstart under SDKs.
+          Search needs JavaScript. Every page is listed below by section.
         </p>
       </div>
       <Suspense fallback={<p className="lede search-js">Loading search…</p>}>

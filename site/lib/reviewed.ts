@@ -3,9 +3,25 @@ import path from "node:path";
 
 const repoRoot = path.resolve(process.cwd(), "..");
 
+function isShallow(): boolean {
+  try {
+    return (
+      execFileSync("git", ["rev-parse", "--is-shallow-repository"], {
+        cwd: repoRoot,
+        encoding: "utf8",
+        stdio: ["ignore", "pipe", "ignore"],
+      }).trim() === "true"
+    );
+  } catch {
+    return true;
+  }
+}
+
 export function lastReviewedIso(file: string): string | undefined {
   const rel = path.relative(repoRoot, file);
   if (rel.startsWith("..") || path.isAbsolute(rel)) return undefined;
+  // A shallow clone attributes every file to the shallow tip, which looks like the build date.
+  if (isShallow()) return undefined;
   try {
     const iso = execFileSync("git", ["log", "-1", "--format=%cs", "--", rel], {
       cwd: repoRoot,
