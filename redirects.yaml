@@ -1,7 +1,9 @@
-# Redirect map for the Phase 2 hard cut.
-# from: path on www.newtalaria.com/docs/<from> (no /docs prefix)
+# Redirect map for the www.newtalaria.com/docs hard cut.
+# from: path on www.newtalaria.com/docs/<from> (no /docs prefix; from: / means /docs)
 # to:   path on docs.newtalaria.com/<to>
-# Infra generates an nginx map from this file. Do not rely on Next middleware.
+# Unknown /docs/** paths fall back to the docs home.
+# Infra applies these as 301s in marketing nginx (see the marketing repo
+# deploy/nginx/docs-redirects.conf). Do not rely on Next middleware.
 # Seeded 2026-11-27 from paths that shipped in newtalaria/docs (including
 # getting-started/, sdk/collector/, mcp/, and other marketing-era IA).
 # Stale copy is not preserved; the target is the new canonical page or hub.
