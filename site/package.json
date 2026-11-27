@@ -1,0 +1,35 @@
+{
+  "name": "talaria-docs-site",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && node scripts/postbuild.mjs",
+    "typecheck": "tsc --noEmit",
+    "linkcheck": "node scripts/link-check.mjs",
+    "lint:secrets": "node scripts/secret-lint.mjs"
+  },
+  "dependencies": {
+    "geist": "1.5.1",
+    "gray-matter": "4.0.3",
+    "next": "16.4.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "rehype-autolink-headings": "7.1.0",
+    "rehype-pretty-code": "0.14.1",
+    "rehype-slug": "6.0.0",
+    "rehype-stringify": "10.0.1",
+    "remark-gfm": "4.0.1",
+    "remark-parse": "11.0.0",
+    "remark-rehype": "11.1.2",
+    "shiki": "3.23.0",
+    "unified": "11.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "22.13.1",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.2",
+    "pagefind": "1.4.0",
+    "typescript": "5.6.3"
+  }
+}
