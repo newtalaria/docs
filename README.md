@@ -18,6 +18,9 @@ owner: docs
 
 # Talaria docs
 
+The greenfield site for **docs.newtalaria.com** is being built in [`site/`](site/README.md) (Phase 1 shell). Humans still read the live pages on [www.newtalaria.com/docs](https://www.newtalaria.com/docs) until the Phase 2 cutover. Markdown at the repository root is raw material for that rewrite.
+
+
 Canonical integration knowledge for Talaria. Humans read this on [www.newtalaria.com/docs](https://www.newtalaria.com/docs). Coding agents read the same pages via MCP `list_docs`, `search_docs`, and `get_doc`.
 
 Learn guides and product narrative stay on the marketing site (`/learn`, `/product`). This repo is install and how-to only.

@@ -27,8 +27,9 @@ function collectMarkdownFiles(dir: string, files: PageFile[] = []): PageFile[] {
     const stat = statSync(fullPath);
     
     if (stat.isDirectory()) {
-      // Skip underscore-prefixed directories
-      if (entry.startsWith("_")) continue;
+      // Skip underscore-prefixed directories, the new site app, and deps.
+      // New-IA pages under site/content are checked by site/scripts, not this pack.
+      if (entry.startsWith("_") || entry === "site" || entry === "node_modules") continue;
       collectMarkdownFiles(fullPath, files);
     } else if (entry.endsWith(".md") && !entry.startsWith("_")) {
       const content = readFileSync(fullPath, "utf-8");

@@ -8,3 +8,9 @@ _tools/dist/
 # OS
 .DS_Store
 Thumbs.db
+
+# New docs site (Phase 1)
+site/node_modules/
+site/.next/
+site/out/
+site/tsconfig.tsbuildinfo

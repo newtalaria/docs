@@ -1,0 +1,36 @@
+# New information architecture for docs.newtalaria.com (PLAN.md §3).
+# Existing _registry/* describes the marketing-era tree and stays as raw
+# material until the content rewrite replaces it.
+revision: 1
+generated: 2026-11-27
+sections:
+  - id: home
+    title: Home
+    path: /
+  - id: get-started
+    title: Getting started
+    path: /get-started/
+  - id: guides
+    title: Guides
+    path: /guides/
+  - id: sdk
+    title: SDKs
+    path: /sdk/
+  - id: cli
+    title: CLI
+    path: /cli/
+  - id: agents
+    title: MCP and agent skills
+    path: /agents/
+  - id: reference
+    title: API reference
+    path: /reference/
+  - id: deploy
+    title: Self-host and Deploy
+    path: /deploy/
+  - id: billing
+    title: Billing
+    path: /billing/
+  - id: search
+    title: Search
+    path: /search/

@@ -1,0 +1,74 @@
+# Redirect map for the Phase 2 hard cut.
+# from: path on www.newtalaria.com/docs/<from> (no /docs prefix)
+# to:   path on docs.newtalaria.com/<to>
+# Infra generates an nginx map from this file. Do not rely on Next middleware.
+# Seeded 2026-11-27 from paths that shipped in newtalaria/docs (including
+# getting-started/, sdk/collector/, mcp/, and other marketing-era IA).
+# Stale copy is not preserved; the target is the new canonical page or hub.
+
+redirects:
+  - { from: /, to: / }
+  - { from: /getting-started, to: /get-started/ }
+  - { from: /getting-started/, to: /get-started/ }
+  - { from: /getting-started/quickstart, to: /get-started/quickstart/ }
+  - { from: /getting-started/configuration, to: /get-started/ }
+  - { from: /get-started, to: /get-started/ }
+  - { from: /get-started/quickstart, to: /get-started/quickstart/ }
+  - { from: /get-started/environments-and-api-keys, to: /get-started/ }
+  - { from: /get-started/project-settings, to: /get-started/ }
+  - { from: /sdk, to: /sdk/ }
+  - { from: /sdk/javascript, to: /sdk/javascript/ }
+  - { from: /sdk/javascript/best-practices, to: /sdk/javascript/ }
+  - { from: /sdk/javascript/errors, to: /sdk/javascript/ }
+  - { from: /sdk/javascript/instrumentation, to: /sdk/javascript/ }
+  - { from: /sdk/javascript/source-maps, to: /sdk/javascript/ }
+  - { from: /sdk/react, to: /sdk/javascript/ }
+  - { from: /sdk/nextjs, to: /sdk/javascript/ }
+  - { from: /sdk/node, to: /sdk/javascript/ }
+  - { from: /sdk/flutter, to: /sdk/ }
+  - { from: /sdk/dart, to: /sdk/ }
+  - { from: /sdk/php, to: /sdk/ }
+  - { from: /sdk/laravel, to: /sdk/ }
+  - { from: /sdk/silverstripe, to: /sdk/ }
+  - { from: /sdk/serverpod, to: /sdk/ }
+  - { from: /sdk/collector, to: /guides/ }
+  - { from: /sdk/collector/sitehost, to: /guides/collectors/sitehost/ }
+  - { from: /sdk/collector/kubernetes, to: /guides/ }
+  - { from: /deploy, to: /deploy/ }
+  - { from: /deploy/hosts, to: /deploy/ }
+  - { from: /deploy/hosts/sitehost, to: /guides/collectors/sitehost/ }
+  - { from: /deploy/hosts/kubernetes, to: /guides/ }
+  - { from: /deploy/ci, to: /deploy/ }
+  - { from: /guides, to: /guides/ }
+  - { from: /guides/add-talaria-with-an-agent, to: /agents/ }
+  - { from: /guides/agent-skills, to: /agents/ }
+  - { from: /guides/triage-issues-with-an-agent, to: /agents/ }
+  - { from: /guides/monitors, to: /guides/ }
+  - { from: /guides/releases, to: /guides/ }
+  - { from: /guides/runtime, to: /guides/ }
+  - { from: /guides/upload-javascript-source-maps, to: /sdk/javascript/ }
+  - { from: /mcp, to: /agents/ }
+  - { from: /mcp/cursor, to: /agents/ }
+  - { from: /mcp/claude-code, to: /agents/ }
+  - { from: /mcp/codex, to: /agents/ }
+  - { from: /mcp/gemini-cli, to: /agents/ }
+  - { from: /mcp/grok-bot, to: /agents/ }
+  - { from: /mcp/vscode, to: /agents/ }
+  - { from: /mcp/windsurf, to: /agents/ }
+  - { from: /agents, to: /agents/ }
+  - { from: /agents/add-talaria, to: /agents/ }
+  - { from: /agents/triage-issues, to: /agents/ }
+  - { from: /agents/mcp, to: /agents/ }
+  - { from: /features, to: /guides/ }
+  - { from: /features/analytics, to: /guides/ }
+  - { from: /features/feature-flags, to: /guides/ }
+  - { from: /features/monitors, to: /guides/ }
+  - { from: /analytics, to: /guides/ }
+  - { from: /analytics/setup, to: /guides/ }
+  - { from: /analytics/consent, to: /guides/ }
+  - { from: /api, to: /reference/ }
+  - { from: /api/overview, to: /reference/ }
+  - { from: /reference, to: /reference/ }
+  - { from: /reference/ingest-api, to: /reference/ }
+  - { from: /reference/otlp, to: /reference/ }
+  - { from: /migration, to: /get-started/ }
