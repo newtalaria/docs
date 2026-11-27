@@ -1,10 +1,12 @@
 ---
 title: Billing
-description: How meters work and how to read usage. Prices live on the marketing site.
+description: How usage is metered and where to read prices. This site does not quote dollar amounts.
 section: billing
 order: 10
 ---
 
-This section will explain how meters work, what a plan includes, and how to read usage in the dashboard.
+Talaria meters usage per organisation billing period. What is included, and what you pay, lives on [newtalaria.com/pricing](https://www.newtalaria.com/pricing). These docs do not quote dollar amounts.
 
-**Docs never state a dollar amount or a quota price.** For current prices and plan comparisons, see [Pricing](https://www.newtalaria.com/pricing).
+Open **Billing** in the [dashboard](https://one.newtalaria.com) to read usage, included volume, and spending caps. The MCP tool `get_project` with `include: ["stats"]` returns counts, not prices.
+
+Project settings control whether metered surfaces (for example analytics or replay) are on. Confirm with the operator before enabling one through `update_project_settings`.

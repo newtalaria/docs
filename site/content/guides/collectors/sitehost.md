@@ -1,27 +1,33 @@
 ---
 title: SiteHost containers
-description: Run the OpenTelemetry Collector inside a SiteHost PHP container and send logs to Talaria over OTLP/HTTP.
+description: Run the OpenTelemetry Collector inside a SiteHost PHP container and export logs over OTLP/HTTP.
 section: guides
-order: 20
+order: 50
 ---
 
-Forward logs from a SiteHost PHP container to Talaria with an **in-container** OpenTelemetry Collector.
+Forward logs from a SiteHost PHP container to Talaria with an **in-container** OpenTelemetry Collector under supervisord. Do not start with a sidecar: a second container does not automatically see `/container/logs`.
 
-## Tested with
+## Supported baseline
 
-Ubuntu 24.04, PHP 8.2, Apache and supervisord, with logs under `/container/logs`. Other images may work but have not been tested yet.
+The supported image is **Ubuntu 24.04**, **PHP 8.2**, **Apache**, and **supervisord**, with application and web logs under `/container/logs`. Confirm any other organisation image, and outbound **443** to ingest, before calling that image supported.
 
 ## Before you start
 
-- A SiteHost PHP container (see Tested with)
-- A Talaria project **secret** key with `logs:write`, set only as a container environment variable (`tal_sk_<env>_<cell>_…`). Restart the container after changing env vars.
-- Optional: the `talaria/silverstripe` package if you also want container health metrics
+- A SiteHost PHP container that matches the baseline
+- A project **secret** key with `logs:write`, set only as a container environment variable (`tal_sk_<env>_<cell>_…`). Restart the container after changing env vars
+- The `talaria/silverstripe` package if you want the SiteHost installer and optional probe (`composer require talaria/silverstripe:^3.0`, current release **3.0.3**)
 
-OTLP is HTTP only (protobuf or JSON, gzip allowed). There is no gRPC ingest.
+OTLP is HTTP only (protobuf or JSON, gzip allowed). There is no gRPC ingest. Egress is **443** to `https://ingest-nz1.newtalaria.com/otlp` (or `https://ingest-<cell>.newtalaria.com/otlp` for another cell).
 
-## Install the collector
+## Install
 
-Add `talaria/sitehost/monitors.json` to the application. When that file is present, the SiteHost deploy action runs `vendor/bin/talaria-sitehost install` and installs the collector under supervisord:
+Add `talaria/sitehost/monitors.json` to the application. When that file is present, the SiteHost deploy action runs `vendor/bin/talaria-sitehost install` and also installs the log collector (official **otelcol-contrib 0.164.0**, SHA-256 verified, started as supervisord program `talaria-otelcol`). You can run the same installer yourself:
+
+```bash
+vendor/bin/talaria-sitehost install
+```
+
+`monitors.json` must contain a non-empty `jobs` array:
 
 ```json
 {
@@ -36,19 +42,22 @@ Add `talaria/sitehost/monitors.json` to the application. When that file is prese
 }
 ```
 
-`jobs` must not be empty.
+The installer reconciles one crontab block (`# talaria-sitehost begin` … `# talaria-sitehost end`) and the supervisord probe. Registration uses the secret key on `POST /v1/monitors/{slug}/check-ins`. Cron lines then check in with a stored token on `POST /v1/check-ins` so the crontab never holds the secret key. A second run reuses those tokens.
+
+The collector binary lives under `/container/application/.talaria`, with logs at `/container/logs/talaria-otelcol.log` and `/container/logs/talaria-otelcol.err`. The optional probe logs to `/container/logs/talaria-sitehost-probe.log`.
 
 ## Environment
 
 Set these in the SiteHost control panel (not in git):
 
-- `TALARIA_API_KEY` — the secret key
-- Leave `TALARIA_URL` unset on Talaria Cloud. The preset derives `https://ingest-<cell>.newtalaria.com` from the key.
-- `OTEL_SERVICE_NAME` — defaults to `silverstripe` if unset
-- `OTEL_RESOURCE_ATTRIBUTES` — for example `container.name=…`
+- `TALARIA_API_KEY` — secret key with `logs:write` (and `monitors:write` if you register check-ins)
+- Leave `TALARIA_URL` unset on Talaria Cloud. The installer derives `https://ingest-<cell>.newtalaria.com` from the key for monitor registration (`POST /v1/monitors/{slug}/check-ins`). A `self` cell needs `TALARIA_URL` set to that origin. Collector export uses the same host plus `/otlp`.
+- Leave secrets out of the repository
 
 ## Logs
 
-The collector tails files under `/container/logs` (Apache, PHP-FPM, cron, and application logs on the verified image). Override includes with `talaria/collector.yaml` if you need a tighter set.
+The collector tails files under `/container/logs` (Apache, PHP-FPM, cron, and application logs on the supported image). Override includes with `talaria/collector.yaml` if you need a tighter set.
 
-This case study will be expanded in Phase 7 with image assumptions, payload limits, and what the PHP SDK adds on top of file logs.
+After install, confirm `/container/logs/talaria-otelcol.log` and look for logs in the dashboard, filtered by `service.name` or `container.name`.
+
+The PHP, Laravel, or Silverstripe SDK is complementary: it sends exceptions, traces, and structured logs from the app, on top of these file logs. See the [PHP SDK](/sdk/php/) and [Silverstripe](/sdk/silverstripe/).

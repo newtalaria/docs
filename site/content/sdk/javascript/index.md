@@ -1,34 +1,35 @@
 ---
-title: JavaScript SDK
-description: Install @newtalaria/browser and capture errors, logs, and traces from a web app.
+title: JavaScript
+description: Install @newtalaria/browser 0.6.1 and send a first browser event.
 section: sdk
 order: 20
 ---
 
-`@newtalaria/browser` (0.6.0) is the browser SDK. Use it in a plain web app. React, Next.js, and Node have their own guides, which will live under this platform once rewritten.
+`@newtalaria/browser` **0.6.1** is the official browser SDK. React, Next.js, and Node.js are [guides under this platform](/sdk/javascript/react/).
 
-## Install and init
-
-Init once, before the rest of the app runs. Use a **publishable** key only:
+## Install
 
 ```bash
 npm install @newtalaria/browser
 ```
 
-```javascript
-import { Talaria } from "@newtalaria/browser";
+```ts
+import { Talaria } from '@newtalaria/browser';
 
 Talaria.init({
-  key: "tal_pk_…",
+  apiKey: 'tal_pk_prod_nz1_…',
+  release: '1.4.2',
+  minLevel: 'warning',
 });
 ```
 
-Leave `TALARIA_URL` unset on Talaria Cloud. The SDK derives the ingest host from the key, and the key decides the environment. Do not pass `environment` in init. Send `release` as `<ref>@<shortsha>` (for example `main@a8f31c2`).
+Use a **publishable** key in the browser. The API key decides the environment. Tracing, analytics, heatmaps, and session replay follow [project settings](/get-started/project-settings/). Leave `url` unset on Talaria Cloud.
 
-## What you get
+## Capture
 
-- Errors, logs, breadcrumbs, user, tags, and release
-- Pageload, navigation, fetch/XHR, web vitals, and manual spans (when tracing is on in Project settings)
-- Analytics, feature flags, session replay, heatmaps, and consent — also from Project settings; until those are on, the page sends errors only
+```ts
+await Talaria.captureException(err);
+await Talaria.captureMessage('checkout started', 'info');
+```
 
-Confirm the first event in **Issues**, or with MCP `search_issues` and `environment: development`.
+A missing or invalid key disables Talaria instead of throwing. See [fail-safe](/get-started/fail-safe/), [configuration](/sdk/javascript/configuration/), [errors](/sdk/javascript/errors/), and [tracing](/sdk/javascript/tracing/).

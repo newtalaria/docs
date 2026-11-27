@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CopyMarkdown } from "@/components/CopyMarkdown";
 import { PlatformPicker } from "@/components/PlatformPicker";
 import { SearchForm } from "@/components/SearchForm";
 import { Shell } from "@/components/Shell";
@@ -11,6 +12,12 @@ export default function HomePage() {
   return (
     <Shell path="/" wide headerSearch={false}>
       <div className="hero" data-pagefind-body>
+        <div className="page-meta">
+          <p className="crumb">
+            <a href="/">Docs</a>
+          </p>
+          <CopyMarkdown href="/index.md" />
+        </div>
         <h1 data-pagefind-meta="title">Set up Talaria in your app</h1>
         <p className="lede">
           Get a first event into Talaria, then add a collector, a feature, or a fix. Search the docs, pick your

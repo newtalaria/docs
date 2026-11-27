@@ -5,7 +5,7 @@
   parent: dart
   package: talaria_flutter
   packageManager: pub
-  version: "0.3.0"
+  version: "0.3.1"
   install:
     language: yaml
     template: pubspec
@@ -20,7 +20,7 @@
   kind: language
   package: talaria
   packageManager: pub
-  version: "0.4.0"
+  version: "0.4.1"
   install:
     language: yaml
     template: pubspec
@@ -36,7 +36,7 @@
   parent: dart
   package: talaria_serverpod
   packageManager: pub
-  version: "0.3.0"
+  version: "0.3.3"
   install:
     language: yaml
     template: pubspec
@@ -51,7 +51,7 @@
   kind: language
   package: "@newtalaria/browser"
   packageManager: npm
-  version: "0.6.0"
+  version: "0.6.1"
   install:
     language: bash
     template: npm
@@ -67,7 +67,7 @@
   parent: javascript
   package: "@newtalaria/react"
   packageManager: npm
-  version: "0.6.0"
+  version: "0.6.1"
   install:
     language: bash
     template: npm
@@ -83,7 +83,7 @@
   parent: react
   package: "@newtalaria/nextjs"
   packageManager: npm
-  version: "0.6.0"
+  version: "0.6.1"
   install:
     language: bash
     template: npm
@@ -99,7 +99,7 @@
   parent: javascript
   package: "@newtalaria/node"
   packageManager: npm
-  version: "0.6.0"
+  version: "0.6.1"
   install:
     language: bash
     template: npm
@@ -114,7 +114,7 @@
   kind: language
   package: talaria/talaria
   packageManager: composer
-  version: "3.0.0"
+  version: "3.0.3"
   install:
     language: bash
     template: composer
@@ -130,7 +130,7 @@
   parent: php
   package: talaria/laravel
   packageManager: composer
-  version: "3.0.0"
+  version: "3.0.3"
   install:
     language: bash
     template: composer
@@ -146,7 +146,7 @@
   parent: php
   package: talaria/silverstripe
   packageManager: composer
-  version: "3.0.0"
+  version: "3.0.3"
   install:
     language: bash
     template: composer
