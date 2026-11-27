@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
 import {
   type DocsConnect,
   chipLabel,
@@ -12,12 +12,24 @@ import {
   writeConnect,
 } from "@/lib/connect";
 
+/** Logged-out chip stays hidden until the dashboard handshake exists. */
+export const CONNECT_LIVE = process.env.NEXT_PUBLIC_DOCS_CONNECT_LIVE === "true";
+
+type ConnectState = {
+  ready: boolean;
+  session: DocsConnect | null;
+  connect: () => void;
+  forget: () => void;
+};
+
+const ConnectContext = createContext<ConnectState | null>(null);
+
 function stripHash() {
   const url = `${window.location.pathname}${window.location.search}`;
   window.history.replaceState(null, "", url);
 }
 
-export function ConnectChip() {
+export function ConnectProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<DocsConnect | null>(null);
   const [ready, setReady] = useState(false);
 
@@ -68,13 +80,27 @@ export function ConnectChip() {
     window.location.reload();
   };
 
-  if (!ready) return <span className="connect-chip connect-chip-slot" aria-hidden="true" />;
+  return (
+    <ConnectContext.Provider value={{ ready, session, connect, forget }}>{children}</ConnectContext.Provider>
+  );
+}
+
+export function ConnectChip({ placement }: { placement: "header" | "drawer" }) {
+  const ctx = useContext(ConnectContext);
+  if (!ctx) return null;
+  const { ready, session, connect, forget } = ctx;
+
+  if (!ready) {
+    if (!CONNECT_LIVE) return null;
+    return <span className={`connect-chip connect-chip-${placement} connect-chip-slot`} aria-hidden="true" />;
+  }
 
   if (!session) {
+    if (!CONNECT_LIVE) return null;
     return (
       <button
         type="button"
-        className="connect-chip connect-chip-action"
+        className={`connect-chip connect-chip-${placement} connect-chip-action`}
         onClick={connect}
         title="Fill the publishable key, project, and ingest host from your dashboard. Secrets stay out of the page."
       >
@@ -84,7 +110,7 @@ export function ConnectChip() {
   }
 
   return (
-    <span className="connect-chip connect-chip-session" role="status">
+    <span className={`connect-chip connect-chip-${placement} connect-chip-session`} role="status">
       <span className="connect-chip-label">{chipLabel(session)}</span>
       <button type="button" className="connect-chip-link" onClick={connect}>
         Change

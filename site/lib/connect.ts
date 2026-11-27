@@ -14,7 +14,7 @@ export type DocsConnect = {
   publishableKey?: string;
 };
 
-const PK = /^tal_pk_[A-Za-z0-9]+$/;
+const PK = /^tal_pk_[A-Za-z0-9_-]+$/;
 const ID = /^[A-Za-z0-9._:-]{1,128}$/;
 const ENV = /^[A-Za-z0-9_-]{1,32}$/;
 const CELL = /^[A-Za-z0-9-]{1,32}$/;
@@ -79,7 +79,8 @@ export function sanitizeConnect(input: unknown): DocsConnect | null {
     env,
     cell,
     ingest: cleanIngest(pick(raw, ["ingest", "ingestUrl", "url", "endpoint"]), cell),
-    publishableKey: cleanKey(pick(raw, ["publishableKey", "apiKey", "key", "tal_pk", "pk"])),
+    // Dashboard fragment uses publishableKey, with tal_pk as an alias (new_talaria #540).
+    publishableKey: cleanKey(pick(raw, ["publishableKey", "tal_pk", "apiKey", "key", "pk"])),
   };
   if (!session.org && !session.project && !session.ingest && !session.publishableKey && !session.cell) {
     return null;
