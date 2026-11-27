@@ -19,7 +19,7 @@ export async function renderMarkdown(source: string): Promise<string> {
     .use(rehypeAutolinkHeadings, {
       behavior: "append",
       test: ["h2", "h3"],
-      properties: { className: ["heading-anchor"], ariaLabel: "Link to this section" },
+      properties: { className: ["heading-anchor"], ariaLabel: "Link to this section", dataPagefindIgnore: "" },
       content: { type: "text", value: "#" },
     })
     .use(rehypePrettyCode, {

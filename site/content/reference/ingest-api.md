@@ -72,7 +72,7 @@ Official SDKs call `GET /v1/sdk-config` and report dropped events or spans to `P
 
 ## Releases, deploys, and source maps
 
-`POST /v1/releases` and `POST /v1/deploys` need a secret key with `releases:write`. A deploy is idempotent per project, release, environment, and `deployedAt` truncated to the UTC minute. The Go CLI exposes this as `talaria releases deploy --env`.
+`POST /v1/releases` and `POST /v1/deploys` need a secret key with `releases:write`. A deploy is idempotent per project, release, environment, and `deployedAt` truncated to the UTC minute. In the CLI, run `talaria releases deploy --env <environment>`.
 
 `POST /v1/source-maps` takes a plain JSON object, not an `input` wrapper:
 
