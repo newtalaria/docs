@@ -1,5 +1,5 @@
 #!/usr/bin/env tsx
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { tmpdir } from "node:os";
 import { execSync } from "node:child_process";
@@ -8,6 +8,7 @@ import { loadRegistries, validateRegistries } from "./registries.js";
 import { frontmatterSchema } from "./schema.js";
 import { parse as parseYaml, stringify as stringifyYaml } from "yaml";
 import { buildManifest, yamlStringifyOptions } from "./build-manifest.js";
+import { isIgnoredDocsDir } from "./docs-dirs.js";
 
 const DOCS_ROOT = join(import.meta.dirname, "..");
 const errors: string[] = [];
@@ -27,9 +28,7 @@ function collectMarkdownFiles(dir: string, files: PageFile[] = []): PageFile[] {
     const stat = statSync(fullPath);
     
     if (stat.isDirectory()) {
-      // Skip underscore-prefixed directories, the new site app, and deps.
-      // New-IA pages under site/content are checked by site/scripts, not this pack.
-      if (entry.startsWith("_") || entry === "site" || entry === "node_modules") continue;
+      if (isIgnoredDocsDir(entry)) continue;
       collectMarkdownFiles(fullPath, files);
     } else if (entry.endsWith(".md") && !entry.startsWith("_")) {
       const content = readFileSync(fullPath, "utf-8");
@@ -391,6 +390,16 @@ function headingAnchors(body: string): Set<string> {
   return anchors;
 }
 
+function ignoredDirFileExists(resolved: string): boolean {
+  const top = resolved.split("/")[0];
+  if (!isIgnoredDocsDir(top)) return false;
+  return (
+    existsSync(join(DOCS_ROOT, resolved)) ||
+    existsSync(join(DOCS_ROOT, `${resolved}.md`)) ||
+    existsSync(join(DOCS_ROOT, resolved, "README.md"))
+  );
+}
+
 function checkLinks(pages: PageFile[]): void {
   const pathMap = new Set<string>();
   const anchorsByPath = new Map<string, Set<string>>();
@@ -489,7 +498,12 @@ function checkLinks(pages: PageFile[]): void {
         
         const resolved = join(dir, urlPath).replace(/\\/g, "/");
         
-        if (!pathMap.has(resolved) && !pathMap.has(resolved + ".md") && !pathMap.has(resolved + "/README.md")) {
+        if (
+          !pathMap.has(resolved) &&
+          !pathMap.has(resolved + ".md") &&
+          !pathMap.has(resolved + "/README.md") &&
+          !ignoredDirFileExists(resolved)
+        ) {
           errors.push(
             `🔗 ${page.relativePath}: broken relative link: ${url} (resolves to ${resolved})`
           );

@@ -8,6 +8,7 @@ import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from "
 import { join, relative } from "node:path";
 import matter from "gray-matter";
 import { stringify as stringifyYaml, parse as parseYaml } from "yaml";
+import { isIgnoredDocsDir } from "./docs-dirs.js";
 
 const DOCS_ROOT = join(import.meta.dirname, "..");
 const MANIFEST_PATH = join(DOCS_ROOT, "manifest.yaml");
@@ -51,6 +52,7 @@ function collectMarkdownFiles(dir: string, files: string[] = []): string[] {
     
     const stat = statSync(fullPath);
     if (stat.isDirectory()) {
+      if (isIgnoredDocsDir(entry)) continue;
       collectMarkdownFiles(fullPath, files);
     } else if (entry.endsWith(".md")) {
       files.push(relativePath);
