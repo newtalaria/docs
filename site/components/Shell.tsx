@@ -6,6 +6,8 @@ import { MenuToggle } from "@/components/MenuToggle";
 import { PlatformSwitcher } from "@/components/PlatformSwitcher";
 import { SearchDialog } from "@/components/SearchDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { ConnectChip, ConnectProvider } from "@/components/ConnectChip";
+import { Personalize } from "@/components/Personalize";
 
 export function Shell({
   path,
@@ -25,11 +27,12 @@ export function Shell({
   const sdkSlugs = allDocs().filter((p) => p.slug === "sdk" || p.slug.startsWith("sdk/")).map((p) => p.slug);
 
   return (
-    <>
+    <ConnectProvider>
       <a className="skip-link" href="#content">
         Skip to content
       </a>
       <SearchDialog />
+      <Personalize />
       <header className="header">
         <MenuToggle />
         <a className="brand" href="/">
@@ -46,12 +49,14 @@ export function Shell({
         <div className="header-tools">
           <PlatformSwitcher path={path} sdkSlugs={sdkSlugs} placement="header" />
           {headerSearch ? <HeaderSearch /> : null}
+          <ConnectChip placement="header" />
           <a className="header-link" href="https://one.newtalaria.com">Dashboard</a>
           <ThemeToggle />
         </div>
       </header>
       <div className={showSidebar ? "frame" : "frame no-sidebar"}>
         <aside className="sidebar" id="docs-sidebar">
+          <ConnectChip placement="drawer" />
           <PlatformSwitcher path={path} sdkSlugs={sdkSlugs} placement="sidebar" />
           <nav className="sidebar-sections" aria-label="All sections">
             {sections.map((s) => (
@@ -118,6 +123,6 @@ export function Shell({
           <a href="https://one.newtalaria.com">Open the dashboard</a>
         </nav>
       </footer>
-    </>
+    </ConnectProvider>
   );
 }

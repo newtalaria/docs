@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "next dev",
-    "build": "next build && node scripts/postbuild.mjs",
+    "build": "node scripts/generate-reference.mjs && next build && node scripts/postbuild.mjs",
     "typecheck": "tsc --noEmit",
     "linkcheck": "node scripts/link-check.mjs",
-    "lint:secrets": "node scripts/secret-lint.mjs"
+    "lint:secrets": "node scripts/secret-lint.mjs",
+    "generate": "node scripts/generate-reference.mjs",
+    "generate:check": "node scripts/generate-reference.mjs --check",
+    "drift": "node scripts/check-reference-drift.mjs"
   },
   "dependencies": {
     "geist": "1.5.1",

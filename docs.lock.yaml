@@ -1,0 +1,28 @@
+# Pins for generated API reference. Refresh snapshots, then run:
+#   node site/scripts/generate-reference.mjs
+# The site build runs the generator; --check fails if output would change.
+schema: 1
+sources:
+  mcp_tools:
+    repo: dunatron/new_talaria
+    path: docs/mcp-tools.json
+    sha: 23ecabc90f6e2ac4cd97365e28f458bd47310ade
+    note: 47 tools from new_talaria_server/tool/gen_mcp_tools_doc.dart (current server export; marketing #37 cited 44)
+  problem_codes:
+    repo: dunatron/new_talaria
+    path: new_talaria_server/lib/src/presentation/shared/problem_details.dart
+    sha: 266d4d678
+  public_openapi:
+    url: https://api.newtalaria.com/api/v1/openapi.json
+    sha256: 57592b1a2b7271b858ea096728d9c2566c41e69b28a57d791f01ea1c3ddf7956
+  cli:
+    repo: dunatron/new_talaria
+    path: cli/internal/cmd
+    sha: 266d4d678
+  sdk_dart:
+    repo: dunatron/talaria-dart-sdk
+    path: packages/talaria/lib/src/config.dart
+    sha: 3eeb49662947
+  otlp:
+    endpoint: https://ingest-nz1.newtalaria.com/otlp
+platform_sha: cfdd7d03a60da7f5b5f8433611f34d4f745456fb

@@ -16,21 +16,24 @@ talaria version
 
 `talaria version` prints the CLI and the pinned Collector version. The CLI currently pins **otelcol-contrib 0.164.0**.
 
+The full command tree is on [CLI commands](/cli/commands/).
+
 ## Everyday commands
 
 | Command | What it does |
 | --- | --- |
-| `talaria init` | Detect the stack and apply the official recipe |
-| `talaria plan` | Print a unified diff of official Collector, Helm, Compose, or systemd artifacts (writes nothing) |
-| `talaria collector` | Generate and apply the OpenTelemetry Collector config |
+| `talaria init [path]` | Install the Talaria SDK for an official app stack |
+| `talaria collector init` | Detect the stack and write a reviewable `talaria.yaml` |
+| `talaria collector plan` | Print a unified diff of official Collector, Helm, Compose, or systemd artifacts (writes nothing) |
+| `talaria collector apply` | Write the plan and apply it |
+| `talaria collector validate` | Validate `talaria.yaml` against the published JSON Schema |
 | `talaria verify` | Probe ingest, or start the app and wait for the first event |
 | `talaria status` | Show heartbeat and last ingest |
 | `talaria sourcemaps upload` | Upload JavaScript source maps and Dart or Flutter debug symbols |
-| `talaria releases` | Record a release, its commits, and a deploy |
-| `talaria validate` | Validate `talaria.yaml` against the published JSON Schema |
-| `talaria upgrade` | Print how to move the Collector pin |
-| `talaria uninstall` | Stop the local Collector (does not delete server projects or keys) |
-| `talaria mcp` | Install, call, or serve the Talaria MCP |
+| `talaria releases new` | Record a release, then `finalize` and `deploy` |
+| `talaria collector upgrade` | Print how to move the Collector pin |
+| `talaria collector uninstall` | Stop the local Collector (does not delete server projects or keys) |
+| `talaria mcp install` | Write MCP client config, skills, and the AGENTS.md block |
 | `talaria mcp serve` | Serve MCP over stdio using the CLI login |
 | `talaria mcp call <tool>` | Call one MCP tool with the CLI login |
 

@@ -1,0 +1,85 @@
+{
+  "typeBase": "https://newtalaria.com/docs/reference/errors#",
+  "codes": [
+    {
+      "code": "invalid_body",
+      "const": "invalidBody",
+      "detail": "The request body failed validation."
+    },
+    {
+      "code": "invalid_key",
+      "const": "invalidKey",
+      "detail": "The API key is missing, malformed, or not accepted."
+    },
+    {
+      "code": "insufficient_scope",
+      "const": "insufficientScope",
+      "detail": "The key does not have the required scope for this route."
+    },
+    {
+      "code": "forbidden_origin",
+      "const": "forbiddenOrigin",
+      "detail": "The request origin is not allowed for this project key."
+    },
+    {
+      "code": "not_found",
+      "const": "notFound",
+      "detail": "The resource does not exist, or is not visible with this token."
+    },
+    {
+      "code": "conflict",
+      "const": "conflict",
+      "detail": "The request conflicts with the current state."
+    },
+    {
+      "code": "invalid_release",
+      "const": "invalidRelease",
+      "detail": "The release identifier is not valid."
+    },
+    {
+      "code": "quota_exceeded",
+      "const": "quotaExceeded",
+      "detail": "The project or organisation has reached its quota."
+    },
+    {
+      "code": "ingest_blocked",
+      "const": "ingestBlocked",
+      "detail": "Ingest is stopped by a block record (unpaid or expired trial, neglected, or abusive)."
+    },
+    {
+      "code": "rate_limited",
+      "const": "rateLimited",
+      "detail": "Too many requests in the current window."
+    },
+    {
+      "code": "body_too_large",
+      "const": "bodyTooLarge",
+      "detail": "The request body exceeds the size limit."
+    },
+    {
+      "code": "unsupported_encoding",
+      "const": "unsupportedEncoding",
+      "detail": "The Content-Encoding or body encoding is not supported."
+    },
+    {
+      "code": "ingest_unavailable",
+      "const": "ingestUnavailable",
+      "detail": "Ingest is temporarily unavailable."
+    },
+    {
+      "code": "not_implemented",
+      "const": "notImplemented",
+      "detail": "This route or feature is not implemented."
+    },
+    {
+      "code": "wrong_cell",
+      "const": "wrongCell",
+      "detail": "The key or request was sent to the wrong cell."
+    },
+    {
+      "code": "invalid_scope",
+      "const": "invalidScope",
+      "detail": "Issuance only: an sk-only scope was requested for a publishable key."
+    }
+  ]
+}

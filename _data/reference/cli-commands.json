@@ -1,0 +1,172 @@
+{
+  "commands": [
+    {
+      "use": "talaria",
+      "short": "Install OpenTelemetry into a Talaria project"
+    },
+    {
+      "use": "talaria agent",
+      "short": "Set up Talaria for a coding agent"
+    },
+    {
+      "use": "talaria agent setup",
+      "short": "Install MCP config, skills, and the AGENTS.md block"
+    },
+    {
+      "use": "talaria collector",
+      "short": "Generate and apply the OpenTelemetry Collector config"
+    },
+    {
+      "use": "talaria collector apply",
+      "short": "Write the plan and apply it. CI defaults to plan-only unless TALARIA_APPLY=1 or --yes."
+    },
+    {
+      "use": "talaria collector init",
+      "short": "Detect the stack and write a reviewable talaria.yaml"
+    },
+    {
+      "use": "talaria collector inspect",
+      "short": "Show detected stack, registry matches, and current talaria.yaml"
+    },
+    {
+      "use": "talaria collector plan",
+      "short": "Print a unified diff of official Collector/Helm/Compose/systemd artifacts (writes nothing)"
+    },
+    {
+      "use": "talaria collector uninstall",
+      "short": "Stop the local Collector. Does not delete server projects or keys."
+    },
+    {
+      "use": "talaria collector upgrade",
+      "short": "Print how to move the Collector pin. Does not replace the binary via OpAMP."
+    },
+    {
+      "use": "talaria collector validate [file]",
+      "short": "Validate talaria.yaml against the published JSON Schema"
+    },
+    {
+      "use": "talaria detect [path]",
+      "short": "Detect the setup from registry rules. Source stays on this machine."
+    },
+    {
+      "use": "talaria docs",
+      "short": "Search and print Talaria docs (the same pages as MCP)"
+    },
+    {
+      "use": "talaria docs get <path>",
+      "short": "Print one docs page (MCP get_doc)"
+    },
+    {
+      "use": "talaria docs search <query>",
+      "short": "Search Talaria docs (MCP search_docs)"
+    },
+    {
+      "use": "talaria doctor [path]",
+      "short": "Static setup checks. --fix only edits .gitignore and an env key name"
+    },
+    {
+      "use": "talaria init [path]",
+      "short": "Install the Talaria SDK for an official app stack"
+    },
+    {
+      "use": "talaria issue",
+      "short": "Read a Talaria issue"
+    },
+    {
+      "use": "talaria issue brief <id>",
+      "short": "Print the agentBrief for an issue (UUID or short ref)"
+    },
+    {
+      "use": "talaria keys",
+      "short": "Mint project keys via apiKey.create (same use case as MCP)"
+    },
+    {
+      "use": "talaria keys create",
+      "short": "Create a key. --collector is --preset collector (secret). Prints the secret once on a TTY. --json never prints it."
+    },
+    {
+      "use": "talaria login",
+      "short": "Sign in from a browser. The CLI never asks for a code or password."
+    },
+    {
+      "use": "talaria logout",
+      "short": "Delete the stored session"
+    },
+    {
+      "use": "talaria mcp",
+      "short": "Install, call, or serve the Talaria MCP"
+    },
+    {
+      "use": "talaria mcp call <tool>",
+      "short": "Call one MCP tool with the CLI login"
+    },
+    {
+      "use": "talaria mcp install",
+      "short": "Write MCP client config, skills, and the AGENTS.md block"
+    },
+    {
+      "use": "talaria mcp list",
+      "short": "Show MCP config, skills, and the AGENTS.md block for each client"
+    },
+    {
+      "use": "talaria mcp remove",
+      "short": "Remove Talaria MCP config, skills, and the AGENTS.md block"
+    },
+    {
+      "use": "talaria mcp serve",
+      "short": "Serve the Talaria MCP over stdio using the CLI login"
+    },
+    {
+      "use": "talaria projects",
+      "short": "Create a project in the signed-in organization"
+    },
+    {
+      "use": "talaria projects create <name>",
+      "short": "Create a project. Prints the id and name, never a key."
+    },
+    {
+      "use": "talaria releases",
+      "short": "Record a release, its commits, and a deploy"
+    },
+    {
+      "use": "talaria releases deploy",
+      "short": "POST /v1/deploys for one environment"
+    },
+    {
+      "use": "talaria releases finalize",
+      "short": "POST /v1/releases again with the commit list (no server finalized flag)"
+    },
+    {
+      "use": "talaria releases new",
+      "short": "POST /v1/releases with an empty commit list"
+    },
+    {
+      "use": "talaria sourcemaps",
+      "short": "Upload JavaScript source maps and Dart / Flutter debug symbols"
+    },
+    {
+      "use": "talaria sourcemaps upload [path]",
+      "short": "Upload *.js.map, Flutter web maps, Dart obfuscation maps, and .symbols files"
+    },
+    {
+      "use": "talaria status",
+      "short": "Show heartbeat and last ingest. Same words as the Install tab."
+    },
+    {
+      "use": "talaria upgrade",
+      "short": "Record the CLI release channel. Does not download a binary."
+    },
+    {
+      "use": "talaria verify [-- command]",
+      "short": "Probe ingest, or start the app and wait for the first event"
+    },
+    {
+      "use": "talaria version",
+      "short": "Print CLI and pinned Collector versions"
+    },
+    {
+      "use": "talaria whoami",
+      "short": "Print the signed-in account. Tokens are never printed."
+    }
+  ]
+}
