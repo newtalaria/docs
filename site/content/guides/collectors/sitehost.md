@@ -7,7 +7,7 @@ order: 50
 
 Forward logs from a SiteHost PHP container to Talaria with an **in-container** OpenTelemetry Collector under supervisord. Run the collector inside the container; a sidecar container cannot read `/container/logs`.
 
-This page is the SiteHost **case study**: the recipe we test, not a generic PHP host guide. The supported baseline is below. OTLP is HTTP only (no gRPC). Egress is port 443.
+The supported baseline is below. OTLP is HTTP only (no gRPC). Egress is port 443. For the verification record, image assumptions, and limits, see the [SiteHost case study](/guides/collectors/sitehost-case-study/).
 
 ## Supported baseline
 
