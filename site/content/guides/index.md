@@ -13,6 +13,7 @@ Guides are job-shaped. Start with a collector if you want logs or host signals n
 - [OTLP/HTTP](/guides/collectors/otlp/)
 - [Kubernetes](/guides/collectors/kubernetes/)
 - [SiteHost containers](/guides/collectors/sitehost/)
+- [SiteHost case study](/guides/collectors/sitehost-case-study/)
 
 ## OpenTelemetry quickstarts
 

@@ -14,6 +14,7 @@ A collector sits next to your app, tails logs or scrapes metrics, and exports **
 | You already have an OTel SDK or collector | [OTLP/HTTP](/guides/collectors/otlp/) |
 | Kubernetes | [Kubernetes](/guides/collectors/kubernetes/) |
 | SiteHost PHP containers | [SiteHost containers](/guides/collectors/sitehost/) |
+| SiteHost case study (verification, assumptions, limits) | [SiteHost case study](/guides/collectors/sitehost-case-study/) |
 | Python, FastAPI, Java, Go, or .NET without a Talaria SDK | The [OpenTelemetry quickstarts](/guides/) |
 
 ## Rules that apply everywhere
